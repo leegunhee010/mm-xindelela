@@ -1,12 +1,12 @@
-<div class="my">
+<div class="flex gap-[60px] items-start">
 <?= view('mypage/_side') ?>
-<div class="main">
-  <h1>친구 소개</h1>
+<div class="flex-1 min-w-0">
+  <div class="contents-title-area depth-1 title3 font-bold !pt-0 mb-[20px]"><div class="title-area !pt-0"><h3 class="title">친구 소개</h3></div></div>
   <div class="refbox">
     <div class="small muted">내 추천 코드</div>
     <div class="code"><?= esc($user['referral_code']) ?></div>
     <div class="small muted">가입할 때 이 코드를 입력하거나, 아래 링크로 가입하면 자동 입력됩니다.</div>
-    <div class="lnk"><input type="text" id="refLink" value="<?= esc($link) ?>" readonly><button class="btn btn-sm" type="button" data-copy="#refLink">복사</button></div>
+    <div class="lnk"><input type="text" id="refLink" value="<?= esc($link) ?>" readonly><button class="inline-flex items-center text-black bg-white border border-gray6 min-h-[36px] px-[16px] py-[8px] label1 !leading-none rounded-full font-bold" type="button" data-copy="#refLink">복사</button></div>
   </div>
   <div class="refrule">
     <div>소개한 회원이 <b style="font-size:14px">사업자 인증을 통과하면</b><b>+<?= number_format((int) mm_setting('points_referral_signup', 0)) ?> P</b></div>

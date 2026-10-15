@@ -3,7 +3,8 @@
 import re, io, glob, sys
 sys.stdout.reconfigure(encoding='utf-8')
 css = ''.join(io.open(f, encoding='utf-8', errors='replace').read() for f in glob.glob('public/assets/is/css/*.css'))
-views = ['app/Views/layouts/main.php', 'app/Views/home.php', 'app/Views/_card.php', 'app/Views/products/index.php', 'app/Views/products/show.php']
+import glob as _g
+views = [f for f in _g.glob('app/Views/**/*.php', recursive=True) if ('admin' not in f and 'supplier' not in f) or f.endswith(('login.php', 'register.php'))]
 toks = set()
 for v in views:
     s = io.open(v, encoding='utf-8').read()

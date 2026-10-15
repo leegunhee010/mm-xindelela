@@ -35,4 +35,29 @@
 .goods-main-slide .main-thumb .thumb-item{width:603px;height:603px;object-fit:contain}
 .goods-main-slide .swiper-pagination-fraction{position:absolute;left:16px;bottom:16px;width:auto;background:rgba(0,0,0,.4);color:#fff;border-radius:99px;padding:2px 10px;font-size:12px}
 /* 상태 탭 */
-.tab a[data-state=active],.tab button[data-state=active]{background:#ff6200;border-color:#ff6200;color:#fff;font-weight:700}
+.tab.type04 a[data-state=active],.tab.type05 a[data-state=active],.tab.type04 button[data-state=active]{background:#ff6200;border-color:#ff6200;color:#fff;font-weight:700}
+
+/* 체크박스(원본 checked 아이콘 로컬 경로) */
+.mm-chk{appearance:none;-webkit-appearance:none;background:#fff center/cover no-repeat}
+.mm-chk:checked{border-color:#ff6200;background-image:url('/_ext/cdn.i-screammall.co.kr/files/x2bee-fo-cdn/public/images/icons/common/ico_checkbox_on_20.svg')}
+.accent-\[\#ff6200\]{accent-color:#ff6200}
+.contents-title-area.\!pt-0,.title-area.\!pt-0{padding-top:0!important}
+/* 2차 이식(로그인·가입·장바구니·마이페이지) 보충 */
+.\!flex-none{flex:none!important}.gap-y-\[14px\]{row-gap:14px}.h-\[110px\]{height:110px}.h-\[70px\]{height:70px}
+.leading-\[2\]{line-height:2}.list-decimal{list-style-type:decimal}.my-\[14px\]{margin-top:14px;margin-bottom:14px}
+.pl-\[36px\]{padding-left:36px}.pt-\[14px\]{padding-top:14px}.py-\[18px\]{padding-top:18px;padding-bottom:18px}
+.py-\[50px\]{padding-top:50px;padding-bottom:50px}.py-\[70px\]{padding-top:70px;padding-bottom:70px}
+.size-\[96px\]{width:96px;height:96px}.w-\[217px\]{width:217px}.w-\[360px\]{width:360px}
+.text-\[\#dc2626\]{color:#dc2626}.border-\[\#f87171\]{border-color:#f87171}.tracking-\[2px\]{letter-spacing:2px}.uppercase{text-transform:uppercase}
+@media (min-width:1025px){.pc\:pt-\[44px\]{padding-top:44px}}
+.tab.type02>.tab-menu a{position:relative;display:flex;height:44px;width:100%;align-items:center;justify-content:center;font-size:14px}
+.tab.type02>.tab-menu a+a{border-left-width:1px}
+.tab.type02>.tab-menu a[data-state=active]{border-radius:8px;border:1px solid #ff6200;font-weight:700;color:#ff6200}
+.tab.type02>.tab-menu a[data-state=active]{box-shadow:0 0 0 1px #ff6200}
+
+/* 탑바 계정 메뉴 */
+.account-menu{display:flex;align-items:center;gap:16px;font-size:12px}
+.account-menu a{color:rgba(255,255,255,.7);white-space:nowrap}
+.account-menu a b{color:#fff;font-weight:600}
+/* 라디오 */
+input[type=radio].accent-\[\#ff6200\]{display:inline-block!important;appearance:auto;-webkit-appearance:radio;width:18px;height:18px;accent-color:#ff6200}

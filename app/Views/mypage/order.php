@@ -2,10 +2,10 @@
 $flow = ['requested' => '신청 접수', 'quoted' => '금액 안내', 'proof' => '입금 확인중', 'paid' => '입금 확인', 'preparing' => '발주·준비', 'shipped' => '배송중', 'delivered' => '배송 완료'];
 $idx  = array_search($o['status'], array_keys($flow), true);
 ?>
-<div class="my">
+<div class="flex gap-[60px] items-start">
 <?= view('mypage/_side') ?>
-<div class="main">
-  <h1>주문 상세 <span class="muted" style="font-size:13px;font-weight:400"><?= esc($o['order_no']) ?></span> <span class="st st-<?= esc($o['status']) ?>"><?= mm_order_status_label($o['status']) ?></span></h1>
+<div class="flex-1 min-w-0">
+  <div class="contents-title-area depth-1 title3 font-bold !pt-0 mb-[20px]"><div class="title-area !pt-0"><h3 class="title">주문 상세 <span class="muted" style="font-size:13px;font-weight:400"><?= esc($o['order_no']) ?></span> <span class="st st-<?= esc($o['status']) ?>"><?= mm_order_status_label($o['status']) ?></span></h3></div></div>
   <?php if ($o['status'] !== 'cancelled'): ?>
   <div class="timeline"><?php foreach (array_values($flow) as $i => $l): ?><div class="<?= $i < $idx ? 'done' : ($i === $idx ? 'on' : '') ?>"><?= $l ?></div><?php endforeach ?></div>
   <?php endif ?>
@@ -18,14 +18,14 @@ $idx  = array_search($o['status'], array_keys($flow), true);
       <?php if ($o['admin_memo']): ?><p class="mt8">담당자 안내: <?= nl2br(esc($o['admin_memo'])) ?></p><?php endif ?>
       <form class="mt16" method="post" action="<?= site_url('mypage/orders/' . $o['id'] . '/proof') ?>" enctype="multipart/form-data"><?= csrf_field() ?>
         <div class="field"><label>송금 캡처 이미지 <i>*</i></label><input type="file" name="proof" accept="image/*" required></div>
-        <div class="field"><label>송금자명·메모</label><input class="inp" name="payment_note" placeholder="송금한 KBZPay 계정 이름"></div>
-        <button class="btn btn-g" type="submit">입금 캡처 올리기</button>
+        <div class="field"><label>송금자명·메모</label><input class="h-[44px] w-full px-3 bg-white body3 text-black border border-gray6 rounded-[8px] focus:outline-none focus:border-black" name="payment_note" placeholder="송금한 KBZPay 계정 이름"></div>
+        <button class="inline-flex items-center text-white bg-primary min-h-[44px] px-[20px] py-[12px] body3 !leading-none rounded-full font-bold" type="submit">입금 캡처 올리기</button>
       </form>
     </div>
   <?php elseif ($o['status'] === 'proof'): ?>
     <div class="vstat"><h2>입금 캡처 확인 중</h2><p>담당자가 입금을 확인하면 바로 발주됩니다. 다른 캡처로 바꾸려면 아래에서 다시 올려 주세요.</p>
       <?php if ($o['payment_proof']): ?><a href="<?= base_url($o['payment_proof']) ?>" target="_blank"><img src="<?= base_url($o['payment_proof']) ?>" alt="" style="max-width:240px;border:1px solid var(--line);margin:8px 0"></a><?php endif ?>
-      <form method="post" action="<?= site_url('mypage/orders/' . $o['id'] . '/proof') ?>" enctype="multipart/form-data" class="mmrow"><?= csrf_field() ?><input type="file" name="proof" accept="image/*" required><input class="inp" name="payment_note" value="<?= esc($o['payment_note']) ?>" placeholder="송금자명" style="width:200px"><button class="btn btn-sm" type="submit">다시 올리기</button></form>
+      <form method="post" action="<?= site_url('mypage/orders/' . $o['id'] . '/proof') ?>" enctype="multipart/form-data" class="mmrow"><?= csrf_field() ?><input type="file" name="proof" accept="image/*" required><input class="h-[44px] w-full px-3 bg-white body3 text-black border border-gray6 rounded-[8px] focus:outline-none focus:border-black" name="payment_note" value="<?= esc($o['payment_note']) ?>" placeholder="송금자명" style="width:200px"><button class="inline-flex items-center text-black bg-white border border-gray6 min-h-[36px] px-[16px] py-[8px] label1 !leading-none rounded-full font-bold" type="submit">다시 올리기</button></form>
     </div>
   <?php elseif ($o['status'] === 'shipped'): ?>
     <div class="vstat"><h2>배송 중입니다</h2><p>송장·배송 정보: <?= esc($o['tracking'] ?: '담당자 안내 예정') ?></p></div>
@@ -51,7 +51,7 @@ $idx  = array_search($o['status'], array_keys($flow), true);
     <div class="mmrow sp" style="border-top:1px solid var(--line);padding-top:8px;margin-top:8px;font-weight:700;font-size:15px"><span><?= $o['status'] === 'requested' ? '예상 금액' : '최종 금액' ?></span><span style="color:var(--price);font-size:20px"><?= mm_price($o['total']) ?></span></div>
   </div>
   <?php if (in_array($o['status'], ['requested', 'quoted'], true)): ?>
-  <form class="mt16" method="post" action="<?= site_url('mypage/orders/' . $o['id'] . '/cancel') ?>" onsubmit="return confirm('주문 신청을 취소할까요?')"><?= csrf_field() ?><button class="btn btn-red btn-sm" type="submit">주문 신청 취소</button></form>
+  <form class="mt16" method="post" action="<?= site_url('mypage/orders/' . $o['id'] . '/cancel') ?>" onsubmit="return confirm('주문 신청을 취소할까요?')"><?= csrf_field() ?><button class="inline-flex items-center text-[#dc2626] bg-white border border-[#f87171] min-h-[36px] px-[16px] py-[8px] label1 !leading-none rounded-full font-bold" type="submit">주문 신청 취소</button></form>
   <?php endif ?>
 </div>
 </div>

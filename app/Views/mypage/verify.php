@@ -1,8 +1,8 @@
 <?php $docs = mm_json($user['doc_files']); ?>
-<div class="my">
+<div class="flex gap-[60px] items-start">
 <?= view('mypage/_side') ?>
-<div class="main">
-  <h1>사업자 인증</h1>
+<div class="flex-1 min-w-0">
+  <div class="contents-title-area depth-1 title3 font-bold !pt-0 mb-[20px]"><div class="title-area !pt-0"><h3 class="title">사업자 인증</h3></div></div>
   <div class="vstat">
     <h2>현재 상태: <span class="st st-<?= esc($user['status']) ?>" style="font-size:13px"><?= mm_status_label($user['status']) ?></span></h2>
     <?php if ($user['status'] === 'pending'): ?><p>제출 자료를 담당자가 직접 확인하고 있습니다. <?= esc(mm_setting('verify_sla_text')) ?> 승인됩니다. 승인되면 도매가와 주문 신청이 열립니다.</p>
@@ -20,9 +20,9 @@
   <div class="card mt24">
     <h3>자료 추가·재제출</h3>
     <form method="post" action="<?= site_url('mypage/verify') ?>" enctype="multipart/form-data"><?= csrf_field() ?>
-      <div class="field"><label>페이스북 페이지 / 틱톡샵 주소</label><input class="inp" name="fb_page" value="<?= esc($user['fb_page']) ?>"></div>
+      <div class="field"><label>페이스북 페이지 / 틱톡샵 주소</label><input class="h-[44px] w-full px-3 bg-white body3 text-black border border-gray6 rounded-[8px] focus:outline-none focus:border-black" name="fb_page" value="<?= esc($user['fb_page']) ?>"></div>
       <div class="field"><label>자료 추가 업로드</label><input type="file" name="docs[]" multiple accept="image/*,.pdf" data-list="#docList"><ul id="docList" class="small muted mt8"></ul><div class="help">매장 사진, 영업허가증, 판매 스크린샷 등. 기존 자료는 유지되고 새 자료가 추가됩니다.</div></div>
-      <button class="btn btn-g" type="submit">다시 제출하기</button>
+      <button class="inline-flex items-center text-white bg-primary min-h-[44px] px-[20px] py-[12px] body3 !leading-none rounded-full font-bold" type="submit">다시 제출하기</button>
     </form>
   </div>
   <?php endif ?>

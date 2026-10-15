@@ -1,47 +1,79 @@
-<h1 class="auth-h">회원가입 (미얀마 소매상·셀러)</h1>
-<form class="form wide" method="post" action="<?= site_url('register') ?>" enctype="multipart/form-data">
-  <?= csrf_field() ?>
-  <div class="card">
-    <h3>계정 정보</h3>
-    <div class="g2">
-      <div class="field"><label>이메일 <i>*</i></label><input class="inp" type="email" name="email" value="<?= esc(old('email')) ?>" required></div>
-      <div class="field"><label>담당자 이름 <i>*</i></label><input class="inp" type="text" name="name" value="<?= esc(old('name')) ?>" required></div>
-      <div class="field"><label>비밀번호 <i>*</i></label><input class="inp" type="password" name="password" required><div class="help">6자 이상</div></div>
-      <div class="field"><label>비밀번호 확인 <i>*</i></label><input class="inp" type="password" name="password2" required></div>
-      <div class="field"><label>전화번호 <i>*</i></label><input class="inp" type="text" name="phone" value="<?= esc(old('phone')) ?>" placeholder="09-XXX-XXX-XXX" required></div>
-      <div class="field"><label>Viber 번호</label><input class="inp" type="text" name="viber" value="<?= esc(old('viber')) ?>" placeholder="전화번호와 같으면 비워 두세요"></div>
-    </div>
+<?php /* 아이스크림몰 /member/join/step2 마크업(contents-title-area + 체크박스 + input-item + btn-grid02) */
+$inp = 'h-[44px] w-full px-3 bg-white body3 text-black placeholder:text-gray4 focus:outline-none border-gray6 focus:border-black border rounded-[8px]'; ?>
+<div class="contents-wrap member pc:pt-[44px]">
+<form method="post" action="<?= site_url('register') ?>" enctype="multipart/form-data">
+<?= csrf_field() ?>
+<section class="corner-section last-of-type:mb-0 pc:mx-auto pc:w-[544px] mx-auto pc:mb-[60px]">
+  <div class="mb-[40px]">
+    <div class="contents-title-area depth-1 title3 mb-[28px] font-bold"><div class="title-area"><h3 class="title"><span class="text-primary">회원가입</span>과 <br>사업자 인증을 신청해 주세요.</h3></div></div>
+    <p class="body3 text-gray4">가입 즉시 상품을 볼 수 있고, 담당자가 제출 자료를 확인한 뒤 <?= esc(mm_setting('verify_sla_text')) ?> 승인되면 도매가와 주문 신청이 열립니다.</p>
   </div>
 
-  <div class="card mt16">
-    <h3>사업 정보</h3>
-    <div class="g2">
-      <div class="field"><label>상호 (가게·페이지 이름) <i>*</i></label><input class="inp" type="text" name="company_name" value="<?= esc(old('company_name')) ?>" required></div>
-      <div class="field"><label>지역(도시) <i>*</i></label><input class="inp" type="text" name="city" value="<?= esc(old('city')) ?>" placeholder="Yangon, Mandalay ..." required></div>
-    </div>
-    <div class="field"><label>판매 형태 <i>*</i></label>
-      <div class="radios">
-        <label><input type="radio" name="business_type" value="online" <?= old('business_type') === 'online' ? 'checked' : '' ?>> 온라인(페이스북·틱톡 등)</label>
-        <label><input type="radio" name="business_type" value="offline" <?= old('business_type') === 'offline' ? 'checked' : '' ?>> 오프라인 매장</label>
-        <label><input type="radio" name="business_type" value="both" <?= old('business_type', 'both') === 'both' ? 'checked' : '' ?>> 둘 다</label>
+  <div class="mb-[40px]">
+    <strong class="sub-head1 font-bold">계정 정보</strong>
+    <hr class="divider bg-gray6 border-0 h-px my-[18px]">
+    <div class="flex flex-col gap-y-[14px]">
+      <label class="block"><span class="label1 text-gray3 mb-[6px] block">이메일 <i class="text-primary not-italic">*</i></span><div class="input-item"><input class="<?= $inp ?>" type="email" name="email" value="<?= esc(old('email')) ?>" required></div></label>
+      <label class="block"><span class="label1 text-gray3 mb-[6px] block">담당자 이름 <i class="text-primary not-italic">*</i></span><div class="input-item"><input class="<?= $inp ?>" type="text" name="name" value="<?= esc(old('name')) ?>" required></div></label>
+      <div class="grid grid-cols-2 gap-[10px]">
+        <label class="block"><span class="label1 text-gray3 mb-[6px] block">비밀번호 <i class="text-primary not-italic">*</i></span><div class="input-item"><input class="<?= $inp ?>" type="password" name="password" required placeholder="6자 이상"></div></label>
+        <label class="block"><span class="label1 text-gray3 mb-[6px] block">비밀번호 확인 <i class="text-primary not-italic">*</i></span><div class="input-item"><input class="<?= $inp ?>" type="password" name="password2" required></div></label>
+      </div>
+      <div class="grid grid-cols-2 gap-[10px]">
+        <label class="block"><span class="label1 text-gray3 mb-[6px] block">전화번호 <i class="text-primary not-italic">*</i></span><div class="input-item"><input class="<?= $inp ?>" type="text" name="phone" value="<?= esc(old('phone')) ?>" placeholder="09-XXX-XXX-XXX" required></div></label>
+        <label class="block"><span class="label1 text-gray3 mb-[6px] block">Viber 번호</span><div class="input-item"><input class="<?= $inp ?>" type="text" name="viber" value="<?= esc(old('viber')) ?>" placeholder="전화번호와 같으면 비움"></div></label>
       </div>
     </div>
-    <div class="field"><label>주소</label><input class="inp" type="text" name="address" value="<?= esc(old('address')) ?>"></div>
   </div>
 
-  <div class="card mt16">
-    <h3>사업자 인증 자료 <span class="muted small" style="font-weight:400">(페이스북 페이지 또는 자료 중 하나 이상)</span></h3>
-    <div class="field"><label>페이스북 페이지 / 틱톡샵 주소</label><input class="inp" type="text" name="fb_page" value="<?= esc(old('fb_page')) ?>" placeholder="https://facebook.com/yourshop"></div>
-    <div class="field"><label>인증 자료 업로드</label><input type="file" name="docs[]" multiple accept="image/*,.pdf" data-list="#docList"><ul id="docList" class="small muted mt8"></ul>
-      <div class="help">매장 간판·진열 사진, 영업허가증(YCDC/MCDC), 회사등록증(DICA), 판매 스크린샷 등. JPG/PNG/PDF, 파일당 5MB 이하.</div></div>
-    <div class="box-note">담당자가 제출 자료를 직접 확인한 뒤 <b><?= esc(mm_setting('verify_sla_text')) ?></b> 승인합니다. 승인 전에는 상품은 볼 수 있지만 도매가와 주문 신청은 제한됩니다.</div>
+  <div class="mb-[40px]">
+    <strong class="sub-head1 font-bold">사업 정보</strong>
+    <hr class="divider bg-gray6 border-0 h-px my-[18px]">
+    <div class="flex flex-col gap-y-[14px]">
+      <label class="block"><span class="label1 text-gray3 mb-[6px] block">상호 (가게·페이지 이름) <i class="text-primary not-italic">*</i></span><div class="input-item"><input class="<?= $inp ?>" type="text" name="company_name" value="<?= esc(old('company_name')) ?>" required></div></label>
+      <div class="grid grid-cols-2 gap-[10px]">
+        <label class="block"><span class="label1 text-gray3 mb-[6px] block">지역(도시) <i class="text-primary not-italic">*</i></span><div class="input-item"><input class="<?= $inp ?>" type="text" name="city" value="<?= esc(old('city')) ?>" placeholder="Yangon, Mandalay ..." required></div></label>
+        <label class="block"><span class="label1 text-gray3 mb-[6px] block">주소</span><div class="input-item"><input class="<?= $inp ?>" type="text" name="address" value="<?= esc(old('address')) ?>"></div></label>
+      </div>
+      <div><span class="label1 text-gray3 mb-[6px] block">판매 형태 <i class="text-primary not-italic">*</i></span>
+        <div class="flex gap-[18px] body3">
+          <?php foreach (['online' => '온라인(페이스북·틱톡 등)', 'offline' => '오프라인 매장', 'both' => '둘 다'] as $k => $l): ?><label class="flex items-center gap-[6px]"><input type="radio" name="business_type" value="<?= $k ?>" class="size-[18px] accent-[#ff6200]" <?= old('business_type', 'both') === $k ? 'checked' : '' ?>> <?= $l ?></label><?php endforeach ?>
+        </div></div>
+    </div>
   </div>
 
-  <div class="card mt16">
-    <h3>추천 코드 <span class="muted small" style="font-weight:400">(있으면 입력)</span></h3>
-    <div class="field"><input class="inp" type="text" name="ref" value="<?= esc(old('ref', $ref)) ?>" placeholder="예: AB12CD34" style="text-transform:uppercase"><div class="help">소개해 준 회원의 추천 코드입니다. 내가 승인되면 소개한 회원에게 포인트가 적립됩니다.</div></div>
+  <div class="mb-[40px]">
+    <strong class="sub-head1 font-bold">사업자 인증 자료 <span class="label1 font-regular text-gray4">(페이스북 페이지 또는 자료 중 하나 이상)</span></strong>
+    <hr class="divider bg-gray6 border-0 h-px my-[18px]">
+    <div class="flex flex-col gap-y-[14px]">
+      <label class="block"><span class="label1 text-gray3 mb-[6px] block">페이스북 페이지 / 틱톡샵 주소</span><div class="input-item"><input class="<?= $inp ?>" type="text" name="fb_page" value="<?= esc(old('fb_page')) ?>" placeholder="https://facebook.com/yourshop"></div></label>
+      <div><span class="label1 text-gray3 mb-[6px] block">인증 자료 업로드</span>
+        <label class="flex h-[44px] cursor-pointer items-center justify-between rounded-[8px] border border-dashed border-gray5 px-3 body3 text-gray3"><span>매장 사진 · 영업허가증 · 판매 스크린샷 (JPG/PNG/PDF, 5MB)</span><span class="rounded-full bg-black px-[12px] py-[6px] label1 font-bold text-white">파일 선택</span><input type="file" name="docs[]" multiple accept="image/*,.pdf" data-list="#docList" class="hidden"></label>
+        <ul id="docList" class="mt-[8px] label1 text-gray3"></ul></div>
+      <div class="rounded-[8px] bg-gray9 p-[14px] label1 text-gray3 leading-[1.7]">담당자가 제출 자료를 직접 확인한 뒤 <b class="text-black"><?= esc(mm_setting('verify_sla_text')) ?></b> 승인합니다. 자료가 부족하면 반려 사유와 함께 재제출을 요청합니다.</div>
+    </div>
   </div>
 
-  <button class="btn btn-g btn-block mt16" style="height:50px;font-size:16px" type="submit">가입하고 인증 신청하기</button>
-  <div class="auth-sub">이미 회원이신가요? <a href="<?= site_url('login') ?>">로그인</a></div>
+  <div class="mb-[40px]">
+    <strong class="sub-head1 font-bold">추천 코드 <span class="label1 font-regular text-gray4">(있으면 입력)</span></strong>
+    <hr class="divider bg-gray6 border-0 h-px my-[18px]">
+    <div class="input-item"><input class="<?= $inp ?> uppercase" type="text" name="ref" value="<?= esc(old('ref', $ref)) ?>" placeholder="예: AB12CD34"></div>
+    <p class="mt-[6px] label1 text-gray4">내가 승인되면 소개한 회원에게 포인트가 적립됩니다.</p>
+  </div>
+
+  <div class="mb-[50px]">
+    <div><input class="mm-chk size-5 inline-block cursor-pointer align-middle border border-gray6 rounded-[6px] bg-white shrink-0" type="checkbox" id="agree-all" required><label class="text-black ml-2 sub-head1 font-bold" for="agree-all">전체 동의</label></div>
+    <hr class="divider bg-gray6 border-0 h-px my-[18px]">
+    <div class="flex flex-col gap-y-[20px]">
+      <div class="flex items-center"><input class="mm-chk size-5 inline-block cursor-pointer align-middle border border-gray6 rounded-[6px] bg-white" type="checkbox" id="agree-1" required><label class="ml-2 sub-head2 text-gray3" for="agree-1">[필수] 이용약관 · 회원제 도매몰 운영 규정</label><a href="<?= site_url('guide') ?>" class="btn-arrow-right after-bg-gray4 ml-auto body3 font-bold" title="상세보기"></a></div>
+      <div class="flex items-center"><input class="mm-chk size-5 inline-block cursor-pointer align-middle border border-gray6 rounded-[6px] bg-white" type="checkbox" id="agree-2" required><label class="ml-2 sub-head2 text-gray3" for="agree-2">[필수] 개인정보 · 제출 자료 수집 및 이용</label></div>
+    </div>
+  </div>
+
+  <div class="btn-area shrink-0 flex btn-grid02 sub-head2 mt-[16px] gap-[8px]">
+    <a href="<?= site_url('login') ?>" class="text-black bg-white border border-gray6 min-h-[44px] px-[16px] py-[12px] body3 !leading-none w-full rounded-full font-bold text-center">이전</a>
+    <button type="submit" class="text-white bg-primary min-h-[44px] px-[16px] py-[12px] body3 !leading-none w-full rounded-full font-bold">가입하고 인증 신청</button>
+  </div>
+</section>
 </form>
+</div>

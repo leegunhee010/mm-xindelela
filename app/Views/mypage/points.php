@@ -1,7 +1,7 @@
-<div class="my">
+<div class="flex gap-[60px] items-start">
 <?= view('mypage/_side') ?>
-<div class="main">
-  <h1>포인트 <span style="font-size:14px;font-weight:400;color:var(--gray)">보유 <b style="color:var(--green-d);font-size:18px"><?= number_format((int) $user['points_balance']) ?></b> P</span></h1>
+<div class="flex-1 min-w-0">
+  <div class="contents-title-area depth-1 title3 font-bold !pt-0 mb-[20px]"><div class="title-area !pt-0"><h3 class="title">포인트 <span style="font-size:14px;font-weight:400;color:var(--gray)">보유 <b style="color:var(--green-d);font-size:18px"><?= number_format((int) $user['points_balance']) ?></b> P</span></h3></div></div>
   <div class="box-note" style="margin-bottom:16px">주문 신청 시 상품 금액의 <?= (int) mm_setting('points_use_max_pct', 30) ?>%까지(최소 <?= number_format((int) mm_setting('points_min_use', 0)) ?>P) 사용할 수 있습니다. 1P = 1 <?= esc(mm_setting('currency_symbol', 'Ks')) ?></div>
   <?php if (! $logs): ?><div class="empty">포인트 내역이 없습니다.</div><?php else: ?>
   <table class="tbl"><thead><tr><th style="width:140px">일시</th><th>내용</th><th style="width:110px">증감</th><th style="width:110px">잔액</th></tr></thead><tbody>
