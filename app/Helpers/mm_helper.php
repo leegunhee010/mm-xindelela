@@ -1,0 +1,200 @@
+<?php
+
+/**
+ * mm.xindelela.com 공용 헬퍼 (Autoload: 'mm').
+ */
+
+use App\Models\SettingModel;
+
+if (! function_exists('mm_setting')) {
+    /** 설정값 조회 (요청 단위 캐시). */
+    function mm_setting(string $key, $default = null)
+    {
+        static $cache = null;
+        if ($cache === null) {
+            $cache = [];
+            try {
+                foreach ((new SettingModel())->findAll() as $row) {
+                    $cache[$row['skey']] = $row['svalue'];
+                }
+            } catch (\Throwable $e) {
+                // 마이그레이션 전
+            }
+        }
+        return array_key_exists($key, $cache) && $cache[$key] !== null && $cache[$key] !== '' ? $cache[$key] : $default;
+    }
+}
+
+if (! function_exists('mm_user')) {
+    /** 로그인 회원 배열 (없으면 null). 세션엔 id만 두고 매 요청 DB에서 읽는다(승인 상태가 바뀌면 즉시 반영). */
+    function mm_user(): ?array
+    {
+        static $user = false;
+        if ($user !== false) {
+            return $user;
+        }
+        $id = session()->get('user_id');
+        if (! $id) {
+            return $user = null;
+        }
+        $user = (new \App\Models\UserModel())->find($id) ?: null;
+        return $user;
+    }
+}
+
+if (! function_exists('mm_is_approved')) {
+    /** 도매가 열람·주문 가능한 승인 구매자인가. */
+    function mm_is_approved(): bool
+    {
+        $u = mm_user();
+        return $u !== null && $u['role'] === 'buyer' && $u['status'] === 'approved';
+    }
+}
+
+if (! function_exists('mm_price')) {
+    /** 금액 표기. 통화는 설정(currency_symbol, currency_position). */
+    function mm_price($n, bool $withUnit = true): string
+    {
+        $s = number_format((float) $n);
+        if (! $withUnit) {
+            return $s;
+        }
+        $sym = mm_setting('currency_symbol', 'Ks');
+        return mm_setting('currency_position', 'after') === 'before' ? $sym . ' ' . $s : $s . ' ' . $sym;
+    }
+}
+
+if (! function_exists('mm_unit_price')) {
+    /** 수량별 단가 적용. tiers = [{min_qty, price}] (min_qty 오름차순 아님을 가정하고 정렬). */
+    function mm_unit_price(array $product, int $qty): int
+    {
+        $price = (int) $product['price'];
+        $tiers = is_array($product['tiers'] ?? null) ? $product['tiers'] : (json_decode($product['tiers'] ?? '[]', true) ?: []);
+        usort($tiers, static fn ($a, $b) => (int) $a['min_qty'] <=> (int) $b['min_qty']);
+        foreach ($tiers as $t) {
+            if ($qty >= (int) $t['min_qty'] && (int) $t['price'] > 0) {
+                $price = (int) $t['price'];
+            }
+        }
+        return $price;
+    }
+}
+
+if (! function_exists('mm_status_label')) {
+    function mm_status_label(string $status): string
+    {
+        return [
+            'pending'   => '검수 대기',
+            'approved'  => '승인',
+            'rejected'  => '반려',
+            'suspended' => '정지',
+        ][$status] ?? $status;
+    }
+}
+
+if (! function_exists('mm_product_status_label')) {
+    function mm_product_status_label(string $status): string
+    {
+        return [
+            'draft'    => '임시저장',
+            'pending'  => '검수 대기',
+            'active'   => '판매중',
+            'hidden'   => '숨김',
+            'rejected' => '반려',
+        ][$status] ?? $status;
+    }
+}
+
+if (! function_exists('mm_order_status_label')) {
+    function mm_order_status_label(string $status): string
+    {
+        return [
+            'requested' => '신청 접수',
+            'quoted'    => '입금 대기',
+            'proof'     => '입금 확인중',
+            'paid'      => '입금 확인',
+            'preparing' => '발주·준비중',
+            'shipped'   => '배송중',
+            'delivered' => '배송 완료',
+            'cancelled' => '취소',
+        ][$status] ?? $status;
+    }
+}
+
+if (! function_exists('mm_payment_label')) {
+    function mm_payment_label(string $m): string
+    {
+        return ['kbzpay' => 'KBZPay 선불', 'cod' => '착불(COD)'][$m] ?? $m;
+    }
+}
+
+if (! function_exists('mm_point_type_label')) {
+    function mm_point_type_label(string $t): string
+    {
+        return [
+            'signup_bonus'         => '가입 축하',
+            'referral_signup'      => '추천 회원 승인',
+            'referral_first_order' => '추천 회원 첫 주문',
+            'order_use'            => '주문 사용',
+            'order_refund'         => '주문 취소 환원',
+            'order_reward'         => '구매 적립',
+            'admin_adjust'         => '관리자 조정',
+        ][$t] ?? $t;
+    }
+}
+
+if (! function_exists('mm_thumb')) {
+    /** 상품 썸네일 URL (없으면 자리표시). */
+    function mm_thumb(?string $path): string
+    {
+        if ($path) {
+            return str_starts_with($path, 'http') ? $path : base_url($path);
+        }
+        return base_url('assets/img/noimg.svg');
+    }
+}
+
+if (! function_exists('mm_json')) {
+    function mm_json($v, array $default = []): array
+    {
+        if (is_array($v)) {
+            return $v;
+        }
+        $d = json_decode((string) $v, true);
+        return is_array($d) ? $d : $default;
+    }
+}
+
+if (! function_exists('mm_dt')) {
+    function mm_dt(?string $dt, string $fmt = 'Y.m.d H:i'): string
+    {
+        return $dt ? date($fmt, strtotime($dt)) : '-';
+    }
+}
+
+if (! function_exists('mm_flash')) {
+    /** 플래시 메시지 HTML. */
+    function mm_flash(): string
+    {
+        $s   = session();
+        $out = '';
+        foreach (['success' => 'ok', 'error' => 'err', 'info' => 'info'] as $k => $cls) {
+            if ($m = $s->getFlashdata($k)) {
+                $out .= '<div class="flash flash-' . $cls . '">' . esc($m) . '</div>';
+            }
+        }
+        return $out;
+    }
+}
+
+if (! function_exists('mm_referral_code')) {
+    function mm_referral_code(): string
+    {
+        $chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+        $c     = '';
+        for ($i = 0; $i < 8; $i++) {
+            $c .= $chars[random_int(0, strlen($chars) - 1)];
+        }
+        return $c;
+    }
+}

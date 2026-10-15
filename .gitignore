@@ -1,0 +1,9 @@
+.env
+writable/
+vendor/
+public/uploads/*
+!public/uploads/index.html
+.claude/
+*.log
+Thumbs.db
+.DS_Store

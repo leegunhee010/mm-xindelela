@@ -1,0 +1,73 @@
+name: Deploy mm.xindelela.com to 1Panel
+
+# main 푸시 → 1Panel 서버에 SSH → git reset → 스키마 적용 → 헬스체크(실패 시 롤백)
+# 필요한 GitHub Secrets (레포 Settings → Secrets → Actions):
+#   SERVER_HOST  1Panel 서버 주소
+#   SERVER_KEY   deploy 사용자 SSH 개인키
+# 서버 쪽 전제: 사이트 디렉터리가 이 레포의 git clone 이고, .env 가 작성돼 있을 것 (docs/DEPLOY.md)
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  SITE_DIR: /opt/1panel/www/sites/mm.xindelela.com/index
+  SITE_URL: https://mm.xindelela.com
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to 1Panel Server
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: deploy
+          key: ${{ secrets.SERVER_KEY }}
+          port: 2218
+          envs: SITE_DIR,SITE_URL
+          script: |
+            set -e
+            echo "===== 배포 시작 mm.xindelela.com ====="
+            cd "$SITE_DIR"
+            git config --global --add safe.directory "$SITE_DIR" 2>/dev/null || true
+
+            PREV_COMMIT=$(git rev-parse HEAD)
+            echo "== 배포 전 커밋: $PREV_COMMIT"
+            rollback() {
+              echo "!! $1"
+              echo "!! $PREV_COMMIT 으로 되돌립니다."
+              git reset --hard "$PREV_COMMIT"
+              exit 1
+            }
+
+            git fetch origin
+            git reset --hard origin/main
+            rm -rf writable/cache/* writable/debugbar/* 2>/dev/null || true
+            mkdir -p writable/cache writable/logs writable/session public/uploads
+            chmod -R 775 writable/ public/uploads 2>/dev/null || true
+
+            # ── 스키마·시드 적용 (spark migrate 는 이 서버에서 못 씀: docs/DEPLOY.md 참고) ──
+            PHPQ=""
+            for c in php /usr/bin/php php8.1 php8.2; do
+              command -v "$c" >/dev/null 2>&1 || continue
+              if [ "$("$c" -r 'echo extension_loaded("mysqli") ? "y" : "n";' 2>/dev/null)" = "y" ]; then
+                PHPQ="$c"; echo "== 스키마 적용용 PHP: $c ($("$c" -r 'echo PHP_VERSION;'))"; break
+              fi
+            done
+            [ -n "$PHPQ" ] || rollback "mysqli 를 가진 PHP 를 찾지 못해 스키마를 적용할 수 없습니다."
+            "$PHPQ" scripts/apply-sql.php docs/sql || rollback "스키마 적용에 실패했습니다."
+
+            # ── 배포 후 확인 ──
+            ENVV=$(grep -E '^[[:space:]]*CI_ENVIRONMENT' .env 2>/dev/null | head -1 | cut -d= -f2 | tr -d ' \r' || true)
+            echo "== CI_ENVIRONMENT: ${ENVV:-(미설정→production)}"
+            sleep 2
+            MARK=$(curl -s -m 20 "$SITE_URL/deploy-check" || echo "")
+            echo "   /deploy-check -> $MARK"
+            echo "$MARK" | grep -q '"ok":true' || rollback "배포 후 /deploy-check 가 정상 응답하지 않습니다."
+            HOME_CODE=$(curl -s -o /dev/null -w '%{http_code}' -m 20 "$SITE_URL/" || echo 000)
+            echo "   / -> $HOME_CODE"
+            [ "$HOME_CODE" = "200" ] || rollback "홈이 $HOME_CODE 를 반환합니다."
+            echo "== 배포된 커밋: $(git log -1 --oneline)"
+            echo "===== 배포 완료 ====="

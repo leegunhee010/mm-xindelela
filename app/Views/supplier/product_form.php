@@ -1,0 +1,47 @@
+<form method="post" action="<?= site_url('supplier/products/save') ?>" enctype="multipart/form-data" class="two" style="grid-template-columns:1fr 320px"><?= csrf_field() ?>
+<input type="hidden" name="id" value="<?= $p['id'] ?? '' ?>">
+<div>
+  <div class="card"><h3>기본 정보</h3>
+    <div class="field"><label>상품명 <i>*</i></label><input class="inp" name="name" value="<?= esc(old('name', $p['name'] ?? '')) ?>" required></div>
+    <div class="g2">
+      <div class="field"><label>카테고리</label><select class="sel" name="category_id"><option value="">선택</option><?php foreach ($categories as $c): ?><option value="<?= $c['id'] ?>" <?= (int) old('category_id', $p['category_id'] ?? 0) === (int) $c['id'] ? 'selected' : '' ?>><?= esc($c['name']) ?></option><?php endforeach ?></select></div>
+      <div class="field"><label>브랜드</label><input class="inp" name="brand" value="<?= esc(old('brand', $p['brand'] ?? '')) ?>"></div>
+      <div class="field"><label>상품코드</label><input class="inp" name="code" value="<?= esc(old('code', $p['code'] ?? '')) ?>"></div>
+      <div class="field"><label>원산지</label><input class="inp" name="origin" value="<?= esc(old('origin', $p['origin'] ?? '한국')) ?>"></div>
+    </div>
+    <div class="field"><label>한 줄 요약</label><input class="inp" name="summary" value="<?= esc(old('summary', $p['summary'] ?? '')) ?>" placeholder="목록에 표시되는 짧은 설명"></div>
+  </div>
+  <div class="card"><h3>가격·수량 <span class="muted small" style="font-weight:400">(통화: <?= esc(mm_setting('currency_symbol', 'Ks')) ?>)</span></h3>
+    <div class="g2">
+      <div class="field"><label>도매가 (기본 단가) <i>*</i></label><input class="inp" type="number" name="price" value="<?= esc(old('price', $p['price'] ?? '')) ?>" required></div>
+      <div class="field"><label>권장 소비자가 <span class="muted">(비회원에게도 표시)</span></label><input class="inp" type="number" name="retail_price" value="<?= esc(old('retail_price', $p['retail_price'] ?? '')) ?>"></div>
+      <div class="field"><label>최소구매수량(MOQ) <i>*</i></label><input class="inp" type="number" name="moq" value="<?= esc(old('moq', $p['moq'] ?? 1)) ?>" required><div class="help">이 수량 단위로만 담을 수 있습니다 (예: 박스 입수)</div></div>
+      <div class="field"><label>단위</label><input class="inp" name="unit" value="<?= esc(old('unit', $p['unit'] ?? '개')) ?>"></div>
+      <div class="field"><label>재고</label><input class="inp" type="number" name="stock" value="<?= esc(old('stock', $p['stock'] ?? 0)) ?>"></div>
+    </div>
+    <label class="small" style="font-weight:700">수량별 단가 (많이 사면 싸게)</label>
+    <div id="tiers" class="mt8">
+      <?php $rows = $tiers ?: []; for ($i = 0; $i < 4; $i++): $t = $rows[$i] ?? ['min_qty' => '', 'price' => '']; ?>
+      <div class="tierrow"><input class="inp" type="number" name="tier_qty[]" value="<?= esc($t['min_qty']) ?>" placeholder="이 수량 이상"><input class="inp" type="number" name="tier_price[]" value="<?= esc($t['price']) ?>" placeholder="단가"><span class="small muted">개↑</span></div>
+      <?php endfor ?>
+    </div>
+  </div>
+  <div class="card"><h3>이미지</h3>
+    <?php if ($images): ?><div class="imgs" style="margin-bottom:10px"><?php foreach ($images as $im): ?><label><img src="<?= mm_thumb($im) ?>" alt=""><input type="checkbox" name="keep_images[]" value="<?= esc($im) ?>" checked title="체크 해제 시 삭제"></label><?php endforeach ?></div><div class="small muted">체크를 풀면 저장 시 삭제됩니다. 첫 번째 이미지가 대표 이미지입니다.</div><?php endif ?>
+    <div class="field mt8"><input type="file" name="images[]" multiple accept="image/*" data-list="#imgList"><ul id="imgList" class="small muted mt8"></ul><div class="help">JPG/PNG/WebP, 장당 5MB 이하, 여러 장 선택 가능. 정사각형(600×600 이상) 권장.</div></div>
+  </div>
+  <div class="card"><h3>상세 설명 (HTML 가능)</h3><textarea class="ed" name="description"><?= esc(old('description', $p['description'] ?? '')) ?></textarea><div class="help">상세페이지 이미지를 넣으려면 위 이미지 업로드 후 &lt;img src="/uploads/..."&gt; 로 넣어 주세요.</div></div>
+</div>
+<div>
+  <div class="act" style="position:sticky;top:20px">
+    <h3>저장</h3>
+    <?php if ($p): ?><div class="small mt8" style="margin-bottom:10px">현재 상태: <span class="st st-<?= esc($p['status']) ?>"><?= mm_product_status_label($p['status']) ?></span></div><?php endif ?>
+    <button class="btn btn-g btn-block" type="submit" name="action" value="submit" style="height:42px"><?= ($p['status'] ?? '') === 'active' ? '저장 (판매중 유지)' : '저장하고 검수 요청' ?></button>
+    <button class="btn btn-block mt8" type="submit" name="action" value="draft">임시 저장</button>
+    <?php if (($p['status'] ?? '') === 'active'): ?><button class="btn btn-block mt8" type="submit" name="action" value="hide">숨김 처리</button><?php endif ?>
+    <?php if (($p['status'] ?? '') === 'hidden'): ?><button class="btn btn-block mt8" type="submit" name="action" value="show">다시 노출</button><?php endif ?>
+    <div class="small muted mt8">신규·반려·임시 상품은 관리자 검수 후 노출됩니다. 도매가는 인증 회원에게만 보입니다.</div>
+    <a class="btn btn-block mt8" href="<?= site_url('supplier/products') ?>">목록</a>
+  </div>
+</div>
+</form>
