@@ -9,5 +9,5 @@
     <li>입금 확인 즉시 한국 공급사에 발주하고, 배송이 시작되면 알려 드립니다.</li>
   </ol>
   <div class="acct"><?= esc(mm_setting('kbzpay_account', '')) ?></div>
-  <div class="row mt24" style="justify-content:center"><a class="btn btn-g" href="<?= site_url('mypage/orders/' . $o['id']) ?>">주문 상세 보기</a><a class="btn" href="<?= site_url('products') ?>">쇼핑 계속하기</a></div>
+  <div class="mmrow mt24" style="justify-content:center"><a class="btn btn-g" href="<?= site_url('mypage/orders/' . $o['id']) ?>">주문 상세 보기</a><a class="btn" href="<?= site_url('products') ?>">쇼핑 계속하기</a></div>
 </div>

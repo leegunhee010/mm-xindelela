@@ -34,7 +34,7 @@
 
   <div class="card mt16">
     <h3>포인트 사용 <span class="muted small" style="font-weight:400">보유 <?= number_format((int) $user['points_balance']) ?>P · 이번 주문 최대 <?= number_format($maxPoints) ?>P (<?= (int) mm_setting('points_use_max_pct', 30) ?>%)</span></h3>
-    <div class="row"><input class="inp" type="number" id="points" name="points" value="0" min="0" max="<?= $maxPoints ?>" data-subtotal="<?= $subtotal ?>" style="width:200px"><span>P</span><button class="btn btn-sm" type="button" id="ptAll">최대 사용</button><span class="small muted">최소 <?= number_format((int) mm_setting('points_min_use', 0)) ?>P부터 사용 가능</span></div>
+    <div class="mmrow"><input class="inp" type="number" id="points" name="points" value="0" min="0" max="<?= $maxPoints ?>" data-subtotal="<?= $subtotal ?>" style="width:200px"><span>P</span><button class="btn btn-sm" type="button" id="ptAll">최대 사용</button><span class="small muted">최소 <?= number_format((int) mm_setting('points_min_use', 0)) ?>P부터 사용 가능</span></div>
   </div>
 </div>
 

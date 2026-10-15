@@ -8,4 +8,4 @@
 <table class="tbl"><thead><tr><th>주문번호</th><th>신청일</th><th>상태</th><th></th></tr></thead><tbody>
 <?php foreach ($vis as $o): ?><tr><td><b><?= esc($o['order_no']) ?></b></td><td><?= mm_dt($o['created_at']) ?></td><td><span class="st st-<?= esc($o['status']) ?>"><?= mm_order_status_label($o['status']) ?></span></td><td><a class="btn btn-xs" href="<?= site_url('supplier/orders/' . $o['id']) ?>">상세</a></td></tr><?php endforeach ?>
 </tbody></table><?php endif ?></div>
-<div class="row"><a class="btn btn-g" href="<?= site_url('supplier/products/new') ?>">+ 상품 등록</a><a class="btn" href="<?= site_url('supplier/products') ?>">상품 관리</a></div>
+<div class="mmrow"><a class="btn btn-g" href="<?= site_url('supplier/products/new') ?>">+ 상품 등록</a><a class="btn" href="<?= site_url('supplier/products') ?>">상품 관리</a></div>

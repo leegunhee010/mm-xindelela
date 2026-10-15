@@ -9,7 +9,7 @@
     <div class="field"><label>순서 / 노출</label><div class="inl"><input class="inp" type="number" name="sort" value="<?= $b['sort'] ?>" style="width:70px"><label><input type="checkbox" name="is_active" value="1" <?= $b['is_active'] ? 'checked' : '' ?>> 노출</label></div></div>
     <div class="field"><label>이미지 (선택, 735×300)</label><input type="file" name="image" accept="image/*"><?php if ($b['image']): ?><img src="<?= base_url($b['image']) ?>" alt="" style="height:60px;margin-top:6px"><?php endif ?></div>
   </div>
-  <div class="row"><button class="btn btn-sm btn-g" type="submit">저장</button><button class="btn btn-sm btn-red" type="submit" formaction="<?= site_url('admin/banners/' . $b['id'] . '/delete') ?>" formnovalidate onclick="return confirm('삭제할까요?')">삭제</button></div>
+  <div class="mmrow"><button class="btn btn-sm btn-g" type="submit">저장</button><button class="btn btn-sm btn-red" type="submit" formaction="<?= site_url('admin/banners/' . $b['id'] . '/delete') ?>" formnovalidate onclick="return confirm('삭제할까요?')">삭제</button></div>
 </form>
 <?php endforeach ?>
 </div>

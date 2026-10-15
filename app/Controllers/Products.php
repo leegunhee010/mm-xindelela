@@ -48,6 +48,7 @@ class Products extends BaseController
         $catRow   = $cat ? (new CategoryModel())->find($cat) : null;
 
         return $this->render('products/index', [
+            'fullWidth'  => true,
             'title'      => $catRow ? $catRow['name'] : ($q !== '' ? '"' . $q . '" 검색결과' : '전체 상품'),
             'products'   => $products,
             'pager'      => $pm->pager,
@@ -76,6 +77,7 @@ class Products extends BaseController
         $related  = $pm->where('status', 'active')->where('category_id', $p['category_id'])->where('id !=', $id)->orderBy('views', 'DESC')->findAll(5);
 
         return $this->render('products/show', [
+            'fullWidth' => true,
             'title'    => $p['name'],
             'p'        => $p,
             'images'   => mm_json($p['images']),
@@ -96,6 +98,7 @@ class Products extends BaseController
         $pm       = new ProductModel();
         $products = $pm->where('status', 'active')->where('supplier_id', $id)->orderBy('id', 'DESC')->paginate(self::PER_PAGE, 'p');
         return $this->render('products/index', [
+            'fullWidth'  => true,
             'title'      => $s['company_name'],
             'products'   => $products,
             'pager'      => $pm->pager,

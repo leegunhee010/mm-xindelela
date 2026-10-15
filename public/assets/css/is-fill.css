@@ -1,0 +1,38 @@
+/* 아이스크림몰 CSS 번들에 없는(그쪽 빌드에 미포함) 유틸리티를 같은 문법으로 보충.
+   scripts/missing-classes.py 결과 기준. 새 클래스 쓰면 스크립트 돌려서 여기에 추가. */
+.gap-\[32px\]{gap:32px}.gap-x-\[27px\]{column-gap:27px}
+.h-\[416px\]{height:416px}.h-\[55px\]{height:55px}
+.w-\[234px\]{width:234px}.w-\[480px\]{width:480px}.w-\[616px\]{width:616px}.w-\[848px\]{width:848px}
+.size-\[88px\]{width:88px;height:88px}.min-w-\[18px\]{min-width:18px}
+.mt-\[22px\]{margin-top:22px}.pt-\[24px\]{padding-top:24px}
+.px-\[22px\]{padding-left:22px;padding-right:22px}.py-\[1px\]{padding-top:1px;padding-bottom:1px}
+.py-\[22px\]{padding-top:22px;padding-bottom:22px}.py-\[36px\]{padding-top:36px;padding-bottom:36px}.py-\[90px\]{padding-top:90px;padding-bottom:90px}
+.top-\[52px\]{top:52px}.-right-\[12px\]{right:-12px}.-right-\[6px\]{right:-6px}.-top-\[6px\]{top:-6px}.z-\[700\]{z-index:700}
+.text-\[15px\]{font-size:15px}.text-\[16px\]{font-size:16px}.text-\[17px\]{font-size:17px}.text-\[18px\]{font-size:18px}.text-\[20px\]{font-size:20px}.text-\[22px\]{font-size:22px}.text-\[24px\]{font-size:24px}.text-\[26px\]{font-size:26px}.text-\[28px\]{font-size:28px}.text-\[30px\]{font-size:30px}
+.leading-\[1\.1\]{line-height:1.1}.leading-\[1\.2\]{line-height:1.2}.leading-\[1\.3\]{line-height:1.3}.leading-\[1\.6\]{line-height:1.6}.leading-\[1\.7\]{line-height:1.7}.leading-\[1\.8\]{line-height:1.8}
+.tracking-\[-0\.02em\]{letter-spacing:-.02em}.tracking-\[-0\.5px\]{letter-spacing:-.5px}
+.not-italic{font-style:normal}.align-\[1px\]{vertical-align:1px}
+.bg-\[\#22c55e\]{background-color:#22c55e}.bg-\[\#e6f6d6\]{background-color:#e6f6d6}.bg-\[\#fff3eb\]{background-color:#fff3eb}.hover\:bg-\[\#fff3eb\]:hover{background-color:#fff3eb}
+.bg-primary\/90{background-color:rgba(255,98,0,.9)}.text-\[\#2f6300\]{color:#2f6300}
+.shadow-\[0_8px_24px_rgba\(0\,0\,0\,\.08\)\]{box-shadow:0 8px 24px rgba(0,0,0,.08)}
+.hover\:scale-\[1\.04\]:hover{transform:scale(1.04)}
+.group\/cat:hover .group-hover\/cat\:block{display:block}
+.group:hover .group-hover\:flex{display:flex}
+.\[\&\>li\]\:flex>li{display:flex}.\[\&\>li\]\:items-start>li{align-items:flex-start}.\[\&\>li\]\:gap-\[29px\]>li{gap:29px}
+.after\:bg-\[url\(\'\/_ext\/cdn\.i-screammall\.co\.kr\/files\/x2bee-fo-cdn\/public\/images\/common\/btn_Subtract\.svg\'\)\]:after{background-image:url('/_ext/cdn.i-screammall.co.kr/files/x2bee-fo-cdn/public/images/common/btn_Subtract.svg')}
+.before\:bg-\[url\(\'\/_ext\/cdn\.i-screammall\.co\.kr\/files\/x2bee-fo-cdn\/public\/images\/common\/ico_white_arrow\.svg\'\)\]:before{background-image:url('/_ext/cdn.i-screammall.co.kr/files/x2bee-fo-cdn/public/images/common/ico_white_arrow.svg')}
+.after\:bg-\[url\(\'\/_ext\/cdn\.i-screammall\.co\.kr\/files\/x2bee-fo-cdn\/public\/images\/icons\/common\/ico_chevron_right_tight_light_16\.svg\'\)\]:after{background-image:url('/_ext/cdn.i-screammall.co.kr/files/x2bee-fo-cdn/public/images/icons/common/ico_chevron_right_tight_light_16.svg')}
+@media (min-width:1025px){
+  .pc\:h-\[44px\]{height:44px}.pc\:mt-\[32px\]{margin-top:32px}.pc\:mt-\[80px\]{margin-top:80px}.pc\:pt-\[8px\]{padding-top:8px}
+}
+/* 상세 세로 썸네일 */
+.goods-main-slide{display:flex;gap:16px;width:699px}
+.goods-main-slide .main-thumb{width:603px;height:603px;order:2}
+.goods-main-slide .sub-thumb{width:80px;height:603px;order:1}
+.goods-main-slide .sub-thumb .swiper-slide{height:80px!important}
+.goods-main-slide .sub-thumb .thumb-item{width:80px;height:80px;object-fit:cover;border:2px solid transparent;border-radius:8px}
+.goods-main-slide .sub-thumb .swiper-slide-thumb-active .thumb-item{border-color:#000}
+.goods-main-slide .main-thumb .thumb-item{width:603px;height:603px;object-fit:contain}
+.goods-main-slide .swiper-pagination-fraction{position:absolute;left:16px;bottom:16px;width:auto;background:rgba(0,0,0,.4);color:#fff;border-radius:99px;padding:2px 10px;font-size:12px}
+/* 상태 탭 */
+.tab a[data-state=active],.tab button[data-state=active]{background:#ff6200;border-color:#ff6200;color:#fff;font-weight:700}

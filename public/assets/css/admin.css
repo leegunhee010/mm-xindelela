@@ -1,3 +1,5 @@
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css');
+body.ad{font-family:Pretendard,-apple-system,'Apple SD Gothic Neo','Malgun Gothic',sans-serif}
 /* 관리자·공급사센터 공용 (사이드바 셸) */
 .ad{display:flex;min-height:100vh;background:#f4f5f7}
 .ad .sb{width:220px;background:#1b1b1b;color:#ddd;flex:none;display:flex;flex-direction:column}

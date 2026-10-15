@@ -1,34 +1,16 @@
 /* mm.xindelela.com 공용 스크립트 (의존성 없음) */
 (function () {
-  // 히어로 배너 슬라이더 (아이스크림몰식: 가운데 630px 카드 + 양옆 살짝 보임)
-  var hero = document.querySelector('.hero');
-  if (hero) {
-    var track = hero.querySelector('.track'), slides = track.children, cur = 0, n = slides.length, timer;
-    var num = hero.querySelector('.ctr .n');
-    function go(i) {
-      cur = (i + n) % n;
-      var vw = hero.clientWidth, w = 630, gap = 20;
-      track.style.transform = 'translateX(' + Math.round(vw / 2 - w / 2 - cur * (w + gap)) + 'px)';
-      if (num) num.textContent = (cur + 1) + ' / ' + n;
-    }
-    function auto() { clearInterval(timer); if (n > 1) timer = setInterval(function () { go(cur + 1); }, 5000); }
-    var prev = hero.querySelector('.ctr .prev'), next = hero.querySelector('.ctr .next');
-    if (prev) prev.onclick = function () { go(cur - 1); auto(); };
-    if (next) next.onclick = function () { go(cur + 1); auto(); };
-    window.addEventListener('resize', function () { go(cur); });
-    go(0); auto();
-    requestAnimationFrame(function () { track.classList.add('anim'); });
-  }
-
-  // 상세 갤러리
-  document.querySelectorAll('.pd .gal .th img').forEach(function (t) {
-    t.addEventListener('click', function () {
-      document.querySelector('.pd .gal .main img').src = t.dataset.src || t.src;
-      document.querySelectorAll('.pd .gal .th img').forEach(function (x) { x.classList.remove('on'); });
-      t.classList.add('on');
+  // 히어로 (Swiper, 아이스크림몰 corner-main-visual 동일 옵션)
+  if (window.Swiper && document.getElementById('heroSwiper')) {
+    var hs = new Swiper('#heroSwiper', {
+      slidesPerView: 'auto', centeredSlides: true, spaceBetween: 20, loop: document.querySelectorAll('#heroSwiper .swiper-slide').length > 2,
+      autoplay: { delay: 5000, disableOnInteraction: false },
+      pagination: { el: '#heroPg', type: 'fraction' },
+      navigation: { nextEl: '#heroNext', prevEl: '#heroPrev' }
     });
-  });
-
+    var pb = document.getElementById('heroPlay');
+    if (pb) pb.addEventListener('click', function () { if (hs.autoplay.running) { hs.autoplay.stop(); pb.classList.add('paused'); } else { hs.autoplay.start(); pb.classList.remove('paused'); } });
+  }
   // 수량 스테퍼 + 수량별 단가 합계
   var q = document.querySelector('.qty');
   if (q) {
@@ -56,12 +38,12 @@
   }
 
   // 상세 탭
-  var ptabs = document.querySelectorAll('.ptabs a[data-tab]');
+  var ptabs = document.querySelectorAll('.ptabs a[data-tab], .ptab-btn');
   ptabs.forEach(function (a) {
     a.addEventListener('click', function (e) {
       e.preventDefault();
-      ptabs.forEach(function (x) { x.classList.remove('on'); });
-      a.classList.add('on');
+      ptabs.forEach(function (x) { x.classList.remove('on'); x.setAttribute('data-state', 'inactive'); });
+      a.classList.add('on'); a.setAttribute('data-state', 'active');
       document.querySelectorAll('.ptab').forEach(function (p) { p.classList.toggle('hidden', p.id !== a.dataset.tab); });
     });
   });

@@ -13,10 +13,10 @@
       <?php foreach ($items as $it): ?><div class="it"><img src="<?= mm_thumb($it['thumb']) ?>" alt=""><div class="n"><a href="<?= site_url('admin/products/' . $it['product_id']) ?>"><?= esc($it['product_name']) ?></a><div class="s">공급사 <?= esc($it['supplier']['company_name'] ?? '-') ?> · 단가 <?= mm_price($it['unit_price']) ?> · <?= $it['item_status'] === 'shipped' ? '<span class="st st-shipped">출고</span>' : '<span class="st">미출고</span>' ?></div></div><div class="q"><?= number_format((int) $it['qty']) ?>개</div><div class="p"><?= mm_price($it['line_total']) ?></div></div><?php endforeach ?>
     </div>
     <div class="card mt16" style="background:var(--bg2);margin:16px 0 0">
-      <div class="row sp"><span>상품 합계</span><span><?= mm_price($o['subtotal']) ?></span></div>
-      <div class="row sp"><span>배송비</span><span><?= mm_price($o['shipping_fee']) ?></span></div>
-      <div class="row sp"><span>포인트 사용</span><span>-<?= number_format((int) $o['points_used']) ?> P</span></div>
-      <div class="row sp" style="border-top:1px solid var(--line);padding-top:8px;margin-top:8px;font-weight:700;font-size:15px"><span>최종 금액</span><span style="color:var(--price);font-size:20px"><?= mm_price($o['total']) ?></span></div>
+      <div class="mmrow sp"><span>상품 합계</span><span><?= mm_price($o['subtotal']) ?></span></div>
+      <div class="mmrow sp"><span>배송비</span><span><?= mm_price($o['shipping_fee']) ?></span></div>
+      <div class="mmrow sp"><span>포인트 사용</span><span>-<?= number_format((int) $o['points_used']) ?> P</span></div>
+      <div class="mmrow sp" style="border-top:1px solid var(--line);padding-top:8px;margin-top:8px;font-weight:700;font-size:15px"><span>최종 금액</span><span style="color:var(--price);font-size:20px"><?= mm_price($o['total']) ?></span></div>
     </div>
   </div>
 </div>

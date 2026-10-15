@@ -13,6 +13,7 @@ class Home extends BaseController
     {
         $pm = new ProductModel();
         return $this->render('home', [
+            'fullWidth'  => true,
             'banners'    => (new BannerModel())->where('is_active', 1)->orderBy('sort')->findAll(),
             'categories' => (new CategoryModel())->where('is_active', 1)->orderBy('sort')->findAll(),
             'newest'     => $pm->where('status', 'active')->orderBy('id', 'DESC')->findAll(10),
