@@ -1,21 +1,23 @@
 /* mm.xindelela.com 공용 스크립트 (의존성 없음) */
 (function () {
-  // 히어로 배너 슬라이더
-  var bn = document.querySelector('.hero .bn');
-  if (bn) {
-    var slides = bn.querySelectorAll('.s'), cur = 0, n = slides.length, timer;
-    var num = bn.querySelector('.ctr .n');
+  // 히어로 배너 슬라이더 (아이스크림몰식: 가운데 630px 카드 + 양옆 살짝 보임)
+  var hero = document.querySelector('.hero');
+  if (hero) {
+    var track = hero.querySelector('.track'), slides = track.children, cur = 0, n = slides.length, timer;
+    var num = hero.querySelector('.ctr .n');
     function go(i) {
-      slides[cur].classList.remove('on');
       cur = (i + n) % n;
-      slides[cur].classList.add('on');
+      var vw = hero.clientWidth, w = 630, gap = 20;
+      track.style.transform = 'translateX(' + Math.round(vw / 2 - w / 2 - cur * (w + gap)) + 'px)';
       if (num) num.textContent = (cur + 1) + ' / ' + n;
     }
-    function auto() { clearInterval(timer); timer = setInterval(function () { go(cur + 1); }, 5000); }
-    var prev = bn.querySelector('.ctr .prev'), next = bn.querySelector('.ctr .next');
+    function auto() { clearInterval(timer); if (n > 1) timer = setInterval(function () { go(cur + 1); }, 5000); }
+    var prev = hero.querySelector('.ctr .prev'), next = hero.querySelector('.ctr .next');
     if (prev) prev.onclick = function () { go(cur - 1); auto(); };
     if (next) next.onclick = function () { go(cur + 1); auto(); };
-    if (n > 1) auto();
+    window.addEventListener('resize', function () { go(cur); });
+    go(0); auto();
+    requestAnimationFrame(function () { track.classList.add('anim'); });
   }
 
   // 상세 갤러리
