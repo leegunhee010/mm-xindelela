@@ -5,7 +5,7 @@
     <?php foreach ($banners as $b): $dark = ! $b['image']; ?>
     <div class="swiper-slide" style="width:630px;margin-right:20px">
       <a class="relative flex pc:w-[630px] justify-start items-end pc:items-center h-full overflow-hidden rounded-[20px] bg-gray9" href="<?= site_url($b['link'] ?: 'products') ?>" style="background:<?= esc($b['bg'] ?: '#f7f7f7') ?>">
-        <?php if ($b['image']): ?><picture><img alt="" class="w-full h-full object-cover" src="<?= base_url($b['image']) ?>"></picture><?php else: ?><div class="w-full h-[416px]"></div><?php endif ?>
+        <?php if ($b['image']): ?><picture><img alt="" class="w-full h-full object-cover" src="<?= base_url($b['image']) ?>"></picture><div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div><?php else: ?><div class="w-full h-[416px]"></div><?php endif ?>
         <div class="absolute size-full inset-0 flex flex-col justify-end pb-[50px] pl-[50px] tracking-[-0.075em] <?= $dark ? 'text-black' : 'text-white' ?>">
           <?php if ($b['subtitle']): ?><div class="relative inline-block w-fit max-w-full mb-1"><div class="pointer-events-none absolute inset-0 rounded-3xl bg-black/20 mix-blend-soft-light" aria-hidden="true"></div><div class="relative z-[1] px-[14px] py-[6px] pc:body2 font-bold opacity-80"><?= esc($b['subtitle']) ?></div></div><?php endif ?>
           <div class="pc:display1 mb-[6px] font-bold whitespace-pre-wrap"><?= esc($b['title']) ?></div>

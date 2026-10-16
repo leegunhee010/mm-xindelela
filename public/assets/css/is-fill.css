@@ -61,3 +61,6 @@
 .account-menu a b{color:#fff;font-weight:600}
 /* 라디오 */
 input[type=radio].accent-\[\#ff6200\]{display:inline-block!important;appearance:auto;-webkit-appearance:radio;width:18px;height:18px;accent-color:#ff6200}
+/* 히어로 사진 위 가독성 그라데이션 */
+.from-black\/60{--tw-gradient-from:rgba(0,0,0,.6) var(--tw-gradient-from-position);--tw-gradient-to:rgba(0,0,0,0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from),var(--tw-gradient-to)}
+.via-black\/20{--tw-gradient-to:rgba(0,0,0,0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from),rgba(0,0,0,.2) var(--tw-gradient-via-position),var(--tw-gradient-to)}

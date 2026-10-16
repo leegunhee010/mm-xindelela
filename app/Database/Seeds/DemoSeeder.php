@@ -125,12 +125,18 @@ class DemoSeeder extends Seeder
             }
             foreach ($demo as $i => [$name, $ci, $price, $retail, $moq, $tiers, $brand]) {
                 $file = 'assets/img/demo/p' . ($i + 1) . '.svg';
+                $jpg  = 'assets/img/demo/p' . ($i + 1) . '.jpg'; // 임시 스톡 사진이 있으면 우선 사용
+                if (is_file(FCPATH . $jpg)) {
+                    $file = $jpg;
+                }
                 $svg  = '<svg xmlns="http://www.w3.org/2000/svg" width="600" height="600" viewBox="0 0 600 600">'
                       . '<rect width="600" height="600" fill="' . $colors[$ci % 8] . '"/>'
                       . '<rect x="150" y="120" width="300" height="360" rx="24" fill="#fff" opacity=".85"/>'
                       . '<text x="300" y="320" font-family="Malgun Gothic,sans-serif" font-size="28" fill="#1b1b1b" text-anchor="middle">' . htmlspecialchars($name) . '</text>'
                       . '<text x="300" y="360" font-family="Malgun Gothic,sans-serif" font-size="18" fill="#646464" text-anchor="middle">' . htmlspecialchars($brand) . ' · 샘플 이미지</text></svg>';
-                file_put_contents(FCPATH . $file, $svg);
+                if (! is_file(FCPATH . $file)) {
+                    file_put_contents(FCPATH . $file, $svg);
+                }
                 $db->table('products')->insert([
                     'supplier_id' => $supplierId, 'category_id' => $catIds[$ci], 'code' => 'DEMO-' . str_pad((string) ($i + 1), 3, '0', STR_PAD_LEFT),
                     'name' => $name, 'summary' => $brand . ' 정품. 박스 단위 도매 공급.',
@@ -157,9 +163,9 @@ class DemoSeeder extends Seeder
         // ── 배너 ──
         if (! $db->table('banners')->countAllResults()) {
             $db->table('banners')->insertBatch([
-                ['title' => "한국 정품 K-브랜드\n박스 단위 도매가로", 'subtitle' => '미얀마 소매상·온라인 셀러 전용 폐쇄몰', 'bg' => '#E8F5D8', 'link' => '/products', 'sort' => 1, 'is_active' => 1, 'created_at' => $now, 'updated_at' => $now],
-                ['title' => "친구를 소개하면\n포인트 적립", 'subtitle' => '추천 회원 승인 + 첫 주문 시 2회 적립', 'bg' => '#FFF3C4', 'link' => '/mypage/referral', 'sort' => 2, 'is_active' => 1, 'created_at' => $now, 'updated_at' => $now],
-                ['title' => "가입 후 영업일 1일\n사업자 인증 완료", 'subtitle' => '페이스북 페이지·매장 사진으로 간단 인증', 'bg' => '#DCEBFF', 'link' => '/register', 'sort' => 3, 'is_active' => 1, 'created_at' => $now, 'updated_at' => $now],
+                ['title' => "한국 정품 K-브랜드\n박스 단위 도매가로", 'subtitle' => '미얀마 소매상·온라인 셀러 전용 폐쇄몰', 'image' => 'assets/img/demo/banner_1.jpg', 'bg' => '#E8F5D8', 'link' => '/products', 'sort' => 1, 'is_active' => 1, 'created_at' => $now, 'updated_at' => $now],
+                ['title' => "친구를 소개하면\n포인트 적립", 'subtitle' => '추천 회원 승인 + 첫 주문 시 2회 적립', 'image' => 'assets/img/demo/banner_2.jpg', 'bg' => '#FFF3C4', 'link' => '/mypage/referral', 'sort' => 2, 'is_active' => 1, 'created_at' => $now, 'updated_at' => $now],
+                ['title' => "가입 후 영업일 1일\n사업자 인증 완료", 'subtitle' => '페이스북 페이지·매장 사진으로 간단 인증', 'image' => 'assets/img/demo/banner_3.jpg', 'bg' => '#DCEBFF', 'link' => '/register', 'sort' => 3, 'is_active' => 1, 'created_at' => $now, 'updated_at' => $now],
             ]);
         }
     }
