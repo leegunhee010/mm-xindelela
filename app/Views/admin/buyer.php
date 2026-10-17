@@ -12,8 +12,8 @@
       <a href="?tab=referral"><span>소개한 회원</span><b><?= count($referred) ?>명</b></a>
       <div><span>마지막 주문</span><b><?= $stat['last'] ? mm_dt($stat['last'], 'Y.m.d') : '-' ?></b></div>
     </div>
+    <div class="mtabs"><?php foreach ($tabs as $k => $l): ?><a href="?tab=<?= $k ?>" class="<?= $tab === $k ? 'on' : '' ?>"><?= $l ?></a><?php endforeach ?></div>
   </div>
-  <div class="mtabs"><?php foreach ($tabs as $k => $l): ?><a href="?tab=<?= $k ?>" class="<?= $tab === $k ? 'on' : '' ?>"><?= $l ?></a><?php endforeach ?></div>
 
   <?php if ($tab === 'info'): ?>
   <div class="card">

@@ -1,7 +1,6 @@
-<div class="tabs">
-  <a href="<?= site_url('admin/suppliers/new') ?>" class="on" style="order:9;margin-left:auto;background:var(--pri);border-color:var(--pri)">+ 공급사 추가</a>
+<div class="ptop"><div class="tabs" style="margin:0">
   <?php foreach (['' => '전체', 'approved' => '승인', 'rejected' => '반려', 'suspended' => '정지'] as $k => $l): ?><a href="<?= site_url('admin/suppliers?status=' . $k) ?>" class="<?= $st === $k ? 'on' : '' ?>"><?= $l ?></a><?php endforeach ?>
-</div>
+</div><a href="<?= site_url('admin/suppliers/new') ?>" class="btn btn-g ptop-add">+ 공급사 추가</a></div>
 <table class="tbl"><thead><tr><th>ID</th><th class="l">공급사</th><th>브랜드</th><th>담당자</th><th>연락처</th><th>상품</th><th>수수료</th><th>등록일</th><th>상태</th><th></th></tr></thead><tbody>
 <?php if (! $rows): ?><tr><td colspan="10" style="padding:40px">없습니다.</td></tr><?php endif ?>
 <?php foreach ($rows as $s): ?>

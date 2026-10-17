@@ -11,17 +11,46 @@ class Products extends Base
 {
     public function index(): string
     {
-        $pm = new ProductModel();
-        $st = (string) ($this->request->getGet('status') ?? 'all');
-        $q  = trim((string) $this->request->getGet('q'));
-        $b  = $pm;
-        if ($st !== '' && $st !== 'all') {
-            $b = $b->where('status', $st);
+        $pm  = new ProductModel();
+        $g   = fn ($k) => trim((string) $this->request->getGet($k));
+        $st  = $g('status') ?: 'all';
+        $f   = ['q' => $g('q'), 'cat' => (int) $g('cat'), 'sup' => (int) $g('sup'), 'best' => $g('best') === '1', 'stock' => $g('stock'), 'sort' => $g('sort') ?: 'new', 'per' => in_array((int) $g('per'), [30, 50, 100], true) ? (int) $g('per') : 30];
+
+        // 상태 탭 숫자는 다른 필터를 반영해서 센다
+        $apply = function ($b) use ($f) {
+            if ($f['q'] !== '') {
+                $b->groupStart()->like('name', $f['q'])->orLike('brand', $f['q'])->orLike('code', $f['q'])->groupEnd();
+            }
+            if ($f['cat']) {
+                $b->where('category_id', $f['cat']);
+            }
+            if ($f['sup']) {
+                $b->where('supplier_id', $f['sup']);
+            }
+            if ($f['best']) {
+                $b->where('is_best', 1);
+            }
+            if ($f['stock'] === 'low') {
+                $b->where('stock <', 'moq * 3', false);
+            } elseif ($f['stock'] === 'out') {
+                $b->where('stock <', 'moq', false);
+            }
+            return $b;
+        };
+        $counts = [];
+        foreach (['all', 'active', 'hidden', 'draft'] as $k) {
+            $b = $apply(new ProductModel());
+            if ($k !== 'all') {
+                $b->where('status', $k);
+            }
+            $counts[$k] = $b->countAllResults();
         }
-        if ($q !== '') {
-            $b = $b->like('name', $q);
+        $b = $apply($pm);
+        if ($st !== 'all') {
+            $b->where('status', $st);
         }
-        $rows = $b->orderBy('id', 'DESC')->paginate(30, 'p');
+        $order = ['new' => ['id', 'DESC'], 'name' => ['name', 'ASC'], 'price' => ['price', 'ASC'], 'stock' => ['stock', 'ASC'], 'views' => ['views', 'DESC'], 'orders' => ['order_count', 'DESC']][$f['sort']] ?? ['id', 'DESC'];
+        $rows = $b->orderBy($order[0], $order[1])->paginate($f['per'], 'p');
         $sm = new SupplierModel();
         $cm = new CategoryModel();
         $sups = $cats = [];
@@ -29,17 +58,11 @@ class Products extends Base
             $r['supplier'] = $sups[$r['supplier_id']] ??= $sm->find($r['supplier_id']);
             $r['cat']      = $r['category_id'] ? ($cats[$r['category_id']] ??= $cm->find($r['category_id'])) : null;
         }
-        return $this->page('admin/products', ['title' => '상품 관리', 'rows' => $rows, 'pager' => $pm->pager, 'st' => $st, 'q' => $q,
-            'counts' => ['all' => $pm->countAllResults(), 'active' => $pm->where('status', 'active')->countAllResults(), 'hidden' => $pm->where('status', 'hidden')->countAllResults(), 'draft' => $pm->where('status', 'draft')->countAllResults()]]);
-    }
-
-    public function show(int $id): string
-    {
-        $p = (new ProductModel())->find($id);
-        if (! $p) {
-            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
-        }
-        return $this->page('admin/product', ['title' => '상품 검수', 'p' => $p, 'images' => mm_json($p['images']), 'tiers' => mm_json($p['tiers']), 'supplier' => (new SupplierModel())->find($p['supplier_id']), 'cat' => $p['category_id'] ? (new CategoryModel())->find($p['category_id']) : null]);
+        return $this->page('admin/products', [
+            'title'      => '상품 관리', 'rows' => $rows, 'pager' => $pm->pager, 'st' => $st, 'f' => $f, 'q' => $f['q'], 'counts' => $counts,
+            'categories' => (new CategoryModel())->orderBy('sort')->findAll(),
+            'suppliers'  => (new SupplierModel())->orderBy('company_name')->findAll(),
+        ]);
     }
 
     public function status(int $id)

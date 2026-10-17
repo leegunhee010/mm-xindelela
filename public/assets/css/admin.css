@@ -23,9 +23,11 @@ body.ad{margin:0;font-family:Pretendard,-apple-system,'Apple SD Gothic Neo','Mal
 .kpi div{background:#fff;border:1px solid var(--line);padding:16px;font-size:12px;color:var(--gray)}
 .kpi div b{display:block;font-size:26px;color:var(--ink);margin-top:4px}
 .kpi div b.warn{color:var(--price)}
-.tabs{display:flex;gap:4px;margin-bottom:14px;flex-wrap:wrap}
-.tabs a{padding:7px 14px;border:1px solid var(--line);background:#fff;font-size:12px;border-radius:2px}
-.tabs a.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.tabs{display:flex;align-items:center;margin-bottom:14px;flex-wrap:wrap}
+.tabs>a{width:112px;height:38px;line-height:36px;text-align:center;border:1px solid var(--line);margin-left:-1px;background:#fff;font-size:13px;color:#555;box-sizing:border-box}
+.tabs>a:first-child{margin-left:0;border-radius:6px 0 0 6px}
+.tabs>a:last-of-type{border-radius:0 6px 6px 0}
+.tabs>a.on{background:var(--ink);color:#fff;border-color:var(--ink);font-weight:700;position:relative;z-index:1}
 .tabs a .n{color:var(--price);font-weight:700;margin-left:4px}
 .tabs a.on .n{color:#ffd37a}
 .tbl{background:#fff}
@@ -130,3 +132,48 @@ body.ad{margin:0;font-family:Pretendard,-apple-system,'Apple SD Gothic Neo','Mal
 .seo-c-t{font-size:15px;font-weight:700;color:#050505;margin-top:2px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
 .seo-c-d{font-size:13px;color:#65676b;margin-top:2px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
 .mt16{margin-top:16px}
+
+/* 상품 목록 필터 (10/17) */
+.ptop{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.ptop-add{height:40px;line-height:40px;padding:0 20px;border-radius:4px}
+.pfilter{display:flex;flex-wrap:wrap;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);border-radius:8px;padding:12px 14px;margin-bottom:14px}
+.pfilter .inp{width:240px;height:36px;font-size:13px}
+.pfilter .sel{width:auto;height:36px;font-size:13px;padding:0 10px}
+.pfilter-chk{display:flex;align-items:center;gap:6px;font-size:13px;padding:0 6px}
+.pfilter-reset{font-size:12px;color:var(--gray);text-decoration:underline;margin-left:4px}
+.tbl td.pstock-low{color:#b45309;font-weight:700}
+.tbl td.pstock-out{color:#dc2626;font-weight:700}
+.tbl td.pact .btn{height:28px;line-height:26px;padding:0 12px;box-sizing:border-box;vertical-align:middle}
+.tbl td.pact a.btn{display:inline-block}
+
+/* 탭 규칙(10/17): 크기 다른 알약을 늘어놓지 않음 — 칸을 똑같이 나눠 꽉 채우거나, 붙은 세그먼트로 */
+.mhead{padding-bottom:0}
+.mtabs{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;margin:18px -22px 0;border-top:1px solid var(--line)}
+.mtabs a{display:block;text-align:center;padding:14px 0 13px;font-size:14px;color:#666;border-bottom:3px solid transparent;background:none;border-radius:0}
+.mtabs a+a{border-left:1px solid #f0f0f0}
+.mtabs a.on{color:#000;font-weight:700;border-bottom-color:var(--pri)}
+.mtabs a:hover{color:#000}
+.gr-tabs{display:flex;gap:0}
+.gr-tabs a{width:104px;text-align:center;border-radius:0;margin-left:-1px;padding:8px 0}
+.gr-tabs a:first-child{border-radius:6px 0 0 6px;margin-left:0}
+.gr-tabs a:last-child{border-radius:0 6px 6px 0}
+.gr-tabs a.on{position:relative;z-index:1}
+.mtabs a.on{background:none;color:#000}
+
+/* 추천 현황 (10/17) */
+.rkpi{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:16px}
+.rkpi>div{background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px 18px}
+.rkpi span{display:block;font-size:12px;color:var(--gray)}
+.rkpi b{display:block;font-size:26px;font-weight:800;color:var(--ink);margin-top:6px;line-height:1.1}
+.rkpi b small{font-size:13px;font-weight:600;margin-left:3px;color:#555}
+.rkpi em{display:block;font-style:normal;font-size:12px;color:var(--gray);margin-top:6px}
+.rsec{padding:20px 22px}
+.rsec-h{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.rsec-h h3{margin:0;font-size:16px}
+.rempty{padding:28px 0;text-align:center}
+.rpay{display:inline-block;font-size:11px;padding:3px 8px;border-radius:99px;background:#f2f2f2;color:#888;margin:1px 2px;white-space:nowrap}
+.rpay.on{background:#e8f7ee;color:#137a3a;font-weight:700}
+.rsec-h h3{border:0;padding:0;margin:0}
+.mtabs a,.mtabs a.on{border:0;border-bottom:3px solid transparent}
+.mtabs a+a{border-left:1px solid #f0f0f0}
+.mtabs a.on{border-bottom-color:var(--pri)}
