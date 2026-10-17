@@ -299,3 +299,24 @@ main{min-height:600px;padding-bottom:80px}
 /* 배송지 지도 (10/17) */
 .addr-map-wrap{margin-top:16px}
 .addr-map{width:100%;height:280px;border:1px solid #e0e0e0;border-radius:12px;overflow:hidden;background:#f3f3f3}
+
+/* 주문 내역 카드 (10/17) */
+.olist{display:flex;flex-direction:column;gap:16px}
+.ocard{border:1px solid #e5e5e5;border-radius:14px;padding:22px 26px 20px;background:#fff}
+.ocard-h{display:flex;justify-content:space-between;align-items:flex-start;padding-bottom:16px;border-bottom:1px solid #eee}
+.ocard-no{display:flex;align-items:center;gap:10px;font-size:17px;font-weight:700;color:#000}
+.ocard-no .st{margin:0}
+.ocard-dt{margin-top:4px;font-size:13px;color:#888}
+.ocard-btn{display:inline-flex;align-items:center;height:36px;padding:0 16px;border:1px solid #d5d5d5;border-radius:99px;font-size:13px;font-weight:700;color:#000;white-space:nowrap}
+.ocard-btn:hover{border-color:#000}
+.ocard-items{list-style:none;margin:0;padding:6px 0}
+.ocard-items li{display:flex;align-items:center;gap:16px;padding:10px 0}
+.ocard-items li+li{border-top:1px solid #f3f3f3}
+.ocard-items img{width:56px;height:56px;border-radius:8px;object-fit:cover;background:#f5f5f5;flex:none}
+.ocard-items .n{flex:1;min-width:0;font-size:15px;color:#111}
+.ocard-items .q{width:80px;text-align:right;font-size:14px;color:#777}
+.ocard-items .p{width:140px;text-align:right;font-size:15px;font-weight:700;color:#000}
+.ocard-f{display:flex;justify-content:flex-end;align-items:baseline;gap:10px;padding-top:14px;border-top:1px solid #eee}
+.ocard-sub{margin-right:auto;font-size:13px;color:#888}
+.ocard-tl{font-size:13px;color:#666}
+.ocard-tot{font-size:19px;font-weight:800;color:var(--pri)}
