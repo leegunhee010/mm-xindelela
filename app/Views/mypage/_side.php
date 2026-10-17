@@ -1,5 +1,5 @@
 <?php /* 아이스크림몰 카테고리 필터 사이드바(217px, btn-filter-tit) 문법 */ $cur = uri_string(); ?>
-<aside class="w-[217px] shrink-0">
+<aside class="mp-side w-[217px] shrink-0">
   <div class="rounded-[12px] bg-gray9 p-[20px] mb-[8px]">
     <p class="sub-head1 font-bold"><?= esc($user['company_name'] ?: $user['name']) ?></p>
     <span class="st st-<?= esc($user['status']) ?> mt-[6px] inline-block"><?= mm_verify_status_label($user['status']) ?></span>

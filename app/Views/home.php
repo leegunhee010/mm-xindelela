@@ -21,7 +21,7 @@
 
 <!-- 인증·포인트·고객센터 상태 띠 (아이스크림몰 서비스 스트립 자리) -->
 <section class="corner-section pc:mx-auto pc:w-large pc:mb-[80px]">
-  <div class="flex gap-[16px]">
+  <div class="hstrip flex gap-[16px]">
     <?php if ($user && $user['role'] === 'buyer'): ?>
       <div class="flex flex-1 items-center justify-between rounded-[16px] border border-gray6 px-[26px] py-[22px]"><div class="text-body3 text-gray3">내 인증 상태<b class="mt-[2px] block text-[20px] text-black"><?= mm_verify_status_label($user['status']) ?></b></div><?php if ($user['status'] === 'approved'): ?><span class="rounded-[99px] bg-[#e6f6d6] px-[10px] py-[3px] text-[12px] font-bold text-[#2f6300]">도매가 열람중</span><?php elseif ($user['status'] === 'rejected'): ?><a class="rounded-[99px] bg-primary px-[16px] py-[8px] text-body3 font-bold text-white" href="<?= site_url('mypage/verify') ?>">자료 다시 제출</a><?php else: ?><span class="text-label1 text-gray3"><?= esc(mm_setting('verify_sla_text')) ?></span><?php endif ?></div>
       <div class="flex flex-1 items-center justify-between rounded-[16px] bg-primary px-[26px] py-[22px] text-white"><div class="text-body3 opacity-90">보유 포인트<b class="mt-[2px] block text-[20px]"><?= number_format((int) $user['points_balance']) ?> P</b></div><a class="rounded-[99px] bg-white px-[16px] py-[8px] text-body3 font-bold text-primary" href="<?= site_url('mypage/referral') ?>">친구 소개하기</a></div>
@@ -42,7 +42,7 @@
     <a href="<?= site_url('products') ?>" class="body3 rounded-[21px] border border-[#d5d5d5] px-3 py-[7px] text-gray3" data-state="active"><span>전체</span></a>
     <?php foreach ($categories as $c): ?><a href="<?= site_url('category/' . $c['id']) ?>" class="body3 rounded-[21px] border border-[#d5d5d5] px-3 py-[7px] text-gray3" data-state="inactive"><span><?= esc($c['name']) ?></span></a><?php endforeach ?>
   </div></div>
-  <ul class="flex flex-wrap gap-x-[27px] gap-y-9">
+  <ul class="plist flex flex-wrap gap-x-[27px] gap-y-9">
     <?php foreach ($newest as $p): $sup = $sups[$p['supplier_id']] ??= $sm->find($p['supplier_id']); echo view('_card', ['p' => $p, 'approved' => $approved, 'sup' => $sup, 'w' => 'w-[234px]']); endforeach ?>
   </ul>
 </section>
@@ -50,7 +50,7 @@
 <!-- 이용 절차 (서비스 스트립 bg 활용) -->
 <section class="corner-section last-of-type:mb-0 pc:mx-auto pc:w-large pc:mb-[80px]">
   <div class="section-title pc:heading2 mb-2.5 title1 font-bold pc:mb-[40px]"><div class="flex items-center justify-between"><h2 class="title1 mo:head-line1 font-bold">가입부터 배송까지 <br>이렇게 이용하세요</h2><a href="<?= site_url('guide') ?>" class="h-auto my-auto body2 btn-arrow-right after-bg-gray5 text-gray3">이용안내 전체보기</a></div></div>
-  <div class="grid grid-cols-5 gap-[16px]">
+  <div class="hsteps grid grid-cols-5 gap-[16px]">
     <?php foreach ([['회원가입', '매장·온라인 판매·판매망 중 하나 증빙 (캡처 가능)'], ['비즈니스 인증', '담당자 확인 후 영업일 1일 이내 승인'], ['도매가 확인·주문 신청', '최소수량부터 주문, 수량별 단가 자동 적용'], ['KBZPay 선불 송금', '송금 후 송금자 이름으로 입금 확인 요청'], ['출고·배송', '입금 확인 후 바로 출고']] as $i => [$t, $d]): ?>
     <div class="rounded-[16px] bg-gray9 px-[22px] py-[24px]"><span class="inline-flex size-[28px] items-center justify-center rounded-full bg-primary text-[13px] font-bold text-white"><?= $i + 1 ?></span><b class="mt-[12px] mb-[6px] block text-[17px] font-bold"><?= $t ?></b><p class="text-body3 text-gray3 leading-[1.6]"><?= $d ?></p></div>
     <?php endforeach ?>
@@ -62,7 +62,7 @@
   <div class="section-title pc:heading2 mb-2.5 title1 font-bold pc:mb-[40px]"><div class="flex items-center justify-between"><h2 class="title1 mo:head-line1 font-bold">미얀마 셀러들이 <br>가장 많이 주문한 베스트</h2>
     <div class="btn-area shrink-0 flex"><a href="<?= site_url('products?sort=pop') ?>" class="btn-more mr-[44px] px-[20px] py-[10px] body3 font-bold text-white bg-primary rounded-[99px] relative after:block after:absolute after:inset-y-0 after:right-[-5px] after:m-auto after:translate-y-[1px] after:bg-[url('/_ext/cdn.i-screammall.co.kr/files/x2bee-fo-cdn/public/images/common/btn_Subtract.svg')] after:w-[6px] after:h-[12px] after:bg-no-repeat before:block before:size-[40px] before:bg-primary before:absolute before:inset-y-0 before:right-[-44px] before:rounded-[50%] before:bg-[url('/_ext/cdn.i-screammall.co.kr/files/x2bee-fo-cdn/public/images/common/ico_white_arrow.svg')] before:bg-[length:10px_12px] before:bg-center before:bg-no-repeat">베스트 더보기</a></div>
   </div></div>
-  <ul class="flex flex-wrap gap-x-[27px] gap-y-9">
+  <ul class="plist flex flex-wrap gap-x-[27px] gap-y-9">
     <?php foreach ($best as $p): $sup = $sups[$p['supplier_id']] ??= $sm->find($p['supplier_id']); echo view('_card', ['p' => $p, 'approved' => $approved, 'sup' => $sup, 'w' => 'w-[234px]']); endforeach ?>
   </ul>
 </section>
@@ -70,14 +70,14 @@
 
 <!-- 공지 + 친구소개 (아이스크림몰 sec11 공지 마크업) -->
 <section class="corner-section last-of-type:mb-0 pc:mx-auto pc:w-large pc:mb-[80px] !mb-0">
-  <div class="flex gap-[48px]">
-    <div class="w-[616px]">
+  <div class="hnotice flex gap-[48px]">
+    <div class="hnotice-l w-[616px]">
       <div class="flex items-center justify-between border-gray6 pc:border-b pc:pb-[26px]"><p class="mo:head-line1 text-title3 font-bold text-gray2 pc:leading-[1em]">공지사항</p><a href="<?= site_url('notices') ?>" class="h-auto my-auto body2 btn-arrow-right after-bg-gray5 text-gray3">전체보기</a></div>
       <ul class="flex flex-col pc:gap-4 pc:pt-[26px]">
-        <?php foreach ($notices as $nt): ?><li><a class="body2 flex justify-between border-gray6 pc:gap-[38px]" href="<?= site_url('notices/' . $nt['id']) ?>"><p class="ellipsis-1 w-[480px]"><?php if ($nt['is_pinned']): ?><span class="mr-[8px] rounded-[99px] bg-primary px-[8px] py-[1px] text-[11px] font-bold text-white align-[1px]">공지</span><?php endif ?><?= esc($nt['title']) ?></p><p class="text-gray3"><?= mm_dt($nt['created_at'], 'Y.m.d') ?></p></a></li><?php endforeach ?>
+        <?php foreach ($notices as $nt): ?><li><a class="body2 flex justify-between border-gray6 pc:gap-[38px]" href="<?= site_url('notices/' . $nt['id']) ?>"><p class="ellipsis-1 hnotice-t w-[480px]"><?php if ($nt['is_pinned']): ?><span class="mr-[8px] rounded-[99px] bg-primary px-[8px] py-[1px] text-[11px] font-bold text-white align-[1px]">공지</span><?php endif ?><?= esc($nt['title']) ?></p><p class="text-gray3"><?= mm_dt($nt['created_at'], 'Y.m.d') ?></p></a></li><?php endforeach ?>
       </ul>
     </div>
-    <div class="flex-1 rounded-[20px] bg-primary px-[40px] py-[36px] text-white">
+    <div class="hnotice-ref flex-1 rounded-[20px] bg-primary px-[40px] py-[36px] text-white">
       <p class="text-[26px] font-bold leading-[1.3] tracking-[-0.02em]">친구를 소개하면<br>포인트가 두 번 쌓입니다</p>
       <p class="mt-[12px] text-[15px] leading-[1.7] opacity-90">소개한 회원이 비즈니스 인증을 통과하면 <b><?= number_format((int) mm_setting('points_referral_signup', 0)) ?>P</b>, 첫 주문 입금을 완료하면 <b><?= number_format((int) mm_setting('points_referral_first_order', 0)) ?>P</b> 추가 적립. 주문 시 상품 금액의 <?= (int) mm_setting('points_use_max_pct', 30) ?>%까지 사용할 수 있습니다.</p>
       <a class="mt-[22px] inline-flex rounded-[99px] bg-white px-[20px] py-[10px] text-body3 font-bold text-primary" href="<?= site_url('mypage/referral') ?>">내 추천 코드 보기</a>

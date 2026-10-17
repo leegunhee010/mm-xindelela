@@ -74,3 +74,4 @@ body{word-break:keep-all;overflow-wrap:break-word}
 .border,.border-t,.border-b,.border-l,.border-r{border-style:solid}
 .gap-x-\[12px\]{column-gap:12px}
 .grid-cols-6{grid-template-columns:repeat(6,minmax(0,1fr))}
+@media (min-width:1025px){.pc\:w-\[848px\]{width:848px}}

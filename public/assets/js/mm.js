@@ -3,7 +3,7 @@
   // 히어로 (Swiper, 아이스크림몰 corner-main-visual 동일 옵션)
   if (window.Swiper && document.getElementById('heroSwiper')) {
     var hs = new Swiper('#heroSwiper', {
-      slidesPerView: 'auto', centeredSlides: true, spaceBetween: 20, loop: document.querySelectorAll('#heroSwiper .swiper-slide').length > 2,
+      slidesPerView: 'auto', centeredSlides: true, spaceBetween: window.innerWidth <= 1024 ? 10 : 20, loop: document.querySelectorAll('#heroSwiper .swiper-slide').length > 2,
       autoplay: { delay: 5000, disableOnInteraction: false },
       pagination: { el: '#heroPg', type: 'fraction' },
       navigation: { nextEl: '#heroNext', prevEl: '#heroPrev' }

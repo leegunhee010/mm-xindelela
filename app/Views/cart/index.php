@@ -5,10 +5,10 @@
   <div class="flex flex-col items-center justify-center rounded-[16px] bg-gray9 py-[90px]"><p class="sub-head1 font-bold">장바구니가 비어 있습니다.</p><a href="<?= site_url('products') ?>" class="mt-[16px] text-white bg-primary min-h-[44px] px-[24px] py-[12px] body3 !leading-none rounded-full font-bold inline-flex items-center">상품 보러가기</a></div>
 <?php else: ?>
 <form method="post" action="<?= site_url('cart/update') ?>" id="cartForm"><?= csrf_field() ?>
-<div class="flex justify-between gap-[40px] items-start">
+<div class="cartwrap flex justify-between gap-[40px] items-start">
   <ul class="flex-1 border-t border-black">
     <?php foreach ($items as $it): $p = $it['p']; ?>
-    <li class="flex items-center gap-[20px] border-b border-gray7 py-[24px]">
+    <li class="cart-li flex items-center gap-[20px] border-b border-gray7 py-[24px]">
       <a href="<?= site_url('products/' . $p['id']) ?>" class="block size-[96px] shrink-0 overflow-hidden rounded-[12px] bg-gray9"><img src="<?= mm_thumb($p['thumb']) ?>" alt="" class="size-full object-cover"></a>
       <div class="flex-1 min-w-0">
         <p class="label1 text-gray3"><?= esc($it['supplier']['company_name'] ?? '') ?></p>

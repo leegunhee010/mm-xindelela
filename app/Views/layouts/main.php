@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=1280">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <?php
 $seoSite  = mm_setting('seo_title') ?: mm_setting('site_name', 'XINDELELA');
 $seoPath  = uri_string();
@@ -29,8 +29,9 @@ foreach (['4d3a10b18ca278ac', '6aa6463b93b71a20', '382ef9402adc32b5', '02a257d78
 <link rel="stylesheet" href="<?= base_url('assets/is/css/' . $css . '.css') ?>">
 <?php endforeach ?>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.1.14/swiper-bundle.min.css">
-<link rel="stylesheet" href="<?= base_url('assets/css/is-fill.css?v=10') ?>">
+<link rel="stylesheet" href="<?= base_url('assets/css/is-fill.css?v=11') ?>">
 <link rel="stylesheet" href="<?= base_url('assets/css/mm.css?v=23') ?>">
+<link rel="stylesheet" href="<?= base_url('assets/css/mm-mobile.css?v=6') ?>">
 </head>
 <body>
 <?php
@@ -42,7 +43,52 @@ $cats = (new \App\Models\CategoryModel())->where('is_active', 1)->orderBy('sort'
 $sf   = (string) service('request')->getGet('sf');
 $cur  = uri_string();
 ?>
-<header class="relative w-full max-w-full bg-white z-[600]"><div class="pc:mx-auto pc:min-h-[208px] pc:min-w-large">
+<!-- 모바일 헤더 (1024px 이하에서만 보임) -->
+<div class="m-hd">
+  <div class="m-hd-row">
+    <a class="m-logo" href="<?= site_url('/') ?>"><span>X</span><b>XINDELELA<em>mall</em></b></a>
+    <div class="m-hd-ic">
+      <a class="m-ic m-ic-cart" href="<?= site_url('cart') ?>" aria-label="장바구니"><?php if ($cartCount): ?><i><?= $cartCount ?></i><?php endif ?></a>
+      <button type="button" class="m-ic m-ic-menu" id="mMenuOpen" aria-label="메뉴"></button>
+    </div>
+  </div>
+  <form class="m-search" action="<?= site_url('products') ?>" method="get"><input type="search" name="q" value="<?= esc($q ?? '') ?>" placeholder="상품명·브랜드 검색"><button type="submit" aria-label="검색"></button></form>
+  <nav class="m-cats">
+    <a href="<?= site_url('products?sort=pop') ?>" class="<?= str_contains($cur, 'sort=pop') ? 'on' : '' ?>">베스트</a>
+    <a href="<?= site_url('products?sort=new') ?>">신상품</a>
+    <?php foreach ($cats as $c): ?><a href="<?= site_url('category/' . $c['id']) ?>" class="<?= $cur === 'category/' . $c['id'] ? 'on' : '' ?>"><?= esc($c['name']) ?></a><?php endforeach ?>
+    <a href="<?= site_url('mypage/referral') ?>">친구소개</a>
+  </nav>
+</div>
+<div class="m-drawer" id="mDrawer" hidden>
+  <div class="m-drawer-in">
+    <div class="m-drawer-h"><b>메뉴</b><button type="button" id="mMenuClose" aria-label="닫기">✕</button></div>
+    <div class="m-drawer-me">
+      <?php if ($user && $user['role'] === 'buyer'): ?>
+        <b><?= esc($user['company_name'] ?: $user['name']) ?></b><span class="st st-<?= esc($user['status']) ?>"><?= mm_verify_status_label($user['status']) ?></span>
+        <p>포인트 <b><?= number_format((int) $user['points_balance']) ?>P</b></p>
+      <?php else: ?>
+        <p>도매가는 비즈니스 인증 회원에게 열립니다.</p>
+        <div class="m-drawer-btns"><a class="is-main" href="<?= site_url('register') ?>">회원가입</a><a href="<?= site_url('login') ?>">로그인</a></div>
+      <?php endif ?>
+    </div>
+    <p class="m-drawer-t">카테고리</p>
+    <div class="m-drawer-grid"><?php foreach ($cats as $c): ?><a href="<?= site_url('category/' . $c['id']) ?>"><?= esc($c['name']) ?></a><?php endforeach ?></div>
+    <p class="m-drawer-t">쇼핑</p>
+    <ul class="m-drawer-ul">
+      <li><a href="<?= site_url('mypage/orders') ?>">주문 내역</a></li>
+      <li><a href="<?= site_url('mypage') ?>">마이페이지</a></li>
+      <li><a href="<?= site_url('mypage/verify') ?>">비즈니스 인증</a></li>
+      <li><a href="<?= site_url('mypage/referral') ?>">친구 소개</a></li>
+      <li><a href="<?= site_url('notices') ?>">공지사항</a></li>
+      <li><a href="<?= site_url('guide') ?>">이용안내</a></li>
+      <?php if ($user): ?><li><a href="<?= site_url($user['role'] === 'admin' ? 'admin/logout' : 'logout') ?>">로그아웃</a></li><?php endif ?>
+    </ul>
+    <?php $csV0 = (string) mm_setting('cs_viber', ''); ?>
+    <a class="m-drawer-cs" href="viber://chat?number=<?= rawurlencode(preg_replace('/[^0-9+]/', '', $csV0)) ?>">고객센터 Viber <b><?= esc($csV0) ?></b></a>
+  </div>
+</div>
+<header class="pc-hd relative w-full max-w-full bg-white z-[600]"><div class="pc:mx-auto pc:min-h-[208px] pc:min-w-large">
   <!-- 탑바 (검정 40px) -->
   <div class="flex h-[40px] w-full justify-between bg-black mo:hidden pc:block"><div class="relative flex items-center pc:gap-[32px] m-auto flex h-[40px] w-large justify-between gap-[24px]">
     <ul class="header-top-menu">
@@ -121,7 +167,7 @@ $cur  = uri_string();
 <?php endif ?>
 </div></div></div>
 
-<footer class="w-full border-t border-solid border-gray6"><div class="m-auto mo:w-full pc:w-large"><div class="footer-conts-wrap flex justify-between pt-[50px] pc:pb-[40px]">
+<footer class="site-ft w-full border-t border-solid border-gray6"><div class="m-auto mo:w-full pc:w-large"><div class="footer-conts-wrap flex justify-between pt-[50px] pc:pb-[40px]">
   <div class="footer-conts-item">
     <a href="<?= site_url('/') ?>" class="inline-flex items-center gap-[8px] mb-[28px]"><span class="flex size-[32px] items-center justify-center rounded-[10px] bg-primary text-[18px] font-bold text-white">X</span><span class="text-[20px] font-bold">XINDELELA<em class="not-italic text-primary">mall</em></span></a>
     <ul class="footer-item-wrap type1 text-body3 text-gray3">
@@ -139,7 +185,7 @@ $cur  = uri_string();
       <li class="footer-item">이메일: <?= esc(mm_setting('cs_email', '')) ?></li>
       <li class="footer-item">Viber: <?= esc(mm_setting('cs_viber', '')) ?></li>
     </ul>
-    <p class="text-label1 font-regular text-[#999] mt-[24px] w-[848px]">본 사이트는 비즈니스 인증을 받은 회원에게만 도매가를 공개하는 회원제 도매몰입니다. 결제는 사이트 밖에서 KBZPay 선불로 진행되며, 입금이 확인되면 바로 출고합니다.</p>
+    <p class="ft-note text-label1 font-regular text-[#999] mt-[24px] pc:w-[848px]">본 사이트는 비즈니스 인증을 받은 회원에게만 도매가를 공개하는 회원제 도매몰입니다. 결제는 사이트 밖에서 KBZPay 선불로 진행되며, 입금이 확인되면 바로 출고합니다.</p>
   </div>
   <div class="footer-conts-item flex flex-col">
     <p class="text-gray3">고객센터 (Viber)</p>
@@ -150,7 +196,25 @@ $cur  = uri_string();
     <a href="<?= site_url('mypage/inquiries') ?>" class="mt-[16px] inline-flex w-fit items-center rounded-[99px] border border-primary px-[16px] py-[8px] text-body3 font-bold text-primary">1:1 문의하기</a>
   </div>
 </div></div></footer>
+<nav class="m-tab">
+  <a href="<?= site_url('/') ?>" class="t-home <?= $cur === '' ? 'on' : '' ?>"><i></i>홈</a>
+  <button type="button" class="t-cat" data-drawer><i></i>카테고리</button>
+  <a href="<?= site_url('cart') ?>" class="t-cart <?= $cur === 'cart' ? 'on' : '' ?>"><i><?php if ($cartCount): ?><em><?= $cartCount ?></em><?php endif ?></i>장바구니</a>
+  <a href="<?= site_url('mypage/orders') ?>" class="t-order <?= str_starts_with($cur, 'mypage/orders') ? 'on' : '' ?>"><i></i>주문내역</a>
+  <a href="<?= site_url('mypage') ?>" class="t-my <?= $cur === 'mypage' ? 'on' : '' ?>"><i></i>마이</a>
+</nav>
+<script>
+(function () {
+  var d = document.getElementById('mDrawer');
+  function open() { d.hidden = false; document.documentElement.classList.add('m-lock'); }
+  function close() { d.hidden = true; document.documentElement.classList.remove('m-lock'); }
+  document.getElementById('mMenuOpen').onclick = open;
+  document.getElementById('mMenuClose').onclick = close;
+  document.querySelectorAll('[data-drawer]').forEach(function (b) { b.onclick = open; });
+  d.addEventListener('click', function (e) { if (e.target === d) close(); });
+})();
+</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.1.14/swiper-bundle.min.js"></script>
-<script src="<?= base_url('assets/js/mm.js?v=9') ?>"></script>
+<script src="<?= base_url('assets/js/mm.js?v=10') ?>"></script>
 </body>
 </html>

@@ -167,7 +167,7 @@
 <?php if ($related): ?>
 <section class="corner-section last-of-type:mb-0 pc:mx-auto pc:w-large pc:mb-[80px] pc:mt-[80px]">
   <div class="section-title pc:heading2 mb-2.5 title1 font-bold pc:mb-[40px]"><div class="flex items-center justify-between"><h2 class="title1 mo:head-line1 font-bold">같은 카테고리 <br>다른 상품도 함께</h2><?php if ($category): ?><a href="<?= site_url('category/' . $category['id']) ?>" class="h-auto my-auto body2 btn-arrow-right after-bg-gray5 text-gray3"><?= esc($category['name']) ?> 더보기</a><?php endif ?></div></div>
-  <ul class="flex flex-wrap gap-x-[27px] gap-y-9"><?php foreach ($related as $r): echo view('_card', ['p' => $r, 'approved' => $approved, 'sup' => null, 'w' => 'w-[234px]']); endforeach ?></ul>
+  <ul class="plist flex flex-wrap gap-x-[27px] gap-y-9"><?php foreach ($related as $r): echo view('_card', ['p' => $r, 'approved' => $approved, 'sup' => null, 'w' => 'w-[234px]']); endforeach ?></ul>
 </section>
 <?php endif ?>
 

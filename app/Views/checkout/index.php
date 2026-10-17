@@ -1,7 +1,7 @@
 <?php $sym = mm_setting('currency_symbol', 'Ks'); $inp = 'h-[44px] w-full px-3 bg-white body3 text-black placeholder:text-gray4 focus:outline-none border-gray6 focus:border-black border rounded-[8px]'; ?>
 <div class="contents-title-area depth-1 title3 font-bold mb-[20px]"><div class="title-area"><h3 class="title">주문 신청</h3><span class="body3 font-regular text-gray3">1 장바구니 › <b class="text-primary">2 주문 신청</b> › 3 KBZPay 송금 › 4 입금 확인·발주 › 5 배송</span></div></div>
 
-<form method="post" action="<?= site_url('checkout') ?>" class="flex justify-between gap-[40px] items-start"><?= csrf_field() ?>
+<form method="post" action="<?= site_url('checkout') ?>" class="ckwrap flex justify-between gap-[40px] items-start"><?= csrf_field() ?>
 <div class="flex-1 min-w-0">
   <div class="mb-[40px]">
     <strong class="sub-head1 font-bold">주문 상품 <span class="label1 font-regular text-gray4"><?= count($items) ?>종</span></strong><hr class="divider bg-black border-0 h-px my-[14px]">

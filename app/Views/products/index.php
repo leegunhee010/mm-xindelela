@@ -56,7 +56,7 @@
       </div>
     </div>
     <?php if (! $products): ?><div class="rounded-[16px] bg-gray9 py-[90px] text-center text-body2 text-gray3">등록된 상품이 없습니다.</div><?php endif ?>
-    <ul class="flex flex-wrap gap-x-[13px] gap-y-7 pc:gap-x-4 pc:gap-y-9">
+    <ul class="plist flex flex-wrap gap-x-[13px] gap-y-7 pc:gap-x-4 pc:gap-y-9">
       <?php foreach ($products as $p): echo view('_card', ['p' => $p, 'approved' => $approved, 'sup' => $suppliers[$p['supplier_id']] ?? null]); endforeach ?>
     </ul>
     <?= $pager->links('p', 'mm_pager') ?>
