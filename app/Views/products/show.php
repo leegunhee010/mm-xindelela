@@ -31,7 +31,7 @@
         <div class="flex items-baseline gap-[10px]"><span class="title3 mo:head-line1 font-bold"><?= mm_price($p['price'], false) ?> <span class="text-[16px] font-medium"><?= esc($sym) ?></span></span><?php if ($p['retail_price']): ?><span class="body3 text-gray5 line-through">소비자가 <?= mm_price($p['retail_price']) ?></span><?php endif ?></div>
       <?php else: ?>
         <div class="title3 mo:head-line1 font-bold">회원 혜택가</div>
-        <p class="mt-[6px] body3 text-gray3">도매가는 사업자 인증 회원에게만 표시됩니다<?php if ($p['retail_price']): ?> · 소비자가 <?= mm_price($p['retail_price']) ?><?php endif ?></p>
+        <p class="mt-[6px] body3 text-gray3">도매가는 비즈니스 인증 회원에게만 표시됩니다<?php if ($p['retail_price']): ?> · 소비자가 <?= mm_price($p['retail_price']) ?><?php endif ?></p>
       <?php endif ?>
     </div>
 
@@ -44,13 +44,13 @@
           <?php foreach ($tiers as $t): ?><li data-min="<?= (int) $t['min_qty'] ?>"><span><?= number_format((int) $t['min_qty']) ?><?= esc($p['unit']) ?> 이상</span><b><?= mm_price($t['price'], false) ?> <?= esc($sym) ?></b></li><?php endforeach ?>
         </ul>
       <?php endif ?>
-      <p class="pd-tier-foot"><b>최소 <?= number_format((int) $p['moq']) ?><?= esc($p['unit']) ?>부터 주문</b><span>재고 <?= number_format((int) $p['stock']) ?><?= esc($p['unit']) ?></span><?php if ($p['origin']): ?><span>원산지 <?= esc($p['origin']) ?></span><?php endif ?></p>
+      <p class="pd-tier-foot"><b>최소 <?= number_format((int) $p['moq']) ?><?= esc($p['unit']) ?>부터 주문</b><?php if ($approved): ?><span>재고 <?= number_format((int) $p['stock']) ?><?= esc($p['unit']) ?></span><?php endif ?><?php if ($p['origin']): ?><span>원산지 <?= esc($p['origin']) ?></span><?php endif ?></p>
     </div>
 
     <!-- 결제·배송 -->
     <dl class="pd-info">
       <div><dt>결제</dt><dd>KBZPay 100% 선불 <span>(주문 신청 후 바로 송금)</span></dd></div>
-      <div><dt>배송</dt><dd>입금 확인 후 한국에서 발송 <span>(배송비 별도 안내)</span></dd></div>
+      <div><dt>배송</dt><dd>입금 확인 후 바로 출고</dd></div>
     </dl>
 
     <?php if ($approved): ?>
@@ -66,47 +66,87 @@
           <button type="submit" name="go" value="checkout" class="text-white bg-primary rounded-[99px] min-h-[44px] px-[16px] py-[12px] body3 font-bold !leading-none w-full">주문 신청하기</button>
         </div>
       </form>
-    <?php elseif ($user && $user['role'] === 'buyer'): ?>
-      <div class="rounded-[16px] bg-[#fff3eb] p-[24px] text-body3 leading-[1.7]">
-        <b class="mb-[6px] block text-[17px] text-black"><?= $user['status'] === 'pending' ? '사업자 인증 검수 중입니다' : ($user['status'] === 'rejected' ? '인증 자료가 반려되었습니다' : '이용이 제한된 계정입니다') ?></b>
-        <?= $user['status'] === 'pending' ? esc(mm_setting('verify_sla_text')) . ' 승인되면 도매가와 주문 신청이 열립니다.' : ($user['status'] === 'rejected' ? '반려 사유를 확인하고 자료를 다시 제출해 주세요.' : '고객센터로 문의해 주세요.') ?>
-        <div class="mt-[14px] flex gap-[8px]"><a class="rounded-[99px] border border-gray7 bg-white px-[16px] py-[10px] body3 font-bold" href="<?= site_url('mypage/verify') ?>">인증 상태 보기</a><button type="button" class="rounded-[99px] border border-primary bg-white px-[16px] py-[10px] body3 font-bold text-primary" data-modal="inqModal">문의하기</button></div>
+    <?php elseif ($user && $user['role'] === 'buyer'): $vs = $user['status']; ?>
+      <div class="pd-lock">
+        <div class="pd-lock-h"><span class="pd-lock-ic <?= $vs === 'rejected' ? 'is-warn' : '' ?>"><?= $vs === 'pending' ? '⏳' : '!' ?></span><div><b><?= $vs === 'pending' ? '비즈니스 인증 검수 중입니다' : ($vs === 'rejected' ? '인증 자료를 다시 올려 주세요' : '이용이 제한된 계정입니다') ?></b><p><?= $vs === 'pending' ? esc(mm_setting('verify_sla_text')) . ' 승인되면 도매가와 주문이 열립니다.' : ($vs === 'rejected' ? '마이페이지에서 반려 사유를 확인하고 자료를 보완해 주세요.' : '고객센터로 문의해 주세요.') ?></p></div></div>
+        <ol class="pd-lock-steps"><li class="done"><em>✓</em>회원가입</li><li class="<?= $vs === 'pending' ? 'on' : ($vs === 'rejected' ? 'warn' : '') ?>"><em>2</em>비즈니스 인증</li><li><em>3</em>도매가·주문</li></ol>
+        <div class="pd-lock-btns"><a class="is-main" href="<?= site_url('mypage/verify') ?>"><?= $vs === 'rejected' ? '자료 다시 올리기' : '인증 상태 보기' ?></a><button type="button" data-modal="inqModal">문의하기</button></div>
       </div>
     <?php else: ?>
-      <div class="rounded-[16px] bg-[#fff3eb] p-[24px] text-body3 leading-[1.7]">
-        <b class="mb-[6px] block text-[17px] text-black">회원 혜택가는 사업자 인증 후 열립니다</b>
-        미얀마 소매상·온라인 셀러 전용 폐쇄몰입니다. 가입 후 사업자 인증(<?= esc(mm_setting('verify_sla_text')) ?>)을 받으면 도매가 확인과 주문 신청이 가능합니다.
-        <div class="mt-[14px] flex gap-[8px]"><a class="rounded-[99px] bg-primary px-[20px] py-[10px] body3 font-bold text-white" href="<?= site_url('register') ?>">회원가입</a><a class="rounded-[99px] border border-gray7 bg-white px-[20px] py-[10px] body3 font-bold" href="<?= site_url('login') ?>">로그인</a></div>
+      <div class="pd-lock">
+        <div class="pd-lock-h"><span class="pd-lock-ic">🔒</span><div><b>도매가는 비즈니스 인증 회원에게 열립니다</b><p>미얀마 소매상·온라인 셀러 전용 도매몰입니다. 인증은 <?= esc(mm_setting('verify_sla_text')) ?> 끝납니다.</p></div></div>
+        <ol class="pd-lock-steps"><li class="on"><em>1</em>회원가입</li><li><em>2</em>비즈니스 인증</li><li><em>3</em>도매가·주문</li></ol>
+        <div class="pd-lock-btns"><a class="is-main" href="<?= site_url('register') ?>">회원가입하고 인증하기</a><a href="<?= site_url('login') ?>">로그인</a></div>
       </div>
     <?php endif ?>
   </div>
 </section>
 
-<!-- 탭 (아이스크림몰 type05 알약 탭) -->
-<div class="sticky z-10 mx-auto overflow-hidden bg-white pb-0 pc:top-0 pc:max-w-screen-xl pc:w-large"><div class="tab type05"><div class="tab-menu"><div class="flex gap-[8px] py-[12px]">
-  <?php foreach (['desc' => '상품상세', 'sup' => '공급사 정보', 'notice' => '주문·배송 안내', 'inq' => '문의'] as $k => $l): ?><a href="#<?= $k ?>" data-tab="<?= $k ?>" class="ptab-btn body3 rounded-[21px] border border-[#d5d5d5] px-3 py-[7px] text-gray3" data-state="<?= $k === 'desc' ? 'active' : 'inactive' ?>"><span><?= $l ?></span></a><?php endforeach ?>
-</div></div></div></div>
+<!-- 상세 하단: 고정 탭(균등 4칸) + 섹션 한 페이지 -->
+<?php $cat = $category['name'] ?? ''; ?>
+<nav class="pdt-nav" id="pdtNav"><div class="pdt-nav-in">
+  <?php foreach (['pdt-info' => '상품 정보', 'pdt-sup' => '공급사', 'pdt-guide' => '주문·배송 안내', 'pdt-inq' => '문의'] as $k => $l): ?><a href="#<?= $k ?>" data-sec="<?= $k ?>"><?= $l ?></a><?php endforeach ?>
+</div></nav>
 
-<section class="corner-section pc:mx-auto pc:w-large">
-  <div class="pdesc ptab" id="desc"><?= $p['description'] ?: '<p class="text-gray3">상세 설명이 아직 등록되지 않았습니다.</p>' ?></div>
-  <div id="sup" class="ptab hidden py-[40px]">
+<div class="pdt-wrap">
+  <section class="pdt-sec" id="pdt-info">
+    <h3 class="pdt-h">상품 정보</h3>
+    <dl class="pdt-spec">
+      <div><dt>상품명</dt><dd><?= esc($p['name']) ?></dd></div>
+      <div><dt>브랜드</dt><dd><?= esc($p['brand'] ?: '-') ?></dd></div>
+      <div><dt>카테고리</dt><dd><?= esc($cat ?: '-') ?></dd></div>
+      <div><dt>상품코드</dt><dd><?= esc($p['code'] ?: '-') ?></dd></div>
+      <div><dt>원산지</dt><dd><?= esc($p['origin'] ?: '-') ?></dd></div>
+      <div><dt>최소 주문</dt><dd><?= number_format((int) $p['moq']) ?><?= esc($p['unit']) ?>부터</dd></div>
+      <div><dt>재고</dt><dd><?= $approved ? number_format((int) $p['stock']) . esc($p['unit']) : '인증 회원에게 공개' ?></dd></div>
+      <div><dt>공급사</dt><dd><?= esc($supplier['company_name'] ?? '-') ?></dd></div>
+    </dl>
+    <div class="pdt-desc"><?= $p['description'] ?: '<p class="pdt-empty">상세 설명이 아직 등록되지 않았습니다.</p>' ?></div>
+  </section>
+
+  <section class="pdt-sec" id="pdt-sup">
+    <h3 class="pdt-h">공급사</h3>
     <?php if ($supplier): ?>
-    <ul class="border-t border-gray7 py-[20px] text-body3 [&>li]:flex [&>li]:items-start [&>li]:gap-[29px]">
-      <li class="mb-[14px]"><span class="flex w-[74px] items-center gap-[6px] font-medium">공급사</span><div><?= esc($supplier['company_name']) ?><?php if ($supplier['brand']): ?> (<?= esc($supplier['brand']) ?>)<?php endif ?></div></li>
-      <li class="mb-[14px]"><span class="flex w-[74px] items-center gap-[6px] text-gray3">소개</span><div><?= esc($supplier['intro']) ?></div></li>
-      <li class="mb-[14px]"><span class="flex w-[74px] items-center gap-[6px] text-gray3">소재지</span><div><?= esc($supplier['address']) ?></div></li>
+    <div class="pdt-sup">
+      <span class="pdt-sup-ic"><?= esc(mb_substr($supplier['company_name'], 0, 1)) ?></span>
+      <div class="pdt-sup-b"><b><?= esc($supplier['company_name']) ?></b><?php if ($supplier['brand']): ?><span><?= esc($supplier['brand']) ?></span><?php endif ?><?php if ($supplier['intro']): ?><p><?= esc($supplier['intro']) ?></p><?php endif ?></div>
+      <a class="pdt-btn" href="<?= site_url('suppliers/' . $supplier['id']) ?>">이 공급사 상품 전체 ›</a>
+    </div>
+    <?php else: ?><p class="pdt-empty">공급사 정보가 없습니다.</p><?php endif ?>
+  </section>
+
+  <section class="pdt-sec" id="pdt-guide">
+    <h3 class="pdt-h">주문·배송 안내</h3>
+    <ol class="pdt-steps">
+      <li><em>1</em><b>주문 신청</b><span>장바구니에서 배송지 입력</span></li>
+      <li><em>2</em><b>KBZPay 송금</b><span>안내된 계좌로 100% 선불</span></li>
+      <li><em>3</em><b>입금 확인 요청</b><span>주문 상세에서 송금자 이름 입력</span></li>
+      <li><em>4</em><b>출고·배송</b><span>입금 확인 후 바로 출고</span></li>
+    </ol>
+    <ul class="pdt-notes">
+      <li>배송지는 입금 확인 전까지 주문 상세에서 직접 바꿀 수 있습니다.</li>
+      <li>포인트는 주문 신청 때 상품 금액의 <?= (int) mm_setting('points_use_max_pct', 30) ?>%까지 쓸 수 있고, 주문을 취소하면 돌려드립니다.</li>
+      <li>궁금한 점은 고객센터 Viber <?= esc(mm_setting('cs_viber', '')) ?> 로 문의해 주세요.</li>
     </ul>
-    <a class="inline-flex rounded-[99px] border border-gray7 px-[20px] py-[10px] body3 font-bold" href="<?= site_url('suppliers/' . $supplier['id']) ?>">이 공급사 상품 전체보기</a>
-    <?php else: ?><p class="text-gray3">공급사 정보가 없습니다.</p><?php endif ?>
-  </div>
-  <div id="notice" class="ptab hidden py-[40px]">
-    <div class="item border-b border-gray7"><div class="accordian-trigger subtitle2 flex flex-1 items-center py-[20px] font-medium">주문 절차</div><div class="pb-[20px] text-body3 text-gray3 leading-[1.8]">① 장바구니 ② 주문 신청(배송지 입력) ③ KBZPay 송금 ④ 주문 상세에서 송금자 이름으로 입금 확인 요청 ⑤ 입금 확인 즉시 한국 공급사 발주 ⑥ 미얀마 배송</div></div>
-    <div class="item border-b border-gray7"><div class="accordian-trigger subtitle2 flex flex-1 items-center py-[20px] font-medium">포인트</div><div class="pb-[20px] text-body3 text-gray3 leading-[1.8]">주문 신청 시 상품 금액의 <?= (int) mm_setting('points_use_max_pct', 30) ?>%까지 사용할 수 있습니다. 주문을 취소하면 사용한 포인트는 환원됩니다.</div></div>
-  </div>
-  <div id="inq" class="ptab hidden py-[40px]">
-    <?php if ($user && $user['role'] === 'buyer'): ?><button type="button" class="rounded-[99px] bg-primary px-[20px] py-[10px] body3 font-bold text-white" data-modal="inqModal">이 상품 문의하기</button><?php else: ?><p class="text-gray3">상품 문의는 로그인 후 가능합니다. <a href="<?= site_url('login') ?>" class="font-bold text-primary">로그인</a></p><?php endif ?>
-  </div>
-</section>
+  </section>
+
+  <section class="pdt-sec" id="pdt-inq">
+    <h3 class="pdt-h">문의</h3>
+    <div class="pdt-inq">
+      <p>수량·납기·샘플 등 이 상품에 대해 궁금한 점을 남겨 주세요. 답변은 마이페이지 › 문의 내역에서 확인할 수 있습니다.</p>
+      <?php if ($user && $user['role'] === 'buyer'): ?><button type="button" class="pdt-btn is-main" data-modal="inqModal">이 상품 문의하기</button><?php else: ?><a class="pdt-btn is-main" href="<?= site_url('login') ?>">로그인하고 문의하기</a><?php endif ?>
+    </div>
+  </section>
+</div>
+<script>
+(function () {
+  var nav = document.getElementById('pdtNav'); if (!nav) return;
+  var links = nav.querySelectorAll('a'), secs = [].map.call(links, function (a) { return document.getElementById(a.dataset.sec); });
+  links.forEach(function (a, i) { a.addEventListener('click', function (e) { e.preventDefault(); window.scrollTo({ top: secs[i].getBoundingClientRect().top + window.scrollY - nav.offsetHeight - 8, behavior: 'smooth' }); }); });
+  function spy() { var cur = 0; secs.forEach(function (s, i) { if (s.getBoundingClientRect().top - nav.offsetHeight - 20 <= 0) cur = i; }); links.forEach(function (a, i) { a.classList.toggle('on', i === cur); }); }
+  window.addEventListener('scroll', spy, { passive: true }); spy();
+})();
+</script>
 
 <?php if ($related): ?>
 <section class="corner-section last-of-type:mb-0 pc:mx-auto pc:w-large pc:mb-[80px] pc:mt-[80px]">

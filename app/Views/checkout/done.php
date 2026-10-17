@@ -5,7 +5,7 @@
   <ol class="text-left mt-[28px] rounded-[12px] bg-gray9 p-[20px] body3 leading-[2] list-decimal pl-[36px]">
     <li>아래 <b>KBZPay</b> 계좌로 <b><?= mm_price($o['total']) ?></b> 을 송금해 주세요.</li>
     <li>마이페이지 › 주문 상세에서 <b>송금한 사람 이름</b>을 적고 <b>입금 확인 요청</b>을 눌러 주세요.</li>
-    <li>입금 확인 즉시 한국 공급사에 발주하고, 배송이 시작되면 알려 드립니다.</li>
+    <li>입금이 확인되면 바로 출고하고, 배송이 시작되면 알려 드립니다.</li>
   </ol>
   <div class="mt-[16px] rounded-[8px] border border-gray6 p-[14px] sub-head2 font-bold"><?= esc(mm_setting('kbzpay_account', '')) ?></div>
   <div class="btn-area shrink-0 flex btn-grid02 sub-head2 mt-[24px] gap-[8px]">

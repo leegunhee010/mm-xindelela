@@ -155,7 +155,7 @@ class DemoSeeder extends Seeder
         if (! $db->table('notices')->countAllResults()) {
             $db->table('notices')->insertBatch([
                 ['title' => '사업자 인증 안내: 가입 후 영업일 기준 1일 이내 승인', 'body' => "<p>오프라인 매장, 온라인 판매, 판매 네트워크 중 하나만 증빙하면 됩니다. 매장 사진, 판매 글 캡처, 거래처 대화 캡처 등 사진·캡처도 인정하며, 담당자가 직접 확인한 뒤 승인합니다.</p><p>승인 전에는 상품은 보실 수 있지만 도매가와 주문 신청은 제한됩니다.</p>", 'is_pinned' => 1, 'created_at' => $now, 'updated_at' => $now],
-                ['title' => '결제 안내: 주문 신청 후 KBZPay 선불', 'body' => "<p>주문 신청 → 담당자가 배송비 포함 최종 금액 안내 → KBZPay 송금 → 입금 캡처 업로드 → 입금 확인 후 발주·배송.</p>", 'is_pinned' => 1, 'created_at' => $now, 'updated_at' => $now],
+                ['title' => '결제 안내: 주문 신청 후 KBZPay 선불', 'body' => "<p>주문 신청 → 안내된 KBZPay 계좌로 송금 → 주문 상세에서 송금자 이름으로 입금 확인 요청 → 입금 확인 후 바로 출고·배송.</p>", 'is_pinned' => 1, 'created_at' => $now, 'updated_at' => $now],
                 ['title' => '친구 소개 포인트 안내', 'body' => "<p>마이페이지의 추천 코드를 공유하세요. 소개한 회원이 승인되면 포인트가 적립되고, 그 회원이 첫 주문을 하면 추가 적립됩니다.</p>", 'is_pinned' => 0, 'created_at' => $now, 'updated_at' => $now],
             ]);
         }
