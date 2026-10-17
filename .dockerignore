@@ -1,0 +1,8 @@
+.git
+.github
+.env
+writable
+public/uploads/*
+!public/uploads/index.html
+docs
+*.log

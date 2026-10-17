@@ -1,0 +1,15 @@
+# Render 무료 테스트 서버 (Blueprint). 대시보드 → New → Blueprint → 이 레포 선택.
+# 주의: 무료 플랜은 15분 동안 접속이 없으면 잠들고(첫 접속 30~60초), 재배포·재시작하면 DB·업로드가 처음 상태로 돌아간다.
+services:
+  - type: web
+    name: mm-xindelela-test
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /
+    autoDeploy: true
+    envVars:
+      - key: ADMIN_PASSWORD
+        generateValue: true
+      - key: GOOGLE_MAPS_KEY
+        sync: false
