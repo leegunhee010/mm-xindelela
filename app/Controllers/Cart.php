@@ -49,7 +49,7 @@ class Cart extends BaseController
     public function add()
     {
         if (! mm_is_approved()) {
-            return redirect()->back()->with('error', '사업자 인증이 완료된 회원만 담을 수 있습니다.');
+            return redirect()->back()->with('error', '비즈니스 인증이 완료된 회원만 담을 수 있습니다.');
         }
         $u   = mm_user();
         $pid = (int) $this->request->getPost('product_id');

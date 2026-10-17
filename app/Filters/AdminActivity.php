@@ -87,9 +87,9 @@ class AdminActivity implements FilterInterface
             $id = (int) $m[1];
             $nm = $this->name('users', $id, 'company_name');
             return match ($m[2]) {
-                'approve' => ['buyer_approve', 'buyer', $id, "회원 {$nm} 사업자 인증 승인"],
+                'approve' => ['buyer_approve', 'buyer', $id, "회원 {$nm} 비즈니스 인증 완료(승인)"],
                 'reject'  => ['buyer_reject', 'buyer', $id, "회원 {$nm} 반려: " . $post('reason')],
-                'status'  => ['buyer_status', 'buyer', $id, "회원 {$nm} 상태 → " . mm_status_label($post('status'))],
+                'status'  => ['buyer_status', 'buyer', $id, "회원 {$nm} 상태 → " . mm_verify_status_label($post('status'))],
                 'note'    => ['buyer_note', 'buyer', $id, "회원 {$nm} 관리자 메모 저장"],
                 'points'  => ['buyer_points', 'buyer', $id, "회원 {$nm} 포인트 " . ((int) $post('amount') > 0 ? '+' : '') . number_format((int) $post('amount')) . 'P (' . $post('memo') . ')'],
             };

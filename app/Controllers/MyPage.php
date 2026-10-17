@@ -224,7 +224,7 @@ class MyPage extends BaseController
     /** 인증 상태·자료 재제출 화면. */
     public function verify(): string
     {
-        return $this->render('mypage/verify', ['title' => '사업자 인증']);
+        return $this->render('mypage/verify', ['title' => '비즈니스 인증']);
     }
 
     public function resubmit()

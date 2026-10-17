@@ -17,8 +17,8 @@ class Dashboard extends Base
         return $this->page('admin/dashboard', [
             'title' => '대시보드',
             'kpi'   => [
-                '검수 대기 구매자'  => $um->where('role', 'buyer')->where('status', 'pending')->countAllResults(),
-                '승인 구매자'       => $um->where('role', 'buyer')->where('status', 'approved')->countAllResults(),
+                '인증 검수 중'  => $um->where('role', 'buyer')->where('status', 'pending')->countAllResults(),
+                '인증 완료 회원'       => $um->where('role', 'buyer')->where('status', 'approved')->countAllResults(),
                 '입금 대기' => $om->where('status', 'requested')->countAllResults(),
                 '입금 확인 필요'    => $om->where('status', 'proof')->countAllResults(),
                 '판매중 상품'       => (new ProductModel())->where('status', 'active')->countAllResults(),

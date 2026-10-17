@@ -4,7 +4,7 @@
   <div class="contents-title-area depth-1 title3 font-bold !pt-0 mb-[20px]"><div class="title-area !pt-0"><h3 class="title">마이페이지</h3></div></div>
   <?php if ($user['status'] !== 'approved'): ?>
   <div class="rounded-[16px] bg-[#fff3eb] p-[28px] mb-[24px]">
-    <p class="sub-head1 font-bold"><?= $user['status'] === 'pending' ? '사업자 인증 검수 중' : ($user['status'] === 'rejected' ? '인증 자료 반려' : '계정 정지') ?></p>
+    <p class="sub-head1 font-bold"><?= $user['status'] === 'pending' ? '비즈니스 인증 검수 중' : ($user['status'] === 'rejected' ? '인증 자료 반려' : '계정 정지') ?></p>
     <p class="body3 text-gray3 mt-[6px] leading-[1.7]"><?= $user['status'] === 'pending' ? '제출하신 자료를 담당자가 확인하고 있습니다. ' . esc(mm_setting('verify_sla_text')) . ' 승인되며, 승인 후 도매가와 주문 신청이 열립니다.' : ($user['status'] === 'rejected' ? '반려 사유: ' . esc($user['reject_reason'] ?: '-') : '고객센터로 문의해 주세요.') ?></p>
     <?php if ($user['status'] !== 'suspended'): ?><a class="mt-[14px] inline-flex text-black bg-white border border-gray6 min-h-[40px] px-[16px] py-[10px] body3 font-bold !leading-none rounded-full items-center" href="<?= site_url('mypage/verify') ?>">인증 자료 보기·재제출</a><?php endif ?>
   </div>

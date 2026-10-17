@@ -15,7 +15,7 @@
   <table class="tbl"><thead><tr><th>순위</th><th class="l">추천인</th><th>추천코드</th><th>소개</th><th>승인</th><th>첫 주문</th><th>소개 회원 매출</th><th>받은 포인트</th></tr></thead><tbody>
   <?php foreach ($rankView as $i => $r): $u = $r['user']; ?>
     <tr><td><b><?= $i + 1 ?></b></td>
-      <td class="l"><?php if ($u): ?><a href="<?= site_url('admin/buyers/' . $u['id'] . '?tab=referral') ?>"><b><?= esc($u['company_name']) ?></b></a> <span class="st st-<?= esc($u['status']) ?>"><?= mm_status_label($u['status']) ?></span><?php else: ?>(삭제된 회원)<?php endif ?></td>
+      <td class="l"><?php if ($u): ?><a href="<?= site_url('admin/buyers/' . $u['id'] . '?tab=referral') ?>"><b><?= esc($u['company_name']) ?></b></a> <span class="st st-<?= esc($u['status']) ?>"><?= mm_verify_status_label($u['status']) ?></span><?php else: ?>(삭제된 회원)<?php endif ?></td>
       <td class="muted"><?= esc($u['referral_code'] ?? '-') ?></td>
       <td><b><?= $r['n'] ?></b>명</td><td><?= $r['approved'] ?>명</td><td><?= $r['ordered'] ?>명</td>
       <td><?= $r['sales'] ? mm_price($r['sales']) : '-' ?></td><td><?= $r['points'] ? number_format($r['points']) . 'P' : '-' ?></td></tr>
@@ -25,14 +25,14 @@
 
 <div class="card rsec">
   <div class="rsec-h"><h3>추천으로 가입한 회원</h3>
-    <div class="tabs" style="margin:0 0 0 auto"><?php foreach (['all' => '전체', 'pending' => '검수 대기', 'approved' => '승인·주문 전', 'ordered' => '첫 주문 완료'] as $k => $l): ?><a href="?f=<?= $k ?><?= service('request')->getGet('rank') === 'all' ? '&rank=all' : '' ?>" class="<?= $f === $k ? 'on' : '' ?>"><?= $l ?><span class="n"><?= $counts[$k] ?></span></a><?php endforeach ?></div>
+    <div class="tabs" style="margin:0 0 0 auto"><?php foreach (['all' => '전체', 'pending' => '인증 검수 중', 'approved' => '승인·주문 전', 'ordered' => '첫 주문 완료'] as $k => $l): ?><a href="?f=<?= $k ?><?= service('request')->getGet('rank') === 'all' ? '&rank=all' : '' ?>" class="<?= $f === $k ? 'on' : '' ?>"><?= $l ?><span class="n"><?= $counts[$k] ?></span></a><?php endforeach ?></div>
   </div>
   <?php if (! $list): ?><div class="muted rempty">해당하는 회원이 없습니다.</div><?php else: ?>
   <table class="tbl"><thead><tr><th class="l">가입 회원</th><th>가입일</th><th>인증</th><th>첫 주문</th><th>매출</th><th class="l">추천인</th><th>추천 포인트 지급</th></tr></thead><tbody>
   <?php foreach ($list as $m): $ref = $refs[$m['referred_by']] ?? null; $pd = $paid[$m['id']] ?? []; ?>
     <tr><td class="l"><a href="<?= site_url('admin/buyers/' . $m['id']) ?>"><b><?= esc($m['company_name']) ?></b></a><br><span class="muted"><?= esc($m['city']) ?></span></td>
       <td><?= mm_dt($m['created_at'], 'Y.m.d') ?></td>
-      <td><span class="st st-<?= esc($m['status']) ?>"><?= mm_status_label($m['status']) ?></span></td>
+      <td><span class="st st-<?= esc($m['status']) ?>"><?= mm_verify_status_label($m['status']) ?></span></td>
       <td><?= $m['first_order_at'] ? mm_dt($m['first_order_at'], 'Y.m.d') : '-' ?></td>
       <td><?= ! empty($sales[$m['id']]) ? mm_price($sales[$m['id']]) : '-' ?></td>
       <td class="l"><?php if ($ref): ?><a href="<?= site_url('admin/buyers/' . $ref['id'] . '?tab=referral') ?>"><?= esc($ref['company_name']) ?></a><?php else: ?>-<?php endif ?></td>

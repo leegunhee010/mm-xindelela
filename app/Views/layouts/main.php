@@ -53,7 +53,7 @@ $cur  = uri_string();
     </ul>
     <ul class="account-menu flex items-center gap-[16px] text-[12px]">
       <?php if ($user && $user['role'] === 'buyer'): ?>
-        <li><a class="acount-menu-link" href="<?= site_url('mypage') ?>"><b class="text-white"><?= esc($user['company_name'] ?: $user['name']) ?></b> 님 · <?= mm_status_label($user['status']) ?></a></li>
+        <li><a class="acount-menu-link" href="<?= site_url('mypage') ?>"><b class="text-white"><?= esc($user['company_name'] ?: $user['name']) ?></b> 님 · <?= mm_verify_status_label($user['status']) ?></a></li>
         <li><a class="acount-menu-link" href="<?= site_url('mypage/points') ?>">포인트 <b class="text-white"><?= number_format((int) $user['points_balance']) ?></b>P</a></li>
         <li><a class="acount-menu-link" href="<?= site_url('logout') ?>">로그아웃</a></li>
       <?php elseif ($user && $user['role'] === 'admin'): ?>
@@ -127,7 +127,7 @@ $cur  = uri_string();
     <ul class="footer-item-wrap type1 text-body3 text-gray3">
       <li class="footer-item mb-[20px]"><a href="<?= site_url('guide') ?>">이용안내</a></li>
       <li class="footer-item mb-[20px]"><a href="<?= site_url('notices') ?>">공지사항</a></li>
-      <li class="footer-item mb-[20px] font-bold text-black"><a href="<?= site_url('register') ?>">회원가입 · 사업자 인증</a></li>
+      <li class="footer-item mb-[20px] font-bold text-black"><a href="<?= site_url('register') ?>">회원가입 · 비즈니스 인증</a></li>
       <li class="footer-item mb-[20px]"><a href="<?= site_url('mypage/inquiries') ?>">고객센터</a></li>
     </ul>
     <ul class="footer-item-wrap type2 mb-0 text-body3 text-gray3">
@@ -139,7 +139,7 @@ $cur  = uri_string();
       <li class="footer-item">이메일: <?= esc(mm_setting('cs_email', '')) ?></li>
       <li class="footer-item">Viber: <?= esc(mm_setting('cs_viber', '')) ?></li>
     </ul>
-    <p class="text-label1 font-regular text-[#999] mt-[24px] w-[848px]">본 사이트는 사업자 인증을 받은 회원에게만 도매가를 공개하는 회원제 도매몰입니다. 결제는 사이트 밖에서 KBZPay 선불로 진행되며, 입금이 확인되면 바로 출고합니다.</p>
+    <p class="text-label1 font-regular text-[#999] mt-[24px] w-[848px]">본 사이트는 비즈니스 인증을 받은 회원에게만 도매가를 공개하는 회원제 도매몰입니다. 결제는 사이트 밖에서 KBZPay 선불로 진행되며, 입금이 확인되면 바로 출고합니다.</p>
   </div>
   <div class="footer-conts-item flex flex-col">
     <p class="text-gray3">고객센터 (Viber)</p>

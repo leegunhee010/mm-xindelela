@@ -1,4 +1,4 @@
-<?php /* 사업자 인증 입력 부품. $sel = 선택된 유형 배열, $link = 판매 채널 링크 */
+<?php /* 비즈니스 인증 입력 부품. $sel = 선택된 유형 배열, $link = 판매 채널 링크 */
 $types = mm_verify_types(); $sel = $sel ?? []; $link = $link ?? ''; ?>
 <div class="vrule">
   <p class="vrule-t">아래 세 가지 중 <b>하나만</b> 증빙하면 됩니다</p>

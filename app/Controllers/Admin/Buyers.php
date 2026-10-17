@@ -118,7 +118,7 @@ class Buyers extends Base
             return redirect()->back()->with('error', '반려 사유를 입력해 주세요. (회원에게 그대로 표시됩니다)');
         }
         $um->where('role', 'buyer')->where('id', $id)->set(['status' => 'rejected', 'reject_reason' => $reason])->update();
-        return redirect()->to('/admin/buyers/' . $id)->with('success', '반려했습니다. 회원이 자료를 다시 제출하면 검수 대기로 돌아옵니다.');
+        return redirect()->to('/admin/buyers/' . $id)->with('success', '반려했습니다. 회원이 자료를 다시 제출하면 인증 검수 중으로 돌아옵니다.');
     }
 
     public function status(int $id)
@@ -127,8 +127,21 @@ class Buyers extends Base
         if (! in_array($st, ['pending', 'approved', 'rejected', 'suspended'], true)) {
             return redirect()->back();
         }
-        (new UserModel())->where('role', 'buyer')->where('id', $id)->set(['status' => $st])->update();
-        return redirect()->back()->with('success', '상태를 변경했습니다.');
+        $um = new UserModel();
+        $u  = $um->where('role', 'buyer')->find($id);
+        if (! $u) {
+            return redirect()->back();
+        }
+        $data = ['status' => $st];
+        if ($st === 'approved') {
+            $data['approved_at']   = $u['approved_at'] ?: date('Y-m-d H:i:s');
+            $data['reject_reason'] = null;
+        }
+        $um->update($id, $data);
+        if ($st === 'approved') {
+            (new PointService())->onBuyerApproved($um->find($id)); // 승인 버튼과 같게 (중복 지급은 막힘)
+        }
+        return redirect()->back()->with('success', '상태를 바꿨습니다: ' . mm_verify_status_label($st));
     }
 
     public function note(int $id)

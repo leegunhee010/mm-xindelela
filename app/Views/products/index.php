@@ -43,7 +43,7 @@
           <?php if (! $suppliers): ?><span class="body3 text-gray5">-</span><?php endif ?>
         </div></div>
       <div class="item border-b border-gray7"><h3 class="flex"><button type="button" class="accordian-trigger subtitle2 flex flex-1 items-center btn-filter-tit justify-between pl-0 pc:py-4" data-state="open">도매가 안내</button></h3>
-        <div class="p-0 pb-4 body3 text-gray3 leading-[1.7]"><?= $approved ? '사업자 인증 회원으로 도매가가 표시됩니다.' : '도매가는 사업자 인증 회원에게만 표시됩니다.<br><a href="' . site_url('register') . '" class="font-bold text-primary">회원가입 ›</a>' ?></div></div>
+        <div class="p-0 pb-4 body3 text-gray3 leading-[1.7]"><?= $approved ? '비즈니스 인증 회원으로 도매가가 표시됩니다.' : '도매가는 비즈니스 인증 회원에게만 표시됩니다.<br><a href="' . site_url('register') . '" class="font-bold text-primary">회원가입 ›</a>' ?></div></div>
     </div>
   </div></div>
 

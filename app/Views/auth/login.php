@@ -14,13 +14,13 @@
       </div>
       <div class="btn-area shrink-0 flex btn-grid01 body3 flex-col gap-[10px] mt-[24px]">
         <button type="submit" class="text-white bg-primary min-h-[44px] px-[16px] py-[12px] body3 !leading-none w-full rounded-full font-bold">로그인</button>
-        <a href="<?= site_url('register') ?>" class="text-black bg-white border border-gray6 min-h-[44px] px-[16px] py-[12px] body3 font-bold !leading-none w-full rounded-full text-center">회원가입 · 사업자 인증 신청</a>
+        <a href="<?= site_url('register') ?>" class="text-black bg-white border border-gray6 min-h-[44px] px-[16px] py-[12px] body3 font-bold !leading-none w-full rounded-full text-center">회원가입 · 비즈니스 인증 신청</a>
       </div>
     </form>
     <div class="btn-area shrink-0 label1 mt-[16px] flex items-center justify-center gap-[10px]">
       <a href="<?= site_url('mypage/inquiries') ?>" class="text-gray3">비밀번호 문의</a><span class="h-[10px] w-[1px] bg-gray6"></span><a href="<?= site_url('guide') ?>" class="text-primary">이용안내</a>
     </div>
-    <p class="mt-[30px] rounded-[8px] bg-gray9 p-[14px] text-label1 text-gray3">데모 계정: buyer@demo.mm / buyer1234 (승인됨) · pending@demo.mm / buyer1234 (검수 대기)</p>
+    <p class="mt-[30px] rounded-[8px] bg-gray9 p-[14px] text-label1 text-gray3">데모 계정: buyer@demo.mm / buyer1234 (승인됨) · pending@demo.mm / buyer1234 (인증 검수 중)</p>
   </div></div>
 </section>
 </div>

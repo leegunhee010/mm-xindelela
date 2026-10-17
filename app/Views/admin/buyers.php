@@ -1,5 +1,5 @@
 <div class="tabs">
-  <?php foreach (['pending' => '검수 대기', 'approved' => '승인', 'rejected' => '반려', 'suspended' => '정지', 'all' => '전체'] as $k => $l): ?><a href="<?= site_url('admin/buyers?status=' . $k) ?>" class="<?= $st === $k ? 'on' : '' ?>"><?= $l ?><?php if (isset($counts[$k])): ?><span class="n"><?= $counts[$k] ?></span><?php endif ?></a><?php endforeach ?>
+  <?php foreach ((mm_verify_states() + ['all' => '전체']) as $k => $l): ?><a href="<?= site_url('admin/buyers?status=' . $k) ?>" class="<?= $st === $k ? 'on' : '' ?>"><?= $l ?><?php if (isset($counts[$k])): ?><span class="n"><?= $counts[$k] ?></span><?php endif ?></a><?php endforeach ?>
   <form class="srch" method="get"><input type="hidden" name="status" value="<?= esc($st) ?>"><input name="q" value="<?= esc($q) ?>" placeholder="상호·이름·이메일·전화"><button class="btn btn-sm" type="submit">검색</button></form>
 </div>
 <?php if ($st === 'pending'): ?><div class="note">인증 기준: 오프라인 매장 · 온라인 판매 · 판매 네트워크 중 <b>하나만</b> 확인되면 승인(사진·캡처 인정). 확인이 안 되면 반려 사유를 적어 재제출 요청. 목표 처리 시간: <?= esc(mm_setting('verify_sla_text')) ?>.</div><?php endif ?>
@@ -18,7 +18,7 @@
   <td class="l"><?php $rf = $refs[$b['referred_by']] ?? null; if ($rf): ?><a href="<?= site_url('admin/buyers/' . $rf['id']) ?>"><?= esc($rf['company_name']) ?></a><?php else: ?>-<?php endif ?></td>
   <td><?= number_format((int) $b['points_balance']) ?></td>
   <td><?= mm_dt($b['created_at'], 'm.d H:i') ?></td>
-  <td><span class="st st-<?= esc($b['status']) ?>"><?= mm_status_label($b['status']) ?></span></td>
+  <td><span class="st st-<?= esc($b['status']) ?>"><?= mm_verify_status_label($b['status']) ?></span></td>
   <td><a class="btn btn-xs <?= $b['status'] === 'pending' ? 'btn-g' : '' ?>" href="<?= site_url('admin/buyers/' . $b['id']) ?>"><?= $b['status'] === 'pending' ? '검수' : '상세' ?></a></td>
 </tr>
 <?php endforeach ?>

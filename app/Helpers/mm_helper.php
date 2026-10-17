@@ -92,6 +92,21 @@ if (! function_exists('mm_status_label')) {
     }
 }
 
+if (! function_exists('mm_verify_states')) {
+    /** 구매자 비즈니스 인증 상태. 관리자·구매자 화면이 모두 이 이름을 쓴다. */
+    function mm_verify_states(): array
+    {
+        return ['pending' => '인증 검수 중', 'approved' => '인증 완료', 'rejected' => '보완 요청', 'suspended' => '이용 정지'];
+    }
+}
+
+if (! function_exists('mm_verify_status_label')) {
+    function mm_verify_status_label(string $status): string
+    {
+        return mm_verify_states()[$status] ?? $status;
+    }
+}
+
 if (! function_exists('mm_product_status_label')) {
     function mm_product_status_label(string $status): string
     {
@@ -220,7 +235,7 @@ if (! function_exists('mm_referral_code')) {
 
 if (! function_exists('mm_verify_types')) {
     /**
-     * 사업자 인증 규정. 가입·재제출·관리자 검수·이용안내가 모두 이 정의를 쓴다.
+     * 비즈니스 인증 규정. 가입·재제출·관리자 검수·이용안내가 모두 이 정의를 쓴다.
      * 셋 중 하나만 증빙하면 된다. 사진·캡처도 인정.
      */
     function mm_verify_types(): array

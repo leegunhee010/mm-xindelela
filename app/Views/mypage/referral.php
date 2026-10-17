@@ -31,7 +31,7 @@ $medal  = [1 => 'gold', 2 => 'silver', 3 => 'bronze'];
   <!-- 받는 방법 -->
   <ol class="rf-steps">
     <li><em>1</em><b>링크·코드로 친구 가입</b><span>가게를 운영하는 친구에게 공유</span></li>
-    <li><em>2</em><b>친구 사업자 인증 통과</b><span class="rf-pt">+<?= number_format($pSign) ?> P</span></li>
+    <li><em>2</em><b>친구 비즈니스 인증 통과</b><span class="rf-pt">+<?= number_format($pSign) ?> P</span></li>
     <li><em>3</em><b>친구 첫 주문 입금 완료</b><span class="rf-pt">+<?= number_format($pFirst) ?> P</span></li>
   </ol>
 

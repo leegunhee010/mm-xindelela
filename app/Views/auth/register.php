@@ -5,7 +5,7 @@ $inp = 'h-[44px] w-full px-3 bg-white body3 text-black placeholder:text-gray4 fo
 <?= csrf_field() ?>
 <section class="corner-section last-of-type:mb-0 pc:mx-auto pc:w-[544px] mx-auto pc:mb-[60px]">
   <div class="mb-[40px]">
-    <div class="contents-title-area depth-1 title3 mb-[28px] font-bold"><div class="title-area"><h3 class="title"><span class="text-primary">회원가입</span>과 <br>사업자 인증을 신청해 주세요.</h3></div></div>
+    <div class="contents-title-area depth-1 title3 mb-[28px] font-bold"><div class="title-area"><h3 class="title"><span class="text-primary">회원가입</span>과 <br>비즈니스 인증을 신청해 주세요.</h3></div></div>
     <p class="body3 text-gray4">가입 즉시 상품을 볼 수 있고, 담당자가 제출 자료를 확인한 뒤 <?= esc(mm_setting('verify_sla_text')) ?> 승인되면 도매가와 주문 신청이 열립니다.</p>
   </div>
 
@@ -39,7 +39,7 @@ $inp = 'h-[44px] w-full px-3 bg-white body3 text-black placeholder:text-gray4 fo
   </div>
 
   <div class="mb-[40px]">
-    <strong class="sub-head1 font-bold">사업자 인증 <i class="text-primary not-italic">*</i></strong>
+    <strong class="sub-head1 font-bold">비즈니스 인증 <i class="text-primary not-italic">*</i></strong>
     <hr class="divider bg-gray6 border-0 h-px my-[18px]">
     <?= view('_verify_fields', ['sel' => (array) old('verify_types', []), 'link' => (string) old('fb_page')]) ?>
   </div>
