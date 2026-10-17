@@ -72,3 +72,20 @@ body.ad{margin:0;font-family:Pretendard,-apple-system,'Apple SD Gothic Neo','Mal
 .gr-badge.flat{background:#f2f2f2;color:#777;font-weight:500}
 .gr-chart{position:relative;height:170px;margin-top:14px}
 .inp,.sel,.ta{box-sizing:border-box;max-width:100%}
+
+/* 회원 상세 (10/17) */
+.mhead{background:#fff;border:1px solid var(--line);border-radius:12px;padding:20px 22px;margin-bottom:14px}
+.mhead-t{display:flex;align-items:center;gap:10px}
+.mhead-t h2{font-size:20px;font-weight:800;margin:0}
+.mhead-id{margin-left:auto;font-size:12px;color:var(--gray)}
+.mstat{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-top:16px}
+.mstat>a,.mstat>div{display:block;background:#f7f7f8;border-radius:8px;padding:12px 14px}
+.mstat>a:hover{background:#fff3eb}
+.mstat span{display:block;font-size:12px;color:var(--gray)}
+.mstat b{display:block;font-size:17px;margin-top:4px;color:var(--ink);white-space:nowrap}
+.mstat b small{font-size:12px;font-weight:500;color:var(--gray)}
+.mtabs{display:flex;gap:6px;margin-bottom:14px}
+.mtabs a{padding:8px 16px;border:1px solid var(--line);border-radius:99px;background:#fff;font-size:13px;color:#555}
+.mtabs a.on{background:var(--ink);border-color:var(--ink);color:#fff;font-weight:700}
+.mempty{padding:30px 0;text-align:center}
+.mref{display:flex;align-items:center;gap:8px;margin:0}

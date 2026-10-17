@@ -2,7 +2,10 @@
 
 namespace App\Controllers\Admin;
 
+use App\Libraries\GrowthStats;
 use App\Libraries\PointService;
+use App\Models\CartModel;
+use App\Models\ProductModel;
 use App\Models\OrderModel;
 use App\Models\PointLogModel;
 use App\Models\UserModel;
@@ -12,7 +15,7 @@ class Buyers extends Base
     public function index(): string
     {
         $um = new UserModel();
-        $st = (string) ($this->request->getGet('status') ?? 'pending');
+        $st = (string) ($this->request->getGet('status') ?? 'all');
         $q  = trim((string) $this->request->getGet('q'));
         $b  = $um->where('role', 'buyer');
         if ($st !== '' && $st !== 'all') {
@@ -22,7 +25,21 @@ class Buyers extends Base
             $b->groupStart()->like('company_name', $q)->orLike('name', $q)->orLike('email', $q)->orLike('phone', $q)->groupEnd();
         }
         $rows = $b->orderBy($st === 'pending' ? 'id' : 'id', $st === 'pending' ? 'ASC' : 'DESC')->paginate(30, 'p');
-        return $this->page('admin/buyers', ['title' => '구매자 관리', 'rows' => $rows, 'pager' => $um->pager, 'st' => $st, 'q' => $q,
+        $stats = $this->orderStats(array_column($rows, 'id'));
+        $refIds = array_values(array_unique(array_filter(array_column($rows, 'referred_by'))));
+        $refs = [];
+        if ($refIds) {
+            foreach ((new UserModel())->whereIn('id', $refIds)->findAll() as $r) {
+                $refs[$r['id']] = $r;
+            }
+        }
+        $carts = [];
+        if ($rows) {
+            foreach ((new CartModel())->select('user_id')->whereIn('user_id', array_column($rows, 'id'))->findAll() as $c) {
+                $carts[$c['user_id']] = ($carts[$c['user_id']] ?? 0) + 1;
+            }
+        }
+        return $this->page('admin/buyers', ['title' => '회원 관리', 'rows' => $rows, 'stats' => $stats, 'refs' => $refs, 'carts' => $carts, 'pager' => $um->pager, 'st' => $st, 'q' => $q,
             'counts' => ['pending' => $um->where('role', 'buyer')->where('status', 'pending')->countAllResults(), 'approved' => $um->where('role', 'buyer')->where('status', 'approved')->countAllResults(), 'rejected' => $um->where('role', 'buyer')->where('status', 'rejected')->countAllResults(), 'suspended' => $um->where('role', 'buyer')->where('status', 'suspended')->countAllResults()]]);
     }
 
@@ -33,15 +50,52 @@ class Buyers extends Base
         if (! $u) {
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         }
+        $orders = (new OrderModel())->where('user_id', $id)->orderBy('id', 'DESC')->findAll();
+        $cart   = [];
+        $pm     = new ProductModel();
+        foreach ((new CartModel())->where('user_id', $id)->orderBy('id', 'DESC')->findAll() as $c) {
+            $p = $pm->find($c['product_id']);
+            if ($p) {
+                $unit   = mm_unit_price($p, (int) $c['qty']);
+                $cart[] = ['c' => $c, 'p' => $p, 'unit' => $unit, 'line' => $unit * (int) $c['qty']];
+            }
+        }
+        $referred = $um->where('referred_by', $id)->orderBy('id', 'DESC')->findAll();
+        $tab = (string) ($this->request->getGet('tab') ?? 'info');
         return $this->page('admin/buyer', [
-            'title'    => '구매자 상세',
+            'title'    => '회원 상세',
             'b'        => $u,
+            'tab'      => in_array($tab, ['info', 'orders', 'cart', 'points', 'referral'], true) ? $tab : 'info',
             'docs'     => mm_json($u['doc_files']),
             'referrer' => $u['referred_by'] ? $um->find($u['referred_by']) : null,
-            'referred' => $um->where('referred_by', $id)->findAll(),
-            'orders'   => (new OrderModel())->where('user_id', $id)->orderBy('id', 'DESC')->findAll(10),
-            'points'   => (new PointLogModel())->where('user_id', $id)->orderBy('id', 'DESC')->findAll(15),
+            'referred' => $referred,
+            'refStats' => $this->orderStats(array_column($referred, 'id')),
+            'orders'   => $orders,
+            'stat'     => $this->orderStats([$id])[$id] ?? ['n' => 0, 'paid' => 0, 'last' => null],
+            'cart'     => $cart,
+            'points'   => (new PointLogModel())->where('user_id', $id)->orderBy('id', 'DESC')->findAll(100),
         ]);
+    }
+
+    /** 회원별 주문 수(취소 제외) · 입금 확인 금액 · 마지막 주문일. */
+    private function orderStats(array $ids): array
+    {
+        $out = [];
+        if (! $ids) {
+            return $out;
+        }
+        foreach ((new OrderModel())->select('user_id, status, total, created_at')->whereIn('user_id', $ids)->where('status !=', 'cancelled')->findAll() as $o) {
+            $k = $o['user_id'];
+            $out[$k] ??= ['n' => 0, 'paid' => 0, 'last' => null];
+            $out[$k]['n']++;
+            if (in_array($o['status'], GrowthStats::PAID, true)) {
+                $out[$k]['paid'] += (int) $o['total'];
+            }
+            if ($out[$k]['last'] === null || $o['created_at'] > $out[$k]['last']) {
+                $out[$k]['last'] = $o['created_at'];
+            }
+        }
+        return $out;
     }
 
     public function approve(int $id)
