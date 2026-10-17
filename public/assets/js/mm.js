@@ -28,8 +28,11 @@
       inp.value = v;
       var u = base;
       tiers.forEach(function (t) { if (v >= parseInt(t.min_qty, 10) && parseInt(t.price, 10) > 0) u = parseInt(t.price, 10); });
-      if (unitEl) unitEl.textContent = fmt(u);
+      if (unitEl) unitEl.textContent = fmt(u) + ' ' + (q.dataset.sym || '');
       if (totEl) totEl.textContent = fmt(u * v);
+      var on = null;
+      document.querySelectorAll('.pd-tier li[data-min]').forEach(function (li) { li.classList.remove('on'); if (v >= parseInt(li.dataset.min, 10)) on = li; });
+      if (on) on.classList.add('on');
     }
     q.querySelector('.minus').onclick = function () { inp.value = parseInt(inp.value, 10) - moq; calc(); };
     q.querySelector('.plus').onclick = function () { inp.value = parseInt(inp.value, 10) + moq; calc(); };
