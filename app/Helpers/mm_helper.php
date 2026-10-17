@@ -206,6 +206,30 @@ if (! function_exists('mm_dt')) {
     }
 }
 
+if (! function_exists('mm_ago')) {
+    /** 지난 시간 짧게: 방금 / 12분 전 / 3시간 전 / 2일 전 / 10.07 */
+    function mm_ago(?string $dt): string
+    {
+        if (! $dt) {
+            return '-';
+        }
+        $s = time() - strtotime($dt);
+        if ($s < 60) {
+            return '방금';
+        }
+        if ($s < 3600) {
+            return intdiv($s, 60) . '분 전';
+        }
+        if ($s < 86400) {
+            return intdiv($s, 3600) . '시간 전';
+        }
+        if ($s < 86400 * 7) {
+            return intdiv($s, 86400) . '일 전';
+        }
+        return date('m.d', strtotime($dt));
+    }
+}
+
 if (! function_exists('mm_flash')) {
     /** 플래시 메시지 HTML. */
     function mm_flash(): string

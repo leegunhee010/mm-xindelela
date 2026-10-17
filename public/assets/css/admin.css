@@ -285,3 +285,68 @@ body.ad{margin:0;font-family:Pretendard,-apple-system,'Apple SD Gothic Neo','Mal
 .pay-req{background:#fff3eb;color:#ff6200}
 .pay-done{background:#e8f7ee;color:#137a3a}
 .pay-x{background:#fdecec;color:#b42318}
+
+/* 문의함: 상단 균등 탭 + 왼쪽 목록 / 오른쪽 답변 패널 */
+.iq-top{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:14px}
+.iq-seg{display:grid;grid-template-columns:repeat(3,1fr);width:420px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:4px;gap:4px}
+.iq-seg a{display:flex;align-items:center;justify-content:center;gap:8px;height:38px;border-radius:7px;font-size:13px;color:#555}
+.iq-seg a b{font-size:13px;color:#999}
+.iq-seg a.on{background:var(--ink);color:#fff;font-weight:700}
+.iq-seg a.on b{color:#fff}
+.iq-srch{display:flex;gap:6px}
+.iq-srch input{width:260px;height:36px;border:1px solid var(--line);border-radius:8px;padding:0 12px;font-size:13px;box-sizing:border-box}
+.iq{display:grid;grid-template-columns:380px 1fr;gap:16px;align-items:start}
+.iq-list{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.iq-item{display:block;padding:14px 16px;border-bottom:1px solid #f0f0f0;color:inherit;border-left:3px solid transparent}
+.iq-item:hover{background:#fafafa}
+.iq-item.on{background:#fff6f0;border-left-color:var(--pri)}
+.iq-item-h{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.iq-item-h b{font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.iq-item-h span{flex:none;font-size:11px;color:#999}
+.iq-item p{margin:6px 0 8px;font-size:13px;color:#444;line-height:1.5}
+.iq-item.is-done p{color:#888}
+.iq-item-f{display:flex;align-items:center;gap:8px;min-width:0}
+.iq-item-f em{font-style:normal;font-size:11px;color:#777;background:#f3f3f3;border-radius:4px;padding:2px 6px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.iq-dot{flex:none;font-style:normal;font-size:11px;font-weight:700;color:#c26a00}
+.iq-dot::before{content:'';display:inline-block;width:6px;height:6px;border-radius:50%;background:#f5a524;margin-right:5px;vertical-align:1px}
+.iq-dot.done{color:#2f8a4d}
+.iq-dot.done::before{background:#3cb371}
+.iq-pg{padding:10px 12px}
+.iq-pg:empty{display:none}
+.iq-empty{padding:60px 20px;text-align:center;color:#999;font-size:13px}
+.iq-view{background:#fff;border:1px solid var(--line);border-radius:12px;padding:22px 24px;position:sticky;top:16px}
+.iq-who{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;padding-bottom:16px;border-bottom:1px solid #f0f0f0}
+.iq-who-n{font-size:18px;font-weight:800;color:var(--ink);margin-right:8px}
+.iq-who p{margin:6px 0 0;font-size:13px;color:#777}
+.iq-who-c{display:flex;flex-direction:column;align-items:flex-end;gap:4px;font-size:12px;color:#777}
+.iq-who-c b{color:var(--ink);margin-left:4px}
+.iq-prod{display:flex;align-items:center;gap:12px;margin-top:16px;padding:10px 14px;border:1px solid #eee;border-radius:10px;color:inherit}
+.iq-prod:hover{border-color:#ccc}
+.iq-prod img{width:44px;height:44px;border-radius:6px;object-fit:cover;background:#f3f3f3}
+.iq-prod div{flex:1;min-width:0}
+.iq-prod span{display:block;font-size:11px;color:#999}
+.iq-prod b{font-size:14px}
+.iq-prod em{font-style:normal;font-size:12px;color:#777}
+.iq-thread{display:flex;flex-direction:column;gap:14px;margin:20px 0}
+.iq-meta{font-size:11px;color:#999;margin-bottom:6px}
+.iq-bub{display:inline-block;max-width:80%;padding:12px 16px;border-radius:4px 14px 14px 14px;background:#f3f4f6;font-size:14px;line-height:1.6;color:#222}
+.iq-a{text-align:right}
+.iq-a .iq-bub{text-align:left;border-radius:14px 4px 14px 14px;background:#fff1e6}
+.iq-form{border-top:1px solid #f0f0f0;padding-top:16px}
+.iq-form-h{display:flex;align-items:baseline;gap:10px;margin-bottom:10px}
+.iq-form-h b{font-size:14px}
+.iq-form-h span{font-size:12px;color:#999}
+.iq-tpl{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:8px}
+.iq-tpl button{height:32px;border:1px solid #e5e5e5;border-radius:6px;background:#fafafa;font-size:12px;color:#555;cursor:pointer;padding:0 8px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.iq-tpl button:hover{border-color:var(--pri);color:var(--pri)}
+.iq-form textarea{width:100%;height:130px;border:1px solid var(--line);border-radius:10px;padding:12px 14px;font:inherit;font-size:14px;line-height:1.6;box-sizing:border-box;resize:vertical}
+.iq-form textarea:focus{outline:0;border-color:var(--ink)}
+.iq-btns{display:flex;justify-content:flex-end;gap:8px;margin-top:10px}
+.iq-btns .btn{height:40px;padding:0 20px}
+.iq-hist{margin-top:22px;border-top:1px solid #f0f0f0;padding-top:16px}
+.iq-hist h4{margin:0 0 8px;font-size:13px}
+.iq-hist a{display:grid;grid-template-columns:44px 1fr auto;align-items:center;gap:10px;padding:8px 0;border-bottom:1px dashed #eee;color:inherit;font-size:13px}
+.iq-hist a span{color:#999;font-size:12px}
+.iq-hist a p{margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#444}
+.iq-edit{margin-top:6px;border:0;background:none;font-size:12px;color:#777;text-decoration:underline;cursor:pointer;padding:0}
+.iq-form[hidden]{display:none}

@@ -6,7 +6,7 @@
 <title><?= esc($title) ?> | 관리자</title>
 <meta name="robots" content="noindex,nofollow">
 <link rel="stylesheet" href="<?= base_url('assets/css/mm.css?v=7') ?>">
-<link rel="stylesheet" href="<?= base_url('assets/css/admin.css?v=22') ?>">
+<link rel="stylesheet" href="<?= base_url('assets/css/admin.css?v=24') ?>">
 </head>
 <body class="ad">
 <?php $cur = uri_string(); $nav = function (string $path, string $label, int $badge = 0) use ($cur) {
