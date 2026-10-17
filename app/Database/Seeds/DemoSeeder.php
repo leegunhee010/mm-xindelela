@@ -26,7 +26,7 @@ class DemoSeeder extends Seeder
             'points_reward_rate'          => '0',
             'points_use_max_pct'          => '30',
             'points_min_use'              => '1000',
-            'kbzpay_account'              => 'KBZPay 09-XXX-XXX-XXX (XINDELELA)',
+            'kbzpay_account'              => 'KBZPay 09891257296 (PARK CHANG MIN)',
             'cod_enabled'                 => '0',
             'verify_sla_text'             => '영업일 기준 1일 이내 검수',
             'cs_phone'                    => '09-XXX-XXX-XXX',

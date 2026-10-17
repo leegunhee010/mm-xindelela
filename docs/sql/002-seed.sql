@@ -13,7 +13,7 @@ INSERT INTO `settings` (`skey`,`svalue`,`updated_at`) SELECT 'points_referral_fi
 INSERT INTO `settings` (`skey`,`svalue`,`updated_at`) SELECT 'points_reward_rate','0',NOW() FROM DUAL WHERE NOT EXISTS (SELECT 1 FROM `settings` WHERE `skey`='points_reward_rate');
 INSERT INTO `settings` (`skey`,`svalue`,`updated_at`) SELECT 'points_use_max_pct','30',NOW() FROM DUAL WHERE NOT EXISTS (SELECT 1 FROM `settings` WHERE `skey`='points_use_max_pct');
 INSERT INTO `settings` (`skey`,`svalue`,`updated_at`) SELECT 'points_min_use','1000',NOW() FROM DUAL WHERE NOT EXISTS (SELECT 1 FROM `settings` WHERE `skey`='points_min_use');
-INSERT INTO `settings` (`skey`,`svalue`,`updated_at`) SELECT 'kbzpay_account','KBZPay 09-XXX-XXX-XXX (XINDELELA)',NOW() FROM DUAL WHERE NOT EXISTS (SELECT 1 FROM `settings` WHERE `skey`='kbzpay_account');
+INSERT INTO `settings` (`skey`,`svalue`,`updated_at`) SELECT 'kbzpay_account','KBZPay 09891257296 (PARK CHANG MIN)',NOW() FROM DUAL WHERE NOT EXISTS (SELECT 1 FROM `settings` WHERE `skey`='kbzpay_account');
 INSERT INTO `settings` (`skey`,`svalue`,`updated_at`) SELECT 'cod_enabled','0',NOW() FROM DUAL WHERE NOT EXISTS (SELECT 1 FROM `settings` WHERE `skey`='cod_enabled');
 INSERT INTO `settings` (`skey`,`svalue`,`updated_at`) SELECT 'verify_sla_text','영업일 기준 1일 이내 검수',NOW() FROM DUAL WHERE NOT EXISTS (SELECT 1 FROM `settings` WHERE `skey`='verify_sla_text');
 INSERT INTO `settings` (`skey`,`svalue`,`updated_at`) SELECT 'cs_phone','09-XXX-XXX-XXX',NOW() FROM DUAL WHERE NOT EXISTS (SELECT 1 FROM `settings` WHERE `skey`='cs_phone');

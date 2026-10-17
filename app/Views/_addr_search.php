@@ -6,6 +6,25 @@
   var inp = document.getElementById('shipAddr'), ul = document.getElementById('addrSug');
   var lat = document.getElementById('shipLat'), lng = document.getElementById('shipLng'), city = document.getElementById('shipCity'), link = document.getElementById('addrMap');
   var lib = null, token = null, timer = null, items = [], cur = -1;
+  var box = document.getElementById('addrMapBox'), map = null, pin = null, YGN = { lat: 16.8409, lng: 96.1735 };
+  function pos() { return lat.value && lng.value ? { lat: parseFloat(lat.value), lng: parseFloat(lng.value) } : null; }
+  function setPos(p, zoom) {
+    lat.value = p.lat.toFixed(7); lng.value = p.lng.toFixed(7); showLink();
+    if (!map) return;
+    pin.setPosition(p); pin.setVisible(true);
+    if (zoom) { map.setZoom(zoom); }
+    map.panTo(p);
+  }
+  async function initMap() {
+    if (map || !box || box.offsetParent === null) return;
+    var m = await google.maps.importLibrary('maps'), mk = await google.maps.importLibrary('marker');
+    var p = pos();
+    map = new m.Map(box, { center: p || YGN, zoom: p ? 17 : 12, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, gestureHandling: 'cooperative' });
+    pin = new mk.Marker({ map: map, position: p || YGN, draggable: true, visible: !!p });
+    pin.addListener('dragend', function () { var q = pin.getPosition(); setPos({ lat: q.lat(), lng: q.lng() }); });
+    map.addListener('click', function (ev) { setPos({ lat: ev.latLng.lat(), lng: ev.latLng.lng() }); });
+  }
+  window.addEventListener('mm-addr-show', function () { setTimeout(initMap, 0); });
   function showLink() { if (lat.value && lng.value) { link.href = 'https://www.google.com/maps?q=' + lat.value + ',' + lng.value; link.style.display = 'inline-block'; } else { link.style.display = 'none'; } }
   function close() { ul.hidden = true; ul.innerHTML = ''; items = []; cur = -1; }
   function mark() { [].forEach.call(ul.children, function (li, i) { li.classList.toggle('on', i === cur); }); }
@@ -15,7 +34,7 @@
     var res = await lib.AutocompleteSuggestion.fetchAutocompleteSuggestions({ input: q, sessionToken: token, includedRegionCodes: ['mm'], language: 'en' });
     if (inp.value.trim() !== q) return;
     items = (res.suggestions || []).map(function (s) { return s.placePrediction; }).filter(Boolean);
-    if (!items.length) { close(); return; }
+    if (!items.length) { ul.innerHTML = '<li class="addr-sug-empty">미얀마 안에서 찾지 못했습니다. 영어로 입력해 보세요 (예: Pyay Rd, Junction City)</li>'; ul.hidden = false; return; }
     ul.innerHTML = items.map(function (pp) {
       var main = pp.mainText ? pp.mainText.text : pp.text.text, sub = pp.secondaryText ? pp.secondaryText.text : '';
       return '<li><b></b><span></span></li>';
@@ -40,11 +59,11 @@
     var comp = place.addressComponents || [], c = '';
     ['locality', 'administrative_area_level_2', 'administrative_area_level_1'].some(function (t) { var f = comp.find(function (x) { return x.types.indexOf(t) > -1; }); if (f) { c = f.longText; return true; } });
     if (c && !city.value.trim()) city.value = c.replace(/ (Region|City)$/, '');
-    if (place.location) { lat.value = place.location.lat().toFixed(7); lng.value = place.location.lng().toFixed(7); }
+    if (place.location) { await initMap(); setPos({ lat: place.location.lat(), lng: place.location.lng() }, 17); }
     showLink();
   }
   inp.addEventListener('input', function () {
-    lat.value = ''; lng.value = ''; showLink();
+    lat.value = ''; lng.value = ''; showLink(); if (pin) pin.setVisible(false);
     clearTimeout(timer); var q = inp.value.trim();
     if (q.length < 2) { close(); return; }
     timer = setTimeout(function () { search(q).catch(function (e) { console.warn(e); close(); }); }, 250);
@@ -58,6 +77,7 @@
   });
   inp.addEventListener('blur', function () { setTimeout(close, 150); });
   showLink();
+  initMap();
 })();
 </script>
 <?php endif ?>
