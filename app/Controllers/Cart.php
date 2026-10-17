@@ -83,7 +83,7 @@ class Cart extends BaseController
                 $cm->update($row['id'], ['qty' => max((int) ($p['moq'] ?? 1), (int) $qty)]);
             }
         }
-        return redirect()->to('/cart')->with('success', '수량을 변경했습니다.');
+        return redirect()->to('/cart');
     }
 
     public function remove()

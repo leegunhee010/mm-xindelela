@@ -15,7 +15,7 @@
         <a href="<?= site_url('products/' . $p['id']) ?>" class="body2 font-medium block mt-[2px]"><?= esc($p['name']) ?></a>
         <p class="label1 text-gray4 mt-[4px]">단가 <?= mm_price($it['unit']) ?> · 최소 <?= number_format((int) $p['moq']) ?><?= esc($p['unit']) ?>부터 · 수량별 단가 적용</p>
       </div>
-      <div class="input-item !flex-none w-[110px]"><input type="number" name="qty[<?= $it['cart']['id'] ?>]" value="<?= $it['qty'] ?>" min="<?= (int) $p['moq'] ?>" step="1" class="h-[40px] w-full px-3 text-center bg-white body3 border border-gray6 rounded-[8px] focus:outline-none focus:border-black"></div>
+      <span class="stp cstp" data-moq="<?= (int) $p['moq'] ?>"><button type="button" class="minus" aria-label="빼기">−</button><input type="text" inputmode="numeric" name="qty[<?= $it['cart']['id'] ?>]" value="<?= $it['qty'] ?>" aria-label="수량"><button type="button" class="plus" aria-label="더하기">+</button></span>
       <div class="w-[150px] text-right head-line1 font-bold"><?= mm_price($it['line'], false) ?> <span class="body3 font-medium"><?= esc($sym) ?></span></div>
       <button type="submit" form="rm<?= $it['cart']['id'] ?>" class="size-[32px] rounded-full border border-gray7 text-gray4" title="삭제">✕</button>
     </li>
@@ -24,15 +24,25 @@
   <div class="w-[360px] shrink-0 rounded-[16px] border border-gray6 p-[24px] sticky top-[20px]">
     <h4 class="sub-head1 font-bold mb-[16px]">신청 금액</h4>
     <div class="flex justify-between body3 py-[8px] border-b border-gray7"><span class="text-gray3">상품 합계</span><span><?= mm_price($subtotal) ?></span></div>
-    <div class="flex justify-between body3 py-[8px] border-b border-gray7"><span class="text-gray3">배송비</span><span class="text-gray4">신청 후 안내</span></div>
-    <div class="flex justify-between items-baseline pt-[14px]"><span class="sub-head1 font-bold">예상 금액</span><span class="title3 font-bold text-primary"><?= mm_price($subtotal, false) ?> <span class="body3 font-medium text-black"><?= esc($sym) ?></span></span></div>
+    <div class="flex justify-between items-baseline pt-[14px]"><span class="sub-head1 font-bold">결제 금액</span><span class="title3 font-bold text-primary"><?= mm_price($subtotal, false) ?> <span class="body3 font-medium text-black"><?= esc($sym) ?></span></span></div>
     <p class="label1 text-gray4 mt-[8px]">포인트는 주문 신청 단계에서 사용할 수 있습니다.</p>
     <div class="btn-area shrink-0 flex btn-grid01 body3 flex-col gap-[10px] mt-[20px]">
       <a href="<?= site_url('checkout') ?>" class="text-white bg-primary min-h-[44px] px-[16px] py-[12px] body3 !leading-none w-full rounded-full font-bold text-center">주문 신청하기</a>
-      <button type="submit" class="text-black bg-white border border-gray6 min-h-[44px] px-[16px] py-[12px] body3 font-bold !leading-none w-full rounded-full">수량 변경 저장</button>
     </div>
   </div>
 </div>
 </form>
 <?php foreach ($items as $it): ?><form id="rm<?= $it['cart']['id'] ?>" method="post" action="<?= site_url('cart/remove') ?>"><?= csrf_field() ?><input type="hidden" name="id" value="<?= $it['cart']['id'] ?>"></form><?php endforeach ?>
+<script>
+(function () {
+  var f = document.getElementById('cartForm'), t = null;
+  document.querySelectorAll('.cstp').forEach(function (w) {
+    var inp = w.querySelector('input'), moq = parseInt(w.dataset.moq || '1', 10);
+    function set(v) { v = parseInt(v, 10); if (isNaN(v) || v < moq) v = moq; inp.value = v; clearTimeout(t); t = setTimeout(function () { f.submit(); }, 500); }
+    w.querySelector('.minus').onclick = function () { set(parseInt(inp.value, 10) - 1); };
+    w.querySelector('.plus').onclick = function () { set(parseInt(inp.value, 10) + 1); };
+    inp.addEventListener('change', function () { set(inp.value); });
+  });
+})();
+</script>
 <?php endif ?>
