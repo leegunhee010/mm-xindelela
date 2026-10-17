@@ -105,19 +105,38 @@ if (! function_exists('mm_product_status_label')) {
     }
 }
 
-if (! function_exists('mm_order_status_label')) {
-    function mm_order_status_label(string $status): string
+if (! function_exists('mm_order_flow')) {
+    /** 주문 진행 단계 (순서대로). 관리자·구매자 화면이 모두 이 이름을 쓴다. */
+    function mm_order_flow(): array
     {
         return [
             'requested' => '입금 대기',
-            'quoted'    => '입금 대기',
-            'proof'     => '입금 확인중',
-            'paid'      => '입금 확인',
-            'preparing' => '발주·준비중',
+            'proof'     => '입금 확인 요청',
+            'paid'      => '결제 완료',
+            'preparing' => '출고 준비',
             'shipped'   => '배송중',
             'delivered' => '배송 완료',
-            'cancelled' => '취소',
-        ][$status] ?? $status;
+        ];
+    }
+}
+
+if (! function_exists('mm_order_status_label')) {
+    function mm_order_status_label(string $status): string
+    {
+        return (mm_order_flow() + ['quoted' => '입금 대기', 'cancelled' => '취소'])[$status] ?? $status;
+    }
+}
+
+if (! function_exists('mm_order_pay_label')) {
+    /** 결제(입금) 상태만 따로: 미입금 / 확인 요청 / 결제 완료 / 취소 */
+    function mm_order_pay_label(string $status): string
+    {
+        return match ($status) {
+            'requested', 'quoted' => '미입금',
+            'proof'               => '확인 요청',
+            'cancelled'           => '취소',
+            default               => '결제 완료',
+        };
     }
 }
 

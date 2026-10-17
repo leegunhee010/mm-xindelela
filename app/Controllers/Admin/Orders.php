@@ -89,7 +89,7 @@ class Orders extends Base
         }
         $data = ['status' => $st];
         $now  = date('Y-m-d H:i:s');
-        if ($st === 'paid' && ! $o['paid_at']) {
+        if (in_array($st, ['paid', 'preparing', 'shipped', 'delivered'], true) && ! $o['paid_at']) {
             $data['paid_at'] = $now;
         }
         if ($st === 'shipped') {
@@ -108,7 +108,7 @@ class Orders extends Base
         $om->update($id, $data);
         $o2 = $om->find($id);
         // 입금 확인 → 포인트(추천 첫주문·적립) + 상품 주문수
-        if ($st === 'paid' && ! $o['reward_granted']) {
+        if (in_array($st, ['paid', 'preparing', 'shipped', 'delivered'], true) && ! $o['reward_granted']) {
             (new PointService())->onOrderPaid($o2);
             $om->update($id, ['reward_granted' => 1]);
             $pm = new ProductModel();

@@ -90,7 +90,7 @@ class MyPage extends BaseController
         return redirect()->to('/mypage/orders/' . $id)->with('success', '주문 신청을 취소했습니다.');
     }
 
-    /** 배송지 수정: 입금 확인 전(입금 대기·입금 확인중)까지만. */
+    /** 배송지 수정: 입금 확인 전(입금 대기·입금 확인 요청)까지만. */
     public function address(int $id)
     {
         $u  = mm_user();

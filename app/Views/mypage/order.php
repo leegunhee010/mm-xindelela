@@ -1,5 +1,5 @@
 <?php
-$flow = ['requested' => '주문 신청', 'proof' => '입금 확인중', 'paid' => '입금 확인', 'preparing' => '발주·준비', 'shipped' => '배송중', 'delivered' => '배송 완료'];
+$flow = mm_order_flow();
 $stKey = $o['status'] === 'quoted' ? 'requested' : $o['status'];
 $idx   = array_search($stKey, array_keys($flow), true);
 $canEditAddr = in_array($o['status'], ['requested', 'quoted', 'proof'], true);

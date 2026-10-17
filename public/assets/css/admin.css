@@ -278,3 +278,10 @@ body.ad{margin:0;font-family:Pretendard,-apple-system,'Apple SD Gothic Neo','Mal
 .dtl-blk{grid-template-columns:110px 1fr 150px}
 .dtl-blk img{width:120px;height:150px;object-fit:cover;object-position:top;border:1px solid var(--line)}
 .dtl-blk.is-seq img{height:90px}
+
+/* 입금 상태 칸 (10/17) */
+.pay{display:inline-block;min-width:64px;text-align:center;font-size:12px;font-weight:700;padding:3px 8px;border-radius:99px}
+.pay-no{background:#f2f2f2;color:#777}
+.pay-req{background:#fff3eb;color:#ff6200}
+.pay-done{background:#e8f7ee;color:#137a3a}
+.pay-x{background:#fdecec;color:#b42318}
