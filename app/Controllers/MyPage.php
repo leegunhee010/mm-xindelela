@@ -33,7 +33,7 @@ class MyPage extends BaseController
     {
         $u  = mm_user();
         $om = new OrderModel();
-        $orders = $om->where('user_id', $u['id'])->orderBy('id', 'DESC')->paginate(20, 'p');
+        $orders = $om->where('user_id', $u['id'])->orderBy('created_at', 'DESC')->paginate(20, 'p');
         $oim = new OrderItemModel();
         foreach ($orders as &$o) {
             $o['items'] = $oim->where('order_id', $o['id'])->findAll();

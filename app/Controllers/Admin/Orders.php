@@ -23,7 +23,7 @@ class Orders extends Base
         if ($q !== '') {
             $b = $b->like('order_no', $q);
         }
-        $rows = $b->orderBy('id', 'DESC')->paginate(30, 'p');
+        $rows = $b->orderBy('created_at', 'DESC')->orderBy('id', 'DESC')->paginate(30, 'p');
         $um   = new UserModel();
         $oim  = new OrderItemModel();
         foreach ($rows as &$r) {

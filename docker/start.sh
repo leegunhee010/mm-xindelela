@@ -27,7 +27,7 @@ EOF
 
 php spark migrate --all
 if [ ! -f writable/.seeded ]; then
-  php spark db:seed DemoSeeder && touch writable/.seeded
+  php spark db:seed DemoSeeder && php spark db:seed DemoRichSeeder && touch writable/.seeded
 fi
 php docker/render-setup.php
 

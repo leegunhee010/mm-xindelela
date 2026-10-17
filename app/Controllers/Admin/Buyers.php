@@ -24,7 +24,7 @@ class Buyers extends Base
         if ($q !== '') {
             $b->groupStart()->like('company_name', $q)->orLike('name', $q)->orLike('email', $q)->orLike('phone', $q)->groupEnd();
         }
-        $rows = $b->orderBy($st === 'pending' ? 'id' : 'id', $st === 'pending' ? 'ASC' : 'DESC')->paginate(30, 'p');
+        $rows = $b->orderBy('created_at', $st === 'pending' ? 'ASC' : 'DESC')->paginate(30, 'p');
         $stats = $this->orderStats(array_column($rows, 'id'));
         $refIds = array_values(array_unique(array_filter(array_column($rows, 'referred_by'))));
         $refs = [];
@@ -50,7 +50,7 @@ class Buyers extends Base
         if (! $u) {
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         }
-        $orders = (new OrderModel())->where('user_id', $id)->orderBy('id', 'DESC')->findAll();
+        $orders = (new OrderModel())->where('user_id', $id)->orderBy('created_at', 'DESC')->findAll();
         $cart   = [];
         $pm     = new ProductModel();
         foreach ((new CartModel())->where('user_id', $id)->orderBy('id', 'DESC')->findAll() as $c) {

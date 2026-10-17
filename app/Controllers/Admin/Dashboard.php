@@ -26,8 +26,8 @@ class Dashboard extends Base
             ],
             'growth'        => GrowthStats::build((string) $this->request->getGet('range')),
             'pendingBuyers' => $um->where('role', 'buyer')->where('status', 'pending')->orderBy('id', 'ASC')->findAll(8),
-            'recentOrders'  => $om->orderBy('id', 'DESC')->findAll(8),
-            'buyersMap'     => $this->buyersMap($om->orderBy('id', 'DESC')->findAll(8)),
+            'recentOrders'  => $om->orderBy('created_at', 'DESC')->findAll(8),
+            'buyersMap'     => $this->buyersMap($om->orderBy('created_at', 'DESC')->findAll(8)),
         ]);
     }
 
