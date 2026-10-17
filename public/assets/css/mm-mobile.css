@@ -276,4 +276,7 @@
   .card input, .card select, .card textarea { max-width: 100%; min-width: 0; }
   .mp-side a i.icon { display: none; }
   .contents-wrap.member.login { padding-top: 20px; }
+  .sortbar { gap: 12px; }
+  .sortbar > div:first-child { flex: none; }
+  .sortbar > div:last-child { gap: 12px !important; font-size: 13px; }
 }

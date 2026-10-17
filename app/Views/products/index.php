@@ -49,7 +49,7 @@
 
   <!-- 목록 -->
   <div class="pc:w-[989px]">
-    <div class="mb-[20px] flex items-center justify-between">
+    <div class="sortbar mb-[20px] flex items-center justify-between">
       <div class="sub-head2 body3 font-regular">전체 <span class="font-bold text-primary"><?= number_format($total) ?></span>개</div>
       <div class="flex gap-[16px] body3">
         <?php foreach (['new' => '최신순', 'pop' => '인기순', 'low' => '낮은가격순', 'high' => '높은가격순'] as $k => $v): ?><a href="<?= $base ?>&sort=<?= $k ?>" class="<?= $sort === $k ? 'font-bold text-black' : 'text-gray3' ?>"><?= $v ?></a><?php endforeach ?>
