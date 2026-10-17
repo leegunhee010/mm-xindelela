@@ -19,39 +19,38 @@
 
   <!-- 상품 정보 480 -->
   <div class="goods-info pc:w-[480px]">
-    <div class="mb-[8px] flex"><div class="flex gap-[8px]">
-      <?php if ($p['brand']): ?><p class="body1 font-bold"><?= esc($p['brand']) ?></p><?php endif ?>
-      <?php if ($supplier): ?><a class="body3 mr-[4px] inline-flex items-center gap-1 text-gray3 after:inline-block after:h-[12px] after:w-[6px] after:bg-[url('/_ext/cdn.i-screammall.co.kr/files/x2bee-fo-cdn/public/images/icons/common/ico_chevron_right_tight_light_16.svg')] after:bg-cover after:bg-center after:content-['']" href="<?= site_url('suppliers/' . $supplier['id']) ?>"><?= esc($supplier['company_name']) ?></a><?php endif ?>
-    </div><div class="ml-auto flex items-center justify-center gap-[12px] text-label1 text-gray5">상품번호 <?= esc($p['code'] ?: $p['id']) ?></div></div>
-    <div><p class="title2 mo:head-line1 mb-[8px] font-medium"><?= esc($p['name']) ?></p><p class="sub-head2 break-words text-gray3"><?= esc($p['summary']) ?></p></div>
+    <!-- 브랜드 · 공급사 -->
+    <div class="pd-top">
+      <?php if ($p['brand']): ?><b><?= esc($p['brand']) ?></b><?php endif ?>
+      <?php if ($supplier): ?><a href="<?= site_url('suppliers/' . $supplier['id']) ?>"><?= esc($supplier['company_name']) ?> ›</a><?php endif ?>
+    </div>
+    <h2 class="pd-name"><?= esc($p['name']) ?></h2>
 
     <!-- 가격 -->
-    <div class="pt-[20px] pb-[24px]">
-      <?php if ($approved): ?>
-        <div class="flex items-baseline gap-[10px]"><span class="title3 mo:head-line1 font-bold"><?= mm_price($p['price'], false) ?> <span class="text-[16px] font-medium"><?= esc($sym) ?></span></span><?php if ($p['retail_price']): ?><span class="body3 text-gray5 line-through">소비자가 <?= mm_price($p['retail_price']) ?></span><?php endif ?></div>
-      <?php else: ?>
-        <div class="title3 mo:head-line1 font-bold">회원 혜택가</div>
-        <p class="mt-[6px] body3 text-gray3">도매가는 비즈니스 인증 회원에게만 표시됩니다<?php if ($p['retail_price']): ?> · 소비자가 <?= mm_price($p['retail_price']) ?><?php endif ?></p>
-      <?php endif ?>
-    </div>
+    <?php if ($approved): ?>
+      <div class="pd-price"><b><?= mm_price($p['price'], false) ?></b><span><?= esc($sym) ?></span><?php if ($p['retail_price']): ?><del>소비자가 <?= mm_price($p['retail_price']) ?></del><?php endif ?></div>
+    <?php else: ?>
+      <div class="pd-price is-lock"><span class="pd-price-l">도매가</span><b>🔒 인증 회원 공개</b><?php if ($p['retail_price']): ?><del>소비자가 <?= mm_price($p['retail_price']) ?></del><?php endif ?></div>
+    <?php endif ?>
 
-    <!-- 도매 단가표 -->
-    <div class="pd-tier<?= $approved ? '' : ' is-lite' ?>">
-      <?php if ($approved): ?>
-        <p class="pd-tier-tit">수량별 도매가</p>
-        <ul>
-          <li data-min="<?= (int) $p['moq'] ?>"><span><?= number_format((int) $p['moq']) ?><?= esc($p['unit']) ?> 이상</span><b><?= mm_price($p['price'], false) ?> <?= esc($sym) ?></b></li>
-          <?php foreach ($tiers as $t): ?><li data-min="<?= (int) $t['min_qty'] ?>"><span><?= number_format((int) $t['min_qty']) ?><?= esc($p['unit']) ?> 이상</span><b><?= mm_price($t['price'], false) ?> <?= esc($sym) ?></b></li><?php endforeach ?>
-        </ul>
-      <?php endif ?>
-      <p class="pd-tier-foot"><b>최소 <?= number_format((int) $p['moq']) ?><?= esc($p['unit']) ?>부터 주문</b><?php if ($approved): ?><span>재고 <?= number_format((int) $p['stock']) ?><?= esc($p['unit']) ?></span><?php endif ?><?php if ($p['origin']): ?><span>원산지 <?= esc($p['origin']) ?></span><?php endif ?></p>
-    </div>
+    <!-- 핵심 조건 한 줄 -->
+    <ul class="pd-chips">
+      <li><b>최소 <?= number_format((int) $p['moq']) ?><?= esc($p['unit']) ?></b>부터</li>
+      <?php if ($p['origin']): ?><li>원산지 <?= esc($p['origin']) ?></li><?php endif ?>
+      <li>KBZPay 선불</li>
+      <?php if ($approved): ?><li>재고 <?= number_format((int) $p['stock']) ?><?= esc($p['unit']) ?></li><?php endif ?>
+    </ul>
 
-    <!-- 결제·배송 -->
-    <dl class="pd-info">
-      <div><dt>결제</dt><dd>KBZPay 100% 선불 <span>(주문 신청 후 바로 송금)</span></dd></div>
-      <div><dt>배송</dt><dd>입금 확인 후 바로 출고</dd></div>
-    </dl>
+    <!-- 수량별 도매가 -->
+    <?php if ($approved): ?>
+    <div class="pd-tier">
+      <p class="pd-tier-tit">수량별 도매가</p>
+      <ul>
+        <li data-min="<?= (int) $p['moq'] ?>"><span><?= number_format((int) $p['moq']) ?><?= esc($p['unit']) ?> 이상</span><b><?= mm_price($p['price'], false) ?> <?= esc($sym) ?></b></li>
+        <?php foreach ($tiers as $t): ?><li data-min="<?= (int) $t['min_qty'] ?>"><span><?= number_format((int) $t['min_qty']) ?><?= esc($p['unit']) ?> 이상</span><b><?= mm_price($t['price'], false) ?> <?= esc($sym) ?></b></li><?php endforeach ?>
+      </ul>
+    </div>
+    <?php endif ?>
 
     <?php if ($approved): ?>
       <form method="post" action="<?= site_url('cart/add') ?>">
@@ -74,7 +73,7 @@
       </div>
     <?php else: ?>
       <div class="pd-lock">
-        <div class="pd-lock-h"><span class="pd-lock-ic">🔒</span><div><b>도매가는 비즈니스 인증 회원에게 열립니다</b><p>미얀마 소매상·온라인 셀러 전용 도매몰입니다. 인증은 <?= esc(mm_setting('verify_sla_text')) ?> 끝납니다.</p></div></div>
+        <div class="pd-lock-h"><span class="pd-lock-ic">🔒</span><div><b>비즈니스 인증하고 도매가 보기</b><p>인증은 <?= esc(mm_setting('verify_sla_text')) ?> 끝납니다.</p></div></div>
         <ol class="pd-lock-steps"><li class="on"><em>1</em>회원가입</li><li><em>2</em>비즈니스 인증</li><li><em>3</em>도매가·주문</li></ol>
         <div class="pd-lock-btns"><a class="is-main" href="<?= site_url('register') ?>">회원가입하고 인증하기</a><a href="<?= site_url('login') ?>">로그인</a></div>
       </div>

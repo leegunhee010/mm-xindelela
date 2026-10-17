@@ -461,3 +461,20 @@ main{min-height:600px;padding-bottom:80px}
 
 .pdt-dimgs{margin-top:36px;display:flex;flex-direction:column;align-items:center}
 .pdt-dimgs img{display:block;width:100%;max-width:860px;height:auto}
+
+/* 상세 우측 상단 정리 (10/17) */
+.pd-top{display:flex;align-items:center;gap:10px;font-size:15px}
+.pd-top b{color:#000}
+.pd-top a{color:#888;font-size:14px}
+.pd-name{margin:8px 0 0;font-size:30px;font-weight:600;line-height:1.3;color:#000;word-break:keep-all}
+.pd-price{display:flex;align-items:baseline;gap:6px;margin:22px 0 0;padding-top:20px;border-top:1px solid #eee}
+.pd-price b{font-size:30px;font-weight:800;color:#000}
+.pd-price>span{font-size:16px;font-weight:600}
+.pd-price del{margin-left:auto;font-size:14px;color:#aaa}
+.pd-price.is-lock{align-items:center}
+.pd-price-l{font-size:14px;color:#888;width:56px}
+.pd-price.is-lock b{font-size:18px;font-weight:700;color:var(--pri)}
+.pd-chips{display:flex;flex-wrap:wrap;gap:6px;margin:16px 0 22px;padding:0;list-style:none}
+.pd-chips li{font-size:13px;color:#555;background:#f4f4f4;border-radius:6px;padding:6px 10px}
+.pd-chips li b{color:#000}
+.pd-tier{margin-bottom:20px}
