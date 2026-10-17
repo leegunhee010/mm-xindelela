@@ -42,16 +42,18 @@ $idx  = array_search($o['status'], array_keys($flow), true);
   </table>
 
   <div class="oitems mt24">
-    <?php foreach ($items as $it): ?><div class="it"><img src="<?= mm_thumb($it['thumb']) ?>" alt=""><div class="n"><a href="<?= site_url('products/' . $it['product_id']) ?>"><?= esc($it['product_name']) ?></a><div class="s">단가 <?= mm_price($it['unit_price']) ?> · <?= $it['item_status'] === 'shipped' ? '<span class="st st-shipped">출고</span>' : '' ?></div></div><div class="q"><?= number_format((int) $it['qty']) ?>개</div><div class="p"><?= mm_price($it['line_total']) ?></div></div><?php endforeach ?>
+    <?php foreach ($items as $it): ?><div class="it"><img src="<?= mm_thumb($it['thumb']) ?>" alt=""><div class="n"><a href="<?= site_url('products/' . $it['product_id']) ?>"><?= esc($it['product_name']) ?></a><div class="s">단가 <?= mm_price($it['unit_price']) ?><?= $it['item_status'] === 'shipped' ? ' · <span class="st st-shipped">출고</span>' : '' ?></div></div><div class="q"><?= number_format((int) $it['qty']) ?>개</div><div class="p"><?= mm_price($it['line_total']) ?></div></div><?php endforeach ?>
   </div>
-  <div class="card mt16" style="background:var(--bg2)">
-    <div class="mmrow sp"><span>상품 합계</span><span><?= mm_price($o['subtotal']) ?></span></div>
-    <div class="mmrow sp"><span>포인트 사용</span><span>-<?= number_format((int) $o['points_used']) ?> P</span></div>
-    <div class="mmrow sp"><span>배송비</span><span><?= $o['status'] === 'requested' ? '안내 예정' : mm_price($o['shipping_fee']) ?></span></div>
-    <div class="mmrow sp" style="border-top:1px solid var(--line);padding-top:8px;margin-top:8px;font-weight:700;font-size:15px"><span><?= $o['status'] === 'requested' ? '예상 금액' : '최종 금액' ?></span><span style="color:var(--price);font-size:20px"><?= mm_price($o['total']) ?></span></div>
+  <div class="osum">
+    <dl>
+      <div><dt>상품 합계</dt><dd><?= mm_price($o['subtotal']) ?></dd></div>
+      <div><dt>포인트 사용</dt><dd>-<?= number_format((int) $o['points_used']) ?> P</dd></div>
+      <div><dt>배송비</dt><dd><?= $o['status'] === 'requested' ? '<span class="text-gray4">안내 예정</span>' : mm_price($o['shipping_fee']) ?></dd></div>
+    </dl>
+    <div class="osum-total"><span><?= $o['status'] === 'requested' ? '예상 금액' : '최종 금액' ?></span><b><?= mm_price($o['total']) ?></b></div>
   </div>
   <?php if (in_array($o['status'], ['requested', 'quoted'], true)): ?>
-  <form class="mt16" method="post" action="<?= site_url('mypage/orders/' . $o['id'] . '/cancel') ?>" onsubmit="return confirm('주문 신청을 취소할까요?')"><?= csrf_field() ?><button class="inline-flex items-center text-[#dc2626] bg-white border border-[#f87171] min-h-[36px] px-[16px] py-[8px] label1 !leading-none rounded-full font-bold" type="submit">주문 신청 취소</button></form>
+  <form class="osum-cancel" method="post" action="<?= site_url('mypage/orders/' . $o['id'] . '/cancel') ?>" onsubmit="return confirm('주문 신청을 취소할까요?')"><?= csrf_field() ?><span>입금 전까지 취소할 수 있습니다.</span><button class="inline-flex items-center text-[#dc2626] bg-white border border-[#f87171] min-h-[40px] px-[18px] py-[8px] label1 !leading-none rounded-full font-bold" type="submit">주문 신청 취소</button></form>
   <?php endif ?>
 </div>
 </div>

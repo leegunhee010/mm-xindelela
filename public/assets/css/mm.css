@@ -214,3 +214,20 @@ main{min-height:600px;padding-bottom:80px}
 .lockprice small{display:block;font-size:13px;font-weight:400;color:#666;margin-top:4px}
 .pd-tier.is-lite{border:0;padding:0 0 4px}
 .qty .stp button:focus,.qty .stp button:focus-visible{outline:0;box-shadow:none}
+/* 주문서 주소 검색 (구글맵) */
+.addr-sug{position:absolute;left:0;right:0;top:calc(100% + 4px);z-index:50;margin:0;padding:6px 0;list-style:none;background:#fff;border:1px solid #d5d5d5;border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.08)}
+.addr-sug li{padding:9px 14px;cursor:pointer;font-size:14px;line-height:1.4}
+.addr-sug li b{display:block;font-weight:600;color:#000}
+.addr-sug li span{display:block;font-size:12px;color:#888}
+.addr-sug li.on,.addr-sug li:hover{background:#fff3eb}
+.addr-sug li.addr-sug-by{cursor:default;text-align:right;font-size:11px;color:#aaa;padding:4px 14px 2px}
+.addr-sug li.addr-sug-by:hover{background:none}
+/* 주문 상세 금액 요약 (10/17) */
+.osum{margin-top:24px;margin-left:auto;max-width:420px;padding:22px 26px;border:1px solid #e5e5e5;border-radius:12px;background:#fafafa;font-size:15px}
+.osum dl{margin:0}
+.osum dl>div{display:flex;justify-content:space-between;padding:6px 0}
+.osum dt{color:#666}
+.osum dd{margin:0}
+.osum-total{display:flex;justify-content:space-between;align-items:baseline;margin-top:12px;padding-top:16px;border-top:1px solid #e5e5e5;font-weight:700}
+.osum-total b{font-size:22px;color:var(--pri)}
+.osum-cancel{display:flex;justify-content:flex-end;align-items:center;gap:14px;margin-top:16px;font-size:13px;color:#888}

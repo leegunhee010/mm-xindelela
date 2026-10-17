@@ -29,6 +29,7 @@ class Checkout extends BaseController
             'subtotal'  => $subtotal,
             'maxPoints' => $this->maxPoints($u, $subtotal),
             'codEnabled' => mm_setting('cod_enabled', '0') === '1',
+            'mapsKey'    => trim((string) mm_setting('google_maps_key', '')),
         ]);
     }
 
@@ -81,6 +82,8 @@ class Checkout extends BaseController
             'ship_phone'     => trim((string) $this->request->getPost('ship_phone')),
             'ship_city'      => trim((string) $this->request->getPost('ship_city')),
             'ship_address'   => trim((string) $this->request->getPost('ship_address')),
+            'ship_lat'       => is_numeric($this->request->getPost('ship_lat')) ? (float) $this->request->getPost('ship_lat') : null,
+            'ship_lng'       => is_numeric($this->request->getPost('ship_lng')) ? (float) $this->request->getPost('ship_lng') : null,
             'memo'           => trim((string) $this->request->getPost('memo')),
         ]);
         $oim = new OrderItemModel();

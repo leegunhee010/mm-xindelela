@@ -10,8 +10,8 @@ foreach (['4d3a10b18ca278ac', '6aa6463b93b71a20', '382ef9402adc32b5', '02a257d78
 <link rel="stylesheet" href="<?= base_url('assets/is/css/' . $css . '.css') ?>">
 <?php endforeach ?>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.1.14/swiper-bundle.min.css">
-<link rel="stylesheet" href="<?= base_url('assets/css/is-fill.css?v=7') ?>">
-<link rel="stylesheet" href="<?= base_url('assets/css/mm.css?v=4') ?>">
+<link rel="stylesheet" href="<?= base_url('assets/css/is-fill.css?v=9') ?>">
+<link rel="stylesheet" href="<?= base_url('assets/css/mm.css?v=5') ?>">
 </head>
 <body>
 <?php
@@ -132,12 +132,12 @@ $cur  = uri_string();
   <div class="footer-conts-item flex flex-col">
     <p class="text-gray3">고객센터 (Viber)</p>
     <p class="text-[30px] font-bold leading-[1.2] mt-[4px] mb-[10px]"><?= esc(mm_setting('cs_viber', '')) ?></p>
-    <p class="mt-[4px] text-body3 font-regular">평일 09:00 ~ 18:00 (미얀마 시간)</p>
+    <p class="mt-[4px] text-body3 font-regular">평일 09:00 ~ 18:00</p>
     <p class="mt-[4px] text-body3 text-gray3">주말·공휴일 휴무</p>
     <a href="<?= site_url('mypage/inquiries') ?>" class="mt-[16px] inline-flex w-fit items-center rounded-[99px] border border-primary px-[16px] py-[8px] text-body3 font-bold text-primary">1:1 문의하기</a>
   </div>
 </div></div></footer>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.1.14/swiper-bundle.min.js"></script>
-<script src="<?= base_url('assets/js/mm.js?v=4') ?>"></script>
+<script src="<?= base_url('assets/js/mm.js?v=9') ?>"></script>
 </body>
 </html>

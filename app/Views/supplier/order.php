@@ -4,7 +4,7 @@
   <h3><?= esc($o['order_no']) ?> <span class="st st-<?= esc($o['status']) ?>"><?= mm_order_status_label($o['status']) ?></span></h3>
   <table class="kv">
     <tr><th>받는 사람</th><td><?= esc($o['ship_name']) ?> · <?= esc($o['ship_phone']) ?></td></tr>
-    <tr><th>배송지</th><td><?= esc($o['ship_city']) ?> <?= esc($o['ship_address']) ?></td></tr>
+    <tr><th>배송지</th><td><?= esc($o['ship_city']) ?> <?= esc($o['ship_address']) ?><?php if (! empty($o['ship_lat'])): ?> <a class="label1 text-primary" target="_blank" rel="noopener" href="https://www.google.com/maps?q=<?= esc($o['ship_lat']) ?>,<?= esc($o['ship_lng']) ?>">지도 보기 ›</a><?php endif ?></td></tr>
     <tr><th>구매자</th><td><?= esc($buyer['company_name'] ?? '-') ?></td></tr>
     <?php if ($o['memo']): ?><tr><th>요청 사항</th><td><?= nl2br(esc($o['memo'])) ?></td></tr><?php endif ?>
     <tr><th>입금 확인</th><td><?= mm_dt($o['paid_at']) ?></td></tr>

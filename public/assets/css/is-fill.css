@@ -72,3 +72,4 @@ input[type=radio].accent-\[\#ff6200\]{display:inline-block!important;appearance:
 body{word-break:keep-all;overflow-wrap:break-word}
 /* 버튼 테두리 스타일 누락(장바구니·문의 버튼 외곽선 안 보임) (10/17) */
 .border,.border-t,.border-b,.border-l,.border-r{border-style:solid}
+.gap-x-\[12px\]{column-gap:12px}

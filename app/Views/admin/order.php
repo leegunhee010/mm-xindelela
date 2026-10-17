@@ -3,7 +3,7 @@
   <div class="card"><h3><?= esc($o['order_no']) ?> <span class="st st-<?= esc($o['status']) ?>"><?= mm_order_status_label($o['status']) ?></span> <span class="muted small" style="font-weight:400"><?= mm_dt($o['created_at']) ?></span></h3>
     <table class="kv">
       <tr><th>구매자</th><td><a href="<?= site_url('admin/buyers/' . $o['user_id']) ?>"><b><?= esc($buyer['company_name'] ?? '-') ?></b></a> · <?= esc($buyer['name'] ?? '') ?> · 전화 <?= esc($buyer['phone'] ?? '') ?> · Viber <?= esc($buyer['viber'] ?? $buyer['phone'] ?? '') ?></td></tr>
-      <tr><th>배송지</th><td><?= esc($o['ship_name']) ?> · <?= esc($o['ship_phone']) ?><br><?= esc($o['ship_city']) ?> <?= esc($o['ship_address']) ?></td></tr>
+      <tr><th>배송지</th><td><?= esc($o['ship_name']) ?> · <?= esc($o['ship_phone']) ?><br><?= esc($o['ship_city']) ?> <?= esc($o['ship_address']) ?><?php if (! empty($o['ship_lat'])): ?> <a class="label1 text-primary" target="_blank" rel="noopener" href="https://www.google.com/maps?q=<?= esc($o['ship_lat']) ?>,<?= esc($o['ship_lng']) ?>">지도 보기 ›</a><?php endif ?></td></tr>
       <tr><th>결제 방법</th><td><?= mm_payment_label($o['payment_method']) ?></td></tr>
       <?php if ($o['memo']): ?><tr><th>구매자 요청</th><td><?= nl2br(esc($o['memo'])) ?></td></tr><?php endif ?>
       <tr><th>입금 캡처</th><td><?php if ($o['payment_proof']): ?><a href="<?= base_url($o['payment_proof']) ?>" target="_blank"><img class="proof" src="<?= base_url($o['payment_proof']) ?>" alt=""></a><div class="small muted"><?= esc($o['payment_note']) ?> · <?= mm_dt($o['proof_at']) ?></div><?php else: ?><span class="muted">아직 없음</span><?php endif ?></td></tr>

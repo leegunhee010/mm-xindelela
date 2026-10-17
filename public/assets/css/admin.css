@@ -1,5 +1,5 @@
 @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css');
-body.ad{font-family:Pretendard,-apple-system,'Apple SD Gothic Neo','Malgun Gothic',sans-serif}
+body.ad{margin:0;font-family:Pretendard,-apple-system,'Apple SD Gothic Neo','Malgun Gothic',sans-serif}
 /* 관리자·공급사센터 공용 (사이드바 셸) */
 .ad{display:flex;min-height:100vh;background:#f4f5f7}
 .ad .sb{width:220px;background:#1b1b1b;color:#ddd;flex:none;display:flex;flex-direction:column}
@@ -8,7 +8,7 @@ body.ad{font-family:Pretendard,-apple-system,'Apple SD Gothic Neo','Malgun Gothi
 .ad .sb .grp{padding:14px 20px 4px;font-size:10px;color:#777;letter-spacing:1px}
 .ad .sb a{display:flex;justify-content:space-between;align-items:center;padding:9px 20px;font-size:13px;color:#ccc}
 .ad .sb a:hover{background:#2a2a2a;color:#fff}
-.ad .sb a.on{background:var(--green);color:#fff;font-weight:700}
+.ad .sb a.on{background:var(--pri);color:#fff;font-weight:700}
 .ad .sb a .bd{min-width:18px;height:18px;line-height:18px;padding:0 5px;border-radius:9px;background:var(--price);color:#fff;font-size:10px;text-align:center;font-weight:700}
 .ad .sb .ft{margin-top:auto;padding:16px 20px;font-size:11px;color:#888;border-top:1px solid #333}
 .ad .sb .ft a{display:inline;padding:0;color:#aaa;margin-left:8px}
