@@ -50,7 +50,6 @@ class Auth extends BaseController
             'name'          => 'required|max_length[100]',
             'phone'         => 'required|max_length[50]',
             'company_name'  => 'required|max_length[190]',
-            'business_type' => 'required|in_list[online,offline,both]',
             'city'          => 'required|max_length[100]',
         ];
         if (! $this->validate($rules, [
@@ -60,7 +59,6 @@ class Auth extends BaseController
             'name' => ['required' => '담당자 이름을 입력해 주세요.'],
             'phone' => ['required' => '연락처를 입력해 주세요.'],
             'company_name' => ['required' => '상호(가게·페이지 이름)를 입력해 주세요.'],
-            'business_type' => ['required' => '판매 형태를 선택해 주세요.'],
             'city' => ['required' => '지역(도시)을 입력해 주세요.'],
         ])) {
             return redirect()->back()->withInput()->with('error', implode(' ', $this->validator->getErrors()));
@@ -77,8 +75,12 @@ class Auth extends BaseController
         } catch (\Throwable $e) {
             return redirect()->back()->withInput()->with('error', $e->getMessage());
         }
+        $vt = array_values(array_intersect(array_keys(mm_verify_types()), (array) $this->request->getPost('verify_types')));
+        if (! $vt) {
+            return redirect()->back()->withInput()->with('error', '오프라인 매장 · 온라인 판매 · 판매 네트워크 중 해당하는 것을 하나 이상 골라 주세요.');
+        }
         if ($fb === '' && ! $docs) {
-            return redirect()->back()->withInput()->with('error', '페이스북 페이지 주소 또는 인증 자료(매장 사진·영업허가증 등)를 하나 이상 올려 주세요.');
+            return redirect()->back()->withInput()->with('error', '판매 채널 링크나 사진·캡처를 하나 이상 올려 주세요.');
         }
         // 추천 코드
         $referredBy = null;
@@ -103,7 +105,8 @@ class Auth extends BaseController
             'viber'         => trim((string) $this->request->getPost('viber')),
             'status'        => 'pending',
             'company_name'  => trim((string) $this->request->getPost('company_name')),
-            'business_type' => $this->request->getPost('business_type'),
+            'business_type' => count($vt) === 1 && $vt[0] !== 'network' ? $vt[0] : 'both',
+            'verify_types'  => implode(',', $vt),
             'fb_page'       => $fb,
             'city'          => trim((string) $this->request->getPost('city')),
             'address'       => trim((string) $this->request->getPost('address')),

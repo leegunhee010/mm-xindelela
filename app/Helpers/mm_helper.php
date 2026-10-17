@@ -198,3 +198,61 @@ if (! function_exists('mm_referral_code')) {
         return $c;
     }
 }
+
+if (! function_exists('mm_verify_types')) {
+    /**
+     * 사업자 인증 규정. 가입·재제출·관리자 검수·이용안내가 모두 이 정의를 쓴다.
+     * 셋 중 하나만 증빙하면 된다. 사진·캡처도 인정.
+     */
+    function mm_verify_types(): array
+    {
+        return [
+            'offline' => [
+                'label'  => '오프라인 매장',
+                'desc'   => '가게·매장을 운영하고 있어요',
+                'docs'   => ['간판이 보이는 매장 외관 사진', '진열대나 매장 안 사진', '영업허가증 (있으면)'],
+                'check'  => ['사진 속 매장이 실제로 영업 중인가', '상호(간판)가 가입 정보와 맞는가'],
+            ],
+            'online' => [
+                'label'  => '온라인 판매',
+                'desc'   => '페이스북·틱톡·인스타 등에서 팔고 있어요',
+                'docs'   => ['판매 페이지 링크', '판매 글 캡처', '고객 주문·배송 대화 캡처'],
+                'check'  => ['판매 페이지(또는 캡처)에 최근 판매 글이 있는가', '페이지 이름이 가입 상호와 맞는가'],
+            ],
+            'network' => [
+                'label'  => '판매 네트워크',
+                'desc'   => '거래처·고객 그룹에 물건을 대고 있어요',
+                'docs'   => ['Viber·Telegram 고객/거래처 그룹 캡처', '거래처 주문·납품 대화 캡처', '거래 장부·영수증 사진'],
+                'check'  => ['여러 고객·거래처에 반복해서 판매·공급하는가', '개인 사용 목적 구매가 아닌가'],
+            ],
+        ];
+    }
+}
+
+if (! function_exists('mm_verify_labels')) {
+    /** 저장된 'offline,online' → '오프라인 매장 · 온라인 판매' */
+    function mm_verify_labels(?string $csv): string
+    {
+        $t = mm_verify_types();
+        $out = [];
+        foreach (array_filter(explode(',', (string) $csv)) as $k) {
+            if (isset($t[$k])) {
+                $out[] = $t[$k]['label'];
+            }
+        }
+        return $out ? implode(' · ', $out) : '-';
+    }
+}
+
+if (! function_exists('mm_verify_reject_reasons')) {
+    /** 관리자 반려 사유 빠른 입력 */
+    function mm_verify_reject_reasons(): array
+    {
+        return [
+            '판매 활동을 확인할 수 있는 자료가 없습니다. 매장 사진, 판매 글 캡처, 거래처 대화 캡처 중 하나를 올려 주세요.',
+            '사진·캡처가 흐려서 내용을 확인할 수 없습니다. 선명한 자료로 다시 올려 주세요.',
+            '제출하신 링크(페이지)에 들어갈 수 없거나 판매 글이 없습니다. 판매 글이 보이는 캡처를 함께 올려 주세요.',
+            '자료의 상호와 가입하신 상호가 다릅니다. 같은 가게·페이지인지 확인할 수 있는 자료를 올려 주세요.',
+        ];
+    }
+}

@@ -35,23 +35,13 @@ $inp = 'h-[44px] w-full px-3 bg-white body3 text-black placeholder:text-gray4 fo
         <label class="block"><span class="label1 text-gray3 mb-[6px] block">지역(도시) <i class="text-primary not-italic">*</i></span><div class="input-item"><input class="<?= $inp ?>" type="text" name="city" value="<?= esc(old('city')) ?>" placeholder="Yangon, Mandalay ..." required></div></label>
         <label class="block"><span class="label1 text-gray3 mb-[6px] block">주소</span><div class="input-item"><input class="<?= $inp ?>" type="text" name="address" value="<?= esc(old('address')) ?>"></div></label>
       </div>
-      <div><span class="label1 text-gray3 mb-[6px] block">판매 형태 <i class="text-primary not-italic">*</i></span>
-        <div class="flex gap-[18px] body3">
-          <?php foreach (['online' => '온라인(페이스북·틱톡 등)', 'offline' => '오프라인 매장', 'both' => '둘 다'] as $k => $l): ?><label class="flex items-center gap-[6px]"><input type="radio" name="business_type" value="<?= $k ?>" class="size-[18px] accent-[#ff6200]" <?= old('business_type', 'both') === $k ? 'checked' : '' ?>> <?= $l ?></label><?php endforeach ?>
-        </div></div>
     </div>
   </div>
 
   <div class="mb-[40px]">
-    <strong class="sub-head1 font-bold">사업자 인증 자료 <span class="label1 font-regular text-gray4">(페이스북 페이지 또는 자료 중 하나 이상)</span></strong>
+    <strong class="sub-head1 font-bold">사업자 인증 <i class="text-primary not-italic">*</i></strong>
     <hr class="divider bg-gray6 border-0 h-px my-[18px]">
-    <div class="flex flex-col gap-y-[14px]">
-      <label class="block"><span class="label1 text-gray3 mb-[6px] block">페이스북 페이지 / 틱톡샵 주소</span><div class="input-item"><input class="<?= $inp ?>" type="text" name="fb_page" value="<?= esc(old('fb_page')) ?>" placeholder="https://facebook.com/yourshop"></div></label>
-      <div><span class="label1 text-gray3 mb-[6px] block">인증 자료 업로드</span>
-        <label class="flex h-[44px] cursor-pointer items-center justify-between rounded-[8px] border border-dashed border-gray5 px-3 body3 text-gray3"><span>매장 사진 · 영업허가증 · 판매 스크린샷 (JPG/PNG/PDF, 5MB)</span><span class="rounded-full bg-black px-[12px] py-[6px] label1 font-bold text-white">파일 선택</span><input type="file" name="docs[]" multiple accept="image/*,.pdf" data-list="#docList" class="hidden"></label>
-        <ul id="docList" class="mt-[8px] label1 text-gray3"></ul></div>
-      <div class="rounded-[8px] bg-gray9 p-[14px] label1 text-gray3 leading-[1.7]">담당자가 제출 자료를 직접 확인한 뒤 <b class="text-black"><?= esc(mm_setting('verify_sla_text')) ?></b> 승인합니다. 자료가 부족하면 반려 사유와 함께 재제출을 요청합니다.</div>
-    </div>
+    <?= view('_verify_fields', ['sel' => (array) old('verify_types', []), 'link' => (string) old('fb_page')]) ?>
   </div>
 
   <div class="mb-[40px]">

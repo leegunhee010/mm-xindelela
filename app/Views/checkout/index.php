@@ -20,7 +20,7 @@
       <label class="block"><span class="label1 text-gray3 mb-[6px] block">도시 <i class="text-primary not-italic">*</i></span><div class="input-item"><input class="<?= $inp ?>" name="ship_city" id="shipCity" value="<?= esc(old('ship_city', $user['city'])) ?>" required></div></label>
       <div class="block"><label for="shipAddr" class="label1 text-gray3 mb-[6px] block">상세 주소 <i class="text-primary not-italic">*</i></label>
         <div class="addr-search relative"><div class="input-item"><input id="shipAddr" class="<?= $inp ?>" name="ship_address" value="<?= esc(old('ship_address', $user['address'])) ?>" required autocomplete="off"<?= $mapsKey ? ' placeholder="주소나 가게 이름을 입력하면 찾아 드립니다"' : '' ?>></div>
-          <ul class="addr-sug" id="addrSug" hidden></ul></div>
+          <ul class="addr-sug" id="addrSug" hidden></ul></div><?php if ($mapsKey): ?><p class="addr-hint">주소나 가게 이름을 치면 구글맵에서 찾아 드립니다</p><?php endif ?>
         <input type="hidden" name="ship_lat" id="shipLat" value="<?= esc(old('ship_lat')) ?>"><input type="hidden" name="ship_lng" id="shipLng" value="<?= esc(old('ship_lng')) ?>">
         <a id="addrMap" class="mt-[6px] label1 text-primary" style="display:none" target="_blank" rel="noopener">지도에서 위치 확인 ›</a>
       </div>

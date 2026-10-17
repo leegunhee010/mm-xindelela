@@ -12,17 +12,17 @@
   </div>
   <table class="kv">
     <tr><th>상호</th><td><?= esc($user['company_name']) ?></td></tr>
-    <tr><th>판매 형태</th><td><?= ['online' => '온라인', 'offline' => '오프라인 매장', 'both' => '온·오프라인'][$user['business_type']] ?? '-' ?> · <?= esc($user['city']) ?></td></tr>
-    <tr><th>페이스북 페이지</th><td><?php if ($user['fb_page']): ?><a href="<?= esc($user['fb_page']) ?>" target="_blank" style="color:var(--navy);text-decoration:underline"><?= esc($user['fb_page']) ?></a><?php else: ?>-<?php endif ?></td></tr>
+    <tr><th>인증 유형</th><td><?= mm_verify_labels($user['verify_types']) ?> · <?= esc($user['city']) ?></td></tr>
+    <tr><th>판매 채널 링크</th><td><?php if ($user['fb_page']): ?><a href="<?= esc($user['fb_page']) ?>" target="_blank" style="color:var(--navy);text-decoration:underline"><?= esc($user['fb_page']) ?></a><?php else: ?>-<?php endif ?></td></tr>
     <tr><th>제출 자료</th><td><?php if (! $docs): ?>-<?php else: ?><ul class="doclist"><?php foreach ($docs as $d): ?><li><a href="<?= base_url($d['path']) ?>" target="_blank"><?= esc($d['name']) ?></a></li><?php endforeach ?></ul><?php endif ?></td></tr>
   </table>
   <?php if ($user['status'] !== 'approved' && $user['status'] !== 'suspended'): ?>
   <div class="card mt24">
     <h3>자료 추가·재제출</h3>
     <form method="post" action="<?= site_url('mypage/verify') ?>" enctype="multipart/form-data"><?= csrf_field() ?>
-      <div class="field"><label>페이스북 페이지 / 틱톡샵 주소</label><input class="h-[44px] w-full px-3 bg-white body3 text-black border border-gray6 rounded-[8px] focus:outline-none focus:border-black" name="fb_page" value="<?= esc($user['fb_page']) ?>"></div>
-      <div class="field"><label>자료 추가 업로드</label><input type="file" name="docs[]" multiple accept="image/*,.pdf" data-list="#docList"><ul id="docList" class="small muted mt8"></ul><div class="help">매장 사진, 영업허가증, 판매 스크린샷 등. 기존 자료는 유지되고 새 자료가 추가됩니다.</div></div>
-      <button class="inline-flex items-center text-white bg-primary min-h-[44px] px-[20px] py-[12px] body3 !leading-none rounded-full font-bold" type="submit">다시 제출하기</button>
+      <?= view('_verify_fields', ['sel' => array_filter(explode(',', (string) $user['verify_types'])), 'link' => (string) $user['fb_page']]) ?>
+      <p class="vrule-note" style="margin-top:6px">이미 올린 자료는 그대로 남고, 새 자료가 추가됩니다.</p>
+      <button class="mt-[18px] inline-flex items-center text-white bg-primary min-h-[44px] px-[20px] py-[12px] body3 !leading-none rounded-full font-bold" type="submit">다시 제출하기</button>
     </form>
   </div>
   <?php endif ?>

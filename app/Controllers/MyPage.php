@@ -191,11 +191,16 @@ class MyPage extends BaseController
             return redirect()->back()->with('error', $e->getMessage());
         }
         $fb = trim((string) $this->request->getPost('fb_page'));
-        if ($fb === '' && ! $docs) {
-            return redirect()->back()->with('error', '페이스북 페이지 주소 또는 자료를 하나 이상 올려 주세요.');
+        $vt = array_values(array_intersect(array_keys(mm_verify_types()), (array) $this->request->getPost('verify_types')));
+        if (! $vt) {
+            return redirect()->back()->with('error', '오프라인 매장 · 온라인 판매 · 판매 네트워크 중 해당하는 것을 하나 이상 골라 주세요.');
         }
         $existing = mm_json($u['doc_files']);
+        if ($fb === '' && ! $docs && ! $existing) {
+            return redirect()->back()->with('error', '판매 채널 링크나 사진·캡처를 하나 이상 올려 주세요.');
+        }
         (new UserModel())->update($u['id'], [
+            'verify_types'  => implode(',', $vt),
             'fb_page'       => $fb,
             'doc_files'     => json_encode(array_merge($existing, $docs), JSON_UNESCAPED_UNICODE),
             'status'        => 'pending',

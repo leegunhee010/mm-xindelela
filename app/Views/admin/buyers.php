@@ -2,7 +2,7 @@
   <?php foreach (['pending' => '검수 대기', 'approved' => '승인', 'rejected' => '반려', 'suspended' => '정지', 'all' => '전체'] as $k => $l): ?><a href="<?= site_url('admin/buyers?status=' . $k) ?>" class="<?= $st === $k ? 'on' : '' ?>"><?= $l ?><?php if (isset($counts[$k])): ?><span class="n"><?= $counts[$k] ?></span><?php endif ?></a><?php endforeach ?>
   <form class="srch" method="get"><input type="hidden" name="status" value="<?= esc($st) ?>"><input name="q" value="<?= esc($q) ?>" placeholder="상호·이름·이메일·전화"><button class="btn btn-sm" type="submit">검색</button></form>
 </div>
-<?php if ($st === 'pending'): ?><div class="note">검수 순서: 페이스북 페이지 열어 개설일·최근 게시물·판매글 확인 → 매장 사진·허가증 확인 → 승인 또는 반려(사유 필수). 목표 처리 시간: <?= esc(mm_setting('verify_sla_text')) ?>.</div><?php endif ?>
+<?php if ($st === 'pending'): ?><div class="note">인증 기준: 오프라인 매장 · 온라인 판매 · 판매 네트워크 중 <b>하나만</b> 확인되면 승인(사진·캡처 인정). 확인이 안 되면 반려 사유를 적어 재제출 요청. 목표 처리 시간: <?= esc(mm_setting('verify_sla_text')) ?>.</div><?php endif ?>
 <table class="tbl"><thead><tr><th>ID</th><th class="l">상호 / 담당자</th><th>지역</th><th>페이스북</th><th>주문</th><th>입금 확인 금액</th><th>장바구니</th><th class="l">추천인</th><th>포인트</th><th>가입</th><th>상태</th><th></th></tr></thead><tbody>
 <?php if (! $rows): ?><tr><td colspan="12" style="padding:40px">해당 회원이 없습니다.</td></tr><?php endif ?>
 <?php foreach ($rows as $b): $docs = mm_json($b['doc_files']); ?>

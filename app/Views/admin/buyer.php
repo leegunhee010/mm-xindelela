@@ -20,9 +20,9 @@
     <table class="kv">
       <tr><th>담당자</th><td><?= esc($b['name']) ?> · <?= esc($b['email']) ?></td></tr>
       <tr><th>연락처</th><td>전화 <?= esc($b['phone']) ?> · Viber <?= esc($b['viber'] ?: $b['phone']) ?></td></tr>
-      <tr><th>판매 형태</th><td><?= ['online' => '온라인', 'offline' => '오프라인 매장', 'both' => '온·오프라인'][$b['business_type']] ?? '-' ?></td></tr>
+      <tr><th>인증 유형</th><td><b><?= mm_verify_labels($b['verify_types']) ?></b></td></tr>
       <tr><th>지역·주소</th><td><?= esc($b['city']) ?> <?= esc($b['address']) ?></td></tr>
-      <tr><th>페이스북 페이지</th><td><?php if ($b['fb_page']): ?><a href="<?= esc($b['fb_page']) ?>" target="_blank" style="color:var(--navy);text-decoration:underline"><?= esc($b['fb_page']) ?></a> <a class="btn btn-xs" href="<?= esc($b['fb_page']) ?>" target="_blank">새 창</a><?php else: ?>-<?php endif ?></td></tr>
+      <tr><th>판매 채널 링크</th><td><?php if ($b['fb_page']): ?><a href="<?= esc($b['fb_page']) ?>" target="_blank" style="color:var(--navy);text-decoration:underline"><?= esc($b['fb_page']) ?></a> <a class="btn btn-xs" href="<?= esc($b['fb_page']) ?>" target="_blank">새 창</a><?php else: ?>-<?php endif ?></td></tr>
       <tr><th>추천인</th><td><?php if ($referrer): ?><a href="<?= site_url('admin/buyers/' . $referrer['id']) ?>"><?= esc($referrer['company_name']) ?></a> (<?= esc($referrer['referral_code']) ?>)<?php else: ?>-<?php endif ?></td></tr>
       <tr><th>내 추천코드</th><td><?= esc($b['referral_code']) ?></td></tr>
       <tr><th>가입 / 승인</th><td><?= mm_dt($b['created_at']) ?> / <?= mm_dt($b['approved_at']) ?></td></tr>
@@ -77,10 +77,18 @@
 <div>
   <?php if ($b['status'] !== 'approved'): ?>
   <div class="act" style="border:2px solid var(--pri)">
-    <h3>검수 결과</h3>
+    <h3>검수 기준</h3>
+    <div class="vchk">
+      <p class="vchk-rule">세 가지 중 <b>하나만</b> 확인되면 승인합니다. 사진·캡처도 인정합니다.</p>
+      <?php $vts = mm_verify_types(); $mine = array_filter(explode(',', (string) $b['verify_types'])); foreach ($vts as $k => $t): if ($mine && ! in_array($k, $mine, true)) { continue; } ?>
+      <div class="vchk-t"><b><?= $t['label'] ?></b><ul><?php foreach ($t['check'] as $c): ?><li><?= $c ?></li><?php endforeach ?></ul></div>
+      <?php endforeach ?>
+    </div>
+    <h3 style="margin-top:14px">검수 결과</h3>
     <form method="post" action="<?= site_url('admin/buyers/' . $b['id'] . '/approve') ?>" onsubmit="return confirm('승인할까요? 도매가와 주문 신청이 열리고, 추천인 포인트가 지급됩니다.')"><?= csrf_field() ?><button class="btn btn-g btn-block" type="submit" style="height:44px;font-size:15px">승인</button></form>
     <form method="post" action="<?= site_url('admin/buyers/' . $b['id'] . '/reject') ?>" class="mt8"><?= csrf_field() ?>
-      <textarea class="ta" name="reason" style="height:70px" placeholder="반려 사유 (회원에게 그대로 표시). 예: 페이스북 페이지에서 판매 활동을 확인할 수 없습니다. 매장 사진이나 판매 글 캡처를 추가로 올려 주세요."><?= esc($b['reject_reason']) ?></textarea>
+      <div class="vrej"><?php foreach (mm_verify_reject_reasons() as $r): ?><button type="button" data-r="<?= esc($r) ?>"><?= esc(mb_strimwidth($r, 0, 34, '…')) ?></button><?php endforeach ?></div>
+      <textarea class="ta" id="rejReason" name="reason" style="height:70px" placeholder="반려 사유 (회원에게 그대로 표시). 위 문구를 누르면 채워집니다."><?= esc($b['reject_reason']) ?></textarea>
       <button class="btn btn-red btn-block mt8" type="submit">반려 (자료 재요청)</button>
     </form>
   </div>
@@ -106,3 +114,5 @@
   </div>
 </div>
 </div>
+
+<script>document.querySelectorAll('.vrej button').forEach(function (b) { b.onclick = function () { document.getElementById('rejReason').value = b.dataset.r; }; });</script>

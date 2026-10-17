@@ -268,3 +268,27 @@ main{min-height:600px;padding-bottom:80px}
 .cstp button{width:36px;height:40px;font-size:18px;color:#666}
 .cstp button:focus{outline:0}
 .cstp input{width:56px;height:40px;border:0;border-left:1px solid #d5d5d5;border-right:1px solid #d5d5d5;text-align:center;font-size:15px;outline:0}
+
+/* 사업자 인증 유형 (10/17) */
+.vrule{background:#fff3eb;border-radius:12px;padding:16px 18px;margin-bottom:12px}
+.vrule-t{font-size:15px;font-weight:700;color:#000;margin:0}
+.vrule-t b{color:var(--pri)}
+.vrule-d{font-size:13px;color:#666;margin:6px 0 0;line-height:1.6}
+.vtypes{display:flex;flex-direction:column;gap:8px}
+.vtype{display:block;cursor:pointer}
+.vtype input{position:absolute;opacity:0;pointer-events:none}
+.vtype-box{display:block;border:1px solid #e0e0e0;border-radius:12px;padding:14px 16px 14px 46px;position:relative;background:#fff}
+.vtype-box:before{content:'';position:absolute;left:16px;top:16px;width:18px;height:18px;border:1.5px solid #c8c8c8;border-radius:5px;background:#fff}
+.vtype input:checked+.vtype-box{border-color:var(--pri);background:#fffaf6}
+.vtype input:checked+.vtype-box:before{background:var(--pri) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 8.5l3 3 6-6.5' fill='none' stroke='%23fff' stroke-width='2'/%3E%3C/svg%3E") center/14px no-repeat;border-color:var(--pri)}
+.vtype-box b{display:block;font-size:15px;color:#000}
+.vtype-desc{display:block;font-size:13px;color:#666;margin-top:2px}
+.vtype-box ul{margin:8px 0 0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:6px}
+.vtype-box li{font-size:12px;color:#555;background:#f4f4f4;border-radius:99px;padding:3px 10px}
+.vrule-note{font-size:12px;color:#888;margin:14px 0 0;line-height:1.6}
+.vrule-note b{color:#000}
+.vguide{width:100%;border-collapse:collapse;margin:12px 0 16px;font-size:14px}
+.vguide th,.vguide td{border:1px solid #e5e5e5;padding:10px 12px;text-align:left;vertical-align:top;line-height:1.6}
+.vguide th{background:#f7f7f7;font-weight:600}
+
+.addr-hint{margin:6px 0 0;font-size:12px;color:#888}
