@@ -1,5 +1,5 @@
 <section class="corner-section pc:mx-auto pc:w-[544px] mx-auto pc:pt-[44px] text-center">
-  <picture><img alt="" class="mx-auto mb-[24px] size-[100px]" src="/images/member/unified_member.svg"></picture>
+  <picture><img alt="" class="mx-auto mb-[24px] size-[100px]" src="<?= base_url('assets/img/order-done.svg') ?>"></picture>
   <h3 class="title3 font-bold">주문 신청이 접수되었습니다</h3>
   <p class="body3 text-gray3 mt-[8px]">주문번호 <b class="text-black sub-head1"><?= esc($o['order_no']) ?></b></p>
   <ol class="text-left mt-[28px] rounded-[12px] bg-gray9 p-[20px] body3 leading-[2] list-decimal pl-[36px]">

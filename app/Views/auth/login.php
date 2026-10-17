@@ -5,7 +5,7 @@
     <a href="<?= site_url('login') ?>" class="flex" data-state="active"><span>구매자 회원</span></a>
   </div>
   <div class="tab-cont mb-[39px] pt-[39px]">
-    <picture><img alt="구매자 회원" class="mx-auto mb-[39px] size-[100px]" src="/images/member/unified_member.svg"></picture>
+    <picture><img alt="구매자 회원" class="mx-auto mb-[39px] size-[100px]" src="<?= base_url('assets/img/buyer-shop.svg') ?>"></picture>
     <div class="text-center"><h4 class="headline2 mb-[4px] font-bold">구매자 회원</h4><p class="body3 font-medium text-gray4">미얀마 소매상 · 온라인 셀러 · 매장 운영자</p></div>
     <form method="post" action="<?= site_url('login') ?>" class="mt-[32px]"><?= csrf_field() ?>
       <div class="flex flex-col gap-[10px]">

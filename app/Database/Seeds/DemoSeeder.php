@@ -51,7 +51,9 @@ class DemoSeeder extends Seeder
         }
 
         // ── 카테고리 ──
-        $cats = ['화장품·스킨케어', '식품·음료', '건강식품', '생활용품', '주방용품', '패션·잡화', '유아동', '전자·소형가전'];
+        // 초기엔 상품이 적어 3개로만 나눔. 아래 상품 목록의 분류 번호(0~7)는 catMap으로 3개에 합침
+        $cats = ['화장품·스킨케어', '식품·건강식품', '생활용품'];
+        $catMap = [0, 1, 1, 2, 2, 2, 2, 2];
         $catIds = [];
         foreach ($cats as $i => $name) {
             $row = $db->table('categories')->where('name', $name)->get()->getRowArray();
@@ -138,7 +140,7 @@ class DemoSeeder extends Seeder
                     file_put_contents(FCPATH . $file, $svg);
                 }
                 $db->table('products')->insert([
-                    'supplier_id' => $supplierId, 'category_id' => $catIds[$ci], 'code' => 'DEMO-' . str_pad((string) ($i + 1), 3, '0', STR_PAD_LEFT),
+                    'supplier_id' => $supplierId, 'category_id' => $catIds[$catMap[$ci]], 'code' => 'DEMO-' . str_pad((string) ($i + 1), 3, '0', STR_PAD_LEFT),
                     'name' => $name, 'summary' => $brand . ' 정품. 박스 단위 도매 공급.',
                     'description' => '<p>' . esc($name) . ' 상세 설명입니다. 공급사가 상품 등록 시 상세 내용(HTML)을 입력합니다.</p><ul><li>제조국: 한국</li><li>유통기한: 제조일로부터 24개월</li><li>박스 입수: ' . $moq . '개</li></ul>',
                     'thumb' => $file, 'images' => json_encode([$file]),

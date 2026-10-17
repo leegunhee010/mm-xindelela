@@ -44,6 +44,7 @@ class DemoRichSeeder extends Seeder
 
         // ── 공급사·상품 추가 ──
         $cats = array_column($db->table('categories')->get()->getResultArray(), 'id');
+        $catMap = [0, 1, 1, 2, 2, 2, 2, 2];
         $supIds = [(int) $db->table('suppliers')->get()->getRowArray()['id']];
         foreach ([['한빛식품 (데모)', '한빛', '라면·김·간식류 수출 전문 (데모 공급사)'], ['청솔생활 (데모)', '청솔', '주방·생활용품 제조 (데모 공급사)'], ['모아뷰티 (데모)', '모아', '기초 화장품 OEM (데모 공급사)']] as [$cn, $br, $intro]) {
             $db->table('suppliers')->insert(['user_id' => 0, 'company_name' => $cn, 'brand' => $br, 'intro' => $intro, 'contact_name' => '담당자', 'phone' => '010-0000-0000',
@@ -60,7 +61,7 @@ class DemoRichSeeder extends Seeder
         foreach ($more as $i => [$name, $ci, $price, $retail, $moq, $si, $img]) {
             $st = $i === 10 ? 'hidden' : ($i === 11 ? 'draft' : 'active');
             $db->table('products')->insert([
-                'supplier_id' => $supIds[$si], 'category_id' => $cats[$ci] ?? null, 'code' => 'DEMO-' . str_pad((string) (13 + $i), 3, '0', STR_PAD_LEFT),
+                'supplier_id' => $supIds[$si], 'category_id' => $cats[$catMap[$ci]] ?? null, 'code' => 'DEMO-' . str_pad((string) (13 + $i), 3, '0', STR_PAD_LEFT),
                 'name' => $name, 'summary' => '테스트용 데모 상품', 'thumb' => 'assets/img/demo/' . $img . '.jpg', 'images' => json_encode(['assets/img/demo/' . $img . '.jpg']),
                 'price' => $price, 'retail_price' => $retail, 'moq' => $moq, 'tiers' => json_encode([['min_qty' => $moq * 3, 'price' => (int) round($price * 0.93 / 100) * 100]]),
                 'unit' => '개', 'stock' => [12, 30, 900, 450, 8, 220, 640, 300, 75, 500, 40, 100][$i], 'origin' => '한국', 'brand' => explode(' ', $name)[0] === '보조배터리' ? '파워온' : '데모브랜드',
