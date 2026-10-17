@@ -256,3 +256,37 @@ if (! function_exists('mm_verify_reject_reasons')) {
         ];
     }
 }
+
+if (! function_exists('mm_mask_name')) {
+    /** 순위표용 이름 가리기: 'Yangon Beauty Shop' → 'Yan*** Shop', '양곤상회' → '양**' */
+    function mm_mask_name(string $s): string
+    {
+        $s = trim($s);
+        $len = mb_strlen($s);
+        if ($len <= 2) {
+            return mb_substr($s, 0, 1) . '*';
+        }
+        $words = preg_split('/\s+/u', $s);
+        if (count($words) >= 2) {
+            return mb_substr($words[0], 0, 3) . '*** ' . end($words);
+        }
+        $keep = max(1, (int) floor($len / 3));
+        return mb_substr($s, 0, $keep) . str_repeat('*', min(4, $len - $keep));
+    }
+}
+
+if (! function_exists('mm_ship_methods')) {
+    function mm_ship_methods(): array
+    {
+        return ['courier' => '택배', 'cargo' => '화물·트럭', 'direct' => '직접 배송', 'pickup' => '방문 수령', 'air' => '항공 특송'];
+    }
+}
+
+if (! function_exists('mm_ship_info')) {
+    /** orders.ship_info(JSON) → 배열. 예전 주문은 tracking 문자열만 있음. */
+    function mm_ship_info(array $o): array
+    {
+        $i = json_decode((string) ($o['ship_info'] ?? ''), true) ?: [];
+        return array_merge(['method' => '', 'carrier' => '', 'tracking_no' => '', 'tracking_url' => '', 'sent_on' => '', 'eta' => '', 'note' => ''], $i);
+    }
+}

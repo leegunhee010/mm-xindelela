@@ -32,7 +32,7 @@ $inp = 'h-[44px] w-full px-3 bg-white body3 text-black placeholder:text-gray4 fo
       </form>
     </div>
   <?php elseif ($o['status'] === 'shipped'): ?>
-    <div class="vstat"><h2>배송 중입니다</h2><p>송장·배송 정보: <?= esc($o['tracking'] ?: '담당자 안내 예정') ?></p></div>
+    <div class="vstat"><h2>배송 중입니다</h2><p>도착 예정일과 송장은 아래 배송 정보에서 확인하세요.</p></div>
   <?php elseif ($o['status'] === 'cancelled'): ?>
     <div class="vstat"><h2>취소된 주문입니다</h2><p>사용한 포인트는 환원되었습니다.</p></div>
   <?php endif ?>
@@ -41,8 +41,21 @@ $inp = 'h-[44px] w-full px-3 bg-white body3 text-black placeholder:text-gray4 fo
     <tr><th>주문번호</th><td><?= esc($o['order_no']) ?> · <?= mm_dt($o['created_at']) ?></td></tr>
     <tr><th>결제 방법</th><td><?= mm_payment_label($o['payment_method']) ?></td></tr>
     <?php if ($o['memo']): ?><tr><th>요청 사항</th><td><?= nl2br(esc($o['memo'])) ?></td></tr><?php endif ?>
-    <?php if ($o['tracking']): ?><tr><th>배송 정보</th><td><?= esc($o['tracking']) ?></td></tr><?php endif ?>
   </table>
+  <?php $si = mm_ship_info($o); if (in_array($o['status'], ['shipped', 'delivered'], true) && ($si['method'] || $si['carrier'] || $si['tracking_no'] || $si['eta'] || $si['note'] || $o['tracking'])): ?>
+  <div class="oship">
+    <h4>배송 정보</h4>
+    <dl>
+      <?php if ($si['method']): ?><div><dt>배송 방법</dt><dd><?= esc(mm_ship_methods()[$si['method']] ?? '') ?></dd></div><?php endif ?>
+      <?php if ($si['carrier']): ?><div><dt>배송사</dt><dd><?= esc($si['carrier']) ?></dd></div><?php endif ?>
+      <?php if ($si['tracking_no']): ?><div><dt>송장번호</dt><dd><b><?= esc($si['tracking_no']) ?></b><?php if ($si['tracking_url']): ?> <a href="<?= esc($si['tracking_url']) ?>" target="_blank" rel="noopener">배송 조회 ›</a><?php endif ?></dd></div><?php endif ?>
+      <?php if ($si['sent_on']): ?><div><dt>발송일</dt><dd><?= esc(str_replace('-', '.', $si['sent_on'])) ?></dd></div><?php endif ?>
+      <?php if ($si['eta']): ?><div><dt>도착 예정</dt><dd><b><?= esc(str_replace('-', '.', $si['eta'])) ?></b></dd></div><?php endif ?>
+      <?php if ($si['note']): ?><div><dt>배송 메모</dt><dd><?= nl2br(esc($si['note'])) ?></dd></div><?php endif ?>
+      <?php if (! $si['method'] && ! $si['carrier'] && $o['tracking']): ?><div><dt>배송 정보</dt><dd><?= esc($o['tracking']) ?></dd></div><?php endif ?>
+    </dl>
+  </div>
+  <?php endif ?>
 
   <!-- 배송지 -->
   <div class="oaddr" id="oaddr">

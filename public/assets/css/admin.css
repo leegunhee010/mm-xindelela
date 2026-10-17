@@ -177,3 +177,37 @@ body.ad{margin:0;font-family:Pretendard,-apple-system,'Apple SD Gothic Neo','Mal
 .mtabs a,.mtabs a.on{border:0;border-bottom:3px solid transparent}
 .mtabs a+a{border-left:1px solid #f0f0f0}
 .mtabs a.on{border-bottom-color:var(--pri)}
+
+/* 출고 정보 (10/17) */
+.shipm{display:grid;grid-template-columns:repeat(3,1fr);gap:4px}
+.shipm label{display:block;cursor:pointer}
+.shipm input{position:absolute;opacity:0}
+.shipm span{display:block;text-align:center;height:34px;line-height:32px;border:1px solid var(--line);border-radius:6px;font-size:12px;background:#fff}
+.shipm input:checked+span{background:var(--ink);color:#fff;border-color:var(--ink);font-weight:700}
+
+/* 주문 관리 할 일 대시보드 (10/17) */
+.odash{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:12px}
+.odash-c{display:block;background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px 20px;color:inherit}
+.odash-c:hover{border-color:#999}
+.odash-k{display:block;font-size:13px;font-weight:700;color:#333}
+.odash-c b{display:block;font-size:34px;font-weight:800;line-height:1.1;margin-top:8px;color:var(--ink)}
+.odash-c b small{font-size:14px;font-weight:600;margin-left:3px}
+.odash-c em{display:block;font-style:normal;font-size:12px;color:var(--gray);margin-top:8px;min-height:16px}
+.odash-c em i{font-style:normal;color:#dc2626;font-weight:700}
+.odash-c.is-hot{border:2px solid var(--pri);background:#fff8f3}
+.odash-c.is-hot b{color:var(--pri)}
+.odash-c.is-warn{border:2px solid #111}
+.odash-c.is-zero{opacity:.6}
+.odash-c.is-zero.is-hot{border:1px solid var(--line);background:#fff}
+.odash-c.is-zero.is-hot b{color:var(--ink)}
+.ostat{display:grid;grid-template-columns:repeat(3,1fr);background:#fff;border:1px solid var(--line);border-radius:12px;margin-bottom:16px}
+.ostat>div{display:flex;justify-content:space-between;align-items:center;padding:14px 20px}
+.ostat>div+div{border-left:1px solid var(--line)}
+.ostat span{font-size:13px;color:var(--gray)}
+.ostat b{font-size:18px;font-weight:800}
+.oq{padding:18px 22px;margin-bottom:16px}
+.oq-h{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.oq-h h3{margin:0;padding:0;border:0;font-size:16px}
+.tbl tr.o-stale td{background:#fffbeb}
+.tabs>a{width:104px}
+.srch input{width:200px}

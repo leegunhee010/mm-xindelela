@@ -34,7 +34,35 @@ class Orders extends Base
         foreach (['requested', 'proof', 'paid', 'preparing', 'shipped', 'delivered', 'cancelled'] as $s) {
             $counts[$s] = $om->where('status', $s)->countAllResults();
         }
-        return $this->page('admin/orders', ['title' => '주문 관리', 'rows' => $rows, 'pager' => $om->pager, 'st' => $st, 'q' => $q, 'counts' => $counts]);
+        // 할 일 대시보드
+        $today   = date('Y-m-d');
+        $stale   = date('Y-m-d H:i:s', strtotime('-3 days'));
+        $paidSt  = \App\Libraries\GrowthStats::PAID;
+        $queue   = (new OrderModel())->where('status', 'proof')->orderBy('proof_at', 'ASC')->findAll(6);
+        foreach ($queue as &$qq) {
+            $qq['buyer'] = $um->find($qq['user_id']);
+        }
+        $etaOver = 0;
+        foreach ((new OrderModel())->select('ship_info')->where('status', 'shipped')->findAll() as $x) {
+            $e = mm_ship_info($x)['eta'];
+            if ($e && $e < $today) {
+                $etaOver++;
+            }
+        }
+        $sum = fn ($from) => (int) ((new OrderModel())->selectSum('total')->whereIn('status', $paidSt)->where('paid_at >=', $from)->first()['total'] ?? 0);
+        $dash = [
+            'proof'      => $counts['proof'],
+            'proofOld'   => (new OrderModel())->where('status', 'proof')->where('proof_at <', date('Y-m-d H:i:s', strtotime('-1 day')))->countAllResults(),
+            'toShip'     => $counts['paid'] + $counts['preparing'],
+            'requested'  => $counts['requested'],
+            'reqStale'   => (new OrderModel())->where('status', 'requested')->where('created_at <', $stale)->countAllResults(),
+            'shipped'    => $counts['shipped'],
+            'etaOver'    => $etaOver,
+            'todayN'     => (new OrderModel())->where('created_at >=', $today . ' 00:00:00')->where('status !=', 'cancelled')->countAllResults(),
+            'todayPaid'  => $sum($today . ' 00:00:00'),
+            'monthPaid'  => $sum(date('Y-m-01 00:00:00')),
+        ];
+        return $this->page('admin/orders', ['title' => '주문 관리', 'rows' => $rows, 'pager' => $om->pager, 'st' => $st, 'q' => $q, 'counts' => $counts, 'dash' => $dash, 'queue' => $queue, 'stale' => $stale]);
     }
 
     public function show(int $id): string
@@ -65,8 +93,10 @@ class Orders extends Base
             $data['paid_at'] = $now;
         }
         if ($st === 'shipped') {
-            $data['shipped_at'] = $now;
-            $data['tracking']   = trim((string) $this->request->getPost('tracking')) ?: $o['tracking'];
+            $data['shipped_at'] = $o['shipped_at'] ?: $now;
+            if ($this->request->getPost('ship_method') !== null) {
+                $data = array_merge($data, $this->shipData());
+            }
             (new OrderItemModel())->where('order_id', $id)->set('item_status', 'shipped')->update();
         }
         if ($st === 'delivered') {
@@ -96,5 +126,32 @@ class Orders extends Base
     {
         (new OrderModel())->update($id, ['admin_memo' => trim((string) $this->request->getPost('admin_memo'))]);
         return redirect()->back()->with('success', '메모를 저장했습니다.');
+    }
+
+    /** 배송 중·완료 주문의 출고 정보만 고치기 */
+    public function ship(int $id)
+    {
+        $om = new OrderModel();
+        if (! $om->find($id)) {
+            return redirect()->back();
+        }
+        $om->update($id, $this->shipData());
+        return redirect()->back()->with('success', '배송 정보를 저장했습니다.');
+    }
+
+    private function shipData(): array
+    {
+        $g = fn ($k) => trim((string) $this->request->getPost($k));
+        $i = [
+            'method'       => array_key_exists($g('ship_method'), mm_ship_methods()) ? $g('ship_method') : '',
+            'carrier'      => mb_substr($g('ship_carrier'), 0, 100),
+            'tracking_no'  => mb_substr($g('ship_tracking_no'), 0, 100),
+            'tracking_url' => preg_match('#^https?://#i', $g('ship_tracking_url')) ? mb_substr($g('ship_tracking_url'), 0, 300) : '',
+            'sent_on'      => preg_match('/^\d{4}-\d{2}-\d{2}$/', $g('ship_sent_on')) ? $g('ship_sent_on') : '',
+            'eta'          => preg_match('/^\d{4}-\d{2}-\d{2}$/', $g('ship_eta')) ? $g('ship_eta') : '',
+            'note'         => mb_substr($g('ship_note'), 0, 500),
+        ];
+        $sum = array_filter([mm_ship_methods()[$i['method']] ?? '', $i['carrier'], $i['tracking_no'] ? '송장 ' . $i['tracking_no'] : '', $i['eta'] ? '도착 예정 ' . $i['eta'] : '']);
+        return ['ship_info' => json_encode($i, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES), 'tracking' => implode(' · ', $sum)];
     }
 }

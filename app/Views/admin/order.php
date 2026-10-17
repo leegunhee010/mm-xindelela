@@ -29,7 +29,33 @@
   <?php endif ?>
   <?php if (in_array($o['status'], ['paid', 'preparing'], true)): ?>
   <div class="act" style="border:2px solid var(--pri)"><h3>2. 출고 처리</h3>
-    <form method="post" action="<?= site_url('admin/orders/' . $o['id'] . '/status') ?>"><?= csrf_field() ?><input type="hidden" name="status" value="shipped"><div class="field"><label>송장·배송 정보</label><input class="inp" name="tracking" value="<?= esc($o['tracking']) ?>" placeholder="배송사 / 송장번호 / 예상 도착일"></div><button class="btn btn-g btn-block" type="submit">배송중으로 변경</button></form></div>
+    <form method="post" action="<?= site_url('admin/orders/' . $o['id'] . '/status') ?>"><?= csrf_field() ?><input type="hidden" name="status" value="shipped">
+      <?php $si = mm_ship_info($o); ?>
+      <div class="field"><label>배송 방법</label><div class="shipm"><?php foreach (mm_ship_methods() as $k => $l): ?><label><input type="radio" name="ship_method" value="<?= $k ?>" <?= ($si['method'] ?: 'courier') === $k ? 'checked' : '' ?>><span><?= $l ?></span></label><?php endforeach ?></div></div>
+      <div class="g2">
+        <div class="field"><label>배송사·기사</label><input class="inp" name="ship_carrier" value="<?= esc($si['carrier']) ?>" placeholder="예: Royal Express"></div>
+        <div class="field"><label>송장번호</label><input class="inp" name="ship_tracking_no" value="<?= esc($si['tracking_no']) ?>"></div>
+        <div class="field"><label>발송일</label><input class="inp" type="date" name="ship_sent_on" value="<?= esc($si['sent_on'] ?: date('Y-m-d')) ?>"></div>
+        <div class="field"><label>예상 도착일</label><input class="inp" type="date" name="ship_eta" value="<?= esc($si['eta']) ?>"></div>
+      </div>
+      <div class="field"><label>배송 조회 링크 <span class="muted">(있으면)</span></label><input class="inp" name="ship_tracking_url" value="<?= esc($si['tracking_url']) ?>" placeholder="https://"></div>
+      <div class="field"><label>구매자에게 보일 배송 메모</label><textarea class="ta" name="ship_note" style="height:70px" placeholder="예: 박스 3개로 나눠 발송, 도착 전 기사가 Viber로 연락합니다."><?= esc($si['note']) ?></textarea></div>
+      <button class="btn btn-g btn-block" type="submit" style="height:42px">배송중으로 변경</button></form></div>
+  <?php endif ?>
+  <?php if (in_array($o['status'], ['shipped', 'delivered'], true)): ?>
+  <div class="act"><h3>배송 정보 수정</h3>
+    <form method="post" action="<?= site_url('admin/orders/' . $o['id'] . '/ship') ?>"><?= csrf_field() ?>
+      <?php $si = mm_ship_info($o); ?>
+      <div class="field"><label>배송 방법</label><div class="shipm"><?php foreach (mm_ship_methods() as $k => $l): ?><label><input type="radio" name="ship_method" value="<?= $k ?>" <?= ($si['method'] ?: 'courier') === $k ? 'checked' : '' ?>><span><?= $l ?></span></label><?php endforeach ?></div></div>
+      <div class="g2">
+        <div class="field"><label>배송사·기사</label><input class="inp" name="ship_carrier" value="<?= esc($si['carrier']) ?>" placeholder="예: Royal Express"></div>
+        <div class="field"><label>송장번호</label><input class="inp" name="ship_tracking_no" value="<?= esc($si['tracking_no']) ?>"></div>
+        <div class="field"><label>발송일</label><input class="inp" type="date" name="ship_sent_on" value="<?= esc($si['sent_on'] ?: date('Y-m-d')) ?>"></div>
+        <div class="field"><label>예상 도착일</label><input class="inp" type="date" name="ship_eta" value="<?= esc($si['eta']) ?>"></div>
+      </div>
+      <div class="field"><label>배송 조회 링크 <span class="muted">(있으면)</span></label><input class="inp" name="ship_tracking_url" value="<?= esc($si['tracking_url']) ?>" placeholder="https://"></div>
+      <div class="field"><label>구매자에게 보일 배송 메모</label><textarea class="ta" name="ship_note" style="height:70px" placeholder="예: 박스 3개로 나눠 발송, 도착 전 기사가 Viber로 연락합니다."><?= esc($si['note']) ?></textarea></div>
+      <button class="btn btn-block" type="submit">배송 정보 저장</button></form></div>
   <?php endif ?>
   <?php if ($o['status'] === 'shipped'): ?>
   <div class="act" style="border:2px solid var(--pri)"><form method="post" action="<?= site_url('admin/orders/' . $o['id'] . '/status') ?>"><?= csrf_field() ?><input type="hidden" name="status" value="delivered"><button class="btn btn-g btn-block" type="submit">배송 완료 처리</button></form></div>

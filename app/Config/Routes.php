@@ -95,6 +95,7 @@ $routes->group('admin', ['filter' => 'adminauth', 'namespace' => 'App\Controller
     $routes->get('orders/(:num)', 'Orders::show/$1');
     $routes->post('orders/(:num)/status', 'Orders::status/$1');
     $routes->post('orders/(:num)/memo', 'Orders::memo/$1');
+    $routes->post('orders/(:num)/ship', 'Orders::ship/$1');
     $routes->get('points', 'Points::index');
     $routes->get('referrals', 'Points::referrals');
     $routes->get('inquiries', 'Inquiries::index');

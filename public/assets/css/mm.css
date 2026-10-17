@@ -320,3 +320,81 @@ main{min-height:600px;padding-bottom:80px}
 .ocard-sub{margin-right:auto;font-size:13px;color:#888}
 .ocard-tl{font-size:13px;color:#666}
 .ocard-tot{font-size:19px;font-weight:800;color:var(--pri)}
+
+/* 친구 소개 (10/17) */
+.rf-hero{display:grid;grid-template-columns:1.25fr 1fr;border-radius:18px;overflow:hidden;background:linear-gradient(135deg,#ff6200,#ff8a3d);color:#fff}
+.rf-code{padding:28px 30px}
+.rf-lbl{font-size:13px;opacity:.85}
+.rf-code>b{display:block;font-size:40px;font-weight:800;letter-spacing:4px;margin:6px 0 16px;line-height:1.1}
+.rf-link{display:flex;background:#fff;border-radius:10px;overflow:hidden}
+.rf-link input{flex:1;min-width:0;border:0;padding:0 14px;height:44px;font-size:13px;color:#333;outline:0}
+.rf-link button{flex:none;width:96px;background:#111;color:#fff;font-size:13px;font-weight:700}
+.rf-share{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px}
+.rf-share a{text-align:center;height:36px;line-height:36px;border-radius:8px;background:rgba(255,255,255,.18);font-size:12px;font-weight:700;color:#fff}
+.rf-share a:hover{background:rgba(255,255,255,.3)}
+.rf-me{display:grid;grid-template-rows:repeat(3,1fr);background:rgba(0,0,0,.12)}
+.rf-me>div{display:flex;align-items:center;justify-content:space-between;padding:0 28px;border-top:1px solid rgba(255,255,255,.15)}
+.rf-me>div:first-child{border-top:0}
+.rf-me span{font-size:14px;opacity:.9}
+.rf-me b{font-size:28px;font-weight:800}
+.rf-me b small{font-size:14px;font-weight:600;margin-left:3px}
+.rf-steps{display:grid;grid-template-columns:repeat(3,1fr);margin:16px 0 0;padding:0;list-style:none;border:1px solid #eee;border-radius:14px;overflow:hidden}
+.rf-steps li{padding:18px 20px;position:relative;background:#fff}
+.rf-steps li+li{border-left:1px solid #eee}
+.rf-steps em{display:inline-flex;width:22px;height:22px;border-radius:50%;background:#111;color:#fff;font-style:normal;font-size:12px;font-weight:700;align-items:center;justify-content:center}
+.rf-steps b{display:block;margin-top:10px;font-size:15px;color:#000}
+.rf-steps span{display:block;margin-top:4px;font-size:13px;color:#888}
+.rf-steps .rf-pt{font-size:20px;font-weight:800;color:var(--pri)}
+.rf-board{margin-top:28px;border:1px solid #eee;border-radius:16px;padding:22px 24px;background:#fff}
+.rf-board-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.rf-board-h h4{margin:0;font-size:18px;font-weight:800;color:#000}
+.rf-board-h h4 span{font-size:12px;font-weight:400;color:#999;margin-left:8px}
+.rf-seg{display:grid;grid-template-columns:1fr 1fr;border:1px solid #ddd;border-radius:8px;overflow:hidden}
+.rf-seg a{width:96px;text-align:center;height:34px;line-height:34px;font-size:13px;color:#555}
+.rf-seg a+a{border-left:1px solid #ddd}
+.rf-seg a.on{background:#111;color:#fff;font-weight:700}
+.rf-podium{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;align-items:end}
+.rf-pod{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;border-radius:14px;background:#f7f7f7;padding:18px 10px 16px;text-align:center}
+.rf-pod-1{min-height:170px;background:linear-gradient(180deg,#fff4d6,#ffe7a3)}
+.rf-pod-2{min-height:140px;background:linear-gradient(180deg,#f4f5f7,#e3e6ea)}
+.rf-pod-3{min-height:124px;background:linear-gradient(180deg,#fbefe6,#f1d8c4)}
+.rf-pod.is-empty{opacity:.55}
+.rf-pod.is-me{outline:2px solid var(--pri);outline-offset:-2px}
+.rf-medal{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;color:#fff;background:#bbb;margin-bottom:10px}
+.rf-medal.gold{background:#f5b400}
+.rf-medal.silver{background:#9aa3ad}
+.rf-medal.bronze{background:#c47a45}
+.rf-pod-name{font-size:15px;color:#000;word-break:keep-all}
+.rf-pod-n{margin-top:4px;font-size:20px;font-weight:800;color:var(--pri)}
+.rf-pod.is-empty .rf-pod-n{font-size:12px;color:#888;font-weight:500}
+.rf-list{list-style:none;margin:14px 0 0;padding:0;border-top:1px solid #eee}
+.rf-list li,.rf-mine{display:grid;grid-template-columns:48px 1fr auto;align-items:center;padding:12px 8px;border-bottom:1px solid #f2f2f2;font-size:15px}
+.rf-list em,.rf-mine em{font-style:normal;font-weight:800;color:#999}
+.rf-list b,.rf-mine b{font-weight:800}
+.rf-list li.is-me,.rf-mine{background:#fff3eb;border-radius:8px}
+.rf-mine{margin-top:8px;border:0}
+.rf-nudge{margin-top:14px;padding:12px 14px;border-radius:10px;background:#f7f7f7;font-size:13px;color:#666;text-align:center}
+.rf-empty{display:flex;flex-direction:column;align-items:center;gap:6px;padding:34px 0;text-align:center}
+.rf-empty b{font-size:17px;color:#000}
+.rf-empty span{font-size:13px;color:#888}
+.rf-empty.small{padding:20px 0}
+.rf-mylist{margin-top:28px}
+.rf-mylist h4{margin:0 0 10px;font-size:16px;font-weight:800;color:#000}
+.rf-mylist h4 span{font-weight:400;color:#888;font-size:14px;margin-left:4px}
+.rf-mylist ul{list-style:none;margin:0;padding:0;border-top:1px solid #111}
+.rf-mylist li{display:flex;align-items:center;justify-content:space-between;padding:14px 4px;border-bottom:1px solid #eee}
+.rf-ml-n b{display:block;font-size:15px;color:#000}
+.rf-ml-n span{font-size:12px;color:#999}
+.rf-ml-s{display:flex;gap:6px}
+.rf-chip{display:inline-block;min-width:110px;text-align:center;font-size:12px;padding:5px 10px;border-radius:99px;background:#f2f2f2;color:#888}
+.rf-chip.on{background:#e8f7ee;color:#137a3a;font-weight:700}
+
+/* 구매자 배송 정보 (10/17) */
+.oship{margin-top:24px;border:1px solid #e5e5e5;border-radius:12px;padding:20px 24px}
+.oship h4{margin:0 0 10px;font-size:16px;color:#000}
+.oship dl{margin:0}
+.oship dl>div{display:flex;gap:20px;padding:8px 0;border-top:1px solid #f2f2f2;font-size:15px}
+.oship dl>div:first-child{border-top:0}
+.oship dt{width:80px;flex:none;color:#888}
+.oship dd{margin:0}
+.oship dd a{margin-left:8px;color:var(--pri);font-size:13px}

@@ -133,11 +133,59 @@ class MyPage extends BaseController
 
     public function referral(): string
     {
-        $u = mm_user();
+        $u   = mm_user();
+        $um  = new UserModel();
+        $per = $this->request->getGet('p') === 'all' ? 'all' : 'month';
+
+        // 순위 = 인증을 통과한 소개 회원 수 (이번 달: 이번 달에 가입한 소개 회원 기준)
+        $b = $um->select('referred_by, created_at')->where('role', 'buyer')->where('status', 'approved')->where('referred_by IS NOT NULL');
+        if ($per === 'month') {
+            $b->where('created_at >=', date('Y-m-01 00:00:00'));
+        }
+        $cnt = [];
+        foreach ($b->findAll() as $r) {
+            $cnt[$r['referred_by']] = ($cnt[$r['referred_by']] ?? 0) + 1;
+        }
+        arsort($cnt);
+        $board = [];
+        $rank  = 0;
+        $prev  = null;
+        $i     = 0;
+        $names = $cnt ? array_column($um->select('id, company_name, name')->whereIn('id', array_keys($cnt))->findAll(), null, 'id') : [];
+        foreach ($cnt as $id => $n) {
+            $i++;
+            if ($n !== $prev) {
+                $rank = $i; // 동점은 같은 순위
+                $prev = $n;
+            }
+            $nm = $names[$id]['company_name'] ?? ($names[$id]['name'] ?? '');
+            $board[] = ['id' => (int) $id, 'rank' => $rank, 'n' => $n, 'name' => (int) $id === (int) $u['id'] ? $nm : mm_mask_name($nm)];
+        }
+        $me = null;
+        foreach ($board as $row) {
+            if ($row['id'] === (int) $u['id']) {
+                $me = $row;
+                break;
+            }
+        }
+        $referred = $um->where('referred_by', $u['id'])->orderBy('id', 'DESC')->findAll();
+        $paid = [];
+        $earned = 0;
+        foreach ((new PointLogModel())->where('user_id', $u['id'])->whereIn('type', ['referral_signup', 'referral_first_order'])->findAll() as $l) {
+            $paid[$l['ref_id']][$l['type']] = (int) $l['amount'];
+            $earned += (int) $l['amount'];
+        }
         return $this->render('mypage/referral', [
             'title'    => '친구 소개',
-            'referred' => (new UserModel())->where('referred_by', $u['id'])->orderBy('id', 'DESC')->findAll(),
+            'referred' => $referred,
             'link'     => base_url('register?ref=' . $u['referral_code']),
+            'per'      => $per,
+            'board'    => array_slice($board, 0, 10),
+            'boardN'   => count($board),
+            'me'       => $me,
+            'paid'     => $paid,
+            'earned'   => $earned,
+            'approvedN' => count(array_filter($referred, fn ($r) => $r['status'] === 'approved')),
         ]);
     }
 
