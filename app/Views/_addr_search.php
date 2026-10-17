@@ -1,6 +1,17 @@
 <?php /* 배송지 주소 검색 (구글맵 Places API New). 필요 id: shipAddr addrSug shipLat shipLng shipCity addrMap */ ?>
 <?php if ($mapsKey): ?>
 <script>
+// 키가 막히면(이 사이트 주소가 키 허용 목록에 없거나 키가 잘못됨) 지도를 숨기고 직접 입력 안내
+window.gm_authFailure = function () {
+  document.querySelectorAll('.addr-map-wrap, .addr-hint').forEach(function (el) { el.style.display = 'none'; });
+  var inp = document.getElementById('shipAddr');
+  if (inp && !document.getElementById('addrFail')) {
+    var p = document.createElement('p'); p.id = 'addrFail'; p.className = 'addr-fail';
+    p.textContent = '지금은 지도 검색을 쓸 수 없습니다. 주소를 직접 입력해 주세요.';
+    inp.closest('.addr-search').after(p);
+  }
+  console.error('[mm] Google Maps key rejected for ' + location.host);
+};
 (g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})({key:<?= json_encode($mapsKey) ?>,v:"weekly",language:"en",region:"MM"});
 (function () {
   var inp = document.getElementById('shipAddr'), ul = document.getElementById('addrSug');
