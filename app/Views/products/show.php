@@ -100,10 +100,24 @@
       <div><dt>재고</dt><dd><?= $approved ? number_format((int) $p['stock']) . esc($p['unit']) : '인증 회원에게 공개' ?></dd></div>
       <div><dt>공급사</dt><dd><?= esc($supplier['company_name'] ?? '-') ?></dd></div>
     </dl>
-    <?php $dimgs = mm_json($p['detail_images'] ?? null); ?>
-    <?php if ($p['description']): ?><div class="pdt-desc"><?= $p['description'] ?></div><?php endif ?>
-    <?php if ($dimgs): ?><div class="pdt-dimgs"><?php foreach ($dimgs as $im): ?><img src="<?= base_url($im) ?>" alt="<?= esc($p['name']) ?> 상세" loading="lazy"><?php endforeach ?></div><?php endif ?>
-    <?php if (! $p['description'] && ! $dimgs): ?><p class="pdt-empty">상세 설명이 아직 등록되지 않았습니다.</p><?php endif ?>
+    <?php $blocks = mm_detail_blocks($p); $nImg = 0; ?>
+    <?php if (! $blocks): ?><p class="pdt-empty">상세 설명이 아직 등록되지 않았습니다.</p><?php else: ?>
+    <div class="pdt-body">
+      <?php for ($i = 0, $n = count($blocks); $i < $n; $i++): $b = $blocks[$i]; ?>
+        <?php if ($b['type'] === 'img' && ! empty($b['seq'])): ?>
+          <div class="pdt-strip"><?php while ($i < $n && $blocks[$i]['type'] === 'img' && ! empty($blocks[$i]['seq'])): $s2 = $blocks[$i]; $nImg++; ?><img src="<?= esc(str_starts_with($s2['src'], 'http') ? $s2['src'] : base_url($s2['src'])) ?>" alt="<?= esc($p['name']) ?> 상세"<?= ! empty($s2['w']) ? ' width="' . (int) $s2['w'] . '" height="' . (int) $s2['h'] . '"' : '' ?> loading="<?= $nImg <= 2 ? 'eager' : 'lazy' ?>"><?php $i++; endwhile; $i--; ?></div>
+        <?php elseif ($b['type'] === 'img'): $nImg++; ?>
+          <img class="pdt-img" src="<?= esc(str_starts_with($b['src'], 'http') ? $b['src'] : base_url($b['src'])) ?>" alt="<?= esc($p['name']) ?>" loading="<?= $nImg <= 2 ? 'eager' : 'lazy' ?>">
+        <?php elseif ($b['type'] === 'p'): ?>
+          <p class="pdt-p"><?= nl2br(esc($b['text'])) ?></p>
+        <?php elseif ($b['type'] === 'video' && ($emb = mm_video_embed($b['src']))): ?>
+          <div class="pdt-video"><iframe src="<?= esc($emb) ?>" loading="lazy" allowfullscreen title="상품 영상"></iframe></div>
+        <?php elseif ($b['type'] === 'html'): ?>
+          <div class="pdt-desc"><?= $b['html'] ?></div>
+        <?php endif ?>
+      <?php endfor ?>
+    </div>
+    <?php endif ?>
   </section>
 
   <section class="pdt-sec" id="pdt-sup">

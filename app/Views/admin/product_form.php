@@ -31,19 +31,21 @@
     <?php if ($images): ?><div class="imgs" style="margin-bottom:10px"><?php foreach ($images as $im): ?><label><img src="<?= mm_thumb($im) ?>" alt=""><input type="checkbox" name="keep_images[]" value="<?= esc($im) ?>" checked title="체크 해제 시 삭제"></label><?php endforeach ?></div><div class="small muted">체크를 풀면 저장 시 삭제됩니다. 첫 번째 이미지가 대표 이미지입니다.</div><?php endif ?>
     <div class="field mt8"><input type="file" name="images[]" multiple accept="image/*" data-list="#imgList"><ul id="imgList" class="small muted mt8"></ul><div class="help">JPG/PNG/WebP, 장당 5MB 이하, 여러 장 선택 가능. 정사각형(600×600 이상) 권장.</div></div>
   </div>
-  <?php $dimgs = $p ? mm_json($p['detail_images'] ?? null) : []; ?>
-  <div class="card"><h3>상세 이미지 <span class="muted small" style="font-weight:400">번역한 상세페이지 이미지를 순서대로 · 위에서 아래로 이어 붙여 보여 줍니다</span></h3>
-    <?php if ($dimgs): ?>
-    <div class="dimgs">
-      <?php foreach ($dimgs as $i => $im): ?>
-      <div class="dimg"><img src="<?= base_url($im) ?>" alt=""><div class="dimg-b"><label>순서 <input class="inp" type="number" name="detail_order[<?= $i ?>]" value="<?= $i + 1 ?>"></label><label class="dimg-keep"><input type="checkbox" name="keep_detail[<?= $i ?>]" value="<?= esc($im) ?>" checked> 사용</label></div></div>
-      <?php endforeach ?>
+  <?php $blocks = $p ? mm_detail_blocks($p) : []; ?>
+  <div class="card"><h3>상세 내용 <span class="muted small" style="font-weight:400">문단·이미지·영상을 쌓아서 만듭니다 · 위에서 아래 순서대로 보입니다</span></h3>
+    <div class="dtl-tools">
+      <label class="btn btn-g dtl-bulk">통이미지 올리기<input type="file" id="dtlBulk" accept="image/*" multiple hidden></label>
+      <button type="button" class="btn" data-add="p">+ 문단</button>
+      <button type="button" class="btn" data-add="img">+ 이미지</button>
+      <button type="button" class="btn" data-add="video">+ 영상</button>
     </div>
-    <div class="field" style="margin:8px 0 4px"><div class="help">순서 숫자를 바꾸고 저장하면 순서가 바뀝니다. '사용'을 끄고 저장하면 빠집니다.</div></div>
-    <?php endif ?>
-    <div class="field"><input type="file" name="detail_files[]" multiple accept="image/*" data-list="#dimgList"><ul id="dimgList" class="small muted mt8"></ul><div class="help">JPG·PNG·WebP, 장당 10MB 이하. 여러 장을 한 번에 고르면 파일 이름 순서대로 붙습니다. 가로 860px 이상 권장.</div></div>
+    <div class="help" style="margin-bottom:10px">통이미지: 번역한 상세페이지 이미지를 여러 장 고르면 파일 이름 순서대로 붙습니다. 세로로 긴 이미지는 자동으로 잘라(2400px 단위) 올리고, 사이트에서는 틈 없이 한 장처럼 이어 보입니다.</div>
+    <div id="dtlInfo" class="small muted"></div>
+    <div id="dtlList" class="dtl-list"></div>
+    <input type="hidden" name="detail_json" id="dtlJson">
   </div>
-  <div class="card"><h3>상세 설명 <span class="muted small" style="font-weight:400">(선택 · HTML 가능) 이미지 상세 위에 표시</span></h3><textarea class="ed" name="description"><?= esc(old('description', $p['description'] ?? '')) ?></textarea></div>
+  <script>window.MM_DETAIL = <?= json_encode(['blocks' => $blocks, 'base' => base_url(), 'upload' => site_url('admin/upload/image'), 'csrfName' => csrf_token(), 'csrf' => csrf_hash()], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?>;</script>
+  <script src="<?= base_url('assets/js/admin-detail.js?v=1') ?>"></script>
 </div>
 <div>
   <div class="act" style="position:sticky;top:20px">

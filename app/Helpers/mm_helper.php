@@ -290,3 +290,70 @@ if (! function_exists('mm_ship_info')) {
         return array_merge(['method' => '', 'carrier' => '', 'tracking_no' => '', 'tracking_url' => '', 'sent_on' => '', 'eta' => '', 'note' => ''], $i);
     }
 }
+
+if (! function_exists('mm_clean_blocks')) {
+    /** 관리자에서 넘어온 상세 블록 JSON 을 검증·정리 */
+    function mm_clean_blocks(string $json): array
+    {
+        $out = [];
+        foreach ((json_decode($json, true) ?: []) as $b) {
+            $t = $b['type'] ?? '';
+            if ($t === 'p') {
+                $txt = trim((string) ($b['text'] ?? ''));
+                if ($txt !== '') {
+                    $out[] = ['type' => 'p', 'text' => mb_substr($txt, 0, 5000)];
+                }
+            } elseif ($t === 'img') {
+                $src = trim((string) ($b['src'] ?? ''));
+                if ($src !== '' && (preg_match('#^uploads/[A-Za-z0-9/_.-]+$#', $src) || preg_match('#^https?://#i', $src))) {
+                    $blk = ['type' => 'img', 'src' => $src];
+                    if (! empty($b['seq'])) {
+                        $blk['seq'] = true;
+                        $blk['w'] = (int) ($b['w'] ?? 0);
+                        $blk['h'] = (int) ($b['h'] ?? 0);
+                    }
+                    $out[] = $blk;
+                }
+            } elseif ($t === 'video') {
+                $src = trim((string) ($b['src'] ?? ''));
+                if (preg_match('#^https?://#i', $src)) {
+                    $out[] = ['type' => 'video', 'src' => mb_substr($src, 0, 300)];
+                }
+            }
+        }
+        return $out;
+    }
+}
+
+if (! function_exists('mm_detail_blocks')) {
+    /** 상품의 상세 블록. 예전 상품(HTML 설명·상세 이미지)은 블록으로 바꿔 돌려준다. */
+    function mm_detail_blocks(array $p): array
+    {
+        $b = json_decode((string) ($p['detail'] ?? ''), true);
+        if (is_array($b) && $b) {
+            return $b;
+        }
+        $out = [];
+        if (! empty($p['description'])) {
+            $out[] = ['type' => 'html', 'html' => $p['description']];
+        }
+        foreach (mm_json($p['detail_images'] ?? null) as $src) {
+            $out[] = ['type' => 'img', 'src' => $src];
+        }
+        return $out;
+    }
+}
+
+if (! function_exists('mm_video_embed')) {
+    /** 유튜브·비메오 주소 → 임베드 주소 */
+    function mm_video_embed(string $url): ?string
+    {
+        if (preg_match('#(?:youtu\.be/|youtube\.com/(?:watch\?v=|shorts/|embed/))([A-Za-z0-9_-]{6,})#', $url, $m)) {
+            return 'https://www.youtube.com/embed/' . $m[1];
+        }
+        if (preg_match('#vimeo\.com/(\d+)#', $url, $m)) {
+            return 'https://player.vimeo.com/video/' . $m[1];
+        }
+        return null;
+    }
+}

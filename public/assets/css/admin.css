@@ -259,3 +259,22 @@ body.ad{margin:0;font-family:Pretendard,-apple-system,'Apple SD Gothic Neo','Mal
 .dimg-b{display:flex;align-items:center;justify-content:space-between;gap:6px;padding:8px}
 .dimg-b label{display:flex;align-items:center;gap:4px;font-size:12px}
 .dimg-b .inp{width:52px;height:30px;text-align:center;padding:0 4px}
+
+/* 상세 블록 편집기 (10/17, 메이크노브 등록 방식) */
+.dtl-tools{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:6px;margin-bottom:8px}
+.dtl-tools .btn{height:40px;line-height:38px;padding:0;text-align:center;box-sizing:border-box;cursor:pointer}
+.dtl-list{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+.dtl-blk{display:grid;grid-template-columns:110px 1fr 120px;gap:12px;align-items:start;border:1px solid var(--line);border-radius:8px;padding:10px;background:#fff}
+.dtl-blk.is-seq{background:#fafafa}
+.dtl-kind{font-size:12px;font-weight:700;color:#333}
+.dtl-kind small{display:block;font-weight:400;color:var(--gray);margin-top:2px}
+.dtl-blk img{display:block;max-width:100%;max-height:180px;border-radius:4px;object-fit:contain;background:#f3f3f3}
+.dtl-blk textarea{width:100%;min-height:80px;box-sizing:border-box}
+.dtl-btns{display:grid;grid-template-columns:1fr 1fr;gap:4px}
+.dtl-btns button{height:30px;font-size:12px;border:1px solid var(--line);border-radius:4px;background:#fff;cursor:pointer}
+.dtl-btns button.del{grid-column:1/-1;color:#dc2626;border-color:#f3c0c0}
+.dtl-drop{border:1px dashed #bbb;border-radius:6px;padding:14px;text-align:center;font-size:12px;color:var(--gray);cursor:pointer}
+.dtl-drop.is-over{border-color:var(--pri);background:#fff8f3}
+.dtl-blk{grid-template-columns:110px 1fr 150px}
+.dtl-blk img{width:120px;height:150px;object-fit:cover;object-position:top;border:1px solid var(--line)}
+.dtl-blk.is-seq img{height:90px}

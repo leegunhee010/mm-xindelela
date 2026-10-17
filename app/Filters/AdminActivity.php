@@ -68,6 +68,9 @@ class AdminActivity implements FilterInterface
     private function describe(string $p, RequestInterface $rq, ResponseInterface $rs): array
     {
         $post = fn ($k) => trim((string) $rq->getPost($k));
+        if (str_starts_with($p, 'upload/')) {
+            return [null, null, null, ''];
+        }
         // 주문
         if (preg_match('#^orders/(\d+)/(status|ship|memo)$#', $p, $m)) {
             $id = (int) $m[1];

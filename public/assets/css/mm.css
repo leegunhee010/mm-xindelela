@@ -478,3 +478,13 @@ main{min-height:600px;padding-bottom:80px}
 .pd-chips li{font-size:13px;color:#555;background:#f4f4f4;border-radius:6px;padding:6px 10px}
 .pd-chips li b{color:#000}
 .pd-tier{margin-bottom:20px}
+
+/* 상세 블록 (10/17) */
+.pdt-body{margin-top:36px;display:flex;flex-direction:column;align-items:center;gap:24px}
+.pdt-strip{display:flex;flex-direction:column;width:100%;max-width:860px;gap:0}
+.pdt-strip img{display:block;width:100%;height:auto}
+.pdt-img{display:block;width:100%;max-width:860px;height:auto}
+.pdt-p{width:100%;max-width:860px;margin:0;font-size:16px;line-height:1.85;color:#222}
+.pdt-video{width:100%;max-width:860px;aspect-ratio:16/9}
+.pdt-video iframe{width:100%;height:100%;border:0;border-radius:12px}
+.pdt-body .pdt-desc{width:100%;max-width:860px;margin:0}

@@ -85,6 +85,7 @@ $routes->group('admin', ['filter' => ['adminauth', 'adminlog'], 'namespace' => '
     $routes->get('products/(:num)/edit', 'Products::form/$1');
     $routes->post('products/save', 'Products::save');
     $routes->post('products/(:num)/delete', 'Products::delete/$1');
+    $routes->post('upload/image', 'Upload::image');
     $routes->get('products/(:num)', 'Products::show/$1');
     $routes->post('products/(:num)/status', 'Products::status/$1');
     $routes->post('products/(:num)/best', 'Products::best/$1');
