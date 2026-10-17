@@ -55,7 +55,7 @@ $cur  = uri_string();
 
   <!-- 로고·검색·유틸 -->
   <div class="w-full mo:hidden pc:block"><div class="header-wraper w-full pc:mx-auto pc:w-large">
-    <div class="relative flex items-center pc:gap-[32px] pc:h-[44px] pc:mt-[32px]">
+    <div class="relative flex items-center pc:gap-[32px] pc:h-[52px] pc:mt-[28px] pc:mb-[18px]">
       <h1 class="shrink-0"><a href="<?= site_url('/') ?>" class="flex items-center gap-[10px]">
         <span class="flex size-[40px] items-center justify-center rounded-[12px] bg-primary text-[22px] font-bold text-white">X</span>
         <span class="flex flex-col"><span class="text-[24px] font-bold leading-[1.1] tracking-[-0.5px]">XINDELELA<em class="not-italic text-primary">mall</em></span><span class="mt-[3px] text-[12px] text-gray3">미얀마 K-브랜드 도매</span></span>
