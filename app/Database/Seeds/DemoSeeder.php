@@ -154,7 +154,7 @@ class DemoSeeder extends Seeder
         // ── 공지 ──
         if (! $db->table('notices')->countAllResults()) {
             $db->table('notices')->insertBatch([
-                ['title' => '사업자 인증 안내: 가입 후 영업일 기준 1일 이내 승인', 'body' => "<p>가입 시 제출하신 자료(페이스북 페이지, 매장 사진, 영업허가증 등)를 담당자가 직접 확인한 뒤 승인합니다.</p><p>승인 전에는 상품은 보실 수 있지만 도매가와 주문 신청은 제한됩니다.</p>", 'is_pinned' => 1, 'created_at' => $now, 'updated_at' => $now],
+                ['title' => '사업자 인증 안내: 가입 후 영업일 기준 1일 이내 승인', 'body' => "<p>오프라인 매장, 온라인 판매, 판매 네트워크 중 하나만 증빙하면 됩니다. 매장 사진, 판매 글 캡처, 거래처 대화 캡처 등 사진·캡처도 인정하며, 담당자가 직접 확인한 뒤 승인합니다.</p><p>승인 전에는 상품은 보실 수 있지만 도매가와 주문 신청은 제한됩니다.</p>", 'is_pinned' => 1, 'created_at' => $now, 'updated_at' => $now],
                 ['title' => '결제 안내: 주문 신청 후 KBZPay 선불', 'body' => "<p>주문 신청 → 담당자가 배송비 포함 최종 금액 안내 → KBZPay 송금 → 입금 캡처 업로드 → 입금 확인 후 발주·배송.</p>", 'is_pinned' => 1, 'created_at' => $now, 'updated_at' => $now],
                 ['title' => '친구 소개 포인트 안내', 'body' => "<p>마이페이지의 추천 코드를 공유하세요. 소개한 회원이 승인되면 포인트가 적립되고, 그 회원이 첫 주문을 하면 추가 적립됩니다.</p>", 'is_pinned' => 0, 'created_at' => $now, 'updated_at' => $now],
             ]);
@@ -165,7 +165,7 @@ class DemoSeeder extends Seeder
             $db->table('banners')->insertBatch([
                 ['title' => "한국 정품 K-브랜드\n박스 단위 도매가로", 'subtitle' => '미얀마 소매상·온라인 셀러 전용 폐쇄몰', 'image' => 'assets/img/demo/banner_1.jpg', 'bg' => '#E8F5D8', 'link' => '/products', 'sort' => 1, 'is_active' => 1, 'created_at' => $now, 'updated_at' => $now],
                 ['title' => "친구를 소개하면\n포인트 적립", 'subtitle' => '추천 회원 승인 + 첫 주문 시 2회 적립', 'image' => 'assets/img/demo/banner_2.jpg', 'bg' => '#FFF3C4', 'link' => '/mypage/referral', 'sort' => 2, 'is_active' => 1, 'created_at' => $now, 'updated_at' => $now],
-                ['title' => "가입 후 영업일 1일\n사업자 인증 완료", 'subtitle' => '페이스북 페이지·매장 사진으로 간단 인증', 'image' => 'assets/img/demo/banner_3.jpg', 'bg' => '#DCEBFF', 'link' => '/register', 'sort' => 3, 'is_active' => 1, 'created_at' => $now, 'updated_at' => $now],
+                ['title' => "가입 후 영업일 1일\n사업자 인증 완료", 'subtitle' => '매장·온라인·판매망 중 하나만 증빙하면 끝', 'image' => 'assets/img/demo/banner_3.jpg', 'bg' => '#DCEBFF', 'link' => '/register', 'sort' => 3, 'is_active' => 1, 'created_at' => $now, 'updated_at' => $now],
             ]);
         }
     }

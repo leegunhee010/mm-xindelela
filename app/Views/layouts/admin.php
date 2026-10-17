@@ -23,10 +23,12 @@
   <?php $nav('admin/points', '포인트 원장'); $nav('admin/referrals', '추천 현황'); ?>
   <div class="grp">콘텐츠·설정</div>
   <?php $nav('admin/notices', '공지사항'); $nav('admin/banners', '메인 배너'); $nav('admin/seo', 'SEO 설정'); $nav('admin/settings', '설정'); ?>
+  <div class="grp">담당자</div>
+  <?php $nav('admin/logs', '작업 기록'); if (($user['admin_level'] ?? '') === 'owner') { $nav('admin/staff', '담당자 계정'); } ?>
   <div class="ft"><a href="<?= site_url('/') ?>" target="_blank">사이트 보기</a><a href="<?= site_url('admin/logout') ?>">로그아웃</a></div>
 </aside>
 <div class="bodyw">
-  <div class="tb"><h1><?= esc($title) ?></h1><div class="u"><?= esc($user['name']) ?> (<?= esc($user['email']) ?>)</div></div>
+  <div class="tb"><h1><?= esc($title) ?></h1><div class="u"><b><?= esc($user['name']) ?></b> · <?= ($user['admin_level'] ?? '') === 'owner' ? '대표 관리자' : '담당자' ?> (<?= esc($user['email']) ?>)</div></div>
   <div class="ct">
     <?= mm_flash() ?>
     <?= $content ?>

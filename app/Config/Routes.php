@@ -64,7 +64,7 @@ $routes->addRedirect('supplier/(:any)', '/');
 $routes->get('admin/login', 'Admin\Auth::login');
 $routes->post('admin/login', 'Admin\Auth::attemptLogin');
 $routes->get('admin/logout', 'Admin\Auth::logout');
-$routes->group('admin', ['filter' => 'adminauth', 'namespace' => 'App\Controllers\Admin'], static function ($routes) {
+$routes->group('admin', ['filter' => ['adminauth', 'adminlog'], 'namespace' => 'App\Controllers\Admin'], static function ($routes) {
     $routes->get('/', 'Dashboard::index');
     $routes->get('buyers', 'Buyers::index');
     $routes->get('buyers/(:num)', 'Buyers::show/$1');
@@ -108,6 +108,9 @@ $routes->group('admin', ['filter' => 'adminauth', 'namespace' => 'App\Controller
     $routes->get('banners', 'Banners::index');
     $routes->post('banners/save', 'Banners::save');
     $routes->post('banners/(:num)/delete', 'Banners::delete/$1');
+    $routes->get('staff', 'Staff::index');
+    $routes->post('staff/save', 'Staff::save');
+    $routes->get('logs', 'Logs::index');
     $routes->get('seo', 'Seo::index');
     $routes->post('seo', 'Seo::save');
     $routes->get('settings', 'Settings::index');

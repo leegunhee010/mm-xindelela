@@ -233,3 +233,21 @@ body.ad{margin:0;font-family:Pretendard,-apple-system,'Apple SD Gothic Neo','Mal
 .cat-sw input:checked+i{background:var(--pri)}
 .cat-sw input:checked+i:after{left:19px}
 .cat-sw span{width:28px;color:#555}
+
+/* 담당자·작업 기록 (10/17) */
+.stf{padding:0 18px 6px}
+.stf-row{display:grid;grid-template-columns:1.4fr 110px 80px 100px 1.6fr 76px;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid #f0f0f0;font-size:13px}
+.stf-head{font-size:12px;font-weight:700;color:var(--gray);border-bottom:2px solid var(--ink);padding:14px 0 10px}
+.stf-btn{width:100%;box-sizing:border-box;text-align:center}
+.stf-seg{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.stf-seg label{display:block;cursor:pointer}
+.stf-seg input{position:absolute;opacity:0}
+.stf-seg span{display:block;text-align:center;height:36px;line-height:36px;font-size:13px;background:#fff}
+.stf-seg label+label span{border-left:1px solid var(--line)}
+.stf-seg input:checked+span{background:var(--ink);color:#fff;font-weight:700}
+.hist ul{list-style:none;margin:0;padding:0;max-height:340px;overflow:auto}
+.hist li{display:grid;grid-template-columns:auto 1fr;gap:2px 8px;padding:8px 0;border-top:1px solid #f2f2f2;font-size:12px}
+.hist li:first-child{border-top:0}
+.hist li b{color:var(--ink)}
+.hist li span{color:#444}
+.hist li em{grid-column:1/-1;font-style:normal;color:var(--gray);font-size:11px}

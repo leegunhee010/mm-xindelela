@@ -23,6 +23,9 @@ class Auth extends BaseController
         if (! $user || ! password_verify((string) $this->request->getPost('password'), $user['password_hash'])) {
             return redirect()->back()->with('error', '이메일 또는 비밀번호가 올바르지 않습니다.');
         }
+        if (($user['status'] ?? 'approved') === 'suspended') {
+            return redirect()->back()->with('error', '사용이 중지된 담당자 계정입니다. 대표 관리자에게 문의해 주세요.');
+        }
         session()->regenerate();
         session()->set('user_id', (int) $user['id']);
         $um->update($user['id'], ['last_login_at' => date('Y-m-d H:i:s')]);

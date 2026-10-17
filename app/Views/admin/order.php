@@ -66,4 +66,5 @@
   <div class="act"><h3>내부 메모 / 구매자 안내</h3>
     <form method="post" action="<?= site_url('admin/orders/' . $o['id'] . '/memo') ?>"><?= csrf_field() ?><textarea class="ta" name="admin_memo" style="height:80px"><?= esc($o['admin_memo']) ?></textarea><button class="btn btn-sm mt8" type="submit">저장</button></form></div>
 </div>
+  <?= view('admin/_history', ['type' => 'order', 'id' => (int) $o['id']]) ?>
 </div>

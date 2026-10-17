@@ -44,6 +44,7 @@
     <a class="btn btn-block mt8" href="<?= site_url('admin/products') ?>">목록</a>
     <?php if ($p): ?><a class="btn btn-block mt8" href="<?= site_url('products/' . $p['id']) ?>" target="_blank">사이트에서 보기</a><?php endif ?>
   </div>
+  <?php if ($p): ?><?= view('admin/_history', ['type' => 'product', 'id' => (int) $p['id']]) ?><?php endif ?>
 </div>
 </div>
 </form>

@@ -32,7 +32,7 @@
   </div>
   <div class="card">
     <h3>제출 자료 <?= count($docs) ?>건</h3>
-    <?php if (! $docs): ?><div class="muted">업로드된 자료가 없습니다. (페이스북 페이지만 제출)</div><?php else: ?>
+    <?php if (! $docs): ?><div class="muted">업로드된 자료가 없습니다. (판매 채널 링크만 제출)</div><?php else: ?>
     <div class="docgrid"><?php foreach ($docs as $d): $isImg = preg_match('/\.(jpe?g|png|webp|gif)$/i', $d['path']); ?><a href="<?= base_url($d['path']) ?>" target="_blank"><?php if ($isImg): ?><img src="<?= base_url($d['path']) ?>" alt=""><?php else: ?><div style="height:120px;display:flex;align-items:center;justify-content:center;background:var(--bg);font-size:24px">PDF</div><?php endif ?><?= esc($d['name']) ?></a><?php endforeach ?></div>
     <?php endif ?>
   </div>
@@ -113,6 +113,7 @@
     <form method="post" action="<?= site_url('admin/buyers/' . $b['id'] . '/note') ?>"><?= csrf_field() ?><textarea class="ta" name="admin_note" style="height:90px"><?= esc($b['admin_note']) ?></textarea><button class="btn btn-sm mt8" type="submit">저장</button></form>
   </div>
 </div>
+  <?= view('admin/_history', ['type' => 'buyer', 'id' => (int) $b['id']]) ?>
 </div>
 
 <script>document.querySelectorAll('.vrej button').forEach(function (b) { b.onclick = function () { document.getElementById('rejReason').value = b.dataset.r; }; });</script>

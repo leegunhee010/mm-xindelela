@@ -22,4 +22,5 @@
   <div class="act"><h3>수수료율</h3>
     <form method="post" action="<?= site_url('admin/suppliers/' . $s['id'] . '/save') ?>" class="inl"><?= csrf_field() ?><input class="inp" type="number" step="0.1" name="commission_rate" value="<?= (float) $s['commission_rate'] ?>" style="width:90px"> %<button class="btn btn-sm" type="submit">저장</button></form></div>
 </div>
+  <?= view('admin/_history', ['type' => 'supplier', 'id' => (int) $s['id']]) ?>
 </div>
