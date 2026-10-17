@@ -98,3 +98,13 @@ body.ad{margin:0;font-family:Pretendard,-apple-system,'Apple SD Gothic Neo','Mal
 .vrej{display:flex;flex-direction:column;gap:4px;margin:16px 0 8px}
 .vrej button{text-align:left;font-size:12px;padding:6px 10px;border:1px solid var(--line);border-radius:6px;background:#fff;color:#444}
 .vrej button:hover{border-color:var(--pri);color:var(--pri)}
+
+/* 관리자 로그인 안내 박스가 카드 밖으로 넘치던 문제 (10/17) */
+.login-box .flash{width:auto;margin:0 0 14px;box-sizing:border-box}
+.login-box{box-sizing:border-box}
+
+/* 상품 목록 관리 버튼 (10/17) */
+.tbl td.pact{white-space:nowrap}
+.tbl td.pact>*{display:inline-block;vertical-align:middle;margin:0 2px}
+.tbl td.pact form{margin:0}
+.btn-block{box-sizing:border-box;display:block;text-align:center}

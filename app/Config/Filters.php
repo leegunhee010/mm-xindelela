@@ -27,7 +27,6 @@ class Filters extends BaseFilters
         'performance'   => PerformanceMetrics::class,
         'adminauth'     => \App\Filters\AdminAuth::class,
         'buyerauth'     => \App\Filters\BuyerAuth::class,
-        'supplierauth'  => \App\Filters\SupplierAuth::class,
     ];
 
     public array $required = [

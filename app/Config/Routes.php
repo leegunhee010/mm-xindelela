@@ -8,7 +8,6 @@ use CodeIgniter\Router\RouteCollection;
  * mm.xindelela.com 라우트
  *   /                공개(상품은 열람, 도매가·주문은 승인 구매자만)
  *   /mypage/*        구매자
- *   /supplier/*      공급사
  *   /admin/*         관리자
  */
 
@@ -57,26 +56,9 @@ $routes->group('', ['filter' => 'buyerauth'], static function ($routes) {
     $routes->get('mypage/inquiries', 'MyPage::inquiries');
 });
 
-// ─── 공급사 ───
-$routes->get('supplier/login', 'Supplier\Auth::login');
-$routes->post('supplier/login', 'Supplier\Auth::attemptLogin');
-$routes->get('supplier/register', 'Supplier\Auth::register');
-$routes->post('supplier/register', 'Supplier\Auth::attemptRegister');
-$routes->get('supplier/pending', 'Supplier\Auth::pending');
-$routes->get('supplier/logout', 'Supplier\Auth::logout');
-$routes->group('supplier', ['filter' => 'supplierauth', 'namespace' => 'App\Controllers\Supplier'], static function ($routes) {
-    $routes->get('/', 'Dashboard::index');
-    $routes->get('products', 'Products::index');
-    $routes->get('products/new', 'Products::form');
-    $routes->get('products/(:num)/edit', 'Products::form/$1');
-    $routes->post('products/save', 'Products::save');
-    $routes->post('products/(:num)/delete', 'Products::delete/$1');
-    $routes->get('orders', 'Orders::index');
-    $routes->get('orders/(:num)', 'Orders::show/$1');
-    $routes->post('orders/(:num)/ship', 'Orders::ship/$1');
-    $routes->get('profile', 'Dashboard::profile');
-    $routes->post('profile', 'Dashboard::updateProfile');
-});
+// 공급사 로그인·센터 없음(10/17) — 공급사·상품은 관리자가 직접 관리. 옛 주소는 홈으로.
+$routes->addRedirect('supplier', '/');
+$routes->addRedirect('supplier/(:any)', '/');
 
 // ─── 관리자 ───
 $routes->get('admin/login', 'Admin\Auth::login');
@@ -95,7 +77,14 @@ $routes->group('admin', ['filter' => 'adminauth', 'namespace' => 'App\Controller
     $routes->get('suppliers/(:num)', 'Suppliers::show/$1');
     $routes->post('suppliers/(:num)/status', 'Suppliers::status/$1');
     $routes->post('suppliers/(:num)/save', 'Suppliers::save/$1');
+    $routes->get('suppliers/new', 'Suppliers::form');
+    $routes->get('suppliers/(:num)/edit', 'Suppliers::form/$1');
+    $routes->post('suppliers/store', 'Suppliers::save');
     $routes->get('products', 'Products::index');
+    $routes->get('products/new', 'Products::form');
+    $routes->get('products/(:num)/edit', 'Products::form/$1');
+    $routes->post('products/save', 'Products::save');
+    $routes->post('products/(:num)/delete', 'Products::delete/$1');
     $routes->get('products/(:num)', 'Products::show/$1');
     $routes->post('products/(:num)/status', 'Products::status/$1');
     $routes->post('products/(:num)/best', 'Products::best/$1');

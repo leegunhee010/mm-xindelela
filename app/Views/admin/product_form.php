@@ -1,10 +1,11 @@
-<form method="post" action="<?= site_url('supplier/products/save') ?>" enctype="multipart/form-data" class="two" style="grid-template-columns:1fr 320px"><?= csrf_field() ?>
+<form method="post" action="<?= site_url('admin/products/save') ?>" enctype="multipart/form-data" class="two" style="grid-template-columns:1fr 320px"><?= csrf_field() ?>
 <input type="hidden" name="id" value="<?= $p['id'] ?? '' ?>">
 <div>
   <div class="card"><h3>기본 정보</h3>
     <div class="field"><label>상품명 <i>*</i></label><input class="inp" name="name" value="<?= esc(old('name', $p['name'] ?? '')) ?>" required></div>
     <div class="g2">
       <div class="field"><label>카테고리</label><select class="sel" name="category_id"><option value="">선택</option><?php foreach ($categories as $c): ?><option value="<?= $c['id'] ?>" <?= (int) old('category_id', $p['category_id'] ?? 0) === (int) $c['id'] ? 'selected' : '' ?>><?= esc($c['name']) ?></option><?php endforeach ?></select></div>
+      <div class="field"><label>공급사 <i>*</i></label><select class="sel" name="supplier_id" required><option value="">선택</option><?php foreach ($suppliers as $sp): ?><option value="<?= $sp['id'] ?>" <?= (int) old('supplier_id', $p['supplier_id'] ?? (int) service('request')->getGet('supplier')) === (int) $sp['id'] ? 'selected' : '' ?>><?= esc($sp['company_name']) ?></option><?php endforeach ?></select><div class="help"><a href="<?= site_url('admin/suppliers/new') ?>" style="text-decoration:underline">공급사 추가</a></div></div>
       <div class="field"><label>브랜드</label><input class="inp" name="brand" value="<?= esc(old('brand', $p['brand'] ?? '')) ?>"></div>
       <div class="field"><label>상품코드</label><input class="inp" name="code" value="<?= esc(old('code', $p['code'] ?? '')) ?>"></div>
       <div class="field"><label>원산지</label><input class="inp" name="origin" value="<?= esc(old('origin', $p['origin'] ?? '한국')) ?>"></div>
@@ -35,13 +36,17 @@
 <div>
   <div class="act" style="position:sticky;top:20px">
     <h3>저장</h3>
-    <?php if ($p): ?><div class="small mt8" style="margin-bottom:10px">현재 상태: <span class="st st-<?= esc($p['status']) ?>"><?= mm_product_status_label($p['status']) ?></span></div><?php endif ?>
-    <button class="btn btn-g btn-block" type="submit" name="action" value="submit" style="height:42px"><?= ($p['status'] ?? '') === 'active' ? '저장 (판매중 유지)' : '저장하고 검수 요청' ?></button>
-    <button class="btn btn-block mt8" type="submit" name="action" value="draft">임시 저장</button>
-    <?php if (($p['status'] ?? '') === 'active'): ?><button class="btn btn-block mt8" type="submit" name="action" value="hide">숨김 처리</button><?php endif ?>
-    <?php if (($p['status'] ?? '') === 'hidden'): ?><button class="btn btn-block mt8" type="submit" name="action" value="show">다시 노출</button><?php endif ?>
-    <div class="small muted mt8">신규·반려·임시 상품은 관리자 검수 후 노출됩니다. 도매가는 인증 회원에게만 보입니다.</div>
-    <a class="btn btn-block mt8" href="<?= site_url('supplier/products') ?>">목록</a>
+    <div class="field"><label>노출 상태</label><select class="sel" name="status">
+      <?php foreach (['active' => '판매중 (바로 노출)', 'hidden' => '숨김', 'draft' => '임시 저장'] as $k => $l): ?><option value="<?= $k ?>" <?= ($p['status'] ?? 'active') === $k ? 'selected' : '' ?>><?= $l ?></option><?php endforeach ?>
+    </select></div>
+    <button class="btn btn-g btn-block" type="submit" style="height:42px"><?= $p ? '저장' : '상품 등록' ?></button>
+    <div class="small muted mt8">도매가는 인증 회원에게만 보입니다.</div>
+    <a class="btn btn-block mt8" href="<?= site_url('admin/products') ?>">목록</a>
+    <?php if ($p): ?><a class="btn btn-block mt8" href="<?= site_url('products/' . $p['id']) ?>" target="_blank">사이트에서 보기</a><?php endif ?>
   </div>
 </div>
+</div>
 </form>
+<?php if ($p): ?>
+<form method="post" action="<?= site_url('admin/products/' . $p['id'] . '/delete') ?>" onsubmit="return confirm('이 상품을 삭제할까요?')" style="margin-top:12px"><?= csrf_field() ?><button class="btn btn-sm btn-red" type="submit">상품 삭제</button></form>
+<?php endif ?>

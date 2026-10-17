@@ -3,7 +3,6 @@
 <section class="corner-section last-of-type:mb-0 pc:mx-auto pc:w-[544px] mx-auto pc:mb-[60px]">
   <div class="tab type02"><div class="flex tab-menu">
     <a href="<?= site_url('login') ?>" class="flex" data-state="active"><span>구매자 회원</span></a>
-    <a href="<?= site_url('supplier/login') ?>" class="flex" data-state="inactive"><span>공급사 회원</span></a>
   </div>
   <div class="tab-cont mb-[39px] pt-[39px]">
     <picture><img alt="구매자 회원" class="mx-auto mb-[39px] size-[100px]" src="/images/member/unified_member.svg"></picture>

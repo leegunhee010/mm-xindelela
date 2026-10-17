@@ -37,9 +37,6 @@
     <li>주문을 취소하면 사용한 포인트는 자동으로 환원됩니다.</li>
   </ul>
 
-  <h2>5. 공급사 입점</h2>
-  <p>한국 공급사는 <a href="<?= site_url('supplier/register') ?>" style="color:var(--green-d);font-weight:700">공급사 입점 신청</a> 후 승인되면 공급사센터에서 상품을 직접 등록하고 주문을 확인할 수 있습니다. 등록 상품은 관리자 검수 후 노출됩니다.</p>
-
   <h2>고객센터</h2>
   <p>Viber <?= esc(mm_setting('cs_viber', '')) ?> · 이메일 <?= esc(mm_setting('cs_email', '')) ?> · 월~금 09:00~18:00</p>
 </div>

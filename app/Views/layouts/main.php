@@ -30,7 +30,6 @@ $cur  = uri_string();
       <li class="menu-item active"><a target="_self" class="menu-item-link" href="<?= site_url('/') ?>">XINDELELA 미얀마 도매몰</a></li>
       <li class="menu-item"><a class="menu-item-link" href="<?= site_url('guide') ?>">이용안내</a></li>
       <li class="menu-item"><a class="menu-item-link" href="<?= site_url('notices') ?>">공지사항</a></li>
-      <li class="menu-item"><a class="menu-item-link" href="<?= site_url('supplier/register') ?>">공급사 입점</a></li>
       <li class="menu-item"><a class="menu-item-link" target="_blank" rel="noopener" href="https://xindelela.com">XINDELELA</a></li>
     </ul>
     <ul class="account-menu flex items-center gap-[16px] text-[12px]">
@@ -38,9 +37,6 @@ $cur  = uri_string();
         <li><a class="acount-menu-link" href="<?= site_url('mypage') ?>"><b class="text-white"><?= esc($user['company_name'] ?: $user['name']) ?></b> 님 · <?= mm_status_label($user['status']) ?></a></li>
         <li><a class="acount-menu-link" href="<?= site_url('mypage/points') ?>">포인트 <b class="text-white"><?= number_format((int) $user['points_balance']) ?></b>P</a></li>
         <li><a class="acount-menu-link" href="<?= site_url('logout') ?>">로그아웃</a></li>
-      <?php elseif ($user && $user['role'] === 'supplier'): ?>
-        <li><a class="acount-menu-link" href="<?= site_url('supplier') ?>"><b class="text-white">공급사센터</b> <?= esc($user['company_name']) ?></a></li>
-        <li><a class="acount-menu-link" href="<?= site_url('supplier/logout') ?>">로그아웃</a></li>
       <?php elseif ($user && $user['role'] === 'admin'): ?>
         <li><a class="acount-menu-link" href="<?= site_url('admin') ?>"><b class="text-white">관리자</b></a></li>
         <li><a class="acount-menu-link" href="<?= site_url('admin/logout') ?>">로그아웃</a></li>
@@ -48,7 +44,6 @@ $cur  = uri_string();
         <li><a class="acount-menu-link" href="<?= site_url('register') ?>">회원가입</a></li>
         <li><a class="acount-menu-link" href="<?= site_url('login') ?>">로그인</a></li>
       <?php endif ?>
-      <li><a class="acount-menu-link" href="<?= site_url('supplier/login') ?>">공급사센터</a></li>
       <li><a class="acount-menu-link" href="<?= site_url('notices') ?>">고객센터</a></li>
     </ul>
   </div></div>
@@ -92,7 +87,6 @@ $cur  = uri_string();
           <a class="link-item text-[18px] font-medium" href="<?= site_url('mypage/referral') ?>">친구소개</a>
           <a class="link-item text-[18px] font-medium" href="<?= site_url('notices') ?>">공지사항</a>
           <a class="link-item text-[18px] font-medium" href="<?= site_url('guide') ?>">이용안내</a>
-          <a class="link-item text-[18px] font-medium" href="<?= site_url('supplier/register') ?>">공급사 입점</a>
         </div>
       </div>
     </div></div></div>
@@ -116,7 +110,6 @@ $cur  = uri_string();
       <li class="footer-item mb-[20px]"><a href="<?= site_url('notices') ?>">공지사항</a></li>
       <li class="footer-item mb-[20px] font-bold text-black"><a href="<?= site_url('register') ?>">회원가입 · 사업자 인증</a></li>
       <li class="footer-item mb-[20px]"><a href="<?= site_url('mypage/inquiries') ?>">고객센터</a></li>
-      <li class="footer-item"><a href="<?= site_url('supplier/register') ?>">입점 및 제조 협업 문의</a></li>
     </ul>
     <ul class="footer-item-wrap type2 mb-0 text-body3 text-gray3">
       <li class="footer-item company font-bold">XINDELELA Corporation</li>
