@@ -2,6 +2,7 @@
 
 namespace App\Controllers\Admin;
 
+use App\Libraries\GrowthStats;
 use App\Models\OrderModel;
 use App\Models\ProductModel;
 use App\Models\UserModel;
@@ -23,6 +24,7 @@ class Dashboard extends Base
                 '판매중 상품'       => (new ProductModel())->where('status', 'active')->countAllResults(),
                 '오늘 가입'         => $um->where('role', 'buyer')->like('created_at', $today, 'after')->countAllResults(),
             ],
+            'growth'        => GrowthStats::build((string) $this->request->getGet('range')),
             'pendingBuyers' => $um->where('role', 'buyer')->where('status', 'pending')->orderBy('id', 'ASC')->findAll(8),
             'recentOrders'  => $om->orderBy('id', 'DESC')->findAll(8),
             'buyersMap'     => $this->buyersMap($om->orderBy('id', 'DESC')->findAll(8)),

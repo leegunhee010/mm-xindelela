@@ -51,3 +51,23 @@ body.ad{margin:0;font-family:Pretendard,-apple-system,'Apple SD Gothic Neo','Mal
 .login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;background:#1b1b1b}
 .login-box{width:360px;background:#fff;padding:32px}
 .login-box h1{font-size:18px;margin-bottom:16px;text-align:center}
+
+/* 대시보드 성장 그래프 (10/17) */
+.gr{background:#fff;border:1px solid var(--line);border-radius:12px;padding:22px 24px;margin-bottom:20px}
+.gr-h{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.gr-h h2{font-size:17px;font-weight:700;margin:0}
+.gr-sub{font-size:12px;color:var(--gray)}
+.gr-tabs{margin-left:auto;display:flex;gap:6px}
+.gr-tabs a{padding:7px 14px;border:1px solid var(--line);border-radius:99px;font-size:12px;background:#fff;color:#555}
+.gr-tabs a.on{background:var(--ink);border-color:var(--ink);color:#fff;font-weight:700}
+.gr-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.gr-card{border:1px solid var(--line);border-radius:10px;padding:18px 18px 12px}
+.gr-label{font-size:13px;color:var(--gray)}
+.gr-num{font-size:28px;font-weight:800;color:var(--ink);margin-top:6px;line-height:1.2}
+.gr-num small{font-size:14px;font-weight:600;margin-left:4px;color:#555}
+.gr-cmp{display:flex;align-items:center;gap:8px;margin-top:8px;font-size:12px;color:var(--gray)}
+.gr-badge{padding:3px 8px;border-radius:99px;font-weight:700;font-size:12px}
+.gr-badge.up{background:#e8f7ee;color:#137a3a}
+.gr-badge.down{background:#fdecec;color:#b42318}
+.gr-badge.flat{background:#f2f2f2;color:#777;font-weight:500}
+.gr-chart{position:relative;height:170px;margin-top:14px}
