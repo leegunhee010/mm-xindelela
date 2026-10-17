@@ -206,6 +206,18 @@ if (! function_exists('mm_dt')) {
     }
 }
 
+if (! function_exists('mm_maps_key')) {
+    /** 구글맵 키: 관리자 설정값, 비어 있으면 서버 환경변수 GOOGLE_MAPS_KEY(.env 포함) */
+    function mm_maps_key(): string
+    {
+        $k = trim((string) mm_setting('google_maps_key', ''));
+        if ($k === '') {
+            $k = trim((string) (env('GOOGLE_MAPS_KEY') ?: getenv('GOOGLE_MAPS_KEY') ?: ''));
+        }
+        return $k;
+    }
+}
+
 if (! function_exists('mm_ago')) {
     /** 지난 시간 짧게: 방금 / 12분 전 / 3시간 전 / 2일 전 / 10.07 */
     function mm_ago(?string $dt): string

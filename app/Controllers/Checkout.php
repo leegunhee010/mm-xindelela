@@ -29,7 +29,7 @@ class Checkout extends BaseController
             'subtotal'  => $subtotal,
             'maxPoints' => $this->maxPoints($u, $subtotal),
             'codEnabled' => mm_setting('cod_enabled', '0') === '1',
-            'mapsKey'    => trim((string) mm_setting('google_maps_key', '')),
+            'mapsKey'    => mm_maps_key(),
         ]);
     }
 

@@ -13,6 +13,7 @@ use CodeIgniter\Router\RouteCollection;
 
 // ─── 공개 ───
 $routes->get('/', 'Home::index');
+$routes->get('health', 'Home::health');
 $routes->get('products', 'Products::index');
 $routes->get('products/(:num)', 'Products::show/$1');
 $routes->get('category/(:num)', 'Products::category/$1');

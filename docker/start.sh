@@ -24,6 +24,12 @@ session.driver = 'CodeIgniter\Session\Handlers\FileHandler'
 session.cookieName = 'mm_session'
 session.expiration = 2592000
 EOF
+if [ -n "${GOOGLE_MAPS_KEY}" ]; then
+  echo "GOOGLE_MAPS_KEY = '${GOOGLE_MAPS_KEY}'" >> .env
+  echo "[start] GOOGLE_MAPS_KEY: set"
+else
+  echo "[start] GOOGLE_MAPS_KEY: NOT SET"
+fi
 
 php spark migrate --all
 if [ ! -f writable/.seeded ]; then

@@ -52,7 +52,7 @@ class MyPage extends BaseController
             'title' => '주문 상세',
             'o'     => $o,
             'items' => (new OrderItemModel())->where('order_id', $id)->findAll(),
-            'mapsKey' => trim((string) mm_setting('google_maps_key', '')),
+            'mapsKey' => mm_maps_key(),
         ]);
     }
 

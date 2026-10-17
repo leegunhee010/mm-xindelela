@@ -26,4 +26,10 @@ class Home extends BaseController
     {
         return $this->render('guide', ['title' => '이용 안내']);
     }
+
+    /** 상태 확인(키 값은 노출하지 않음) */
+    public function health()
+    {
+        return $this->response->setJSON(['ok' => true, 'maps' => mm_maps_key() !== '' ? 'on' : 'off']);
+    }
 }
