@@ -215,6 +215,6 @@ $cur  = uri_string();
 })();
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.1.14/swiper-bundle.min.js"></script>
-<script src="<?= base_url('assets/js/mm.js?v=10') ?>"></script>
+<script src="<?= base_url('assets/js/mm.js?v=11') ?>"></script>
 </body>
 </html>

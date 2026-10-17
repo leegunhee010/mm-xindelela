@@ -2,11 +2,18 @@
 (function () {
   // 히어로 (Swiper, 아이스크림몰 corner-main-visual 동일 옵션)
   if (window.Swiper && document.getElementById('heroSwiper')) {
+    // 배너가 적으면 넓은 화면 양옆이 비므로, 6장 이상이 되도록 복제해서 채움(번호는 실제 장수 기준)
+    var hw = document.querySelector('#heroSwiper .swiper-wrapper');
+    var hOrig = Array.prototype.slice.call(hw.children);
+    var hN = hOrig.length;
+    if (hN > 1) { while (hw.children.length < 6) hOrig.forEach(function (el) { hw.appendChild(el.cloneNode(true)); }); }
+    var hPg = document.getElementById('heroPg');
+    function hNum(sw) { if (hPg) hPg.innerHTML = '<span class="swiper-pagination-current">' + (sw.realIndex % hN + 1) + '</span> / <span class="swiper-pagination-total">' + hN + '</span>'; }
     var hs = new Swiper('#heroSwiper', {
-      slidesPerView: 'auto', centeredSlides: true, spaceBetween: window.innerWidth <= 1024 ? 10 : 20, loop: document.querySelectorAll('#heroSwiper .swiper-slide').length > 2,
+      slidesPerView: 'auto', centeredSlides: true, spaceBetween: window.innerWidth <= 1024 ? 10 : 20, loop: hN > 1,
       autoplay: { delay: 5000, disableOnInteraction: false },
-      pagination: { el: '#heroPg', type: 'fraction' },
-      navigation: { nextEl: '#heroNext', prevEl: '#heroPrev' }
+      navigation: { nextEl: '#heroNext', prevEl: '#heroPrev' },
+      on: { init: hNum, slideChange: hNum }
     });
     var pb = document.getElementById('heroPlay');
     if (pb) pb.addEventListener('click', function () { if (hs.autoplay.running) { hs.autoplay.stop(); pb.classList.add('paused'); } else { hs.autoplay.start(); pb.classList.remove('paused'); } });
