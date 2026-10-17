@@ -244,3 +244,21 @@ main{min-height:600px;padding-bottom:80px}
 .oaddr-view dd{margin:0}
 .oaddr-map{margin-left:8px;font-size:13px;color:var(--pri);white-space:nowrap}
 .oaddr-form{margin-top:4px}
+
+/* 주문 상세 제목·입금 확인 요청 (10/17) */
+.otitle{display:flex;align-items:center;gap:12px}
+.otitle-no{font-size:14px;font-weight:400;color:#888}
+.otitle .st{margin:0}
+.paybox{background:#fff3eb;border-radius:16px;padding:28px 30px;margin-bottom:24px}
+.paybox.is-req{background:#f7f7f7}
+.paybox-t{font-size:20px;font-weight:500;color:#000;margin:0}
+.paybox-t b{font-weight:800;color:var(--pri)}
+.paybox-d{font-size:14px;color:#666;margin:8px 0 0;line-height:1.6}
+.paybox-d b{color:#000}
+.paybox-acct{margin-top:16px;background:#fff;border:1px solid #e5e5e5;border-radius:10px;padding:14px 18px;font-size:16px;font-weight:700;text-align:center}
+.paybox-f{margin-top:22px}
+.paybox-f label{display:block;font-size:13px;font-weight:600;color:#333;margin-bottom:8px}
+.paybox-row{display:flex;gap:8px;max-width:520px}
+.paybox-row input{flex:1}
+.paybox-row button{flex:none;height:44px;padding:0 22px;border-radius:99px;background:var(--pri);color:#fff;font-size:14px;font-weight:700}
+.paybox.is-req .paybox-row button{background:#fff;color:#000;border:1px solid #d5d5d5}

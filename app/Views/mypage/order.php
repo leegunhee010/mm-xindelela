@@ -8,25 +8,28 @@ $inp = 'h-[44px] w-full px-3 bg-white body3 text-black placeholder:text-gray4 fo
 <div class="flex gap-[60px] items-start">
 <?= view('mypage/_side') ?>
 <div class="flex-1 min-w-0">
-  <div class="contents-title-area depth-1 title3 font-bold !pt-0 mb-[20px]"><div class="title-area !pt-0"><h3 class="title">주문 상세 <span class="muted" style="font-size:13px;font-weight:400"><?= esc($o['order_no']) ?></span> <span class="st st-<?= esc($o['status']) ?>"><?= mm_order_status_label($o['status']) ?></span></h3></div></div>
+  <div class="contents-title-area depth-1 title3 font-bold !pt-0 mb-[20px]"><div class="title-area !pt-0"><h3 class="title otitle">주문 상세 <span class="otitle-no"><?= esc($o['order_no']) ?></span><span class="st st-<?= esc($o['status']) ?>"><?= mm_order_status_label($o['status']) ?></span></h3></div></div>
   <?php if ($o['status'] !== 'cancelled'): ?>
   <div class="timeline"><?php foreach (array_values($flow) as $i => $l): ?><div class="<?= $i < $idx ? 'done' : ($i === $idx ? 'on' : '') ?>"><?= $l ?></div><?php endforeach ?></div>
   <?php endif ?>
 
-  <?php if (in_array($o['status'], ['requested', 'quoted'], true)): ?>
-    <div class="vstat"><h2><?= mm_price($o['total']) ?> 을 KBZPay로 송금해 주세요</h2>
-      <div class="acct"><?= esc(mm_setting('kbzpay_account', '')) ?></div>
-      <?php if ($o['admin_memo']): ?><p class="mt8">담당자 안내: <?= nl2br(esc($o['admin_memo'])) ?></p><?php endif ?>
-      <form class="mt16" method="post" action="<?= site_url('mypage/orders/' . $o['id'] . '/proof') ?>" enctype="multipart/form-data"><?= csrf_field() ?>
-        <div class="field"><label>송금 캡처 이미지 <i>*</i></label><input type="file" name="proof" accept="image/*" required></div>
-        <div class="field"><label>송금자명·메모</label><input class="<?= $inp ?>" name="payment_note" placeholder="송금한 KBZPay 계정 이름"></div>
-        <button class="inline-flex items-center text-white bg-primary min-h-[44px] px-[20px] py-[12px] body3 !leading-none rounded-full font-bold" type="submit">송금 캡처 올리기</button>
+  <?php if (in_array($o['status'], ['requested', 'quoted', 'proof'], true)): $req = $o['status'] === 'proof'; ?>
+    <div class="paybox<?= $req ? ' is-req' : '' ?>">
+      <?php if ($req): ?>
+        <p class="paybox-t">입금 확인 중입니다</p>
+        <p class="paybox-d">송금자 <b><?= esc($o['payment_note']) ?></b> 이름으로 확인하고 있습니다. 확인되면 바로 발주합니다.</p>
+      <?php else: ?>
+        <p class="paybox-t"><b><?= mm_price($o['total']) ?></b> 을 KBZPay로 송금해 주세요</p>
+        <div class="paybox-acct"><?= esc(mm_setting('kbzpay_account', '')) ?></div>
+      <?php endif ?>
+      <?php if ($o['admin_memo']): ?><p class="paybox-d">담당자 안내: <?= nl2br(esc($o['admin_memo'])) ?></p><?php endif ?>
+      <form class="paybox-f" method="post" action="<?= site_url('mypage/orders/' . $o['id'] . '/proof') ?>"><?= csrf_field() ?>
+        <label for="payName">송금한 사람 이름</label>
+        <div class="paybox-row">
+          <input id="payName" class="<?= $inp ?>" name="payment_note" value="<?= esc($o['payment_note']) ?>" placeholder="KBZPay 계정 이름" required>
+          <button type="submit"><?= $req ? '이름 수정' : '입금 확인 요청' ?></button>
+        </div>
       </form>
-    </div>
-  <?php elseif ($o['status'] === 'proof'): ?>
-    <div class="vstat"><h2>입금 확인 중입니다</h2><p>담당자가 입금을 확인하면 바로 발주합니다. 다른 캡처로 바꾸려면 아래에서 다시 올려 주세요.</p>
-      <?php if ($o['payment_proof']): ?><a href="<?= base_url($o['payment_proof']) ?>" target="_blank"><img src="<?= base_url($o['payment_proof']) ?>" alt="" style="max-width:240px;border:1px solid var(--line);margin:8px 0"></a><?php endif ?>
-      <form method="post" action="<?= site_url('mypage/orders/' . $o['id'] . '/proof') ?>" enctype="multipart/form-data" class="mmrow"><?= csrf_field() ?><input type="file" name="proof" accept="image/*" required><input class="<?= $inp ?>" name="payment_note" value="<?= esc($o['payment_note']) ?>" placeholder="송금자명" style="width:200px"><button class="inline-flex items-center text-black bg-white border border-gray6 min-h-[36px] px-[16px] py-[8px] label1 !leading-none rounded-full font-bold" type="submit">다시 올리기</button></form>
     </div>
   <?php elseif ($o['status'] === 'shipped'): ?>
     <div class="vstat"><h2>배송 중입니다</h2><p>송장·배송 정보: <?= esc($o['tracking'] ?: '담당자 안내 예정') ?></p></div>

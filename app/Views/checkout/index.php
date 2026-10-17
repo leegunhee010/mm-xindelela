@@ -31,7 +31,7 @@
   <div class="mb-[40px]">
     <strong class="sub-head1 font-bold">결제 방법</strong><hr class="divider bg-gray6 border-0 h-px my-[18px]">
     <div class="flex flex-col gap-[8px]">
-      <label class="flex gap-[12px] items-start rounded-[12px] border border-primary bg-[#fff3eb] p-[16px] cursor-pointer"><input type="radio" name="payment_method" value="kbzpay" checked class="mt-[3px] accent-[#ff6200]"><span><b class="body3 font-bold block">KBZPay 선불 (100% 선입금)</b><span class="label1 text-gray3 block mt-[2px]">주문 신청 후 KBZPay로 송금하고 캡처를 올려 주세요. 입금 확인 즉시 발주합니다.</span></span></label>
+      <label class="flex gap-[12px] items-start rounded-[12px] border border-primary bg-[#fff3eb] p-[16px] cursor-pointer"><input type="radio" name="payment_method" value="kbzpay" checked class="mt-[3px] accent-[#ff6200]"><span><b class="body3 font-bold block">KBZPay 선불 (100% 선입금)</b><span class="label1 text-gray3 block mt-[2px]">주문 신청 후 KBZPay로 송금하고 송금자 이름으로 입금 확인을 요청해 주세요. 확인 즉시 발주합니다.</span></span></label>
       <label class="flex gap-[12px] items-start rounded-[12px] border border-gray6 p-[16px] <?= $codEnabled ? 'cursor-pointer' : 'opacity-50 cursor-not-allowed' ?>"><input type="radio" name="payment_method" value="cod" <?= $codEnabled ? '' : 'disabled' ?> class="mt-[3px] accent-[#ff6200]"><span><b class="body3 font-bold block">착불 (COD)</b><span class="label1 text-gray3 block mt-[2px]"><?= $codEnabled ? '상품 수령 시 현금 결제' : '준비 중입니다' ?></span></span></label>
     </div>
   </div>
@@ -47,7 +47,7 @@
   <div class="flex justify-between body3 py-[8px] border-b border-gray7"><span class="text-gray3">상품 합계</span><span><?= mm_price($subtotal, false) ?> <?= esc($sym) ?></span></div>
   <div class="flex justify-between body3 py-[8px] border-b border-gray7"><span class="text-gray3">포인트 사용</span><span id="ckPoints">-0</span></div>
   <div class="flex justify-between items-baseline pt-[14px]"><span class="sub-head1 font-bold">결제 금액</span><span class="title3 font-bold text-primary"><span id="ckTotal"><?= mm_price($subtotal, false) ?></span> <span class="body3 font-medium text-black"><?= esc($sym) ?></span></span></div>
-  <p class="label1 text-gray4 mt-[8px]">신청하면 KBZPay 계좌가 안내됩니다. 송금 후 주문 상세에서 캡처를 올려 주세요.</p>
+  <p class="label1 text-gray4 mt-[8px]">신청하면 KBZPay 계좌가 안내됩니다. 송금 후 주문 상세에서 송금자 이름으로 입금 확인을 요청해 주세요.</p>
   <button type="submit" class="mt-[20px] text-white bg-primary min-h-[50px] px-[16px] py-[12px] body2 !leading-none w-full rounded-full font-bold">주문 신청하기</button>
 </div>
 </form>

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=1200">
 <title><?= esc($title) ?> | 공급사센터</title>
 <meta name="robots" content="noindex,nofollow">
-<link rel="stylesheet" href="<?= base_url('assets/css/mm.css?v=3') ?>">
+<link rel="stylesheet" href="<?= base_url('assets/css/mm.css?v=7') ?>">
 <link rel="stylesheet" href="<?= base_url('assets/css/admin.css?v=2') ?>">
 </head>
 <body class="ad">

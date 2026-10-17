@@ -31,7 +31,7 @@
 </div>
 <div>
   <?php if ($b['status'] !== 'approved'): ?>
-  <div class="act" style="border:2px solid var(--green)">
+  <div class="act" style="border:2px solid var(--pri)">
     <h3>검수 결과</h3>
     <form method="post" action="<?= site_url('admin/buyers/' . $b['id'] . '/approve') ?>" onsubmit="return confirm('승인할까요? 도매가와 주문 신청이 열리고, 추천인 포인트가 지급됩니다.')"><?= csrf_field() ?><button class="btn btn-g btn-block" type="submit" style="height:44px;font-size:15px">승인</button></form>
     <form method="post" action="<?= site_url('admin/buyers/' . $b['id'] . '/reject') ?>" class="mt8"><?= csrf_field() ?>

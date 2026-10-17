@@ -100,7 +100,7 @@
     <?php else: ?><p class="text-gray3">공급사 정보가 없습니다.</p><?php endif ?>
   </div>
   <div id="notice" class="ptab hidden py-[40px]">
-    <div class="item border-b border-gray7"><div class="accordian-trigger subtitle2 flex flex-1 items-center py-[20px] font-medium">주문 절차</div><div class="pb-[20px] text-body3 text-gray3 leading-[1.8]">① 장바구니 → 주문 신청(배송지 입력) ② 담당자가 상품 금액 + 배송비를 합산한 최종 금액을 안내 ③ KBZPay 송금 후 마이페이지에서 송금 캡처 업로드 ④ 입금 확인 즉시 한국 공급사 발주 ⑤ 미얀마 도착 후 배송</div></div>
+    <div class="item border-b border-gray7"><div class="accordian-trigger subtitle2 flex flex-1 items-center py-[20px] font-medium">주문 절차</div><div class="pb-[20px] text-body3 text-gray3 leading-[1.8]">① 장바구니 ② 주문 신청(배송지 입력) ③ KBZPay 송금 ④ 주문 상세에서 송금자 이름으로 입금 확인 요청 ⑤ 입금 확인 즉시 한국 공급사 발주 ⑥ 미얀마 배송</div></div>
     <div class="item border-b border-gray7"><div class="accordian-trigger subtitle2 flex flex-1 items-center py-[20px] font-medium">포인트</div><div class="pb-[20px] text-body3 text-gray3 leading-[1.8]">주문 신청 시 상품 금액의 <?= (int) mm_setting('points_use_max_pct', 30) ?>%까지 사용할 수 있습니다. 주문을 취소하면 사용한 포인트는 환원됩니다.</div></div>
   </div>
   <div id="inq" class="ptab hidden py-[40px]">

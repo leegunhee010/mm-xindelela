@@ -71,3 +71,4 @@ body.ad{margin:0;font-family:Pretendard,-apple-system,'Apple SD Gothic Neo','Mal
 .gr-badge.down{background:#fdecec;color:#b42318}
 .gr-badge.flat{background:#f2f2f2;color:#777;font-weight:500}
 .gr-chart{position:relative;height:170px;margin-top:14px}
+.inp,.sel,.ta{box-sizing:border-box;max-width:100%}

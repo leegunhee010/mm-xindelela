@@ -56,30 +56,25 @@ class MyPage extends BaseController
         ]);
     }
 
-    /** 입금 캡처 업로드. */
+    /** 입금 확인 요청: 송금자 이름만 받고 관리자가 KBZPay 내역에서 확인한다. */
     public function proof(int $id)
     {
         $u  = mm_user();
         $om = new OrderModel();
         $o  = $om->where('user_id', $u['id'])->find($id);
         if (! $o || ! in_array($o['status'], ['requested', 'quoted', 'proof'], true)) {
-            return redirect()->back()->with('error', '입금 캡처를 올릴 수 있는 상태가 아닙니다.');
+            return redirect()->back()->with('error', '입금 확인을 요청할 수 있는 상태가 아닙니다.');
         }
-        try {
-            $path = Uploader::save($this->request->getFile('proof'), 'payments', Uploader::IMG, 5);
-        } catch (\Throwable $e) {
-            return redirect()->back()->with('error', $e->getMessage());
-        }
-        if (! $path) {
-            return redirect()->back()->with('error', '송금 캡처 이미지를 선택해 주세요.');
+        $name = trim((string) $this->request->getPost('payment_note'));
+        if ($name === '') {
+            return redirect()->back()->with('error', '송금한 사람 이름을 적어 주세요.');
         }
         $om->update($id, [
-            'payment_proof' => $path,
-            'payment_note'  => trim((string) $this->request->getPost('payment_note')),
-            'proof_at'      => date('Y-m-d H:i:s'),
-            'status'        => 'proof',
+            'payment_note' => mb_substr($name, 0, 100),
+            'proof_at'     => date('Y-m-d H:i:s'),
+            'status'       => 'proof',
         ]);
-        return redirect()->to('/mypage/orders/' . $id)->with('success', '입금 캡처를 올렸습니다. 담당자 확인 후 발주가 진행됩니다.');
+        return redirect()->to('/mypage/orders/' . $id)->with('success', '입금 확인을 요청했습니다. 확인되면 바로 발주합니다.');
     }
 
     public function cancel(int $id)

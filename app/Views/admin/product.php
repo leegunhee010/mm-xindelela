@@ -18,7 +18,7 @@
   </div>
 </div>
 <div>
-  <div class="act" style="border:2px solid var(--green)"><h3>검수</h3>
+  <div class="act" style="border:2px solid var(--pri)"><h3>검수</h3>
     <form method="post" action="<?= site_url('admin/products/' . $p['id'] . '/status') ?>"><?= csrf_field() ?><input type="hidden" name="status" value="active"><button class="btn btn-g btn-block" type="submit" style="height:42px">승인 (판매중)</button></form>
     <form method="post" action="<?= site_url('admin/products/' . $p['id'] . '/status') ?>" class="mt8"><?= csrf_field() ?><input type="hidden" name="status" value="hidden"><button class="btn btn-block" type="submit">숨김</button></form>
     <form method="post" action="<?= site_url('admin/products/' . $p['id'] . '/status') ?>" class="mt8"><?= csrf_field() ?><input type="hidden" name="status" value="rejected"><input class="inp" name="reason" placeholder="반려 사유 (공급사에게 표시)"><button class="btn btn-red btn-block mt8" type="submit">반려</button></form>
