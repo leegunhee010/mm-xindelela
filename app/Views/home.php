@@ -51,7 +51,7 @@
 <section class="corner-section last-of-type:mb-0 pc:mx-auto pc:w-large pc:mb-[80px]">
   <div class="section-title pc:heading2 mb-2.5 title1 font-bold pc:mb-[40px]"><div class="flex items-center justify-between"><h2 class="title1 mo:head-line1 font-bold">가입부터 배송까지 <br>이렇게 이용하세요</h2><a href="<?= site_url('guide') ?>" class="h-auto my-auto body2 btn-arrow-right after-bg-gray5 text-gray3">이용안내 전체보기</a></div></div>
   <div class="grid grid-cols-5 gap-[16px]">
-    <?php foreach ([['회원가입', '페이스북 페이지·매장 사진 등 자료 제출'], ['사업자 인증', '담당자 확인 후 영업일 1일 이내 승인'], ['도매가 확인·주문 신청', '박스 단위 수량별 단가 자동 적용'], ['KBZPay 선불 송금', '최종 금액 안내 후 송금·캡처 업로드'], ['발주·배송', '입금 확인 즉시 한국 공급사 발주']] as $i => [$t, $d]): ?>
+    <?php foreach ([['회원가입', '페이스북 페이지·매장 사진 등 자료 제출'], ['사업자 인증', '담당자 확인 후 영업일 1일 이내 승인'], ['도매가 확인·주문 신청', '최소수량부터 주문, 수량별 단가 자동 적용'], ['KBZPay 선불 송금', '최종 금액 안내 후 송금·캡처 업로드'], ['발주·배송', '입금 확인 즉시 한국 공급사 발주']] as $i => [$t, $d]): ?>
     <div class="rounded-[16px] bg-gray9 px-[22px] py-[24px]"><span class="inline-flex size-[28px] items-center justify-center rounded-full bg-primary text-[13px] font-bold text-white"><?= $i + 1 ?></span><b class="mt-[12px] mb-[6px] block text-[17px] font-bold"><?= $t ?></b><p class="text-body3 text-gray3 leading-[1.6]"><?= $d ?></p></div>
     <?php endforeach ?>
   </div>

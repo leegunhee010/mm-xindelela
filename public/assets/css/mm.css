@@ -213,3 +213,4 @@ main{min-height:600px;padding-bottom:80px}
 .lockprice{font-size:24px;font-weight:700;line-height:32px}
 .lockprice small{display:block;font-size:13px;font-weight:400;color:#666;margin-top:4px}
 .pd-tier.is-lite{border:0;padding:0 0 4px}
+.qty .stp button:focus,.qty .stp button:focus-visible{outline:0;box-shadow:none}

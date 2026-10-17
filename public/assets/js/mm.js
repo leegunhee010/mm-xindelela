@@ -34,8 +34,8 @@
       document.querySelectorAll('.pd-tier li[data-min]').forEach(function (li) { li.classList.remove('on'); if (v >= parseInt(li.dataset.min, 10)) on = li; });
       if (on) on.classList.add('on');
     }
-    q.querySelector('.minus').onclick = function () { inp.value = parseInt(inp.value, 10) - moq; calc(); };
-    q.querySelector('.plus').onclick = function () { inp.value = parseInt(inp.value, 10) + moq; calc(); };
+    q.querySelector('.minus').onclick = function () { inp.value = parseInt(inp.value, 10) - 1; calc(); };
+    q.querySelector('.plus').onclick = function () { inp.value = parseInt(inp.value, 10) + 1; calc(); };
     inp.addEventListener('change', calc);
     calc();
   }

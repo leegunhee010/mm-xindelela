@@ -13,9 +13,9 @@
       <div class="flex-1 min-w-0">
         <p class="label1 text-gray3"><?= esc($it['supplier']['company_name'] ?? '') ?></p>
         <a href="<?= site_url('products/' . $p['id']) ?>" class="body2 font-medium block mt-[2px]"><?= esc($p['name']) ?></a>
-        <p class="label1 text-gray4 mt-[4px]">단가 <?= mm_price($it['unit']) ?> · 최소 <?= number_format((int) $p['moq']) ?><?= esc($p['unit']) ?> 단위 · 수량별 단가 적용</p>
+        <p class="label1 text-gray4 mt-[4px]">단가 <?= mm_price($it['unit']) ?> · 최소 <?= number_format((int) $p['moq']) ?><?= esc($p['unit']) ?>부터 · 수량별 단가 적용</p>
       </div>
-      <div class="input-item !flex-none w-[110px]"><input type="number" name="qty[<?= $it['cart']['id'] ?>]" value="<?= $it['qty'] ?>" min="<?= (int) $p['moq'] ?>" step="<?= (int) $p['moq'] ?>" class="h-[40px] w-full px-3 text-center bg-white body3 border border-gray6 rounded-[8px] focus:outline-none focus:border-black"></div>
+      <div class="input-item !flex-none w-[110px]"><input type="number" name="qty[<?= $it['cart']['id'] ?>]" value="<?= $it['qty'] ?>" min="<?= (int) $p['moq'] ?>" step="1" class="h-[40px] w-full px-3 text-center bg-white body3 border border-gray6 rounded-[8px] focus:outline-none focus:border-black"></div>
       <div class="w-[150px] text-right head-line1 font-bold"><?= mm_price($it['line'], false) ?> <span class="body3 font-medium"><?= esc($sym) ?></span></div>
       <button type="submit" form="rm<?= $it['cart']['id'] ?>" class="size-[32px] rounded-full border border-gray7 text-gray4" title="삭제">✕</button>
     </li>

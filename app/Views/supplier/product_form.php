@@ -15,7 +15,7 @@
     <div class="g2">
       <div class="field"><label>도매가 (기본 단가) <i>*</i></label><input class="inp" type="number" name="price" value="<?= esc(old('price', $p['price'] ?? '')) ?>" required></div>
       <div class="field"><label>권장 소비자가 <span class="muted">(비회원에게도 표시)</span></label><input class="inp" type="number" name="retail_price" value="<?= esc(old('retail_price', $p['retail_price'] ?? '')) ?>"></div>
-      <div class="field"><label>최소구매수량(MOQ) <i>*</i></label><input class="inp" type="number" name="moq" value="<?= esc(old('moq', $p['moq'] ?? 1)) ?>" required><div class="help">이 수량 단위로만 담을 수 있습니다 (예: 박스 입수)</div></div>
+      <div class="field"><label>최소주문수량 <i>*</i></label><input class="inp" type="number" name="moq" value="<?= esc(old('moq', $p['moq'] ?? 1)) ?>" required><div class="help">이 수량부터 주문할 수 있고, 그 이상은 1개씩 늘릴 수 있습니다</div></div>
       <div class="field"><label>단위</label><input class="inp" name="unit" value="<?= esc(old('unit', $p['unit'] ?? '개')) ?>"></div>
       <div class="field"><label>재고</label><input class="inp" type="number" name="stock" value="<?= esc(old('stock', $p['stock'] ?? 0)) ?>"></div>
     </div>

@@ -9,7 +9,7 @@ $w = $w ?? 'w-[235px]'; $isNew = isset($p['created_at']) && strtotime($p['create
     <div class="absolute left-[12px] top-[12px] flex flex-wrap gap-[4px] pr-[20px]">
       <?php if ($p['is_best']): ?><span class="inline-flex h-[26px] items-center rounded-[99px] bg-primary px-[10px] text-[12px] font-bold text-white">BEST</span><?php elseif ($isNew): ?><span class="inline-flex h-[26px] items-center rounded-[99px] bg-[#22c55e] px-[10px] text-[12px] font-bold text-white">NEW</span><?php endif ?>
     </div>
-    <div class="absolute right-[12px] top-[12px] flex size-[48px] items-center justify-center rounded-full bg-primary/90 text-center text-[11px] font-bold leading-[1.1] text-white"><?= number_format((int) $p['moq']) ?><?= esc($p['unit']) ?><br>단위</div>
+    <div class="absolute right-[12px] top-[12px] flex size-[48px] items-center justify-center rounded-full bg-primary/90 text-center text-[11px] font-bold leading-[1.1] text-white">최소<br><?= number_format((int) $p['moq']) ?><?= esc($p['unit']) ?></div>
   </div>
   <div class="relative flex flex-auto flex-col items-start justify-end">
     <div class="flex w-full flex-col justify-end">

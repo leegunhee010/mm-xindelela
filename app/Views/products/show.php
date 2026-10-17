@@ -44,7 +44,7 @@
           <?php foreach ($tiers as $t): ?><li data-min="<?= (int) $t['min_qty'] ?>"><span><?= number_format((int) $t['min_qty']) ?><?= esc($p['unit']) ?> 이상</span><b><?= mm_price($t['price'], false) ?> <?= esc($sym) ?></b></li><?php endforeach ?>
         </ul>
       <?php endif ?>
-      <p class="pd-tier-foot"><b><?= number_format((int) $p['moq']) ?><?= esc($p['unit']) ?>(1박스) 단위 주문</b><span>재고 <?= number_format((int) $p['stock']) ?><?= esc($p['unit']) ?></span><?php if ($p['origin']): ?><span>원산지 <?= esc($p['origin']) ?></span><?php endif ?></p>
+      <p class="pd-tier-foot"><b>최소 <?= number_format((int) $p['moq']) ?><?= esc($p['unit']) ?>부터 주문</b><span>재고 <?= number_format((int) $p['stock']) ?><?= esc($p['unit']) ?></span><?php if ($p['origin']): ?><span>원산지 <?= esc($p['origin']) ?></span><?php endif ?></p>
     </div>
 
     <!-- 결제·배송 -->
