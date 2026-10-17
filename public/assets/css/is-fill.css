@@ -66,3 +66,7 @@ input[type=radio].accent-\[\#ff6200\]{display:inline-block!important;appearance:
 .via-black\/20{--tw-gradient-to:rgba(0,0,0,0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from),rgba(0,0,0,.2) var(--tw-gradient-via-position),var(--tw-gradient-to)}
 /* 헤더 로고줄↔GNB 간격 (10/17) */
 @media (min-width:1025px){.pc\:h-\[52px\]{height:52px}.pc\:mt-\[28px\]{margin-top:28px}.pc\:mb-\[18px\]{margin-bottom:18px}}
+/* 상세 갤러리: 틀 486px < 사진 603px 이라 사진이 탭 줄 밑으로 삐져나오던 문제 (10/17) */
+@media (min-width:1025px){div.goods-main-slide.swiper-thumbnail-type{height:603px}}
+/* 한국어 단어 중간 줄바꿈 방지 ("자\n료", "(영업\n일") (10/17) */
+body{word-break:keep-all;overflow-wrap:break-word}
