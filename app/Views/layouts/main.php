@@ -143,7 +143,8 @@ $cur  = uri_string();
   </div>
   <div class="footer-conts-item flex flex-col">
     <p class="text-gray3">고객센터 (Viber)</p>
-    <p class="text-[30px] font-bold leading-[1.2] mt-[4px] mb-[10px]"><?= esc(mm_setting('cs_viber', '')) ?></p>
+    <?php $csV = (string) mm_setting('cs_viber', ''); $csN = preg_replace('/[^0-9+]/', '', $csV); ?>
+    <p class="text-[30px] font-bold leading-[1.2] mt-[4px] mb-[10px]"><a href="viber://chat?number=<?= rawurlencode($csN) ?>" title="Viber로 대화하기"><?= esc($csV) ?></a></p>
     <p class="mt-[4px] text-body3 font-regular">평일 09:00 ~ 18:00</p>
     <p class="mt-[4px] text-body3 text-gray3">주말·공휴일 휴무</p>
     <a href="<?= site_url('mypage/inquiries') ?>" class="mt-[16px] inline-flex w-fit items-center rounded-[99px] border border-primary px-[16px] py-[8px] text-body3 font-bold text-primary">1:1 문의하기</a>

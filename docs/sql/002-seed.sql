@@ -16,8 +16,8 @@ INSERT INTO `settings` (`skey`,`svalue`,`updated_at`) SELECT 'points_min_use','1
 INSERT INTO `settings` (`skey`,`svalue`,`updated_at`) SELECT 'kbzpay_account','KBZPay 09891257296 (PARK CHANG MIN)',NOW() FROM DUAL WHERE NOT EXISTS (SELECT 1 FROM `settings` WHERE `skey`='kbzpay_account');
 INSERT INTO `settings` (`skey`,`svalue`,`updated_at`) SELECT 'cod_enabled','0',NOW() FROM DUAL WHERE NOT EXISTS (SELECT 1 FROM `settings` WHERE `skey`='cod_enabled');
 INSERT INTO `settings` (`skey`,`svalue`,`updated_at`) SELECT 'verify_sla_text','영업일 기준 1일 이내 검수',NOW() FROM DUAL WHERE NOT EXISTS (SELECT 1 FROM `settings` WHERE `skey`='verify_sla_text');
-INSERT INTO `settings` (`skey`,`svalue`,`updated_at`) SELECT 'cs_phone','09-XXX-XXX-XXX',NOW() FROM DUAL WHERE NOT EXISTS (SELECT 1 FROM `settings` WHERE `skey`='cs_phone');
-INSERT INTO `settings` (`skey`,`svalue`,`updated_at`) SELECT 'cs_viber','09-XXX-XXX-XXX',NOW() FROM DUAL WHERE NOT EXISTS (SELECT 1 FROM `settings` WHERE `skey`='cs_viber');
+INSERT INTO `settings` (`skey`,`svalue`,`updated_at`) SELECT 'cs_phone','+959 779 076 612',NOW() FROM DUAL WHERE NOT EXISTS (SELECT 1 FROM `settings` WHERE `skey`='cs_phone');
+INSERT INTO `settings` (`skey`,`svalue`,`updated_at`) SELECT 'cs_viber','+959 779 076 612',NOW() FROM DUAL WHERE NOT EXISTS (SELECT 1 FROM `settings` WHERE `skey`='cs_viber');
 INSERT INTO `settings` (`skey`,`svalue`,`updated_at`) SELECT 'cs_email','mm@xindelela.com',NOW() FROM DUAL WHERE NOT EXISTS (SELECT 1 FROM `settings` WHERE `skey`='cs_email');
 INSERT INTO `settings` (`skey`,`svalue`,`updated_at`) SELECT 'topbar_text','신규 가입 사업자 인증은 영업일 기준 1일 이내 완료됩니다.',NOW() FROM DUAL WHERE NOT EXISTS (SELECT 1 FROM `settings` WHERE `skey`='topbar_text');
 

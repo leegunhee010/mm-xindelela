@@ -29,8 +29,8 @@ class DemoSeeder extends Seeder
             'kbzpay_account'              => 'KBZPay 09891257296 (PARK CHANG MIN)',
             'cod_enabled'                 => '0',
             'verify_sla_text'             => '영업일 기준 1일 이내 검수',
-            'cs_phone'                    => '09-XXX-XXX-XXX',
-            'cs_viber'                    => '09-XXX-XXX-XXX',
+            'cs_phone'                    => '+959 779 076 612',
+            'cs_viber'                    => '+959 779 076 612',
             'cs_email'                    => 'mm@xindelela.com',
             'topbar_text'                 => '신규 가입 사업자 인증은 영업일 기준 1일 이내 완료됩니다.',
         ];
