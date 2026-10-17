@@ -458,3 +458,6 @@ main{min-height:600px;padding-bottom:80px}
 
 .pdt-desc{padding:0;max-width:none}
 .pdt-desc p{margin:0 0 10px}
+
+.pdt-dimgs{margin-top:36px;display:flex;flex-direction:column;align-items:center}
+.pdt-dimgs img{display:block;width:100%;max-width:860px;height:auto}

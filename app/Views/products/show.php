@@ -101,7 +101,10 @@
       <div><dt>재고</dt><dd><?= $approved ? number_format((int) $p['stock']) . esc($p['unit']) : '인증 회원에게 공개' ?></dd></div>
       <div><dt>공급사</dt><dd><?= esc($supplier['company_name'] ?? '-') ?></dd></div>
     </dl>
-    <div class="pdt-desc"><?= $p['description'] ?: '<p class="pdt-empty">상세 설명이 아직 등록되지 않았습니다.</p>' ?></div>
+    <?php $dimgs = mm_json($p['detail_images'] ?? null); ?>
+    <?php if ($p['description']): ?><div class="pdt-desc"><?= $p['description'] ?></div><?php endif ?>
+    <?php if ($dimgs): ?><div class="pdt-dimgs"><?php foreach ($dimgs as $im): ?><img src="<?= base_url($im) ?>" alt="<?= esc($p['name']) ?> 상세" loading="lazy"><?php endforeach ?></div><?php endif ?>
+    <?php if (! $p['description'] && ! $dimgs): ?><p class="pdt-empty">상세 설명이 아직 등록되지 않았습니다.</p><?php endif ?>
   </section>
 
   <section class="pdt-sec" id="pdt-sup">

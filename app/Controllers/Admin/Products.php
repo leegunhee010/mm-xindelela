@@ -132,6 +132,24 @@ class Products extends Base
         } catch (\Throwable $e) {
             return redirect()->back()->withInput()->with('error', $e->getMessage());
         }
+        // 상세 이미지: 남길 것(순서 번호대로 정렬) + 새로 올린 것은 뒤에
+        $keepD = (array) $this->request->getPost('keep_detail');
+        $ordD  = (array) $this->request->getPost('detail_order');
+        $detail = [];
+        foreach ($keepD as $i => $path) {
+            if ($path !== '') {
+                $detail[] = ['p' => $path, 'o' => (int) ($ordD[$i] ?? 999)];
+            }
+        }
+        usort($detail, fn ($x, $y) => $x['o'] <=> $y['o']);
+        $detail = array_column($detail, 'p');
+        try {
+            foreach (Uploader::saveMany($this->request->getFileMultiple('detail_files') ?: [], 'products/detail', Uploader::IMG, 10) as $f) {
+                $detail[] = $f['path'];
+            }
+        } catch (\Throwable $e) {
+            return redirect()->back()->withInput()->with('error', $e->getMessage());
+        }
         $status = (string) $this->request->getPost('status');
         $data = [
             'supplier_id'   => (int) $this->request->getPost('supplier_id'),
@@ -142,6 +160,7 @@ class Products extends Base
             'description'   => (string) $this->request->getPost('description'),
             'thumb'         => $images[0] ?? null,
             'images'        => json_encode($images, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
+            'detail_images' => json_encode($detail, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
             'price'         => (int) $this->request->getPost('price'),
             'retail_price'  => (int) $this->request->getPost('retail_price') ?: null,
             'tiers'         => json_encode($tiers),
