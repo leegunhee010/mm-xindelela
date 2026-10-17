@@ -3,8 +3,27 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=1280">
-<title><?= esc($title) ?> | <?= esc(mm_setting('site_name', 'XINDELELA')) ?></title>
-<meta name="robots" content="noindex,nofollow">
+<?php
+$seoSite  = mm_setting('seo_title') ?: mm_setting('site_name', 'XINDELELA');
+$seoPath  = uri_string();
+$seoTitle = $seoPath === '' ? $seoSite : $title . ' | ' . $seoSite;
+$seoDesc  = $metaDesc ?? mm_setting('seo_description', '');
+$seoImg   = $ogImage ?? (mm_setting('seo_og_image') ? base_url(mm_setting('seo_og_image')) : null);
+$seoFav   = mm_setting('seo_favicon');
+$seoIndex = mm_setting('seo_indexable', '0') === '1' && ! preg_match('#^(mypage|cart|checkout|login|register|logout|admin)#', $seoPath);
+?>
+<title><?= esc($seoTitle) ?></title>
+<meta name="robots" content="<?= $seoIndex ? 'index,follow' : 'noindex,nofollow' ?>">
+<?php if ($seoDesc): ?><meta name="description" content="<?= esc($seoDesc) ?>"><?php endif ?>
+<?php if ($kw = mm_setting('seo_keywords')): ?><meta name="keywords" content="<?= esc($kw) ?>"><?php endif ?>
+<link rel="canonical" href="<?= esc(current_url()) ?>">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="<?= esc($seoSite) ?>">
+<meta property="og:title" content="<?= esc($seoTitle) ?>">
+<?php if ($seoDesc): ?><meta property="og:description" content="<?= esc($seoDesc) ?>"><?php endif ?>
+<meta property="og:url" content="<?= esc(current_url()) ?>">
+<?php if ($seoImg): ?><meta property="og:image" content="<?= esc($seoImg) ?>"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="<?= esc($seoImg) ?>"><?php endif ?>
+<?php if ($seoFav): ?><link rel="icon" href="<?= base_url($seoFav) ?>"><link rel="apple-touch-icon" href="<?= base_url($seoFav) ?>"><?php endif ?>
 <?php /* 아이스크림몰(i-screammall.co.kr) 미러에서 가져온 CSS 번들 (순서 그대로) */
 foreach (['4d3a10b18ca278ac', '6aa6463b93b71a20', '382ef9402adc32b5', '02a257d789961a18', '08b906017950856f', 'e8e7c6b189408a7a', 'dd5d352a082118c1', '2adaf18aa8b18675', 'ecf867fdbdbe578d', '169b376d8b0459bd', '1ff38b619b0f57a0', '9bab8700f9b1c889', 'e0b4ecca42b0e9a0', 'f403fbff81a08bb1', 'b44dd7a96b17af8f', 'dbb0d29717545456', 'c7c17e71f387eea1', '6ced9ccd3ec5b59c', '13a7aa8b5e9c64f9', 'd842bb5bd531ea6d', 'a32bd69c5b27056c', 'ef46db3751d8e999'] as $css): ?>
 <link rel="stylesheet" href="<?= base_url('assets/is/css/' . $css . '.css') ?>">

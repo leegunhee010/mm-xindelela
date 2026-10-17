@@ -107,6 +107,8 @@ $routes->group('admin', ['filter' => 'adminauth', 'namespace' => 'App\Controller
     $routes->get('banners', 'Banners::index');
     $routes->post('banners/save', 'Banners::save');
     $routes->post('banners/(:num)/delete', 'Banners::delete/$1');
+    $routes->get('seo', 'Seo::index');
+    $routes->post('seo', 'Seo::save');
     $routes->get('settings', 'Settings::index');
     $routes->post('settings', 'Settings::save');
 });

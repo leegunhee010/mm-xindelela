@@ -67,7 +67,7 @@ class Products extends BaseController
         $pm = new ProductModel();
         $p  = $pm->find($id);
         $u  = mm_user();
-        $isOwner = $u && $u['role'] === 'supplier' && (new SupplierModel())->where('user_id', $u['id'])->where('id', $p['supplier_id'] ?? 0)->countAllResults() > 0;
+        $isOwner = false;
         if (! $p || ($p['status'] !== 'active' && ! $isOwner && ! ($u && $u['role'] === 'admin'))) {
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         }
@@ -79,6 +79,8 @@ class Products extends BaseController
         return $this->render('products/show', [
             'fullWidth' => true,
             'title'    => $p['name'],
+            'metaDesc' => trim(($p['brand'] ? $p['brand'] . ' · ' : '') . ($p['summary'] ?: $p['name'])),
+            'ogImage'  => $p['thumb'] ? mm_thumb($p['thumb']) : null,
             'p'        => $p,
             'images'   => mm_json($p['images']),
             'tiers'    => mm_json($p['tiers']),

@@ -108,3 +108,25 @@ body.ad{margin:0;font-family:Pretendard,-apple-system,'Apple SD Gothic Neo','Mal
 .tbl td.pact>*{display:inline-block;vertical-align:middle;margin:0 2px}
 .tbl td.pact form{margin:0}
 .btn-block{box-sizing:border-box;display:block;text-align:center}
+
+/* SEO 설정 (10/17) */
+.seo-img{display:flex;align-items:flex-end;gap:10px;margin-bottom:10px}
+.seo-img img{width:240px;height:126px;object-fit:cover;border:1px solid var(--line);border-radius:6px}
+.seo-fav{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.seo-fav img{width:48px;height:48px;object-fit:contain;border:1px solid var(--line);border-radius:6px;padding:4px;background:#fff}
+.seo-sw{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600}
+.seo-g{border:1px solid var(--line);border-radius:10px;padding:14px 16px;background:#fff;font-family:Arial,sans-serif}
+.seo-g-site{display:flex;align-items:center;gap:10px;font-size:12px;color:#4d5156;line-height:1.3}
+.seo-g-site b{color:#202124;font-weight:400;font-size:14px}
+.seo-g-ic{width:26px;height:26px;border-radius:50%;background:#f1f3f4;display:flex;align-items:center;justify-content:center;overflow:hidden;flex:none}
+.seo-g-ic img{width:18px;height:18px;object-fit:contain}
+.seo-g-t{margin-top:8px;font-size:18px;color:#1a0dab;line-height:1.3;word-break:keep-all}
+.seo-g-d{margin-top:4px;font-size:13px;color:#4d5156;line-height:1.55;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.seo-c{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff}
+.seo-c-img{aspect-ratio:1200/630;background:#f1f1f1;display:flex;align-items:center;justify-content:center;color:#999;font-size:12px}
+.seo-c-img img{width:100%;height:100%;object-fit:cover}
+.seo-c-b{padding:10px 12px;background:#f2f3f5}
+.seo-c-h{font-size:11px;color:#65676b}
+.seo-c-t{font-size:15px;font-weight:700;color:#050505;margin-top:2px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.seo-c-d{font-size:13px;color:#65676b;margin-top:2px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.mt16{margin-top:16px}

@@ -6,7 +6,7 @@
 <title><?= esc($title) ?> | 관리자</title>
 <meta name="robots" content="noindex,nofollow">
 <link rel="stylesheet" href="<?= base_url('assets/css/mm.css?v=7') ?>">
-<link rel="stylesheet" href="<?= base_url('assets/css/admin.css?v=9') ?>">
+<link rel="stylesheet" href="<?= base_url('assets/css/admin.css?v=10') ?>">
 </head>
 <body class="ad">
 <?php $cur = uri_string(); $nav = function (string $path, string $label, int $badge = 0) use ($cur) {
@@ -22,7 +22,7 @@
   <div class="grp">포인트</div>
   <?php $nav('admin/points', '포인트 원장'); $nav('admin/referrals', '추천 현황'); ?>
   <div class="grp">콘텐츠·설정</div>
-  <?php $nav('admin/notices', '공지사항'); $nav('admin/banners', '메인 배너'); $nav('admin/settings', '설정'); ?>
+  <?php $nav('admin/notices', '공지사항'); $nav('admin/banners', '메인 배너'); $nav('admin/seo', 'SEO 설정'); $nav('admin/settings', '설정'); ?>
   <div class="ft"><a href="<?= site_url('/') ?>" target="_blank">사이트 보기</a><a href="<?= site_url('admin/logout') ?>">로그아웃</a></div>
 </aside>
 <div class="bodyw">
