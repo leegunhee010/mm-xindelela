@@ -18,7 +18,7 @@ class MyPage extends BaseController
         $u  = mm_user();
         $om = new OrderModel();
         $counts = [];
-        foreach (['requested', 'quoted', 'proof', 'paid', 'preparing', 'shipped', 'delivered'] as $s) {
+        foreach (['requested', 'proof', 'paid', 'preparing', 'shipped', 'delivered'] as $s) {
             $counts[$s] = $om->where('user_id', $u['id'])->where('status', $s)->countAllResults();
         }
         return $this->render('mypage/index', [
@@ -52,6 +52,7 @@ class MyPage extends BaseController
             'title' => '주문 상세',
             'o'     => $o,
             'items' => (new OrderItemModel())->where('order_id', $id)->findAll(),
+            'mapsKey' => trim((string) mm_setting('google_maps_key', '')),
         ]);
     }
 
@@ -61,7 +62,7 @@ class MyPage extends BaseController
         $u  = mm_user();
         $om = new OrderModel();
         $o  = $om->where('user_id', $u['id'])->find($id);
-        if (! $o || ! in_array($o['status'], ['quoted', 'proof'], true)) {
+        if (! $o || ! in_array($o['status'], ['requested', 'quoted', 'proof'], true)) {
             return redirect()->back()->with('error', '입금 캡처를 올릴 수 있는 상태가 아닙니다.');
         }
         try {
@@ -86,12 +87,42 @@ class MyPage extends BaseController
         $u  = mm_user();
         $om = new OrderModel();
         $o  = $om->where('user_id', $u['id'])->find($id);
-        if (! $o || ! in_array($o['status'], ['requested', 'quoted'], true)) {
+        if (! $o || ! in_array($o['status'], ['requested', 'quoted', 'proof'], true)) {
             return redirect()->back()->with('error', '취소할 수 있는 상태가 아닙니다.');
         }
         $om->update($id, ['status' => 'cancelled', 'cancelled_at' => date('Y-m-d H:i:s')]);
         (new PointService())->onOrderCancelled($o);
         return redirect()->to('/mypage/orders/' . $id)->with('success', '주문 신청을 취소했습니다.');
+    }
+
+    /** 배송지 수정: 입금 확인 전(입금 대기·입금 확인중)까지만. */
+    public function address(int $id)
+    {
+        $u  = mm_user();
+        $om = new OrderModel();
+        $o  = $om->where('user_id', $u['id'])->find($id);
+        if (! $o || ! in_array($o['status'], ['requested', 'quoted', 'proof'], true)) {
+            return redirect()->back()->with('error', '입금 확인 후에는 배송지를 바꿀 수 없습니다. 고객센터로 문의해 주세요.');
+        }
+        if (! $this->validate([
+            'ship_name'    => 'required|max_length[100]',
+            'ship_phone'   => 'required|max_length[50]',
+            'ship_city'    => 'required|max_length[100]',
+            'ship_address' => 'required|max_length[255]',
+        ])) {
+            return redirect()->back()->withInput()->with('error', '받는 사람·연락처·도시·상세 주소를 모두 입력해 주세요.');
+        }
+        $lat = $this->request->getPost('ship_lat');
+        $lng = $this->request->getPost('ship_lng');
+        $om->update($id, [
+            'ship_name'    => trim((string) $this->request->getPost('ship_name')),
+            'ship_phone'   => trim((string) $this->request->getPost('ship_phone')),
+            'ship_city'    => trim((string) $this->request->getPost('ship_city')),
+            'ship_address' => trim((string) $this->request->getPost('ship_address')),
+            'ship_lat'     => is_numeric($lat) ? (float) $lat : null,
+            'ship_lng'     => is_numeric($lng) ? (float) $lng : null,
+        ]);
+        return redirect()->to('/mypage/orders/' . $id)->with('success', '배송지를 수정했습니다.');
     }
 
     public function points(): string

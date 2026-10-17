@@ -9,8 +9,8 @@
     <?php if ($user['status'] !== 'suspended'): ?><a class="mt-[14px] inline-flex text-black bg-white border border-gray6 min-h-[40px] px-[16px] py-[10px] body3 font-bold !leading-none rounded-full items-center" href="<?= site_url('mypage/verify') ?>">인증 자료 보기·재제출</a><?php endif ?>
   </div>
   <?php endif ?>
-  <div class="grid grid-cols-7 gap-[8px] mb-[28px]">
-    <?php foreach (['requested' => '신청 접수', 'quoted' => '입금 대기', 'proof' => '입금 확인중', 'paid' => '입금 확인', 'preparing' => '발주·준비', 'shipped' => '배송중', 'delivered' => '배송 완료'] as $k => $l): ?>
+  <div class="grid grid-cols-6 gap-[8px] mb-[28px]">
+    <?php foreach (['requested' => '입금 대기', 'proof' => '입금 확인중', 'paid' => '입금 확인', 'preparing' => '발주·준비', 'shipped' => '배송중', 'delivered' => '배송 완료'] as $k => $l): ?>
       <div class="rounded-[12px] bg-gray9 py-[18px] text-center"><b class="block title3 <?= $counts[$k] ? 'text-primary' : '' ?>"><?= $counts[$k] ?></b><span class="label1 text-gray3"><?= $l ?></span></div>
     <?php endforeach ?>
   </div>

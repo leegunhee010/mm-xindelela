@@ -18,7 +18,7 @@ class Dashboard extends Base
             'kpi'   => [
                 '검수 대기 구매자'  => $um->where('role', 'buyer')->where('status', 'pending')->countAllResults(),
                 '승인 구매자'       => $um->where('role', 'buyer')->where('status', 'approved')->countAllResults(),
-                '신청 접수(금액 안내 필요)' => $om->where('status', 'requested')->countAllResults(),
+                '입금 대기' => $om->where('status', 'requested')->countAllResults(),
                 '입금 확인 필요'    => $om->where('status', 'proof')->countAllResults(),
                 '판매중 상품'       => (new ProductModel())->where('status', 'active')->countAllResults(),
                 '오늘 가입'         => $um->where('role', 'buyer')->like('created_at', $today, 'after')->countAllResults(),

@@ -46,6 +46,7 @@ $routes->group('', ['filter' => 'buyerauth'], static function ($routes) {
     $routes->get('mypage/orders/(:num)', 'MyPage::order/$1');
     $routes->post('mypage/orders/(:num)/proof', 'MyPage::proof/$1');
     $routes->post('mypage/orders/(:num)/cancel', 'MyPage::cancel/$1');
+    $routes->post('mypage/orders/(:num)/address', 'MyPage::address/$1');
     $routes->get('mypage/points', 'MyPage::points');
     $routes->get('mypage/referral', 'MyPage::referral');
     $routes->get('mypage/profile', 'MyPage::profile');
@@ -103,7 +104,6 @@ $routes->group('admin', ['filter' => 'adminauth', 'namespace' => 'App\Controller
     $routes->post('categories/(:num)/delete', 'Categories::delete/$1');
     $routes->get('orders', 'Orders::index');
     $routes->get('orders/(:num)', 'Orders::show/$1');
-    $routes->post('orders/(:num)/quote', 'Orders::quote/$1');
     $routes->post('orders/(:num)/status', 'Orders::status/$1');
     $routes->post('orders/(:num)/memo', 'Orders::memo/$1');
     $routes->get('points', 'Points::index');

@@ -109,7 +109,7 @@ if (! function_exists('mm_order_status_label')) {
     function mm_order_status_label(string $status): string
     {
         return [
-            'requested' => '신청 접수',
+            'requested' => '입금 대기',
             'quoted'    => '입금 대기',
             'proof'     => '입금 확인중',
             'paid'      => '입금 확인',

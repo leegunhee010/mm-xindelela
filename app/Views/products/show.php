@@ -49,7 +49,7 @@
 
     <!-- 결제·배송 -->
     <dl class="pd-info">
-      <div><dt>결제</dt><dd>KBZPay 100% 선불 <span>(주문 신청 후 금액 안내)</span></dd></div>
+      <div><dt>결제</dt><dd>KBZPay 100% 선불 <span>(주문 신청 후 바로 송금)</span></dd></div>
       <div><dt>배송</dt><dd>입금 확인 후 한국에서 발송 <span>(배송비 별도 안내)</span></dd></div>
     </dl>
 

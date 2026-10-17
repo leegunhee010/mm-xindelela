@@ -19,10 +19,10 @@
 
   <h2>3. 결제 (KBZPay 선불)</h2>
   <ol>
-    <li>담당자가 재고와 배송비를 확인한 뒤 최종 금액을 마이페이지와 Viber로 안내합니다.</li>
-    <li>안내된 금액을 KBZPay로 송금합니다. (<?= esc(mm_setting('kbzpay_account', '')) ?>)</li>
+    <li>주문을 신청하면 결제 금액과 KBZPay 계좌가 안내됩니다. 그 금액을 KBZPay로 송금합니다. (<?= esc(mm_setting('kbzpay_account', '')) ?>)</li>
     <li>마이페이지 &gt; 주문 상세에서 송금 캡처를 올립니다.</li>
     <li>입금이 확인되면 한국 공급사에 발주하고, 배송이 시작되면 상태가 바뀝니다.</li>
+    <li>배송지는 입금 확인 전까지 주문 상세에서 직접 수정할 수 있습니다.</li>
   </ol>
   <p class="muted">착불(COD)은 준비 중입니다.</p>
 

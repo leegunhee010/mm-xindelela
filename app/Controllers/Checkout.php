@@ -9,7 +9,7 @@ use App\Models\OrderModel;
 
 /**
  * 주문 "신청". 사이트 결제 없음.
- * 신청(requested) → 관리자 금액 확정(quoted) → KBZPay 송금·캡처 업로드(proof) → 입금 확인(paid) → 발주/배송.
+ * 신청(requested·입금 대기) → KBZPay 송금·캡처 업로드(proof) → 입금 확인(paid) → 발주/배송.
  */
 class Checkout extends BaseController
 {

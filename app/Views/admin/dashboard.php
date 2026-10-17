@@ -1,5 +1,5 @@
 <div class="kpi">
-  <?php foreach ($kpi as $l => $v): ?><div><?= $l ?><b class="<?= ($l === '검수 대기 구매자' || $l === '신청 접수(금액 안내 필요)' || $l === '입금 확인 필요') && $v > 0 ? 'warn' : '' ?>"><?= number_format($v) ?></b></div><?php endforeach ?>
+  <?php foreach ($kpi as $l => $v): ?><div><?= $l ?><b class="<?= ($l === '검수 대기 구매자' || $l === '입금 확인 필요') && $v > 0 ? 'warn' : '' ?>"><?= number_format($v) ?></b></div><?php endforeach ?>
 </div>
 <div class="two" style="grid-template-columns:1fr 1fr">
   <div class="card">

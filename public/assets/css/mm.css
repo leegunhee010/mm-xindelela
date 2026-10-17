@@ -231,3 +231,16 @@ main{min-height:600px;padding-bottom:80px}
 .osum-total{display:flex;justify-content:space-between;align-items:baseline;margin-top:12px;padding-top:16px;border-top:1px solid #e5e5e5;font-weight:700}
 .osum-total b{font-size:22px;color:var(--pri)}
 .osum-cancel{display:flex;justify-content:flex-end;align-items:center;gap:14px;margin-top:16px;font-size:13px;color:#888}
+
+/* 주문 상세 배송지 (10/17) */
+.oaddr{margin-top:28px;border:1px solid #e5e5e5;border-radius:12px;padding:20px 24px}
+.oaddr-h{display:flex;align-items:center;gap:12px;margin-bottom:14px;font-size:16px}
+.oaddr-note{font-size:13px;color:#888;margin-left:auto}
+.oaddr-btn{border:1px solid #d5d5d5;border-radius:99px;background:#fff;min-height:36px;padding:0 16px;font-size:13px;font-weight:700}
+.oaddr-view{margin:0;font-size:15px}
+.oaddr-view>div{display:flex;gap:20px;padding:7px 0;border-top:1px solid #f0f0f0}
+.oaddr-view>div:first-child{border-top:0}
+.oaddr-view dt{width:80px;flex:none;color:#888}
+.oaddr-view dd{margin:0}
+.oaddr-map{margin-left:8px;font-size:13px;color:var(--pri);white-space:nowrap}
+.oaddr-form{margin-top:4px}

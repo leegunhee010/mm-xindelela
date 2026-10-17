@@ -31,7 +31,7 @@ class Orders extends Base
             $r['icnt']  = $oim->where('order_id', $r['id'])->countAllResults();
         }
         $counts = [];
-        foreach (['requested', 'quoted', 'proof', 'paid', 'preparing', 'shipped', 'delivered', 'cancelled'] as $s) {
+        foreach (['requested', 'proof', 'paid', 'preparing', 'shipped', 'delivered', 'cancelled'] as $s) {
             $counts[$s] = $om->where('status', $s)->countAllResults();
         }
         return $this->page('admin/orders', ['title' => '주문 관리', 'rows' => $rows, 'pager' => $om->pager, 'st' => $st, 'q' => $q, 'counts' => $counts]);
@@ -51,33 +51,12 @@ class Orders extends Base
         return $this->page('admin/order', ['title' => '주문 상세', 'o' => $o, 'items' => $items, 'buyer' => (new UserModel())->find($o['user_id'])]);
     }
 
-    /** 금액 확정(배송비·조정) → quoted. */
-    public function quote(int $id)
-    {
-        $om = new OrderModel();
-        $o  = $om->find($id);
-        if (! $o || ! in_array($o['status'], ['requested', 'quoted'], true)) {
-            return redirect()->back()->with('error', '금액 안내가 가능한 상태가 아닙니다.');
-        }
-        $fee = (int) $this->request->getPost('shipping_fee');
-        $sub = (int) $this->request->getPost('subtotal') ?: (int) $o['subtotal'];
-        $om->update($id, [
-            'subtotal'     => $sub,
-            'shipping_fee' => $fee,
-            'total'        => $sub + $fee - (int) $o['points_used'],
-            'admin_memo'   => trim((string) $this->request->getPost('admin_memo')),
-            'status'       => 'quoted',
-            'quoted_at'    => date('Y-m-d H:i:s'),
-        ]);
-        return redirect()->back()->with('success', '최종 금액을 확정했습니다. 구매자 주문 상세에 송금 안내가 표시됩니다. (Viber로도 알려 주세요)');
-    }
-
     public function status(int $id)
     {
         $om = new OrderModel();
         $o  = $om->find($id);
         $st = (string) $this->request->getPost('status');
-        if (! $o || ! in_array($st, ['requested', 'quoted', 'proof', 'paid', 'preparing', 'shipped', 'delivered', 'cancelled'], true)) {
+        if (! $o || ! in_array($st, ['requested', 'proof', 'paid', 'preparing', 'shipped', 'delivered', 'cancelled'], true)) {
             return redirect()->back();
         }
         $data = ['status' => $st];

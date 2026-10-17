@@ -3,7 +3,7 @@
   <?php foreach ($counts as $k => $n): ?><a href="<?= site_url('admin/orders?status=' . $k) ?>" class="<?= $st === $k ? 'on' : '' ?>"><?= mm_order_status_label($k) ?><span class="n"><?= $n ?></span></a><?php endforeach ?>
   <form class="srch" method="get"><input name="q" value="<?= esc($q) ?>" placeholder="주문번호"><button class="btn btn-sm" type="submit">검색</button></form>
 </div>
-<div class="note">처리 순서: <b>신청 접수</b> → 재고·배송비 확인 후 금액 확정(입금 대기) → 구매자 송금·캡처 업로드(입금 확인중) → <b>입금 확인</b> 클릭 → 공급사 발주·출고(배송중) → 배송 완료</div>
+<div class="note">처리 순서: 주문 신청(입금 대기) → 구매자 KBZPay 송금·캡처 업로드(입금 확인중) → <b>입금 확인</b> 클릭 → 공급사 발주·출고(배송중) → 배송 완료</div>
 <table class="tbl"><thead><tr><th>주문번호</th><th class="l">구매자</th><th>품목</th><th>상품금액</th><th>배송비</th><th>포인트</th><th>최종</th><th>결제</th><th>캡처</th><th>신청일</th><th>상태</th><th></th></tr></thead><tbody>
 <?php if (! $rows): ?><tr><td colspan="12" style="padding:40px">주문이 없습니다.</td></tr><?php endif ?>
 <?php foreach ($rows as $o): ?>

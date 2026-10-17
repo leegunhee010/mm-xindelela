@@ -1,5 +1,5 @@
 <?php $sym = mm_setting('currency_symbol', 'Ks'); ?>
-<div class="contents-title-area depth-1 title3 font-bold mb-[20px]"><div class="title-area"><h3 class="title">장바구니</h3><span class="body3 font-regular text-gray3">1 장바구니 › 2 주문 신청 › 3 금액 안내·KBZPay 송금 › 4 입금 확인·발주 › 5 배송</span></div></div>
+<div class="contents-title-area depth-1 title3 font-bold mb-[20px]"><div class="title-area"><h3 class="title">장바구니</h3><span class="body3 font-regular text-gray3">1 장바구니 › 2 주문 신청 › 3 KBZPay 송금 › 4 입금 확인·발주 › 5 배송</span></div></div>
 
 <?php if (! $items): ?>
   <div class="flex flex-col items-center justify-center rounded-[16px] bg-gray9 py-[90px]"><p class="sub-head1 font-bold">장바구니가 비어 있습니다.</p><a href="<?= site_url('products') ?>" class="mt-[16px] text-white bg-primary min-h-[44px] px-[24px] py-[12px] body3 !leading-none rounded-full font-bold inline-flex items-center">상품 보러가기</a></div>
