@@ -488,3 +488,11 @@ main{min-height:600px;padding-bottom:80px}
 .pdt-video{width:100%;max-width:860px;aspect-ratio:16/9}
 .pdt-video iframe{width:100%;height:100%;border:0;border-radius:12px}
 .pdt-body .pdt-desc{width:100%;max-width:860px;margin:0}
+
+.pd-facts{margin:18px 0 22px;font-size:15px}
+.pd-facts>div{display:flex;gap:16px;padding:5px 0}
+.pd-facts dt{width:72px;flex:none;color:#888}
+.pd-facts dd{margin:0;color:#111}
+.pd-facts dd b{font-weight:700}
+.pd-price.is-lock{gap:16px}
+.pd-price-l{width:72px}

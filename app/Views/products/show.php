@@ -34,12 +34,12 @@
     <?php endif ?>
 
     <!-- 핵심 조건 한 줄 -->
-    <ul class="pd-chips">
-      <li><b>최소 <?= number_format((int) $p['moq']) ?><?= esc($p['unit']) ?></b>부터</li>
-      <?php if ($p['origin']): ?><li>원산지 <?= esc($p['origin']) ?></li><?php endif ?>
-      <li>KBZPay 선불</li>
-      <?php if ($approved): ?><li>재고 <?= number_format((int) $p['stock']) ?><?= esc($p['unit']) ?></li><?php endif ?>
-    </ul>
+    <dl class="pd-facts">
+      <div><dt>최소 주문</dt><dd><b><?= number_format((int) $p['moq']) ?><?= esc($p['unit']) ?></b>부터</dd></div>
+      <?php if ($p['origin']): ?><div><dt>원산지</dt><dd><?= esc($p['origin']) ?></dd></div><?php endif ?>
+      <div><dt>결제</dt><dd>KBZPay 100% 선불</dd></div>
+      <?php if ($approved): ?><div><dt>재고</dt><dd><?= number_format((int) $p['stock']) ?><?= esc($p['unit']) ?></dd></div><?php endif ?>
+    </dl>
 
     <!-- 수량별 도매가 -->
     <?php if ($approved): ?>
