@@ -623,3 +623,8 @@ main{min-height:600px;padding-bottom:80px}
 .qhelp-pop li+li{margin-top:6px}
 .qhelp-pop li::before{content:"";position:absolute;left:0;top:9px;width:4px;height:4px;border-radius:50%;background:#ff8a3d}
 .qbox-agree{align-items:center;font-weight:700;color:#333}
+
+/* 입고 예정 카드: 썸네일 흐리게 + 가운데 문구 */
+.q-dim{position:absolute;inset:0;z-index:1;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.55);pointer-events:none}
+.q-dim span{padding:8px 18px;border-radius:99px;background:rgba(31,42,68,.88);color:#fff;font-size:16px;font-weight:700;letter-spacing:-.02em}
+@media (max-width:1024px){.q-dim span{padding:6px 12px;font-size:13px}}
