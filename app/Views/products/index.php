@@ -1,4 +1,4 @@
-<?php $approved = mm_is_approved(); $base = current_url() . '?' . http_build_query(array_filter(['q' => $q, 'sf' => service('request')->getGet('sf')])); ?>
+<?php $approved = mm_is_approved(); $only = $only ?? false; $base = current_url() . '?' . http_build_query(array_filter(['q' => $q, 'sf' => service('request')->getGet('sf'), 'only' => $only ? 'coming' : null])); ?>
 <nav class="breadcrumb m-auto w-large pb-[40px] pt-[24px]"><ol class="breadcrumb-list flex items-center">
   <li class="breadcrumb-item flex items-center"><a class="breadcrumb-item-link block px-[4px]" href="<?= site_url('/') ?>">홈</a><span><picture><img alt="" class="size-[12px]" src="/images/icons/common/ico_chevron_right_light_16.svg"></picture></span></li>
   <?php if (! empty($supplierPage)): ?><li class="breadcrumb-item flex items-center"><a class="block px-[4px]" href="<?= site_url('products') ?>">공급사</a><span><picture><img alt="" class="size-[12px]" src="/images/icons/common/ico_chevron_right_light_16.svg"></picture></span></li><li class="breadcrumb-item flex items-center"><a class="block px-[4px]"><?= esc($supplierPage['company_name']) ?></a></li>
@@ -17,8 +17,9 @@
 <section class="corner-section pc:mx-auto pc:w-large pc:mb-[40px]">
   <h2 class="title4 mo:head-line1 font-bold text-gray2 mb-[24px]"><?= esc($title) ?></h2>
   <div class="tab type04"><div class="flex flex-wrap gap-[8px]">
-    <a href="<?= site_url('products') ?>" class="body3 rounded-[21px] border border-[#d5d5d5] px-3 py-2 text-gray3" data-state="<?= ! $cat ? 'active' : 'inactive' ?>"><span>전체</span></a>
+    <a href="<?= site_url('products') ?>" class="body3 rounded-[21px] border border-[#d5d5d5] px-3 py-2 text-gray3" data-state="<?= ! $cat && ! $only ? 'active' : 'inactive' ?>"><span>전체</span></a>
     <?php foreach ($categories as $c): ?><a href="<?= site_url('category/' . $c['id']) ?>" class="body3 rounded-[21px] border border-[#d5d5d5] px-3 py-2 text-gray3" data-state="<?= $cat == $c['id'] ? 'active' : 'inactive' ?>"><span><?= esc($c['name']) ?></span></a><?php endforeach ?>
+    <?php if ($only || mm_queue_coming_count() > 0): ?><a href="<?= site_url('products?only=coming') ?>" class="body3 rounded-[21px] border border-[#d5d5d5] px-3 py-2 text-gray3" data-state="<?= $only ? 'active' : 'inactive' ?>"><span><?= esc(mm_q('badge')) ?> · <?= esc(mm_q('name')) ?></span></a><?php endif ?>
   </div></div>
 </section>
 <?php endif ?>

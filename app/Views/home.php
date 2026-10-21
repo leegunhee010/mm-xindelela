@@ -47,6 +47,16 @@
   </ul>
 </section>
 
+<?php if ($coming): ?>
+<!-- 입고 예정 · 줄서기 -->
+<section class="corner-section last-of-type:mb-0 pc:mx-auto pc:w-large pc:mb-[80px]">
+  <div class="section-title pc:heading2 mb-2.5 title1 font-bold pc:mb-[40px]"><div class="flex items-center justify-between"><h2 class="title1 mo:head-line1 font-bold"><?= esc(mm_q('badge')) ?> 상품, <br>줄 서면 입고 때 바로 알려 드립니다</h2><a href="<?= site_url('products?only=coming') ?>" class="h-auto my-auto body2 btn-arrow-right after-bg-gray5 text-gray3"><?= esc(mm_q('badge')) ?> 전체보기</a></div></div>
+  <ul class="plist flex flex-wrap gap-x-[27px] gap-y-9">
+    <?php foreach ($coming as $p): $sup = $sups[$p['supplier_id']] ??= $sm->find($p['supplier_id']); echo view('_card', ['p' => $p, 'approved' => $approved, 'sup' => $sup, 'w' => 'w-[234px]']); endforeach ?>
+  </ul>
+</section>
+<?php endif ?>
+
 <!-- 이용 절차 (서비스 스트립 bg 활용) -->
 <section class="corner-section last-of-type:mb-0 pc:mx-auto pc:w-large pc:mb-[80px]">
   <div class="section-title pc:heading2 mb-2.5 title1 font-bold pc:mb-[40px]"><div class="flex items-center justify-between"><h2 class="title1 mo:head-line1 font-bold">가입부터 배송까지 <br>이렇게 이용하세요</h2><a href="<?= site_url('guide') ?>" class="h-auto my-auto body2 btn-arrow-right after-bg-gray5 text-gray3">이용안내 전체보기</a></div></div>

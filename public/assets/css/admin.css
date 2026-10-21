@@ -350,3 +350,11 @@ body.ad{margin:0;font-family:Pretendard,-apple-system,'Apple SD Gothic Neo','Mal
 .iq-hist a p{margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#444}
 .iq-edit{margin-top:6px;border:0;background:none;font-size:12px;color:#777;text-decoration:underline;cursor:pointer;padding:0}
 .iq-form[hidden]{display:none}
+
+/* 줄서기 관리 */
+.rkpi:has(> div:nth-child(3):last-child){grid-template-columns:repeat(3,1fr)}
+.rkpi:has(> div:nth-child(2):last-child){grid-template-columns:repeat(2,1fr)}
+.qadm-p{display:inline-flex;align-items:center;gap:10px}
+.qadm-p img{width:40px;height:40px;border-radius:6px;object-fit:cover;flex:none}
+.qadm-qty{color:var(--pri);font-size:15px}
+.mb16{margin-bottom:16px}

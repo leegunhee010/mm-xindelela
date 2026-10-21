@@ -114,6 +114,7 @@ if (! function_exists('mm_product_status_label')) {
             'draft'    => '임시저장',
             'pending'  => '검수 대기',
             'active'   => '판매중',
+            'coming'   => '입고 예정',
             'hidden'   => '숨김',
             'rejected' => '반려',
         ][$status] ?? $status;
@@ -487,5 +488,95 @@ if (! function_exists('mm_repeat_ids')) {
             ['cancelled', $min]
         )->getResultArray();
         return $ids = array_map('intval', array_column($rows, 'product_id'));
+    }
+}
+
+if (! function_exists('mm_q')) {
+    /**
+     * 줄서기 화면 문구. 이름을 바꾸거나 번역할 때 여기만 고친다.
+     * %s 자리는 sprintf 인자.
+     */
+    function mm_q(string $key, ...$args): string
+    {
+        static $t = [
+            'name'                 => '줄서기',
+            'badge'                => '입고 예정',
+            'btn'                  => '줄서기',
+            'btn_update'           => '희망 수량 바꾸기',
+            'btn_cancel'           => '줄서기 취소',
+            'count'                => '%s명 줄 섰어요',
+            'count_zero'           => '첫 번째로 줄을 서 보세요',
+            'price_hidden'         => '입고 후 공개',
+            'joined_title'         => '줄 서는 중입니다',
+            'joined_desc'          => '희망 수량 %s · 입고되면 바로 알려 드립니다.',
+            'qty_label'            => '희망 수량',
+            'agree'                => '줄서기는 주문이나 예약이 아닙니다. 결제가 없고 언제든 취소할 수 있습니다. 입고되면 줄 선 분 모두에게 동시에 알려 드리며, 먼저 주문하신 순서대로 출고됩니다. 통관·입고 사정에 따라 상품이 들어오지 않을 수 있고, 입고 시기·가격·수량은 보장되지 않습니다.',
+            'agree_required'       => '안내 내용에 동의해 주세요.',
+            'need_verify'          => '줄서기는 비즈니스 인증 회원만 할 수 있습니다.',
+            'joined_msg'           => '줄을 섰습니다. 입고되면 알림으로 알려 드립니다.',
+            'updated_msg'          => '희망 수량을 바꿨습니다.',
+            'cancelled_msg'        => '줄서기를 취소했습니다.',
+            'not_coming'           => '줄서기를 받는 상품이 아닙니다.',
+            'menu'                 => '줄서기 내역',
+            'notify_arrived_title' => '줄 선 상품이 입고되었습니다: %s',
+            'notify_arrived_body'  => '지금 도매가를 확인하고 주문할 수 있습니다. 먼저 주문하신 순서대로 출고됩니다.',
+            'notify_failed_title'  => '입고가 취소되었습니다: %s',
+            'notify_failed_body'   => '이번에는 상품을 들여오지 못했습니다. 줄서기는 자동으로 닫혔습니다.',
+            'st_waiting'           => '줄 서는 중',
+            'st_arrived'           => '입고됨',
+            'st_failed'            => '입고 취소',
+            'st_cancelled'         => '내가 취소',
+        ];
+        $s = $t[$key] ?? $key;
+        return $args ? vsprintf($s, $args) : $s;
+    }
+}
+
+if (! function_exists('mm_queue_counts')) {
+    /** 입고 예정 상품별 줄 선 회원 수 (waiting). 요청당 한 번만 센다. */
+    function mm_queue_counts(): array
+    {
+        static $map = null;
+        if ($map === null) {
+            $map = [];
+            foreach (db_connect()->table('queues')->select('product_id, COUNT(*) AS n')->where('status', 'waiting')->groupBy('product_id')->get()->getResultArray() as $r) {
+                $map[(int) $r['product_id']] = (int) $r['n'];
+            }
+        }
+        return $map;
+    }
+}
+
+if (! function_exists('mm_queue_coming_count')) {
+    /** 지금 줄서기를 받는(입고 예정) 상품 수. 메뉴 노출 여부에 쓴다. */
+    function mm_queue_coming_count(): int
+    {
+        static $n = null;
+        return $n ??= (new \App\Models\ProductModel())->where('status', 'coming')->countAllResults();
+    }
+}
+
+if (! function_exists('mm_my_queue')) {
+    /** 로그인 구매자의 이 상품 줄 (없거나 취소했으면 null). */
+    function mm_my_queue(int $productId): ?array
+    {
+        $u = mm_user();
+        if (! $u || $u['role'] !== 'buyer') {
+            return null;
+        }
+        return (new \App\Models\QueueModel())->where('user_id', $u['id'])->where('product_id', $productId)->where('status', 'waiting')->first();
+    }
+}
+
+if (! function_exists('mm_unread_count')) {
+    /** 읽지 않은 사이트 알림 수. */
+    function mm_unread_count(): int
+    {
+        static $n = null;
+        if ($n === null) {
+            $u = mm_user();
+            $n = ($u && $u['role'] === 'buyer') ? (new \App\Models\NotificationModel())->where('user_id', $u['id'])->where('read_at', null)->countAllResults() : 0;
+        }
+        return $n;
     }
 }

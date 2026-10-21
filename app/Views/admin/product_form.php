@@ -52,7 +52,7 @@
   <div class="act" style="position:sticky;top:20px">
     <h3>저장</h3>
     <div class="field"><label>노출 상태</label><select class="sel" name="status">
-      <?php foreach (['active' => '판매중 (바로 노출)', 'hidden' => '숨김', 'draft' => '임시 저장'] as $k => $l): ?><option value="<?= $k ?>" <?= ($p['status'] ?? 'active') === $k ? 'selected' : '' ?>><?= $l ?></option><?php endforeach ?>
+      <?php foreach (['active' => '판매중 (바로 노출)', 'coming' => '입고 예정 (줄서기 받기)', 'hidden' => '숨김', 'draft' => '임시 저장'] as $k => $l): ?><option value="<?= $k ?>" <?= ($p['status'] ?? 'active') === $k ? 'selected' : '' ?>><?= $l ?></option><?php endforeach ?>
     </select></div>
     <button class="btn btn-g btn-block" type="submit" style="height:42px"><?= $p ? '저장' : '상품 등록' ?></button>
     <div class="small muted mt8">도매가는 인증 회원에게만 보입니다.</div>

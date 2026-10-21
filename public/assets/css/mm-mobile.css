@@ -299,3 +299,19 @@
   .mm-toast { bottom: calc(80px + env(safe-area-inset-bottom)); }
 }
 @media (max-width: 1024px) { .m-drawer-bonus { display: block; margin-top: 12px; font-size: 13px; font-weight: 700; color: var(--pri); } }
+
+/* 줄서기·알림 (모바일) */
+@media (max-width: 1024px) {
+  .m-ic-bell { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23111' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z'/%3E%3Cpath d='M10 20a2 2 0 0 0 4 0'/%3E%3C/svg%3E"); }
+  .m-cats a.m-cat-q { color: #1f2a44; font-weight: 800; }
+  .m-drawer-n { display: inline-flex; min-width: 18px; height: 18px; margin-left: 6px; padding: 0 5px; border-radius: 99px; background: var(--pri); color: #fff; font-size: 11px; align-items: center; justify-content: center; }
+  .qbox { padding: 16px; }
+  .qbox-qty { flex-wrap: wrap; }
+  .qbox-row { flex-direction: column; align-items: stretch; }
+  .qbox-row .qbox-btn { width: 100%; }
+  .q-badge { height: 20px; padding: 0 7px; font-size: 10px; }
+  .q-count { font-size: 12px; }
+  .qlist-li { gap: 12px; flex-wrap: wrap; }
+  .qlist-img { width: 64px; height: 64px; }
+  .qlist-act { width: 100%; padding-left: 76px; }
+}

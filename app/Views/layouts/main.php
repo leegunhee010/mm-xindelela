@@ -31,8 +31,8 @@ foreach (['4d3a10b18ca278ac', '6aa6463b93b71a20', '382ef9402adc32b5', '02a257d78
 <?php endforeach ?>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.1.14/swiper-bundle.min.css">
 <link rel="stylesheet" href="<?= base_url('assets/css/is-fill.css?v=11') ?>">
-<link rel="stylesheet" href="<?= base_url('assets/css/mm.css?v=26') ?>">
-<link rel="stylesheet" href="<?= base_url('assets/css/mm-mobile.css?v=9') ?>">
+<link rel="stylesheet" href="<?= base_url('assets/css/mm.css?v=28') ?>">
+<link rel="stylesheet" href="<?= base_url('assets/css/mm-mobile.css?v=10') ?>">
 </head>
 <body>
 <?php
@@ -41,6 +41,9 @@ if ($user && $user['role'] === 'buyer') {
     $cartCount = (new \App\Models\CartModel())->where('user_id', $user['id'])->countAllResults();
 }
 $wishCount = count(mm_wish_ids());
+$isBuyerU  = $user && $user['role'] === 'buyer';
+$unread    = mm_unread_count();
+$hasComing = mm_queue_coming_count() > 0;
 $cats = (new \App\Models\CategoryModel())->where('is_active', 1)->orderBy('sort')->findAll();
 $sf   = (string) service('request')->getGet('sf');
 $cur  = uri_string();
@@ -50,6 +53,7 @@ $cur  = uri_string();
   <div class="m-hd-row">
     <a class="m-logo mm-logo" href="<?= site_url('/') ?>">XINDELELA <em>mall</em></a>
     <div class="m-hd-ic">
+      <?php if ($isBuyerU): ?><a class="m-ic m-ic-bell" href="<?= site_url('notifications') ?>" aria-label="알림"><?php if ($unread): ?><i><?= $unread ?></i><?php endif ?></a><?php endif ?>
       <a class="m-ic m-ic-wish" href="<?= site_url('wishlist') ?>" aria-label="관심상품"><i data-wish-count<?= $wishCount ? '' : ' hidden' ?>><?= $wishCount ?></i></a>
       <a class="m-ic m-ic-cart" href="<?= site_url('cart') ?>" aria-label="장바구니"><?php if ($cartCount): ?><i><?= $cartCount ?></i><?php endif ?></a>
       <button type="button" class="m-ic m-ic-menu" id="mMenuOpen" aria-label="메뉴"></button>
@@ -60,6 +64,7 @@ $cur  = uri_string();
     <a href="<?= site_url('products?sort=pop') ?>" class="<?= str_contains($cur, 'sort=pop') ? 'on' : '' ?>">베스트</a>
     <a href="<?= site_url('products?sort=new') ?>">신상품</a>
     <?php foreach ($cats as $c): ?><a href="<?= site_url('category/' . $c['id']) ?>" class="<?= $cur === 'category/' . $c['id'] ? 'on' : '' ?>"><?= esc($c['name']) ?></a><?php endforeach ?>
+    <?php if ($hasComing): ?><a href="<?= site_url('products?only=coming') ?>" class="m-cat-q"><?= esc(mm_q('badge')) ?></a><?php endif ?>
     <a href="<?= site_url('mypage/referral') ?>">친구소개</a>
   </nav>
 </div>
@@ -80,7 +85,9 @@ $cur  = uri_string();
     <div class="m-drawer-grid"><?php foreach ($cats as $c): ?><a href="<?= site_url('category/' . $c['id']) ?>"><?= esc($c['name']) ?></a><?php endforeach ?></div>
     <p class="m-drawer-t">쇼핑</p>
     <ul class="m-drawer-ul">
+      <?php if ($isBuyerU): ?><li><a href="<?= site_url('notifications') ?>">알림<?= $unread ? ' <b class="m-drawer-n">' . $unread . '</b>' : '' ?></a></li><?php endif ?>
       <li><a href="<?= site_url('wishlist') ?>">관심상품</a></li>
+      <li><a href="<?= site_url('mypage/queue') ?>"><?= esc(mm_q('menu')) ?></a></li>
       <li><a href="<?= site_url('mypage/orders') ?>">주문 내역</a></li>
       <li><a href="<?= site_url('mypage') ?>">마이페이지</a></li>
       <li><a href="<?= site_url('mypage/verify') ?>">비즈니스 인증</a></li>
@@ -135,6 +142,7 @@ $cur  = uri_string();
       <div class="util-menu flex mo:gap-[23px] pc:gap-[30px] ml-auto">
         <div class="relative group"><a class="car mo:hidden" href="<?= site_url('mypage/orders') ?>" title="주문내역"><span class="blind">주문/배송 페이지로 이동</span></a><div class="absolute left-1/2 -translate-x-1/2 top-9 hidden group-hover:flex items-center justify-center whitespace-nowrap rounded-[6px] bg-gray-700 px-[10px] py-[2px] text-[12px] text-white">주문내역</div></div>
         <div class="group relative inline-block mo:hidden"><a class="mypage mo:hidden" href="<?= site_url('mypage') ?>" title="마이페이지"><span class="blind">마이페이지로 이동</span></a><div class="absolute left-1/2 -translate-x-1/2 top-9 hidden group-hover:flex items-center justify-center whitespace-nowrap rounded-[6px] bg-gray-700 px-[10px] py-[2px] text-[12px] text-white">마이페이지</div></div>
+        <?php if ($isBuyerU): ?><div class="relative group"><a class="u-bell relative block size-[32px]" href="<?= site_url('notifications') ?>" title="알림"><span class="blind">알림</span><?php if ($unread): ?><span class="absolute -right-[6px] -top-[6px] flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-primary px-[4px] text-[11px] font-bold text-white"><?= $unread ?></span><?php endif ?></a><div class="absolute left-1/2 -translate-x-1/2 top-9 hidden group-hover:flex items-center justify-center whitespace-nowrap rounded-[6px] bg-gray-700 px-[10px] py-[2px] text-[12px] text-white">알림</div></div><?php endif ?>
         <div class="relative group"><a class="u-wish relative block size-[32px]" href="<?= site_url('wishlist') ?>" title="관심상품"><span class="blind">관심상품</span><span data-wish-count class="absolute -right-[6px] -top-[6px] flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-primary px-[4px] text-[11px] font-bold text-white"<?= $wishCount ? '' : ' hidden' ?>><?= $wishCount ?></span></a><div class="absolute left-1/2 -translate-x-1/2 top-9 hidden group-hover:flex items-center justify-center whitespace-nowrap rounded-[6px] bg-gray-700 px-[10px] py-[2px] text-[12px] text-white">관심상품</div></div>
         <div class="relative group"><a class="cart" href="<?= site_url('cart') ?>" title="장바구니"><span class="blind">장바구니</span><?php if ($cartCount): ?><span class="absolute -right-[6px] -top-[6px] flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-primary px-[4px] text-[11px] font-bold text-white"><?= $cartCount ?></span><?php endif ?></a><div class="absolute left-1/2 -translate-x-1/2 top-9 hidden group-hover:flex items-center justify-center whitespace-nowrap rounded-[6px] bg-gray-700 px-[10px] py-[2px] text-[12px] text-white">장바구니</div></div>
       </div>
@@ -153,6 +161,7 @@ $cur  = uri_string();
           <a class="link-item pc:inline-flex pc:items-center text-[18px] font-medium <?= str_contains($cur, 'sort=pop') ? 'text-primary' : '' ?>" href="<?= site_url('products?sort=pop') ?>"><span class="relative whitespace-nowrap">베스트</span></a>
           <a class="link-item pc:inline-flex pc:items-center text-[18px] font-medium" href="<?= site_url('products?sort=new') ?>"><span class="relative whitespace-nowrap">신상품<span class="absolute -right-[12px] -top-[6px] flex size-[14px] items-center justify-center rounded-full bg-primary text-[9px] font-bold text-white">N</span></span></a>
           <?php foreach (array_slice($cats, 0, 4) as $c): ?><a class="link-item pc:inline-flex pc:items-center text-[18px] font-medium <?= $cur === 'category/' . $c['id'] ? 'text-primary' : '' ?>" href="<?= site_url('category/' . $c['id']) ?>"><span class="relative whitespace-nowrap"><?= esc($c['name']) ?></span></a><?php endforeach ?>
+          <?php if ($hasComing): ?><a class="link-item pc:inline-flex pc:items-center text-[18px] font-medium" href="<?= site_url('products?only=coming') ?>"><span class="gnb-q"><?= esc(mm_q('badge')) ?></span></a><?php endif ?>
         </div>
         <div class="flex items-center gap-[32px]">
           <a class="link-item text-[18px] font-medium" href="<?= site_url('mypage/referral') ?>">친구소개</a>
