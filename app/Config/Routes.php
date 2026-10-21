@@ -23,6 +23,8 @@ $routes->get('notices/(:num)', 'Notices::show/$1');
 $routes->get('guide', 'Home::guide');
 $routes->get('deploy-check', 'DeployCheck::index');
 $routes->get('welcome', 'Home::welcome'); // 광고·영업용 가입 랜딩
+$routes->get('wishlist', 'Wish::index');     // 관심상품 (비회원은 쿠키)
+$routes->post('wish/toggle', 'Wish::toggle');
 
 // ─── 인증(구매자) ───
 $routes->get('login', 'Auth::login');
@@ -47,6 +49,8 @@ $routes->group('', ['filter' => 'buyerauth'], static function ($routes) {
     $routes->get('mypage/orders/(:num)', 'MyPage::order/$1');
     $routes->post('mypage/orders/(:num)/proof', 'MyPage::proof/$1');
     $routes->post('mypage/orders/(:num)/cancel', 'MyPage::cancel/$1');
+    $routes->post('mypage/orders/(:num)/reorder', 'Cart::reorder/$1');
+    $routes->post('wishlist/cart', 'Wish::toCart');
     $routes->post('mypage/orders/(:num)/address', 'MyPage::address/$1');
     $routes->get('mypage/points', 'MyPage::points');
     $routes->get('mypage/referral', 'MyPage::referral');

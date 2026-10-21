@@ -154,6 +154,7 @@ class Products extends Base
             'stock'         => (int) $this->request->getPost('stock'),
             'origin'        => trim((string) $this->request->getPost('origin')) ?: '한국',
             'brand'         => trim((string) $this->request->getPost('brand')),
+            'sale_note'     => trim((string) $this->request->getPost('sale_note')) ?: null,
             'status'        => in_array($status, ['active', 'hidden', 'draft'], true) ? $status : 'active',
             'reject_reason' => null,
         ];

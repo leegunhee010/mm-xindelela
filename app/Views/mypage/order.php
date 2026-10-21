@@ -111,6 +111,9 @@ $inp = 'h-[44px] w-full px-3 bg-white body3 text-black placeholder:text-gray4 fo
     </dl>
     <div class="osum-total"><span>결제 금액</span><b><?= mm_price($o['total']) ?></b></div>
   </div>
+  <?php if (mm_is_approved()): ?>
+  <form class="oreorder" method="post" action="<?= site_url('mypage/orders/' . $o['id'] . '/reorder') ?>"><?= csrf_field() ?><span>이 주문과 같은 상품·수량을 장바구니에 담습니다. 단가는 지금 가격으로 계산됩니다.</span><button type="submit">같은 상품 다시 담기</button></form>
+  <?php endif ?>
   <?php if (in_array($o['status'], ['requested', 'quoted', 'proof'], true)): ?>
   <form class="osum-cancel" method="post" action="<?= site_url('mypage/orders/' . $o['id'] . '/cancel') ?>" onsubmit="return confirm('주문 신청을 취소할까요?')"><?= csrf_field() ?><span>입금 전까지 취소할 수 있습니다.</span><button class="inline-flex items-center text-[#dc2626] bg-white border border-[#f87171] min-h-[40px] px-[18px] py-[8px] label1 !leading-none rounded-full font-bold" type="submit">주문 신청 취소</button></form>
   <?php endif ?>

@@ -30,6 +30,9 @@ class Settings extends Base
             'points_use_max_pct'          => ['주문당 최대 사용률(%)', '상품 금액 기준', 'number'],
             'points_min_use'              => ['최소 사용 포인트', '', 'number'],
         ],
+        '상품 표시' => [
+            'repeat_badge_min' => ['재구매 많음 배지 기준(명)', '같은 상품을 2번 이상 주문한 회원이 이 수 이상이면 배지 표시 (기본 3)', 'number'],
+        ],
         '지도' => [
             'google_maps_key' => ['구글맵 API 키', '주문서 배송지 주소 검색에 사용. 비워 두면 직접 입력만 됩니다 (Maps JavaScript API + Places API (New))', 'text'],
         ],

@@ -497,3 +497,55 @@ main{min-height:600px;padding-bottom:80px}
 .pd-price.is-lock{gap:16px}
 .pd-price-l{width:72px}
 .addr-fail{margin-top:6px;font-size:12px;color:#c0392b}
+
+/* ---------- 로고: xindelela.com 과 같은 텍스트 로고(Pretendard Bold, woff2) ---------- */
+@font-face{font-family:Pretendard;src:url(/assets/is/media/e00e15f44d7b58c0-s.p.woff2) format("woff2");font-weight:700;font-style:normal;font-display:swap}
+.mm-logo{font-family:Pretendard,fontDefault,sans-serif;font-weight:700;line-height:1;letter-spacing:normal;color:#000;white-space:nowrap}
+.mm-logo em{font-style:normal;color:var(--pri)}
+.mm-logo-hd{font-size:30px}
+.mm-logo-ft{font-size:24px}
+
+/* ---------- 관심상품 하트 ---------- */
+.wish-btn{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;padding:0;border:0;border-radius:50%;background:rgba(255,255,255,.92) center/20px no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23222' stroke-width='1.9' stroke-linejoin='round'%3E%3Cpath d='M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z'/%3E%3C/svg%3E");box-shadow:0 1px 4px rgba(0,0,0,.12);cursor:pointer;transition:transform .15s}
+.wish-btn:active{transform:scale(.9)}
+.wish-btn.on{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ff6200' stroke='%23ff6200' stroke-width='1.9' stroke-linejoin='round'%3E%3Cpath d='M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z'/%3E%3C/svg%3E")}
+.wish-ov{position:absolute;left:0;right:0;top:0;aspect-ratio:1/1;pointer-events:none}
+.wish-ov .wish-btn{position:absolute;right:10px;bottom:10px;pointer-events:auto}
+.wish-btn.wish-sm{flex:none;border:1px solid #e5e5e5;box-shadow:none}
+.wish-btn.wish-pd{width:auto;height:34px;margin-left:auto;padding:0 14px 0 34px;border:1px solid #ddd;border-radius:99px;background-position:11px center;background-size:17px;box-shadow:none;font-size:13px;font-weight:700;color:#333}
+.wish-btn.wish-pd.on{border-color:var(--pri);color:var(--pri)}
+[data-wish-count][hidden]{display:none!important}
+.u-wish{background:center/30px no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23111' stroke-width='1.6' stroke-linejoin='round'%3E%3Cpath d='M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z'/%3E%3C/svg%3E")}
+.mm-toast{position:fixed;left:50%;bottom:40px;z-index:2000;transform:translate(-50%,20px);max-width:calc(100% - 32px);padding:14px 22px;border-radius:12px;background:rgba(17,17,17,.92);color:#fff;font-size:14px;line-height:1.5;opacity:0;transition:opacity .2s,transform .2s;pointer-events:none}
+.mm-toast.show{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+.mm-toast a{margin-left:10px;color:#ff8a3d;font-weight:700;white-space:nowrap}
+
+/* 관심상품 페이지 */
+.wish-note{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-bottom:24px;padding:20px 24px;border-radius:16px;background:#fff3eb;font-size:15px;line-height:1.6}
+.wish-note b{color:#000}
+.wish-note-btns{display:flex;gap:8px;flex:none}
+.wish-note-btns a{display:inline-flex;align-items:center;height:42px;padding:0 18px;border:1px solid #ddd;border-radius:99px;background:#fff;font-size:14px;font-weight:700;color:#000;white-space:nowrap}
+.wish-note-btns a.is-main{border-color:var(--pri);background:var(--pri);color:#fff}
+.wish-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.wish-all{display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer}
+.wish-all input,.wish-chk{width:18px;height:18px;accent-color:var(--pri);display:inline-block!important}
+.wish-cart{height:44px;padding:0 22px;border:0;border-radius:99px;background:var(--pri);color:#fff;font-size:14px;font-weight:700;cursor:pointer}
+.wish-price{width:150px}
+
+/* 상품 상세: 재구매·판매 주의사항·사진 내려받기 */
+.pd-repeat{display:inline-block;margin-top:10px;padding:4px 12px;border-radius:99px;background:#111;color:#fff;font-size:13px;font-weight:700}
+.pd-rule{margin:-6px 0 22px;padding:16px 18px;border-radius:12px;background:#f7f7f7;font-size:14px;line-height:1.7;color:#333}
+.pd-rule b{display:block;margin-bottom:4px;font-size:14px;color:#000}
+.pd-rule b::before{content:"!";display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;margin-right:6px;border-radius:50%;background:var(--pri);color:#fff;font-size:12px;vertical-align:1px}
+.pd-photos{display:flex;align-items:center;gap:12px;width:100%;margin-top:12px;padding:14px 18px 14px 52px;border:1px dashed #cfcfcf;border-radius:12px;background:#fff center left 16px/24px no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ff6200' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 4v11m0 0-4-4m4 4 4-4M5 19h14'/%3E%3C/svg%3E");text-align:left;cursor:pointer}
+.pd-photos:hover{border-color:var(--pri)}
+.pd-photos b{font-size:15px;color:#000}
+.pd-photos span{font-size:13px;color:#888}
+.pd-photos[disabled]{opacity:.6;cursor:wait}
+
+/* 주문 다시 담기 */
+.ocard-acts{display:flex;align-items:center;gap:8px}
+.ocard-re{height:36px;padding:0 16px;border:1px solid var(--pri);border-radius:99px;background:#fff;color:var(--pri);font-size:13px;font-weight:700;white-space:nowrap;cursor:pointer}
+.ocard-re:hover{background:#fff3eb}
+.oreorder{display:flex;justify-content:flex-end;align-items:center;gap:14px;margin-top:16px;font-size:13px;color:#888}
+.oreorder button{height:40px;padding:0 20px;border:0;border-radius:99px;background:var(--pri);color:#fff;font-size:14px;font-weight:700;cursor:pointer}

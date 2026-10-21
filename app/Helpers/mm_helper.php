@@ -427,3 +427,65 @@ if (! function_exists('mm_video_embed')) {
         return null;
     }
 }
+
+if (! function_exists('mm_wish_guest_ids')) {
+    /** 비회원 관심상품: 쿠키 mm_wish 의 상품 번호 목록(최근 것이 앞). */
+    function mm_wish_guest_ids(): array
+    {
+        $raw = (string) service('request')->getCookie('mm_wish');
+        return array_values(array_unique(array_filter(array_map('intval', explode(',', $raw)))));
+    }
+}
+
+if (! function_exists('mm_wish_ids')) {
+    /** 관심상품 번호 목록. 구매자는 DB, 그 외(비회원)는 쿠키. */
+    function mm_wish_ids(): array
+    {
+        static $ids = null;
+        if ($ids !== null) {
+            return $ids;
+        }
+        $u = mm_user();
+        if ($u && $u['role'] === 'buyer') {
+            $rows = (new \App\Models\WishModel())->select('product_id')->where('user_id', $u['id'])->orderBy('id', 'DESC')->findAll();
+            return $ids = array_map('intval', array_column($rows, 'product_id'));
+        }
+        return $ids = mm_wish_guest_ids();
+    }
+}
+
+if (! function_exists('mm_wish_merge_guest')) {
+    /** 로그인·가입 직후: 비회원 때 담은 관심상품을 계정으로 옮긴다. 쿠키 삭제는 호출한 쪽 응답에서. */
+    function mm_wish_merge_guest(int $userId): void
+    {
+        $wm = new \App\Models\WishModel();
+        foreach (array_reverse(mm_wish_guest_ids()) as $pid) {
+            if (! $wm->where('user_id', $userId)->where('product_id', $pid)->countAllResults()) {
+                $wm->insert(['user_id' => $userId, 'product_id' => $pid]);
+            }
+        }
+    }
+}
+
+if (! function_exists('mm_repeat_ids')) {
+    /**
+     * '재구매 많음' 상품 번호. 같은 상품을 서로 다른 주문으로 2번 이상 산 회원이
+     * repeat_badge_min(기본 3)명 이상인 상품. 취소 주문 제외.
+     */
+    function mm_repeat_ids(): array
+    {
+        static $ids = null;
+        if ($ids !== null) {
+            return $ids;
+        }
+        $min  = max(1, (int) mm_setting('repeat_badge_min', 3));
+        $rows = db_connect()->query(
+            'SELECT product_id, COUNT(*) AS n FROM (
+                SELECT oi.product_id, o.user_id FROM order_items oi JOIN orders o ON o.id = oi.order_id
+                WHERE o.status <> ? GROUP BY oi.product_id, o.user_id HAVING COUNT(DISTINCT o.id) >= 2
+             ) t GROUP BY product_id HAVING COUNT(*) >= ?',
+            ['cancelled', $min]
+        )->getResultArray();
+        return $ids = array_map('intval', array_column($rows, 'product_id'));
+    }
+}

@@ -28,9 +28,10 @@ class Auth extends BaseController
         session()->regenerate();
         session()->set('user_id', (int) $user['id']);
         $um->update($user['id'], ['last_login_at' => date('Y-m-d H:i:s')]);
+        mm_wish_merge_guest((int) $user['id']);
         $to = session()->get('redirect_after') ?: '/';
         session()->remove('redirect_after');
-        return redirect()->to($to);
+        return redirect()->to($to)->deleteCookie('mm_wish');
     }
 
     public function register(): string
@@ -116,7 +117,8 @@ class Auth extends BaseController
         ]);
         session()->regenerate();
         session()->set('user_id', (int) $id);
-        return redirect()->to('/mypage/verify')->with('success', '가입이 완료되었습니다. 제출하신 자료를 확인한 뒤 ' . mm_setting('verify_sla_text', '영업일 기준 1일 이내') . ' 승인해 드립니다.');
+        mm_wish_merge_guest((int) $id);
+        return redirect()->to('/mypage/verify')->deleteCookie('mm_wish')->with('success', '가입이 완료되었습니다. 제출하신 자료를 확인한 뒤 ' . mm_setting('verify_sla_text', '영업일 기준 1일 이내') . ' 승인해 드립니다.');
     }
 
     public function logout()

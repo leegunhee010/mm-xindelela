@@ -11,7 +11,10 @@
         <div class="ocard-no"><?= esc($o['order_no']) ?><span class="st st-<?= esc($o['status']) ?>"><?= mm_order_status_label($o['status']) ?></span></div>
         <div class="ocard-dt"><?= mm_dt($o['created_at']) ?> 주문</div>
       </div>
-      <a class="ocard-btn" href="<?= site_url('mypage/orders/' . $o['id']) ?>">주문 상세 ›</a>
+      <div class="ocard-acts">
+        <?php if (mm_is_approved()): ?><form method="post" action="<?= site_url('mypage/orders/' . $o['id'] . '/reorder') ?>"><?= csrf_field() ?><button type="submit" class="ocard-re">다시 담기</button></form><?php endif ?>
+        <a class="ocard-btn" href="<?= site_url('mypage/orders/' . $o['id']) ?>">주문 상세 ›</a>
+      </div>
     </div>
     <ul class="ocard-items">
       <?php foreach ($o['items'] as $it): ?><li><img src="<?= mm_thumb($it['thumb']) ?>" alt=""><span class="n"><?= esc($it['product_name']) ?></span><span class="q"><?= number_format((int) $it['qty']) ?>개</span><span class="p"><?= mm_price($it['line_total']) ?></span></li><?php endforeach ?>

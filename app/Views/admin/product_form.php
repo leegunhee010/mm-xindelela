@@ -11,6 +11,7 @@
       <div class="field"><label>원산지</label><input class="inp" name="origin" value="<?= esc(old('origin', $p['origin'] ?? '한국')) ?>"></div>
     </div>
     <div class="field"><label>한 줄 요약</label><input class="inp" name="summary" value="<?= esc(old('summary', $p['summary'] ?? '')) ?>" placeholder="목록에 표시되는 짧은 설명"></div>
+    <div class="field"><label>판매 시 주의사항 <span class="muted">(선택)</span></label><textarea class="ta" name="sale_note" rows="3" placeholder="예) 온라인 판매가는 소비자가 이하로 내리지 말아 주세요. 상품 사진은 판매 글에 사용할 수 있습니다."><?= esc(old('sale_note', $p['sale_note'] ?? '')) ?></textarea><div class="help">상품 상세 가격 아래에 '판매 시 지켜 주세요'로 표시됩니다. 비워 두면 표시하지 않습니다.</div></div>
   </div>
   <div class="card"><h3>가격·수량 <span class="muted small" style="font-weight:400">(통화: <?= esc(mm_setting('currency_symbol', 'Ks')) ?>)</span></h3>
     <div class="g2">

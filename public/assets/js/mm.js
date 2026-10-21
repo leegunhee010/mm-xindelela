@@ -102,3 +102,54 @@
     });
   });
 })();
+
+/* 관심상품 하트: 비회원은 쿠키, 회원은 계정에 저장. 같은 상품 하트는 화면 전체가 같이 바뀜 */
+(function () {
+  var meta = document.querySelector('meta[name=csrf-token]');
+  var toastEl = null, toastT = null;
+  function toast(html) {
+    if (!toastEl) { toastEl = document.createElement('div'); toastEl.className = 'mm-toast'; document.body.appendChild(toastEl); }
+    toastEl.innerHTML = html; toastEl.classList.add('show');
+    clearTimeout(toastT); toastT = setTimeout(function () { toastEl.classList.remove('show'); }, 2600);
+  }
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-wish]');
+    if (!b) return;
+    e.preventDefault(); e.stopPropagation();
+    if (b.dataset.busy) return; b.dataset.busy = '1';
+    var fd = new FormData(); fd.append('product_id', b.dataset.wish);
+    fetch('/wish/toggle', { method: 'POST', body: fd, credentials: 'same-origin', headers: { 'X-Requested-With': 'XMLHttpRequest', 'X-CSRF-TOKEN': meta ? meta.content : '' } })
+      .then(function (r) { return r.json(); })
+      .then(function (j) {
+        if (!j.ok) { toast(j.error || '잠시 후 다시 시도해 주세요.'); return; }
+        document.querySelectorAll('[data-wish="' + b.dataset.wish + '"]').forEach(function (x) { x.classList.toggle('on', j.on); x.setAttribute('aria-pressed', j.on ? 'true' : 'false'); });
+        document.querySelectorAll('[data-wish-count]').forEach(function (c) { c.textContent = j.count; c.hidden = !j.count; });
+        if (b.hasAttribute('data-wish-remove') && !j.on) { var li = b.closest('li'); if (li) li.remove(); }
+        if (j.on) toast(j.guest ? '관심상품에 담았습니다. 가입하면 그대로 옮겨집니다.<a href="/wishlist">보기</a>' : '관심상품에 담았습니다.<a href="/wishlist">보기</a>');
+        else toast('관심상품에서 뺐습니다.');
+      })
+      .catch(function () { toast('잠시 후 다시 시도해 주세요.'); })
+      .then(function () { delete b.dataset.busy; });
+  });
+})();
+
+/* 상품 사진 내려받기: 갤러리 + 상세 이미지를 ZIP 하나로 (JSZip, 상세 화면에서만 로드) */
+(function () {
+  var btn = document.getElementById('pdPhotos');
+  if (!btn) return;
+  btn.addEventListener('click', function () {
+    if (!window.JSZip) return;
+    var urls = JSON.parse(btn.dataset.urls || '[]'), name = (btn.dataset.name || 'photos').replace(/[\/:*?"<>|]+/g, ' ').trim();
+    var label = btn.querySelector('span'), orig = label.textContent, zip = new JSZip(), done = 0;
+    btn.disabled = true; label.textContent = '준비 중 0 / ' + urls.length;
+    Promise.all(urls.map(function (u, i) {
+      return fetch(u, { credentials: 'same-origin' }).then(function (r) { if (!r.ok) throw 0; return r.blob(); }).then(function (bl) {
+        var ext = (bl.type.split('/')[1] || 'jpg').replace('jpeg', 'jpg').replace('svg+xml', 'svg');
+        zip.file(String(i + 1).padStart(2, '0') + '.' + ext, bl);
+      }).catch(function () {}).then(function () { done++; label.textContent = '준비 중 ' + done + ' / ' + urls.length; });
+    })).then(function () { return zip.generateAsync({ type: 'blob' }); }).then(function (blob) {
+      var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name + '.zip';
+      document.body.appendChild(a); a.click(); a.remove(); setTimeout(function () { URL.revokeObjectURL(a.href); }, 4000);
+    }).catch(function () { alert('사진을 묶지 못했습니다. 잠시 후 다시 시도해 주세요.'); }).then(function () { btn.disabled = false; label.textContent = orig; });
+  });
+})();

@@ -15,10 +15,7 @@
   .pc-hd { display: none !important; }
   .m-hd { display: block; position: sticky; top: 0; z-index: 800; background: #fff; border-bottom: 1px solid #eee; }
   .m-hd-row { display: flex; align-items: center; justify-content: space-between; height: 54px; padding: 0 var(--mg); }
-  .m-logo { display: flex; align-items: center; gap: 8px; }
-  .m-logo span { width: 30px; height: 30px; border-radius: 9px; background: var(--pri); color: #fff; font-weight: 800; display: flex; align-items: center; justify-content: center; font-size: 17px; }
-  .m-logo b { font-size: 18px; font-weight: 800; letter-spacing: -.3px; color: #000; }
-  .m-logo em { font-style: normal; color: var(--pri); }
+  .m-logo { font-size: 22px; }
   .m-hd-ic { display: flex; gap: 6px; }
   .m-ic { position: relative; width: 38px; height: 38px; border: 0; background: center/24px no-repeat; }
   .m-ic-cart { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23111' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 4h2l2.4 11.2a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.5L21 8H6'/%3E%3Ccircle cx='10' cy='20.5' r='1.3'/%3E%3Ccircle cx='17' cy='20.5' r='1.3'/%3E%3C/svg%3E"); }
@@ -279,4 +276,25 @@
   .sortbar { gap: 12px; }
   .sortbar > div:first-child { flex: none; }
   .sortbar > div:last-child { gap: 12px !important; font-size: 13px; }
+}
+
+/* 로고·관심상품·다시 담기 (모바일) */
+@media (max-width: 1024px) {
+  .m-ic-wish { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23111' stroke-width='1.8' stroke-linejoin='round'%3E%3Cpath d='M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z'/%3E%3C/svg%3E"); }
+  .wish-ov .wish-btn { right: 6px; bottom: 6px; width: 32px; height: 32px; background-size: 18px; }
+  .wish-note { flex-direction: column; align-items: stretch; padding: 16px 18px; font-size: 14px; }
+  .wish-note-btns a { flex: 1; justify-content: center; }
+  .wish-li { gap: 12px !important; flex-wrap: wrap; position: relative; padding-right: 44px; }
+  .wish-li > a:first-of-type { width: 72px !important; height: 72px !important; }
+  .wish-li .wish-price { width: 100%; padding-left: 84px; text-align: left; }
+  .wish-li:has(.wish-chk) .wish-price { padding-left: 114px; }
+  .wish-li .wish-btn { position: absolute; right: 0; top: 20px; }
+  .wish-cart { height: 40px; padding: 0 16px; }
+  .wish-btn.wish-pd { height: 30px; padding: 0 12px 0 30px; background-position: 9px center; background-size: 15px; font-size: 12px; }
+  .ocard-acts { gap: 6px; }
+  .ocard-re, .ocard-btn { height: 32px; padding: 0 12px; }
+  .oreorder { flex-wrap: wrap; justify-content: flex-start; }
+  .oreorder button { width: 100%; height: 46px; }
+  .mm-logo-ft { font-size: 20px; }
+  .mm-toast { bottom: calc(80px + env(safe-area-inset-bottom)); }
 }

@@ -1,6 +1,6 @@
 <?php /** 상품 카드 — 아이스크림몰 목록 카드 마크업 그대로. $p, $approved, $sup(optional), $w(폭 클래스, 기본 235) */
 $w = $w ?? 'w-[235px]'; $isNew = isset($p['created_at']) && strtotime($p['created_at']) > strtotime('-14 days'); ?>
-<li class="flex flex-wrap flex-none <?= $w ?>" style="width:<?= (int) preg_replace('/\D/', '', $w) ?>px">
+<li class="relative flex flex-wrap flex-none <?= $w ?>" style="width:<?= (int) preg_replace('/\D/', '', $w) ?>px">
 <a class="block w-full cursor-pointer" href="<?= site_url('products/' . $p['id']) ?>">
   <div class="relative w-full"><div class="relative">
     <div class="relative w-full overflow-hidden aspect-square mb-[10px] flex justify-center items-center pc:rounded-[12px] bg-gray9">
@@ -8,6 +8,7 @@ $w = $w ?? 'w-[235px]'; $isNew = isset($p['created_at']) && strtotime($p['create
     </div>
     <div class="absolute left-[12px] top-[12px] flex flex-wrap gap-[4px] pr-[20px]">
       <?php if ($p['is_best']): ?><span class="inline-flex h-[26px] items-center rounded-[99px] bg-primary px-[10px] text-[12px] font-bold text-white">BEST</span><?php elseif ($isNew): ?><span class="inline-flex h-[26px] items-center rounded-[99px] bg-[#22c55e] px-[10px] text-[12px] font-bold text-white">NEW</span><?php endif ?>
+      <?php if (in_array((int) $p['id'], mm_repeat_ids(), true)): ?><span class="inline-flex h-[26px] items-center rounded-[99px] bg-black/75 px-[10px] text-[12px] font-bold text-white">재구매 많음</span><?php endif ?>
     </div>
     <div class="absolute right-[12px] top-[12px] flex size-[48px] items-center justify-center rounded-full bg-primary/90 text-center text-[11px] font-bold leading-[1.1] text-white">최소<br><?= number_format((int) $p['moq']) ?><?= esc($p['unit']) ?></div>
   </div>
@@ -27,4 +28,6 @@ $w = $w ?? 'w-[235px]'; $isNew = isset($p['created_at']) && strtotime($p['create
     <?php if (! $approved && $p['retail_price']): ?><p class="mt-[2px] text-[12px] text-gray5">소비자가 <?= mm_price($p['retail_price'], false) ?></p><?php endif ?>
   </div></div>
 </a>
+<?php $wOn = in_array((int) $p['id'], mm_wish_ids(), true); ?>
+<div class="wish-ov"><button type="button" class="wish-btn<?= $wOn ? ' on' : '' ?>" data-wish="<?= $p['id'] ?>" aria-label="관심상품" aria-pressed="<?= $wOn ? 'true' : 'false' ?>"></button></div>
 </li>

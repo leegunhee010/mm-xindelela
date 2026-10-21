@@ -23,8 +23,10 @@
     <div class="pd-top">
       <?php if ($p['brand']): ?><b><?= esc($p['brand']) ?></b><?php endif ?>
       <?php if ($supplier): ?><a href="<?= site_url('suppliers/' . $supplier['id']) ?>"><?= esc($supplier['company_name']) ?> ›</a><?php endif ?>
+      <?php $wOn = in_array((int) $p['id'], mm_wish_ids(), true); ?><button type="button" class="wish-btn wish-pd<?= $wOn ? ' on' : '' ?>" data-wish="<?= $p['id'] ?>" aria-pressed="<?= $wOn ? 'true' : 'false' ?>"><span>관심상품</span></button>
     </div>
     <h2 class="pd-name"><?= esc($p['name']) ?></h2>
+    <?php if (in_array((int) $p['id'], mm_repeat_ids(), true)): ?><p class="pd-repeat">재구매 많음 · 여러 셀러가 다시 주문한 상품입니다</p><?php endif ?>
 
     <!-- 가격 -->
     <?php if ($approved): ?>
@@ -40,6 +42,10 @@
       <div><dt>결제</dt><dd>KBZPay 100% 선불</dd></div>
       <?php if ($approved): ?><div><dt>재고</dt><dd><?= number_format((int) $p['stock']) ?><?= esc($p['unit']) ?></dd></div><?php endif ?>
     </dl>
+
+    <?php if (trim((string) ($p['sale_note'] ?? '')) !== ''): ?>
+    <div class="pd-rule"><b>판매 시 지켜 주세요</b><p><?= nl2br(esc(trim($p['sale_note']))) ?></p></div>
+    <?php endif ?>
 
     <!-- 수량별 도매가 -->
     <?php if ($approved): ?>
@@ -65,6 +71,20 @@
           <button type="submit" name="go" value="checkout" class="text-white bg-primary rounded-[99px] min-h-[44px] px-[16px] py-[12px] body3 font-bold !leading-none w-full">주문 신청하기</button>
         </div>
       </form>
+      <?php
+      // 판매 글용 사진: 갤러리 + 상세 이미지 블록
+      $photos = array_map(static fn ($im) => mm_thumb($im), $imgs);
+      foreach (mm_detail_blocks($p) as $b) {
+          if ($b['type'] === 'img' && ! empty($b['src'])) {
+              $photos[] = str_starts_with($b['src'], 'http') ? $b['src'] : base_url($b['src']);
+          }
+      }
+      $photos = array_values(array_unique(array_filter($photos)));
+      ?>
+      <?php if ($photos): ?>
+      <button type="button" class="pd-photos" id="pdPhotos" data-name="<?= esc(($p['code'] ?: 'product-' . $p['id']) . ' ' . $p['name']) ?>" data-urls="<?= esc(json_encode($photos, JSON_UNESCAPED_SLASHES)) ?>"><b>상품 사진 내려받기</b><span><?= count($photos) ?>장 · 판매 글에 쓸 수 있습니다</span></button>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+      <?php endif ?>
     <?php elseif ($user && $user['role'] === 'buyer'): $vs = $user['status']; ?>
       <div class="pd-lock">
         <div class="pd-lock-h"><span class="pd-lock-ic <?= $vs === 'rejected' ? 'is-warn' : '' ?>"><?= $vs === 'pending' ? '⏳' : '!' ?></span><div><b><?= $vs === 'pending' ? '비즈니스 인증 검수 중입니다' : ($vs === 'rejected' ? '인증 자료를 다시 올려 주세요' : '이용이 제한된 계정입니다') ?></b><p><?= $vs === 'pending' ? esc(mm_setting('verify_sla_text')) . ' 승인되면 도매가와 주문이 열립니다.' : ($vs === 'rejected' ? '마이페이지에서 반려 사유를 확인하고 자료를 보완해 주세요.' : '고객센터로 문의해 주세요.') ?></p></div></div>
@@ -73,7 +93,7 @@
       </div>
     <?php else: ?>
       <div class="pd-lock">
-        <div class="pd-lock-h"><span class="pd-lock-ic">🔒</span><div><b>비즈니스 인증하고 도매가 보기</b><p>인증은 <?= esc(mm_setting('verify_sla_text')) ?> 끝납니다.</p></div></div>
+        <div class="pd-lock-h"><span class="pd-lock-ic">🔒</span><div><b>비즈니스 인증하고 도매가 보기</b><p>인증은 <?= esc(mm_setting('verify_sla_text')) ?> 끝납니다. 인증 회원은 상품 사진을 한 번에 내려받아 판매 글에 쓸 수 있습니다.</p></div></div>
         <ol class="pd-lock-steps"><li class="on"><em>1</em>회원가입</li><li><em>2</em>비즈니스 인증</li><li><em>3</em>도매가·주문</li></ol>
         <div class="pd-lock-btns"><a class="is-main" href="<?= site_url('register') ?>">회원가입하고 인증하기</a><a href="<?= site_url('login') ?>">로그인</a></div>
       </div>
