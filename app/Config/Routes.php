@@ -100,6 +100,14 @@ $routes->group('admin', ['filter' => ['adminauth', 'adminlog'], 'namespace' => '
     $routes->get('products/(:num)', 'Products::show/$1');
     $routes->post('products/(:num)/status', 'Products::status/$1');
     $routes->get('queues', 'Queues::index');
+    $routes->get('queues/texts', 'Queues::texts');
+    $routes->post('queues/texts', 'Queues::saveTexts');
+    $routes->get('landing', 'Landing::index');
+    $routes->post('landing/save', 'Landing::save');
+    $routes->get('wishes', 'Wishes::index');
+    $routes->get('wishes/(:num)', 'Wishes::show/$1');
+    $routes->get('notify', 'Notify::index');
+    $routes->post('notify/send', 'Notify::send');
     $routes->get('queues/(:num)', 'Queues::show/$1');
     $routes->post('queues/(:num)/arrive', 'Queues::arrive/$1');
     $routes->post('queues/(:num)/fail', 'Queues::fail/$1');

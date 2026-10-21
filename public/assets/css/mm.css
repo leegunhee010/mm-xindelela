@@ -628,3 +628,5 @@ main{min-height:600px;padding-bottom:80px}
 .q-dim{position:absolute;inset:0;z-index:1;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.55);pointer-events:none}
 .q-dim span{padding:8px 18px;border-radius:99px;background:rgba(31,42,68,.88);color:#fff;font-size:16px;font-weight:700;letter-spacing:-.02em}
 @media (max-width:1024px){.q-dim span{padding:6px 12px;font-size:13px}}
+
+.nlist-admin{background-color:#fff3eb;background-image:url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27%23ff6200%27 stroke-width=%272%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27%3E%3Cpath d=%27M4 10v4h3l5 4V6L7 10z%27/%3E%3Cpath d=%27M16 9a4 4 0 0 1 0 6%27/%3E%3C/svg%3E")}

@@ -358,3 +358,24 @@ body.ad{margin:0;font-family:Pretendard,-apple-system,'Apple SD Gothic Neo','Mal
 .qadm-p img{width:40px;height:40px;border-radius:6px;object-fit:cover;flex:none}
 .qadm-qty{color:var(--pri);font-size:15px}
 .mb16{margin-bottom:16px}
+
+/* 가입 랜딩 편집 */
+.lpics{display:flex;flex-wrap:wrap;gap:10px}
+.lpic{width:118px}
+.lpic img{display:block;width:118px;height:118px;object-fit:cover;border:1px solid var(--line);border-radius:8px}
+.lpic-b{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-top:6px;font-size:12px}
+.lpic-b .inp{width:48px;height:28px;padding:0 4px;text-align:center}
+.lfaq{display:flex;gap:10px;padding:10px 0;border-top:1px dashed var(--line)}
+.lfaq:first-of-type{border-top:0}
+.lfaq>div{flex:1;display:flex;flex-direction:column;gap:6px}
+.lfaq-n{flex:none;width:24px;height:24px;border-radius:50%;background:#eee;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:6px}
+/* 알림 보내기 */
+.nto{display:flex;flex-direction:column;gap:8px;font-size:14px}
+.nto label{display:flex;align-items:center;gap:6px}
+.nsent{padding:12px 0;border-top:1px solid var(--line)}
+.nsent b{display:block;font-size:14px}
+.nsent p{margin:4px 0 0;font-size:13px;color:#555}
+.nsent span{display:block;margin-top:4px;font-size:12px;color:var(--gray)}
+/* 줄서기 문구 */
+.qtxt th{width:260px;font-weight:600;font-size:13px;vertical-align:middle}
+.qtxt .inp,.qtxt .ta{width:100%}

@@ -7,7 +7,7 @@
 
 <div class="card rsec">
   <div class="rsec-h"><h3>입고 예정 상품</h3><span class="muted small">줄서기는 주문이 아니라 수요 참고용입니다. 입고되면 '입고 완료', 못 들어오면 '입고 취소'를 누르세요.</span>
-    <a class="btn btn-sm" style="margin-left:auto" href="<?= site_url('admin/products/new') ?>">상품 등록 (상태: 입고 예정)</a></div>
+    <a class="btn btn-sm" style="margin-left:auto" href="<?= site_url('admin/queues/texts') ?>">문구 바꾸기</a><a class="btn btn-sm" href="<?= site_url('admin/products/new') ?>">상품 등록 (상태: 입고 예정)</a></div>
   <?php if (! $coming): ?><div class="muted rempty">입고 예정 상품이 없습니다. 상품 등록·수정에서 노출 상태를 '입고 예정'으로 고르면 여기에 나옵니다.</div><?php else: ?>
   <table class="tbl"><thead><tr><th class="l">상품</th><th>공급사</th><th>최소 수량</th><th>줄 선 회원</th><th>희망 수량 합계</th><th>관리</th></tr></thead><tbody>
   <?php foreach ($coming as $p): $s = $stats[(int) $p['id']] ?? ['n' => 0, 'qty' => 0]; ?>

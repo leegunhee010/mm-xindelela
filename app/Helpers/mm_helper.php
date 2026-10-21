@@ -491,14 +491,14 @@ if (! function_exists('mm_repeat_ids')) {
     }
 }
 
-if (! function_exists('mm_q')) {
+if (! function_exists('mm_q_defaults')) {
     /**
-     * 줄서기 화면 문구. 이름을 바꾸거나 번역할 때 여기만 고친다.
+     * 줄서기 화면 문구 기본값. 관리자 › 줄서기 › 문구 에서 바꾼 값(settings.q_texts)이 우선.
      * %s 자리는 sprintf 인자.
      */
-    function mm_q(string $key, ...$args): string
+    function mm_q_defaults(): array
     {
-        static $t = [
+        return [
             'name'                 => '줄서기',
             'badge'                => '입고 예정',
             'btn'                  => '줄서기',
@@ -531,8 +531,27 @@ if (! function_exists('mm_q')) {
             'st_failed'            => '입고 취소',
             'st_cancelled'         => '내가 취소',
         ];
+    }
+}
+
+if (! function_exists('mm_q')) {
+    /** 줄서기 화면 문구. 기본값 + 관리자에서 바꾼 값. */
+    function mm_q(string $key, ...$args): string
+    {
+        static $t = null;
+        if ($t === null) {
+            $over = json_decode((string) mm_setting('q_texts', ''), true);
+            $t    = array_merge(mm_q_defaults(), is_array($over) ? array_filter($over, static fn ($v) => is_string($v) && trim($v) !== '') : []);
+        }
         $s = $t[$key] ?? $key;
-        return $args ? vsprintf($s, $args) : $s;
+        if (! $args) {
+            return $s;
+        }
+        try {
+            return vsprintf($s, $args);
+        } catch (\Throwable $e) {
+            return $s; // 관리자가 %s 를 잘못 넣은 경우
+        }
     }
 }
 
@@ -582,5 +601,75 @@ if (! function_exists('mm_unread_count')) {
             $n = ($u && $u['role'] === 'buyer') ? (new \App\Models\NotificationModel())->where('user_id', $u['id'])->where('read_at', null)->countAllResults() : 0;
         }
         return $n;
+    }
+}
+
+if (! function_exists('mm_save_setting')) {
+    /** 설정 한 줄 저장(없으면 추가). */
+    function mm_save_setting(string $key, string $value): void
+    {
+        $sm  = new SettingModel();
+        $row = $sm->where('skey', $key)->first();
+        $row ? $sm->update($row['id'], ['svalue' => $value]) : $sm->insert(['skey' => $key, 'svalue' => $value]);
+    }
+}
+
+if (! function_exists('mm_welcome_defaults')) {
+    /** 가입 랜딩(/welcome) 편집 항목 기본값. {가입포인트} 같은 자리표시는 설정값으로 바뀐다. */
+    function mm_welcome_defaults(): array
+    {
+        return [
+            'tag'    => '무료 회원가입',
+            'title1' => '한국 브랜드 도매몰에서',
+            'title2' => '지금 바로 주문해 보세요',
+            'sub'    => '미얀마 소매상과 온라인 셀러를 위한 회원제 도매몰입니다',
+            'band1'  => '한국 브랜드 상품을 미얀마에서 도매가로,',
+            'band2'  => 'XINDELELA 도매몰에서 시작하세요',
+            'pics'   => array_map(static fn ($k) => 'assets/img/demo/' . $k . '.jpg', ['p1', 'p3', 'p5', 'p8', 'p2', 'p10', 'p6', 'p9']),
+            'faq'    => [
+                ['q' => '누구나 회원이 될 수 있나요?', 'a' => '오프라인 매장, 온라인 판매, 판매 네트워크 중 하나라도 운영하고 있다면 가입할 수 있습니다. 개인 사용 목적의 구매는 승인되지 않습니다.'],
+                ['q' => '인증은 얼마나 걸리나요?', 'a' => '담당자가 제출 자료를 직접 확인하며 {인증기간}합니다. 자료가 부족하면 이유를 알려 드리고, 마이페이지에서 자료를 추가해 다시 제출할 수 있습니다.'],
+                ['q' => '가입 축하 포인트는 언제 받나요?', 'a' => '비즈니스 인증이 승인되는 순간 {가입포인트}가 적립됩니다. 1P는 1 {통화}이며, 주문할 때 상품 금액의 {사용한도}까지 쓸 수 있습니다.'],
+                ['q' => '몇 개부터 주문할 수 있나요?', 'a' => '상품마다 최소주문수량이 정해져 있고, 그 수량부터 1개씩 늘릴 수 있습니다. 수량이 많을수록 낮은 단가가 자동으로 적용됩니다.'],
+                ['q' => '결제는 어떻게 하나요?', 'a' => '주문을 신청하면 결제 금액과 KBZPay 계좌가 안내됩니다. 송금한 뒤 주문 상세에서 송금자 이름을 적고 입금 확인을 요청하면 됩니다.'],
+                ['q' => '가입비가 있나요?', 'a' => '가입과 인증은 무료입니다.'],
+            ],
+        ];
+    }
+}
+
+if (! function_exists('mm_tokens')) {
+    /** 관리자 편집 문구 속 자리표시를 지금 설정값으로 바꾼다. */
+    function mm_tokens(string $s): string
+    {
+        return strtr($s, [
+            '{가입포인트}' => number_format((int) mm_setting('points_signup_bonus', 0)) . 'P',
+            '{인증기간}'   => (string) mm_setting('verify_sla_text', ''),
+            '{사용한도}'   => (int) mm_setting('points_use_max_pct', 30) . '%',
+            '{통화}'       => (string) mm_setting('currency_symbol', 'Ks'),
+        ]);
+    }
+}
+
+if (! function_exists('mm_welcome')) {
+    /** 가입 랜딩 설정: 기본값 + 관리자 저장값(settings.welcome_json). $raw=true 면 자리표시를 그대로 둔다(편집 화면용). */
+    function mm_welcome(bool $raw = false): array
+    {
+        $d = mm_welcome_defaults();
+        $s = json_decode((string) mm_setting('welcome_json', ''), true);
+        if (is_array($s)) {
+            foreach ($d as $k => $v) {
+                if (isset($s[$k]) && (is_array($v) ? (is_array($s[$k]) && $s[$k]) : trim((string) $s[$k]) !== '')) {
+                    $d[$k] = $s[$k];
+                }
+            }
+        }
+        if (! $raw) {
+            foreach (['tag', 'title1', 'title2', 'sub', 'band1', 'band2'] as $k) {
+                $d[$k] = mm_tokens($d[$k]);
+            }
+            $d['faq'] = array_map(static fn ($f) => ['q' => mm_tokens($f['q']), 'a' => mm_tokens($f['a'])], $d['faq']);
+        }
+        return $d;
     }
 }

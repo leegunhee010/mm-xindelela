@@ -7,8 +7,9 @@ $cur      = mm_setting('currency_symbol', 'Ks');
 $refSign  = (int) mm_setting('points_referral_signup', 0);
 $refFirst = (int) mm_setting('points_referral_first_order', 0);
 $usePct   = (int) mm_setting('points_use_max_pct', 30);
-$heroPics = ['p1', 'p3', 'p5', 'p8', 'p2', 'p10', 'p6', 'p9'];
-$pic      = static fn (string $k) => base_url('assets/img/demo/' . $k . '.jpg');
+$LP       = mm_welcome(); // 관리자 › 가입 랜딩 에서 편집
+$heroPics = array_values($LP['pics']);
+$picAt    = static fn (int $i) => $heroPics ? base_url($heroPics[$i % count($heroPics)]) : '';
 $regUrl   = site_url('register');
 
 // 업종 일러스트 (120×100, 브랜드 팔레트)
@@ -77,12 +78,12 @@ $joinCard = function (string $id) use ($approved, $isBuyer, $bonus, $cur, $ref, 
 <!-- 1. 히어로 -->
 <section class="lp-hero">
   <div class="lp-hero-pics" aria-hidden="true">
-    <?php foreach ($heroPics as $i => $k): ?><span class="lp-hp lp-hp<?= $i + 1 ?>"><img src="<?= $pic($k) ?>" alt=""></span><?php endforeach ?>
+    <?php for ($i = 0; $i < 8 && $heroPics; $i++): ?><span class="lp-hp lp-hp<?= $i + 1 ?>"><img src="<?= $picAt($i) ?>" alt=""></span><?php endfor ?>
   </div>
   <div class="lp-hero-in">
-    <p class="lp-hero-tag">무료 회원가입</p>
-    <h1>한국 브랜드 도매몰에서<br><em>지금 바로 주문해 보세요</em></h1>
-    <p class="lp-hero-sub">미얀마 소매상과 온라인 셀러를 위한 회원제 도매몰입니다</p>
+    <?php if ($LP['tag'] !== ''): ?><p class="lp-hero-tag"><?= esc($LP['tag']) ?></p><?php endif ?>
+    <h1><?= esc($LP['title1']) ?><br><em><?= esc($LP['title2']) ?></em></h1>
+    <p class="lp-hero-sub"><?= esc($LP['sub']) ?></p>
   </div>
   <div class="lp-wave" aria-hidden="true"></div>
 </section>
@@ -138,7 +139,7 @@ $joinCard = function (string $id) use ($approved, $isBuyer, $bonus, $cur, $ref, 
 
 <!-- 5. 거래 흐름 -->
 <section class="lp-flow">
-  <div class="lp-flow-pics" aria-hidden="true"><?php foreach (['p3', 'p1', 'p9', 'p6', 'p5', 'p10', 'p2', 'p8', 'p11'] as $k): ?><img src="<?= $pic($k) ?>" alt=""><?php endforeach ?></div>
+  <div class="lp-flow-pics" aria-hidden="true"><?php for ($i = 0; $i < 9 && $heroPics; $i++): ?><img src="<?= $picAt($i + 1) ?>" alt=""><?php endfor ?></div>
   <div class="lp-flow-main">
     <div class="lp-laptop" aria-hidden="true"><div class="lp-laptop-scr"><img src="<?= base_url('assets/img/welcome/site-pc.jpg') ?>" alt=""></div><div class="lp-laptop-base"></div></div>
     <h2 class="lp-big">XINDELELA 거래 흐름</h2>
@@ -195,15 +196,8 @@ $joinCard = function (string $id) use ($approved, $isBuyer, $bonus, $cur, $ref, 
     <h2 class="lp-big lp-faq-h"><span>Q</span>FAQ</h2>
     <p class="lp-tt-sub">자주 묻는 질문을 정리했습니다</p>
     <div class="lp-faq">
-      <?php foreach ([
-          ['누구나 회원이 될 수 있나요?', '오프라인 매장, 온라인 판매, 판매 네트워크 중 하나라도 운영하고 있다면 가입할 수 있습니다. 개인 사용 목적의 구매는 승인되지 않습니다.'],
-          ['인증은 얼마나 걸리나요?', '담당자가 제출 자료를 직접 확인하며 ' . $sla . '합니다. 자료가 부족하면 이유를 알려 드리고, 마이페이지에서 자료를 추가해 다시 제출할 수 있습니다.'],
-          ['가입 축하 포인트는 언제 받나요?', $bonus > 0 ? '비즈니스 인증이 승인되는 순간 ' . number_format($bonus) . 'P가 적립됩니다. 1P는 1 ' . $cur . '이며, 주문할 때 상품 금액의 ' . $usePct . '%까지 쓸 수 있습니다.' : '현재 진행 중인 가입 혜택이 없습니다.'],
-          ['몇 개부터 주문할 수 있나요?', '상품마다 최소주문수량이 정해져 있고, 그 수량부터 1개씩 늘릴 수 있습니다. 수량이 많을수록 낮은 단가가 자동으로 적용됩니다.'],
-          ['결제는 어떻게 하나요?', '주문을 신청하면 결제 금액과 KBZPay 계좌가 안내됩니다. 송금한 뒤 주문 상세에서 송금자 이름을 적고 입금 확인을 요청하면 됩니다.'],
-          ['가입비가 있나요?', '가입과 인증은 무료입니다.'],
-      ] as [$q, $a]): ?>
-      <details><summary><?= esc($q) ?></summary><p><?= esc($a) ?></p></details>
+      <?php foreach ($LP['faq'] as $f): ?>
+      <details><summary><?= esc($f['q']) ?></summary><p><?= nl2br(esc($f['a'])) ?></p></details>
       <?php endforeach ?>
     </div>
     <p class="lp-cs">더 궁금한 점은 Viber <b><?= esc(mm_setting('cs_viber', '')) ?></b> 로 문의해 주세요. (월~금 09:00~18:00)</p>
@@ -218,8 +212,8 @@ $joinCard = function (string $id) use ($approved, $isBuyer, $bonus, $cur, $ref, 
   <div class="lp-cardwrap is-end"><?= $joinCard('lpEmail2') ?></div>
 </section>
 <section class="lp-band">
-  <div class="lp-band-pics" aria-hidden="true"><?php foreach (['p8', 'p5', 'p1', 'p10', 'p3', 'p9', 'p2', 'p6'] as $k): ?><img src="<?= $pic($k) ?>" alt=""><?php endforeach ?></div>
-  <p>한국 브랜드 상품을 미얀마에서 도매가로,<br><b>XINDELELA 도매몰</b>에서 시작하세요</p>
+  <div class="lp-band-pics" aria-hidden="true"><?php for ($i = 0; $i < 8 && $heroPics; $i++): ?><img src="<?= $picAt($i + 3) ?>" alt=""><?php endfor ?></div>
+  <p><?= esc($LP['band1']) ?><br><b><?= esc($LP['band2']) ?></b></p>
 </section>
 
 </div>

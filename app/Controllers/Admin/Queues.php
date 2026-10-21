@@ -71,6 +71,46 @@ class Queues extends Base
         return redirect()->to('/admin/queues/' . $id)->with('success', '입고를 취소하고 상품을 숨겼습니다. 줄 선 회원 ' . $n . '명에게 알림을 보냈습니다.');
     }
 
+    /** 관리자에서 바꿀 수 있는 줄서기 문구 (키 => 설명). 나머지는 시스템 문구라 고정. */
+    public const TEXT_KEYS = [
+        'name'                 => '기능 이름 (메뉴·안내 곳곳)',
+        'btn'                  => '줄서기 버튼',
+        'badge'                => '입고 예정 표시 (카드·메뉴·배지)',
+        'price_hidden'         => '가격 자리 문구',
+        'count'                => '줄 선 인원 (%s = 인원 수)',
+        'count_zero'           => '아직 아무도 없을 때',
+        'help_title'           => '도움말 제목',
+        'help_1'               => '도움말 1',
+        'help_2'               => '도움말 2',
+        'help_3'               => '도움말 3',
+        'agree_short'          => '신청 시 확인 체크 문구',
+        'joined_title'         => '줄 선 뒤 상태 문구',
+        'menu'                 => '마이페이지 메뉴 이름',
+        'notify_arrived_title' => '입고 알림 제목 (%s = 상품명)',
+        'notify_arrived_body'  => '입고 알림 내용',
+        'notify_failed_title'  => '입고 취소 알림 제목 (%s = 상품명)',
+        'notify_failed_body'   => '입고 취소 알림 내용',
+    ];
+
+    public function texts(): string
+    {
+        $over = json_decode((string) mm_setting('q_texts', ''), true);
+        return $this->page('admin/queue_texts', ['title' => '줄서기 문구', 'keys' => self::TEXT_KEYS, 'def' => mm_q_defaults(), 'over' => is_array($over) ? $over : []]);
+    }
+
+    public function saveTexts()
+    {
+        $out = [];
+        foreach (self::TEXT_KEYS as $k => $l) {
+            $v = trim((string) $this->request->getPost('t_' . $k));
+            if ($v !== '' && $v !== mm_q_defaults()[$k]) {
+                $out[$k] = $v;
+            }
+        }
+        mm_save_setting('q_texts', $out ? json_encode($out, JSON_UNESCAPED_UNICODE) : '');
+        return redirect()->to('/admin/queues/texts')->with('success', '줄서기 문구를 저장했습니다. 비워 둔 칸은 기본 문구로 나옵니다.');
+    }
+
     /** 닫힌 줄: 상품별 [입고 알림 받은 수, 입고 취소 알림 수, 희망 수량 합] */
     private function closedStats(array $ids): array
     {
