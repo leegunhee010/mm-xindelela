@@ -43,7 +43,7 @@ class Home extends BaseController
             'offLo'      => (int) round(((float) ($off['lo'] ?? 0)) * 100),
             'offHi'      => (int) round(((float) ($off['hi'] ?? 0)) * 100),
             'categories' => (new CategoryModel())->where('is_active', 1)->orderBy('sort')->findAll(),
-            'products'   => $pm->where('status', 'active')->orderBy('is_best', 'DESC')->orderBy('order_count', 'DESC')->orderBy('id', 'DESC')->findAll(5),
+            'products'   => $pm->where('status', 'active')->orderBy('is_best', 'DESC')->orderBy('order_count', 'DESC')->orderBy('id', 'DESC')->findAll(12),
         ]);
     }
 

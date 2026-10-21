@@ -298,3 +298,4 @@
   .mm-logo-ft { font-size: 20px; }
   .mm-toast { bottom: calc(80px + env(safe-area-inset-bottom)); }
 }
+@media (max-width: 1024px) { .m-drawer-bonus { display: block; margin-top: 12px; font-size: 13px; font-weight: 700; color: var(--pri); } }

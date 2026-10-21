@@ -14,7 +14,7 @@ $inp = 'h-[44px] w-full px-3 bg-white body3 text-black placeholder:text-gray4 fo
     <strong class="sub-head1 font-bold">계정 정보</strong>
     <hr class="divider bg-gray6 border-0 h-px my-[18px]">
     <div class="flex flex-col gap-y-[14px]">
-      <label class="block"><span class="label1 text-gray3 mb-[6px] block">이메일 <i class="text-primary not-italic">*</i></span><div class="input-item"><input class="<?= $inp ?>" type="email" name="email" value="<?= esc(old('email')) ?>" required></div></label>
+      <label class="block"><span class="label1 text-gray3 mb-[6px] block">이메일 <i class="text-primary not-italic">*</i></span><div class="input-item"><input class="<?= $inp ?>" type="email" name="email" value="<?= esc(old('email', (string) service('request')->getGet('email'))) ?>" required></div></label>
       <label class="block"><span class="label1 text-gray3 mb-[6px] block">담당자 이름 <i class="text-primary not-italic">*</i></span><div class="input-item"><input class="<?= $inp ?>" type="text" name="name" value="<?= esc(old('name')) ?>" required></div></label>
       <div class="grid grid-cols-2 gap-[10px]">
         <label class="block"><span class="label1 text-gray3 mb-[6px] block">비밀번호 <i class="text-primary not-italic">*</i></span><div class="input-item"><input class="<?= $inp ?>" type="password" name="password" required placeholder="6자 이상"></div></label>

@@ -16,6 +16,7 @@
         <button type="submit" class="text-white bg-primary min-h-[44px] px-[16px] py-[12px] body3 !leading-none w-full rounded-full font-bold">로그인</button>
         <a href="<?= site_url('register') ?>" class="text-black bg-white border border-gray6 min-h-[44px] px-[16px] py-[12px] body3 font-bold !leading-none w-full rounded-full text-center">회원가입 · 비즈니스 인증 신청</a>
       </div>
+      <?php if (($bonus = (int) mm_setting('points_signup_bonus', 0)) > 0): ?><p class="mt-[14px] text-center body3 text-gray3">처음 오셨나요? <a href="<?= site_url('welcome') ?>" class="font-bold text-primary underline underline-offset-2">가입 혜택 <?= number_format($bonus) ?>P 보기</a></p><?php endif ?>
     </form>
     <div class="btn-area shrink-0 label1 mt-[16px] flex items-center justify-center gap-[10px]">
       <a href="<?= site_url('mypage/inquiries') ?>" class="text-gray3">비밀번호 문의</a><span class="h-[10px] w-[1px] bg-gray6"></span><a href="<?= site_url('guide') ?>" class="text-primary">이용안내</a>

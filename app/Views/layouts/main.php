@@ -32,7 +32,7 @@ foreach (['4d3a10b18ca278ac', '6aa6463b93b71a20', '382ef9402adc32b5', '02a257d78
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.1.14/swiper-bundle.min.css">
 <link rel="stylesheet" href="<?= base_url('assets/css/is-fill.css?v=11') ?>">
 <link rel="stylesheet" href="<?= base_url('assets/css/mm.css?v=26') ?>">
-<link rel="stylesheet" href="<?= base_url('assets/css/mm-mobile.css?v=8') ?>">
+<link rel="stylesheet" href="<?= base_url('assets/css/mm-mobile.css?v=9') ?>">
 </head>
 <body>
 <?php
@@ -73,6 +73,7 @@ $cur  = uri_string();
       <?php else: ?>
         <p>도매가는 비즈니스 인증 회원에게 열립니다.</p>
         <div class="m-drawer-btns"><a class="is-main" href="<?= site_url('register') ?>">회원가입</a><a href="<?= site_url('login') ?>">로그인</a></div>
+        <a class="m-drawer-bonus" href="<?= site_url('welcome') ?>">처음 오셨나요? 가입 혜택 보기 ›</a>
       <?php endif ?>
     </div>
     <p class="m-drawer-t">카테고리</p>
@@ -110,6 +111,7 @@ $cur  = uri_string();
         <li><a class="acount-menu-link" href="<?= site_url('admin') ?>"><b class="text-white">관리자</b></a></li>
         <li><a class="acount-menu-link" href="<?= site_url('admin/logout') ?>">로그아웃</a></li>
       <?php else: ?>
+        <?php if (($signupBonus = (int) mm_setting('points_signup_bonus', 0)) > 0): ?><li><a class="acount-menu-link font-bold" style="color:#ff8a3d" href="<?= site_url('welcome') ?>">가입하면 <?= number_format($signupBonus) ?>P</a></li><?php endif ?>
         <li><a class="acount-menu-link" href="<?= site_url('register') ?>">회원가입</a></li>
         <li><a class="acount-menu-link" href="<?= site_url('login') ?>">로그인</a></li>
       <?php endif ?>
@@ -177,7 +179,7 @@ $cur  = uri_string();
     <ul class="footer-item-wrap type1 text-body3 text-gray3">
       <li class="footer-item mb-[20px]"><a href="<?= site_url('guide') ?>">이용안내</a></li>
       <li class="footer-item mb-[20px]"><a href="<?= site_url('notices') ?>">공지사항</a></li>
-      <li class="footer-item mb-[20px] font-bold text-black"><a href="<?= site_url('register') ?>">회원가입 · 비즈니스 인증</a></li>
+      <li class="footer-item mb-[20px] font-bold text-black"><a href="<?= site_url('welcome') ?>">회원가입 안내 · 가입 혜택</a></li>
       <li class="footer-item mb-[20px]"><a href="<?= site_url('mypage/inquiries') ?>">고객센터</a></li>
     </ul>
     <ul class="footer-item-wrap type2 mb-0 text-body3 text-gray3">
