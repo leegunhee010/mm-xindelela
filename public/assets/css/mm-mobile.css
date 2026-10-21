@@ -315,3 +315,27 @@
   .qlist-img { width: 64px; height: 64px; }
   .qlist-act { width: 100%; padding-left: 76px; }
 }
+
+/* 홈 다듬기 (모바일) */
+@media (max-width: 1024px) {
+  /* 상단 안내 카드: 가입(또는 포인트) 카드는 한 줄 전체, 나머지 둘은 반씩 */
+  .hstrip { display: grid !important; grid-template-columns: 1fr 1fr; }
+  .hstrip > :nth-child(2) { grid-column: 1 / -1; order: -1; }
+  .hstrip > div > span { display: none !important; }
+  .hstrip > :not(:nth-child(2)) { padding: 12px 14px !important; }
+  .hstrip > :not(:nth-child(2)) b { font-size: 14px !important; }
+  .hstrip > :not(:nth-child(2)) .text-body3 { font-size: 12px !important; }
+  /* 섹션 머리 '더보기' 단추 → 작은 글자 링크 */
+  .section-title .btn-more { margin-right: 0 !important; padding: 0 !important; background: none !important; color: #777 !important; font-size: 13px !important; font-weight: 600 !important; white-space: nowrap; }
+  .section-title .btn-more::before { display: none !important; }
+  .section-title .btn-more::after { content: "›" !important; position: static !important; display: inline !important; width: auto !important; height: auto !important; margin-left: 3px; background: none !important; transform: none !important; }
+  /* 입고 예정: 안내 위, 카드는 가로로 밀기 */
+  .hcoming { flex-direction: column; gap: 14px; }
+  .hcoming-t { width: auto; padding: 20px 18px; }
+  .hcoming-t h2 { margin-top: 10px; font-size: 20px; }
+  .hcoming-t p { margin-top: 6px; font-size: 13px; }
+  .hcoming-t a { padding-top: 12px; font-size: 13px; }
+  .plist.hcoming-list { display: flex !important; overflow-x: auto; gap: 10px !important; scrollbar-width: none; margin: 0 calc(var(--mg) * -1); padding: 0 var(--mg); }
+  .plist.hcoming-list > li { flex: 0 0 44% !important; width: 44% !important; }
+  .hnew-empty { padding: 36px 16px; font-size: 14px; }
+}

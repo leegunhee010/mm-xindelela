@@ -16,8 +16,9 @@ class Home extends BaseController
             'fullWidth'  => true,
             'banners'    => (new BannerModel())->where('is_active', 1)->orderBy('sort')->findAll(),
             'categories' => (new CategoryModel())->where('is_active', 1)->orderBy('sort')->findAll(),
-            'newest'     => $pm->where('status', 'active')->orderBy('id', 'DESC')->findAll(10),
-            'coming'     => $pm->where('status', 'coming')->orderBy('id', 'DESC')->findAll(5),
+            // 신상품 카테고리 칩은 화면 안에서 걸러 보여 주므로 넉넉히 가져온다(카테고리별 최대 10개 표시)
+            'newest'     => $pm->where('status', 'active')->orderBy('id', 'DESC')->findAll(40),
+            'coming'     => $pm->where('status', 'coming')->orderBy('id', 'DESC')->findAll(4),
             'best'       => $pm->where('status', 'active')->where('is_best', 1)->orderBy('order_count', 'DESC')->orderBy('views', 'DESC')->findAll(5),
             'notices'    => (new NoticeModel())->orderBy('is_pinned', 'DESC')->orderBy('id', 'DESC')->findAll(5),
         ]);

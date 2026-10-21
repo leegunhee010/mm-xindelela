@@ -31,8 +31,8 @@ foreach (['4d3a10b18ca278ac', '6aa6463b93b71a20', '382ef9402adc32b5', '02a257d78
 <?php endforeach ?>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.1.14/swiper-bundle.min.css">
 <link rel="stylesheet" href="<?= base_url('assets/css/is-fill.css?v=11') ?>">
-<link rel="stylesheet" href="<?= base_url('assets/css/mm.css?v=31') ?>">
-<link rel="stylesheet" href="<?= base_url('assets/css/mm-mobile.css?v=10') ?>">
+<link rel="stylesheet" href="<?= base_url('assets/css/mm.css?v=32') ?>">
+<link rel="stylesheet" href="<?= base_url('assets/css/mm-mobile.css?v=11') ?>">
 </head>
 <body>
 <?php

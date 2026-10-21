@@ -27,7 +27,7 @@
       <div class="flex flex-1 items-center justify-between rounded-[16px] bg-primary px-[26px] py-[22px] text-white"><div class="text-body3 opacity-90">보유 포인트<b class="mt-[2px] block text-[20px]"><?= number_format((int) $user['points_balance']) ?> P</b></div><a class="rounded-[99px] bg-white px-[16px] py-[8px] text-body3 font-bold text-primary" href="<?= site_url('mypage/referral') ?>">친구 소개하기</a></div>
     <?php else: ?>
       <div class="flex flex-1 items-center justify-between rounded-[16px] border border-gray6 px-[26px] py-[22px]"><div class="text-body3 text-gray3">도매가 열람·주문은<b class="mt-[2px] block text-[20px] text-black">비즈니스 인증 회원만</b></div><span class="text-label1 text-gray3"><?= esc(mm_setting('verify_sla_text')) ?></span></div>
-      <div class="flex flex-1 items-center justify-between rounded-[16px] bg-primary px-[26px] py-[22px] text-white"><div class="text-body3 opacity-90">신규가입<b class="mt-[2px] block text-[20px]">비즈니스 인증하기</b></div><a class="rounded-[99px] bg-white px-[16px] py-[8px] text-body3 font-bold text-primary" href="<?= site_url('register') ?>">회원가입</a></div>
+      <div class="flex flex-1 items-center justify-between rounded-[16px] bg-primary px-[26px] py-[22px] text-white"><div class="text-body3 opacity-90">신규가입<?php if (($hb = (int) mm_setting('points_signup_bonus', 0)) > 0): ?> · 인증되면 <?= number_format($hb) ?>P<?php endif ?><b class="mt-[2px] block text-[20px]">비즈니스 인증하기</b></div><a class="rounded-[99px] bg-white px-[16px] py-[8px] text-body3 font-bold text-primary" href="<?= site_url('register') ?>">회원가입</a></div>
     <?php endif ?>
     <div class="flex flex-1 items-center justify-between rounded-[16px] border border-gray6 px-[26px] py-[22px]"><div class="text-body3 text-gray3">고객센터 (Viber)<b class="mt-[2px] block text-[20px] text-black"><?= esc(mm_setting('cs_viber', '')) ?></b></div><span class="text-label1 text-gray3">평일 09:00~18:00</span></div>
   </div>
@@ -38,22 +38,44 @@
   <div class="section-title pc:heading2 mb-2.5 title1 font-bold pc:mb-[40px]"><div class="flex items-center justify-between"><h2 class="title1 mo:head-line1 font-bold">인증 회원에게만 열리는 <br>도매가, 이번 주 신상품</h2>
     <div class="btn-area shrink-0 flex"><a href="<?= site_url('products?sort=new') ?>" class="btn-more mr-[44px] px-[20px] py-[10px] body3 font-bold text-white bg-primary rounded-[99px] relative after:block after:absolute after:inset-y-0 after:right-[-5px] after:m-auto after:translate-y-[1px] after:bg-[url('/_ext/cdn.i-screammall.co.kr/files/x2bee-fo-cdn/public/images/common/btn_Subtract.svg')] after:w-[6px] after:h-[12px] after:bg-no-repeat before:block before:size-[40px] before:bg-primary before:absolute before:inset-y-0 before:right-[-44px] before:rounded-[50%] before:bg-[url('/_ext/cdn.i-screammall.co.kr/files/x2bee-fo-cdn/public/images/common/ico_white_arrow.svg')] before:bg-[length:10px_12px] before:bg-center before:bg-no-repeat">신상품 더보기</a></div>
   </div></div>
-  <div class="tab type04 mb-6"><div class="flex flex-wrap gap-[8px]">
-    <a href="<?= site_url('products') ?>" class="body3 rounded-[21px] border border-[#d5d5d5] px-3 py-[7px] text-gray3" data-state="active"><span>전체</span></a>
-    <?php foreach ($categories as $c): ?><a href="<?= site_url('category/' . $c['id']) ?>" class="body3 rounded-[21px] border border-[#d5d5d5] px-3 py-[7px] text-gray3" data-state="inactive"><span><?= esc($c['name']) ?></span></a><?php endforeach ?>
+  <div class="tab type04 mb-6"><div class="flex flex-wrap gap-[8px]" id="newChips">
+    <a href="<?= site_url('products?sort=new') ?>" class="body3 rounded-[21px] border border-[#d5d5d5] px-3 py-[7px] text-gray3" data-state="active" data-cat="0"><span>전체</span></a>
+    <?php foreach ($categories as $c): ?><a href="<?= site_url('category/' . $c['id']) ?>" class="body3 rounded-[21px] border border-[#d5d5d5] px-3 py-[7px] text-gray3" data-state="inactive" data-cat="<?= $c['id'] ?>"><span><?= esc($c['name']) ?></span></a><?php endforeach ?>
   </div></div>
-  <ul class="plist flex flex-wrap gap-x-[27px] gap-y-9">
+  <ul class="plist flex flex-wrap gap-x-[27px] gap-y-9" id="newList">
     <?php foreach ($newest as $p): $sup = $sups[$p['supplier_id']] ??= $sm->find($p['supplier_id']); echo view('_card', ['p' => $p, 'approved' => $approved, 'sup' => $sup, 'w' => 'w-[234px]']); endforeach ?>
   </ul>
+  <p class="hnew-empty" id="newEmpty" hidden>이 카테고리의 신상품이 아직 없습니다. <a href="<?= site_url('products') ?>">전체 상품 보기 ›</a></p>
+  <script>
+  (function () {
+    // 신상품 칩: 페이지 이동 없이 카테고리별로 10개씩 걸러 보기
+    var chips = document.querySelectorAll('#newChips [data-cat]'), items = document.querySelectorAll('#newList > li'), empty = document.getElementById('newEmpty');
+    function show(cat) {
+      var n = 0;
+      items.forEach(function (li) { var ok = (cat === '0' || li.dataset.cat === cat) && n < 10; li.hidden = !ok; if (ok) n++; });
+      empty.hidden = n > 0;
+      chips.forEach(function (c) { c.dataset.state = c.dataset.cat === cat ? 'active' : 'inactive'; });
+    }
+    chips.forEach(function (c) { c.addEventListener('click', function (e) { e.preventDefault(); show(c.dataset.cat); }); });
+    show('0');
+  })();
+  </script>
 </section>
 
 <?php if ($coming): ?>
-<!-- 입고 예정 · 줄서기 -->
+<!-- 입고 예정 · 줄서기: 왼쪽 안내 + 오른쪽 카드(1~4개여도 비어 보이지 않게) -->
 <section class="corner-section last-of-type:mb-0 pc:mx-auto pc:w-large pc:mb-[80px]">
-  <div class="section-title pc:heading2 mb-2.5 title1 font-bold pc:mb-[40px]"><div class="flex items-center justify-between"><h2 class="title1 mo:head-line1 font-bold"><?= esc(mm_q('badge')) ?> 상품, <br>줄 서면 입고 때 바로 알려 드립니다</h2><a href="<?= site_url('products?only=coming') ?>" class="h-auto my-auto body2 btn-arrow-right after-bg-gray5 text-gray3"><?= esc(mm_q('badge')) ?> 전체보기</a></div></div>
-  <ul class="plist flex flex-wrap gap-x-[27px] gap-y-9">
-    <?php foreach ($coming as $p): $sup = $sups[$p['supplier_id']] ??= $sm->find($p['supplier_id']); echo view('_card', ['p' => $p, 'approved' => $approved, 'sup' => $sup, 'w' => 'w-[234px]']); endforeach ?>
-  </ul>
+  <div class="hcoming">
+    <div class="hcoming-t">
+      <span class="hcoming-tag"><?= esc(mm_q('badge')) ?></span>
+      <h2>곧 들어오는 상품</h2>
+      <p><?= esc(mm_q('name')) ?>를 해 두면 입고될 때 바로 알려 드립니다. 주문이나 결제가 아닙니다.</p>
+      <a href="<?= site_url('products?only=coming') ?>"><?= esc(mm_q('badge')) ?> 전체보기 ›</a>
+    </div>
+    <ul class="plist hcoming-list flex gap-x-[27px]">
+      <?php foreach ($coming as $p): $sup = $sups[$p['supplier_id']] ??= $sm->find($p['supplier_id']); echo view('_card', ['p' => $p, 'approved' => $approved, 'sup' => $sup, 'w' => 'w-[234px]']); endforeach ?>
+    </ul>
+  </div>
 </section>
 <?php endif ?>
 

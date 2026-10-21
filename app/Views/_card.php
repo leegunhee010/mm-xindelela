@@ -1,7 +1,7 @@
 <?php /** 상품 카드 — 아이스크림몰 목록 카드 마크업 그대로. $p, $approved, $sup(optional), $w(폭 클래스, 기본 235) */
 $w = $w ?? 'w-[235px]'; $isNew = isset($p['created_at']) && strtotime($p['created_at']) > strtotime('-14 days');
 $coming = ($p['status'] ?? '') === 'coming'; $qN = $coming ? (mm_queue_counts()[(int) $p['id']] ?? 0) : 0; ?>
-<li class="relative flex flex-wrap flex-none <?= $w ?>" style="width:<?= (int) preg_replace('/\D/', '', $w) ?>px">
+<li class="relative flex flex-wrap flex-none <?= $w ?>" style="width:<?= (int) preg_replace('/\D/', '', $w) ?>px" data-cat="<?= (int) ($p['category_id'] ?? 0) ?>">
 <a class="block w-full cursor-pointer" href="<?= site_url('products/' . $p['id']) ?>">
   <div class="relative w-full"><div class="relative">
     <div class="relative w-full overflow-hidden aspect-square mb-[10px] flex justify-center items-center pc:rounded-[12px] bg-gray9">
@@ -9,8 +9,11 @@ $coming = ($p['status'] ?? '') === 'coming'; $qN = $coming ? (mm_queue_counts()[
       <?php if ($coming): ?><div class="q-dim"><span><?= esc(mm_q('badge')) ?></span></div><?php endif ?>
     </div>
     <div class="absolute left-[12px] top-[12px] flex flex-wrap gap-[4px] pr-[20px]">
-      <?php if ($coming): ?><?php elseif ($p['is_best']): ?><span class="inline-flex h-[26px] items-center rounded-[99px] bg-primary px-[10px] text-[12px] font-bold text-white">BEST</span><?php elseif ($isNew): ?><span class="inline-flex h-[26px] items-center rounded-[99px] bg-[#22c55e] px-[10px] text-[12px] font-bold text-white">NEW</span><?php endif ?>
-      <?php if (in_array((int) $p['id'], mm_repeat_ids(), true)): ?><span class="inline-flex h-[26px] items-center rounded-[99px] bg-black/75 px-[10px] text-[12px] font-bold text-white">재구매 많음</span><?php endif ?>
+      <?php /* 배지는 하나만: BEST > 재구매 많음 > NEW (입고 예정은 썸네일 흐림으로 표시) */ ?>
+      <?php if ($coming): ?>
+      <?php elseif ($p['is_best']): ?><span class="inline-flex h-[26px] items-center rounded-[99px] bg-primary px-[10px] text-[12px] font-bold text-white">BEST</span>
+      <?php elseif (in_array((int) $p['id'], mm_repeat_ids(), true)): ?><span class="inline-flex h-[26px] items-center rounded-[99px] bg-black/75 px-[10px] text-[12px] font-bold text-white">재구매 많음</span>
+      <?php elseif ($isNew): ?><span class="inline-flex h-[26px] items-center rounded-[99px] bg-[#22c55e] px-[10px] text-[12px] font-bold text-white">NEW</span><?php endif ?>
     </div>
     <div style="z-index:2" class="absolute right-[12px] top-[12px] flex size-[48px] items-center justify-center rounded-full bg-primary/90 text-center text-[11px] font-bold leading-[1.1] text-white">최소<br><?= number_format((int) $p['moq']) ?><?= esc($p['unit']) ?></div>
   </div>
