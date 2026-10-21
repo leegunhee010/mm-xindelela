@@ -1,0 +1,155 @@
+/* 가입 랜딩 /welcome. 아이스크림몰 토큰(오렌지 #ff6200, r20, Pretendard) 그대로. */
+.lp { color: #111; letter-spacing: -0.02em; }
+.lp-in { width: 1280px; max-width: 100%; margin: 0 auto; }
+.lp-narrow { width: 860px; }
+.lp-sec { padding: 100px 0; }
+.lp-gray { background: #f7f7f7; }
+.lp-h2 { font-size: 34px; font-weight: 700; line-height: 1.35; margin-bottom: 44px; }
+.lp-sub { margin: -28px 0 40px; font-size: 17px; color: #555; }
+.lp-sub b { color: var(--pri); }
+
+.lp-btn { display: inline-flex; align-items: center; justify-content: center; height: 56px; padding: 0 36px; border-radius: 99px; background: var(--pri); color: #fff; font-size: 17px; font-weight: 700; }
+.lp-btn:hover { background: var(--pri-d); }
+.lp-btn-line { background: #fff; color: #111; border: 1px solid #d5d5d5; }
+.lp-btn-line:hover { background: #f7f7f7; }
+.lp-btn-white { background: #fff; color: var(--pri); }
+.lp-btn-white:hover { background: #fff3eb; }
+
+/* 1. 히어로 */
+.lp-hero { padding: 90px 0 100px; background: linear-gradient(180deg, #fff3eb 0%, #fff 100%); }
+.lp-hero-in { display: flex; align-items: center; justify-content: space-between; gap: 60px; }
+.lp-hero-txt { max-width: 640px; }
+.lp-eyebrow { display: inline-block; margin-bottom: 20px; padding: 6px 14px; border-radius: 99px; background: #fff; color: var(--pri); font-size: 14px; font-weight: 700; border: 1px solid #ffd2b3; }
+.lp-hero h1 { font-size: 52px; font-weight: 800; line-height: 1.25; letter-spacing: -0.04em; }
+.lp-hero h1 em { font-style: normal; color: var(--pri); }
+.lp-lead { margin-top: 22px; font-size: 18px; line-height: 1.7; color: #444; }
+.lp-hero-cta { display: flex; gap: 10px; margin-top: 36px; }
+.lp-refnote { margin-top: 14px; font-size: 14px; color: #666; }
+.lp-refnote b { color: var(--pri); }
+
+.lp-coupon { position: relative; flex: 0 0 420px; padding: 44px 40px; border-radius: 24px; background: var(--pri); color: #fff; box-shadow: 0 24px 48px -20px rgba(255, 98, 0, .55); }
+.lp-coupon::before, .lp-coupon::after { content: ""; position: absolute; top: 50%; width: 32px; height: 32px; margin-top: -16px; border-radius: 50%; background: #fff7f1; }
+.lp-coupon::before { left: -16px; }
+.lp-coupon::after { right: -16px; }
+.lp-coupon-k { font-size: 18px; font-weight: 700; opacity: .9; }
+.lp-coupon-v { margin: 6px 0 18px; font-size: 76px; font-weight: 800; line-height: 1; letter-spacing: -0.04em; }
+.lp-coupon-v small { margin-left: 4px; font-size: 36px; }
+.lp-coupon-d { padding-top: 18px; border-top: 1px dashed rgba(255, 255, 255, .5); font-size: 15px; line-height: 1.7; opacity: .95; }
+
+/* 2. 소개 */
+.lp-facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.lp-fact { padding: 32px 28px; border: 1px solid #e5e5e5; border-radius: 20px; }
+.lp-fact b { display: block; margin-bottom: 10px; font-size: 20px; font-weight: 700; line-height: 1.4; }
+.lp-fact p { font-size: 15px; line-height: 1.7; color: #555; }
+
+/* 3. 가입 대상 */
+.lp-types { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.lp-type { padding: 36px 32px; border-radius: 20px; background: #fff; }
+.lp-type > b { display: block; margin: 18px 0 6px; font-size: 22px; font-weight: 700; }
+.lp-type-d { font-size: 15px; color: #555; }
+.lp-type ul { margin-top: 20px; padding-top: 18px; border-top: 1px solid #eee; }
+.lp-type li { position: relative; padding-left: 16px; font-size: 14px; line-height: 2; color: #333; }
+.lp-type li::before { content: ""; position: absolute; left: 0; top: 12px; width: 6px; height: 6px; border-radius: 50%; background: var(--pri); }
+.lp-type-ic { display: block; width: 56px; height: 56px; border-radius: 16px; background: #fff3eb center/30px no-repeat; }
+.lp-ic-offline { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ff6200' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 9l1.5-5h15L21 9'/%3E%3Cpath d='M3 9h18v2a3 3 0 0 1-6 0 3 3 0 0 1-6 0 3 3 0 0 1-6 0z'/%3E%3Cpath d='M5 13v7h14v-7M10 20v-4h4v4'/%3E%3C/svg%3E"); }
+.lp-ic-online { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ff6200' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='6' y='2' width='12' height='20' rx='2.5'/%3E%3Cpath d='M10 18h4M9 8h6M9 11h4'/%3E%3C/svg%3E"); }
+.lp-ic-network { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ff6200' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='5' r='2.5'/%3E%3Ccircle cx='5' cy='18' r='2.5'/%3E%3Ccircle cx='19' cy='18' r='2.5'/%3E%3Cpath d='M10.8 7.2 6.3 15.8M13.2 7.2l4.5 8.6M7.5 18h9'/%3E%3C/svg%3E"); }
+
+/* 4. 절차 */
+.lp-steps { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; counter-reset: none; }
+.lp-steps li { position: relative; padding: 30px 24px; border-radius: 20px; background: #f7f7f7; }
+.lp-steps span { display: inline-flex; width: 32px; height: 32px; align-items: center; justify-content: center; border-radius: 50%; background: var(--pri); color: #fff; font-size: 14px; font-weight: 700; }
+.lp-steps b { display: block; margin: 16px 0 8px; font-size: 18px; font-weight: 700; }
+.lp-steps p { font-size: 14px; line-height: 1.7; color: #555; }
+
+/* 5. 상품 */
+.lp-h2row { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 44px; }
+.lp-h2row .lp-h2 { margin-bottom: 0; }
+.lp-more { font-size: 15px; font-weight: 700; color: #555; }
+.lp-more::after { content: " →"; }
+
+/* 6. 친구 소개 */
+.lp-refbox { padding: 56px 60px; border-radius: 24px; background: #111; color: #fff; }
+.lp-refbox h2 { font-size: 30px; font-weight: 700; line-height: 1.4; }
+.lp-refrow { display: flex; gap: 16px; margin: 32px 0 20px; }
+.lp-refrow div { flex: 1; padding: 24px 28px; border-radius: 16px; background: rgba(255, 255, 255, .08); }
+.lp-refrow small { display: block; font-size: 15px; opacity: .8; }
+.lp-refrow b { display: block; margin-top: 6px; font-size: 34px; font-weight: 800; color: #ff8a3d; }
+.lp-refbox > p { font-size: 15px; opacity: .75; }
+
+/* 7. FAQ */
+.lp-faq { border-top: 2px solid #111; }
+.lp-faq details { border-bottom: 1px solid #e5e5e5; }
+.lp-faq summary { position: relative; padding: 24px 48px 24px 36px; font-size: 18px; font-weight: 700; cursor: pointer; list-style: none; }
+.lp-faq summary::-webkit-details-marker { display: none; }
+.lp-faq summary::before { content: "Q"; position: absolute; left: 4px; color: var(--pri); }
+.lp-faq summary::after { content: "+"; position: absolute; right: 8px; font-size: 24px; font-weight: 400; line-height: 1; color: #999; }
+.lp-faq details[open] summary::after { content: "−"; }
+.lp-faq details p { margin: -6px 0 0; padding: 0 24px 26px 36px; font-size: 16px; line-height: 1.8; color: #444; }
+.lp-cs { margin-top: 28px; font-size: 15px; color: #666; }
+
+/* 8. 마무리 */
+.lp-end { padding: 90px 0; background: var(--pri); color: #fff; text-align: center; }
+.lp-end-k { font-size: 20px; opacity: .9; }
+.lp-end-v { margin: 6px 0 32px; font-size: 48px; font-weight: 800; letter-spacing: -0.04em; }
+
+.lp-sticky { display: none; }
+
+@media (max-width: 1024px) {
+  .lp-in { padding: 0 var(--mg, 16px); }
+  .lp-sec { padding: 60px 0; }
+  .lp-h2 { font-size: 24px; margin-bottom: 26px; }
+  .lp-sub { margin: -14px 0 24px; font-size: 15px; }
+  .lp-btn { height: 52px; padding: 0 24px; font-size: 16px; }
+
+  .lp-hero { padding: 36px 0 48px; }
+  .lp-hero-in { flex-direction: column; align-items: stretch; gap: 32px; }
+  .lp-eyebrow { margin-bottom: 14px; font-size: 13px; }
+  .lp-hero h1 { font-size: 32px; }
+  .lp-lead { margin-top: 14px; font-size: 15px; }
+  .lp-hero-cta { margin-top: 24px; }
+  .lp-hero-cta .lp-btn { flex: 1; }
+  .lp-coupon { flex: none; padding: 30px 28px; }
+  .lp-coupon-k { font-size: 16px; }
+  .lp-coupon-v { font-size: 56px; margin-bottom: 14px; }
+  .lp-coupon-v small { font-size: 28px; }
+  .lp-coupon-d { padding-top: 14px; font-size: 14px; }
+
+  .lp-facts { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .lp-fact { padding: 22px 18px; border-radius: 16px; }
+  .lp-fact b { font-size: 16px; }
+  .lp-fact p { font-size: 13px; }
+
+  .lp-types { grid-template-columns: 1fr; gap: 10px; }
+  .lp-type { padding: 24px 22px; border-radius: 16px; }
+  .lp-type > b { font-size: 19px; margin-top: 14px; }
+  .lp-type-ic { width: 48px; height: 48px; border-radius: 14px; background-size: 26px; }
+
+  .lp-steps { grid-template-columns: 1fr; gap: 8px; }
+  .lp-steps li { display: grid; grid-template-columns: 32px 1fr; column-gap: 14px; padding: 20px 18px; border-radius: 16px; }
+  .lp-steps span { grid-row: span 2; }
+  .lp-steps b { margin: 4px 0 4px; font-size: 16px; }
+
+  .lp-h2row { margin-bottom: 26px; }
+  .lp-more { font-size: 14px; white-space: nowrap; }
+
+  .lp-refbox { padding: 32px 22px; border-radius: 20px; }
+  .lp-refbox h2 { font-size: 22px; }
+  .lp-refrow { flex-direction: column; gap: 10px; margin: 22px 0 16px; }
+  .lp-refrow div { padding: 18px 20px; }
+  .lp-refrow b { font-size: 28px; }
+  .lp-refbox > p { font-size: 14px; }
+
+  .lp-faq summary { padding: 18px 40px 18px 28px; font-size: 16px; }
+  .lp-faq details p { padding: 0 8px 20px 28px; font-size: 14px; }
+  .lp-cs { font-size: 14px; }
+
+  .lp-end { padding: 56px 0 64px; }
+  .lp-end-k { font-size: 16px; }
+  .lp-end-v { font-size: 32px; margin-bottom: 24px; }
+
+  /* 하단 탭바 위에 고정 가입 버튼 */
+  .lp-sticky { display: block; position: fixed; left: 0; right: 0; bottom: calc(64px + env(safe-area-inset-bottom)); z-index: 700; padding: 10px var(--mg, 16px); background: rgba(255, 255, 255, .96); border-top: 1px solid #eee; }
+  .lp-sticky .lp-btn { width: 100%; }
+  .lp-end { padding-bottom: 96px; }
+}

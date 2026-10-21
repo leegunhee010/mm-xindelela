@@ -20,7 +20,7 @@ class DemoSeeder extends Seeder
             'site_name'                   => 'XINDELELA 미얀마 도매몰',
             'currency_symbol'             => 'Ks',
             'currency_position'           => 'after',
-            'points_signup_bonus'         => '0',
+            'points_signup_bonus'         => '4000',
             'points_referral_signup'      => '5000',
             'points_referral_first_order' => '10000',
             'points_reward_rate'          => '0',

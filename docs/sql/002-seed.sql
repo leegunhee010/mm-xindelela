@@ -7,7 +7,7 @@
 INSERT INTO `settings` (`skey`,`svalue`,`updated_at`) SELECT 'site_name','XINDELELA 미얀마 도매몰',NOW() FROM DUAL WHERE NOT EXISTS (SELECT 1 FROM `settings` WHERE `skey`='site_name');
 INSERT INTO `settings` (`skey`,`svalue`,`updated_at`) SELECT 'currency_symbol','Ks',NOW() FROM DUAL WHERE NOT EXISTS (SELECT 1 FROM `settings` WHERE `skey`='currency_symbol');
 INSERT INTO `settings` (`skey`,`svalue`,`updated_at`) SELECT 'currency_position','after',NOW() FROM DUAL WHERE NOT EXISTS (SELECT 1 FROM `settings` WHERE `skey`='currency_position');
-INSERT INTO `settings` (`skey`,`svalue`,`updated_at`) SELECT 'points_signup_bonus','0',NOW() FROM DUAL WHERE NOT EXISTS (SELECT 1 FROM `settings` WHERE `skey`='points_signup_bonus');
+INSERT INTO `settings` (`skey`,`svalue`,`updated_at`) SELECT 'points_signup_bonus','4000',NOW() FROM DUAL WHERE NOT EXISTS (SELECT 1 FROM `settings` WHERE `skey`='points_signup_bonus');
 INSERT INTO `settings` (`skey`,`svalue`,`updated_at`) SELECT 'points_referral_signup','5000',NOW() FROM DUAL WHERE NOT EXISTS (SELECT 1 FROM `settings` WHERE `skey`='points_referral_signup');
 INSERT INTO `settings` (`skey`,`svalue`,`updated_at`) SELECT 'points_referral_first_order','10000',NOW() FROM DUAL WHERE NOT EXISTS (SELECT 1 FROM `settings` WHERE `skey`='points_referral_first_order');
 INSERT INTO `settings` (`skey`,`svalue`,`updated_at`) SELECT 'points_reward_rate','0',NOW() FROM DUAL WHERE NOT EXISTS (SELECT 1 FROM `settings` WHERE `skey`='points_reward_rate');

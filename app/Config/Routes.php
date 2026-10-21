@@ -22,6 +22,7 @@ $routes->get('notices', 'Notices::index');
 $routes->get('notices/(:num)', 'Notices::show/$1');
 $routes->get('guide', 'Home::guide');
 $routes->get('deploy-check', 'DeployCheck::index');
+$routes->get('welcome', 'Home::welcome'); // 광고·영업용 가입 랜딩
 
 // ─── 인증(구매자) ───
 $routes->get('login', 'Auth::login');

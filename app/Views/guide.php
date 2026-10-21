@@ -33,6 +33,7 @@
   <h2>4. 포인트</h2>
   <ul>
     <li>내 추천 코드로 가입한 회원이 인증을 통과하면 <b><?= number_format((int) mm_setting('points_referral_signup', 0)) ?>P</b>, 그 회원이 첫 주문 입금을 완료하면 <b><?= number_format((int) mm_setting('points_referral_first_order', 0)) ?>P</b>가 적립됩니다.</li>
+    <?php if (($bonus = (int) mm_setting('points_signup_bonus', 0)) > 0): ?><li>비즈니스 인증이 승인되면 가입 축하 포인트 <b><?= number_format($bonus) ?>P</b>가 적립됩니다.</li><?php endif ?>
     <li>포인트는 주문 신청 시 상품 금액의 <?= (int) mm_setting('points_use_max_pct', 30) ?>%까지 차감 사용할 수 있습니다. (1P = 1 <?= esc(mm_setting('currency_symbol', 'Ks')) ?>)</li>
     <li>주문을 취소하면 사용한 포인트는 자동으로 환원됩니다.</li>
   </ul>

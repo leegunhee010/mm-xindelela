@@ -27,6 +27,26 @@ class Home extends BaseController
         return $this->render('guide', ['title' => '이용 안내']);
     }
 
+    /** 가입 랜딩. ?ref=추천코드 는 가입 버튼까지 넘긴다. */
+    public function welcome(): string
+    {
+        $pm  = new ProductModel();
+        $ref = preg_replace('/[^A-Za-z0-9]/', '', (string) $this->request->getGet('ref'));
+        $off = (new ProductModel())->select('MIN(1 - price * 1.0 / retail_price) AS lo, MAX(1 - price * 1.0 / retail_price) AS hi')
+            ->where('status', 'active')->where('retail_price >', 0)->first();
+        return $this->render('welcome', [
+            'title'      => '회원가입 안내',
+            'fullWidth'  => true,
+            'ref'        => $ref,
+            'joinUrl'    => site_url('register' . ($ref !== '' ? '?ref=' . $ref : '')),
+            'bonus'      => (int) mm_setting('points_signup_bonus', 0),
+            'offLo'      => (int) round(((float) ($off['lo'] ?? 0)) * 100),
+            'offHi'      => (int) round(((float) ($off['hi'] ?? 0)) * 100),
+            'categories' => (new CategoryModel())->where('is_active', 1)->orderBy('sort')->findAll(),
+            'products'   => $pm->where('status', 'active')->orderBy('is_best', 'DESC')->orderBy('order_count', 'DESC')->orderBy('id', 'DESC')->findAll(5),
+        ]);
+    }
+
     /** 상태 확인(키 값은 노출하지 않음) */
     public function health()
     {

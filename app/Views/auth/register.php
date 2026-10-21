@@ -7,6 +7,7 @@ $inp = 'h-[44px] w-full px-3 bg-white body3 text-black placeholder:text-gray4 fo
   <div class="mb-[40px]">
     <div class="contents-title-area depth-1 title3 mb-[28px] font-bold"><div class="title-area"><h3 class="title"><span class="text-primary">회원가입</span>과 <br>비즈니스 인증을 신청해 주세요.</h3></div></div>
     <p class="body3 text-gray4">가입 즉시 상품을 볼 수 있고, 담당자가 제출 자료를 확인한 뒤 <?= esc(mm_setting('verify_sla_text')) ?> 승인되면 도매가와 주문 신청이 열립니다.</p>
+    <?php if (($bonus = (int) mm_setting('points_signup_bonus', 0)) > 0): ?><p class="mt-[14px] rounded-[12px] bg-[#fff3eb] px-[16px] py-[12px] body3 text-black">인증이 승인되면 <b class="text-primary">가입 축하 <?= number_format($bonus) ?>P</b>가 적립됩니다. (1P = 1 <?= esc(mm_setting('currency_symbol', 'Ks')) ?>)</p><?php endif ?>
   </div>
 
   <div class="mb-[40px]">
