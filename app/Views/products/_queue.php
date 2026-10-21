@@ -8,6 +8,13 @@ $moq  = (int) $p['moq'];
   <div class="qbox-h">
     <span class="q-badge"><?= esc(mm_q('badge')) ?></span>
     <b class="qbox-n"><?= $qN ? esc(mm_q('count', number_format($qN))) : esc(mm_q('count_zero')) ?></b>
+    <details class="qhelp">
+      <summary><?= esc(mm_q('help_title')) ?> <i aria-hidden="true">?</i></summary>
+      <div class="qhelp-pop">
+        <b><?= esc(mm_q('help_title')) ?></b>
+        <ul><li><?= esc(mm_q('help_1')) ?></li><li><?= esc(mm_q('help_2')) ?></li><li><?= esc(mm_q('help_3')) ?></li></ul>
+      </div>
+    </details>
   </div>
 
   <?php if ($mine): ?>
@@ -24,7 +31,7 @@ $moq  = (int) $p['moq'];
   <?php elseif ($approved): ?>
     <form method="post" action="<?= site_url('products/' . $p['id'] . '/queue') ?>" id="qJoin"><?= csrf_field() ?>
       <label class="qbox-qty"><span><?= esc(mm_q('qty_label')) ?></span><input type="number" name="qty" min="<?= $moq ?>" step="1" value="<?= $moq ?>" inputmode="numeric"><em><?= $unit ?> (최소 <?= number_format($moq) ?><?= $unit ?>)</em></label>
-      <label class="qbox-agree"><input type="checkbox" name="agree" value="1" required><span><?= esc(mm_q('agree')) ?></span></label>
+      <label class="qbox-agree"><input type="checkbox" name="agree" value="1" required><span><?= esc(mm_q('agree_short')) ?></span></label>
       <button type="submit" class="qbox-btn"><?= esc(mm_q('btn')) ?></button>
     </form>
 
@@ -37,6 +44,5 @@ $moq  = (int) $p['moq'];
         <a class="qbox-btn" href="<?= site_url('register') ?>">회원가입하고 인증하기</a><a class="qbox-btn is-line" href="<?= site_url('login') ?>">로그인</a>
       <?php endif ?>
     </div>
-    <p class="qbox-note"><?= esc(mm_q('agree')) ?></p>
   <?php endif ?>
 </div>

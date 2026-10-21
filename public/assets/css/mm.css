@@ -609,3 +609,17 @@ main{min-height:600px;padding-bottom:80px}
 .nlist-ic{flex:none;width:36px;height:36px;border-radius:50%;background:#f3f3f3 center/20px no-repeat}
 .nlist-queue_arrived{background-color:#e6f6d6;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232f6300' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 7h11v9H3zM14 10h4l3 3v3h-7'/%3E%3Ccircle cx='7' cy='18' r='2'/%3E%3Ccircle cx='17' cy='18' r='2'/%3E%3C/svg%3E")}
 .nlist-queue_failed{background-color:#fdecec;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23c0392b' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='12' cy='12' r='8'/%3E%3Cpath d='M12 8v5M12 16v.5'/%3E%3C/svg%3E")}
+
+/* 줄서기란? 도움말 */
+.qhelp{position:relative;margin-left:auto}
+.qhelp summary{display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:700;color:#666;cursor:pointer;list-style:none;white-space:nowrap}
+.qhelp summary::-webkit-details-marker{display:none}
+.qhelp summary i{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;background:#1f2a44;color:#fff;font-size:11px;font-style:normal}
+.qhelp[open] summary{color:#1f2a44}
+.qhelp-pop{position:absolute;right:-6px;top:calc(100% + 10px);z-index:50;width:300px;padding:16px 18px;border-radius:12px;background:#1f2a44;color:#fff;box-shadow:0 12px 28px -10px rgba(0,0,0,.4)}
+.qhelp-pop::before{content:"";position:absolute;right:14px;top:-6px;width:12px;height:12px;background:#1f2a44;transform:rotate(45deg)}
+.qhelp-pop b{display:block;margin-bottom:8px;font-size:14px}
+.qhelp-pop li{position:relative;padding-left:12px;font-size:13px;line-height:1.6;opacity:.92}
+.qhelp-pop li+li{margin-top:6px}
+.qhelp-pop li::before{content:"";position:absolute;left:0;top:9px;width:4px;height:4px;border-radius:50%;background:#ff8a3d}
+.qbox-agree{align-items:center;font-weight:700;color:#333}
