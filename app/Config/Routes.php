@@ -61,10 +61,7 @@ $routes->group('', ['filter' => 'buyerauth'], static function ($routes) {
     $routes->post('mypage/verify', 'MyPage::resubmit');
     $routes->get('mypage/inquiries', 'MyPage::inquiries');
     // 줄서기(입고 예정 상품) + 사이트 안 알림
-    $routes->post('products/(:num)/queue', 'Queue::join/$1');
-    $routes->post('products/(:num)/queue/cancel', 'Queue::cancel/$1');
-    $routes->get('mypage/queue', 'Queue::mine');
-    $routes->get('notifications', 'Queue::notifications');
+    $routes->get('notifications', 'Notifications::index');
 });
 
 // 공급사 로그인·센터 없음(10/17) — 공급사·상품은 관리자가 직접 관리. 옛 주소는 홈으로.
@@ -99,18 +96,12 @@ $routes->group('admin', ['filter' => ['adminauth', 'adminlog'], 'namespace' => '
     $routes->post('upload/image', 'Upload::image');
     $routes->get('products/(:num)', 'Products::show/$1');
     $routes->post('products/(:num)/status', 'Products::status/$1');
-    $routes->get('queues', 'Queues::index');
-    $routes->get('queues/texts', 'Queues::texts');
-    $routes->post('queues/texts', 'Queues::saveTexts');
     $routes->get('landing', 'Landing::index');
     $routes->post('landing/save', 'Landing::save');
     $routes->get('wishes', 'Wishes::index');
     $routes->get('wishes/(:num)', 'Wishes::show/$1');
     $routes->get('notify', 'Notify::index');
     $routes->post('notify/send', 'Notify::send');
-    $routes->get('queues/(:num)', 'Queues::show/$1');
-    $routes->post('queues/(:num)/arrive', 'Queues::arrive/$1');
-    $routes->post('queues/(:num)/fail', 'Queues::fail/$1');
     $routes->post('products/(:num)/best', 'Products::best/$1');
     $routes->get('categories', 'Categories::index');
     $routes->post('categories/save', 'Categories::save');

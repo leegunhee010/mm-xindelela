@@ -7,7 +7,7 @@ $filtered = $f['q'] !== '' || $f['cat'] || $f['sup'] || $f['best'] || $f['stock'
 ?>
 <div class="ptop">
   <div class="tabs" style="margin:0">
-    <?php foreach (['all' => '전체', 'active' => '판매중', 'coming' => '입고 예정', 'hidden' => '숨김', 'draft' => '임시 저장'] as $k => $l): ?><a href="<?= $qs(['status' => $k]) ?>" class="<?= $st === $k ? 'on' : '' ?>"><?= $l ?><span class="n"><?= $counts[$k] ?? 0 ?></span></a><?php endforeach ?>
+    <?php foreach (['all' => '전체', 'active' => '판매중', 'hidden' => '숨김', 'draft' => '임시 저장'] as $k => $l): ?><a href="<?= $qs(['status' => $k]) ?>" class="<?= $st === $k ? 'on' : '' ?>"><?= $l ?><span class="n"><?= $counts[$k] ?? 0 ?></span></a><?php endforeach ?>
   </div>
   <a href="<?= site_url('admin/products/new') ?>" class="btn btn-g ptop-add">+ 상품 등록</a>
 </div>
@@ -31,8 +31,7 @@ $filtered = $f['q'] !== '' || $f['cat'] || $f['sup'] || $f['best'] || $f['stock'
 <td><span class="st st-<?= esc($p['status']) ?>"><?= mm_product_status_label($p['status']) ?></span></td>
 <td class="pact">
   <a class="btn btn-xs btn-g" href="<?= site_url('admin/products/' . $p['id'] . '/edit') ?>">수정</a>
-  <?php if ($p['status'] === 'coming'): ?><a class="btn btn-xs" href="<?= site_url('admin/queues/' . $p['id']) ?>">줄서기 <?= mm_queue_counts()[(int) $p['id']] ?? 0 ?>명</a>
-  <?php else: ?><form method="post" action="<?= site_url('admin/products/' . $p['id'] . '/status') ?>"><?= csrf_field() ?><input type="hidden" name="status" value="<?= $p['status'] === 'active' ? 'hidden' : 'active' ?>"><button class="btn btn-xs" type="submit"><?= $p['status'] === 'active' ? '숨김' : '노출' ?></button></form><?php endif ?>
+  <form method="post" action="<?= site_url('admin/products/' . $p['id'] . '/status') ?>"><?= csrf_field() ?><input type="hidden" name="status" value="<?= $p['status'] === 'active' ? 'hidden' : 'active' ?>"><button class="btn btn-xs" type="submit"><?= $p['status'] === 'active' ? '숨김' : '노출' ?></button></form>
   <form method="post" action="<?= site_url('admin/products/' . $p['id'] . '/delete') ?>" onsubmit="return confirm('<?= esc($p['name'], 'js') ?> 상품을 삭제할까요?')"><?= csrf_field() ?><button class="btn btn-xs btn-red" type="submit">삭제</button></form>
 </td></tr>
 <?php endforeach ?>

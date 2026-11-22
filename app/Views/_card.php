@@ -1,17 +1,14 @@
 <?php /** 상품 카드 — 아이스크림몰 목록 카드 마크업 그대로. $p, $approved, $sup(optional), $w(폭 클래스, 기본 235) */
-$w = $w ?? 'w-[235px]'; $isNew = isset($p['created_at']) && strtotime($p['created_at']) > strtotime('-14 days');
-$coming = ($p['status'] ?? '') === 'coming'; $qN = $coming ? (mm_queue_counts()[(int) $p['id']] ?? 0) : 0; ?>
+$w = $w ?? 'w-[235px]'; $isNew = isset($p['created_at']) && strtotime($p['created_at']) > strtotime('-14 days'); ?>
 <li class="relative flex flex-wrap flex-none <?= $w ?>" style="width:<?= (int) preg_replace('/\D/', '', $w) ?>px" data-cat="<?= (int) ($p['category_id'] ?? 0) ?>">
 <a class="block w-full cursor-pointer" href="<?= site_url('products/' . $p['id']) ?>">
   <div class="relative w-full"><div class="relative">
     <div class="relative w-full overflow-hidden aspect-square mb-[10px] flex justify-center items-center pc:rounded-[12px] bg-gray9">
       <div class="absolute inset-0 origin-center transition-transform duration-300 scale-100 hover:scale-[1.04]"><picture><img alt="<?= esc($p['name']) ?>" class="size-full object-cover w-full" src="<?= mm_thumb($p['thumb']) ?>"></picture></div>
-      <?php if ($coming): ?><div class="q-dim"><span><?= esc(mm_q('badge')) ?></span></div><?php endif ?>
     </div>
     <div class="absolute left-[12px] top-[12px] flex flex-wrap gap-[4px] pr-[20px]">
-      <?php /* 배지는 하나만: BEST > 재구매 많음 > NEW (입고 예정은 썸네일 흐림으로 표시) */ ?>
-      <?php if ($coming): ?>
-      <?php elseif ($p['is_best']): ?><span class="inline-flex h-[26px] items-center rounded-[99px] bg-primary px-[10px] text-[12px] font-bold text-white">BEST</span>
+      <?php /* 배지는 하나만: BEST > 재구매 많음 > NEW */ ?>
+      <?php if ($p['is_best']): ?><span class="inline-flex h-[26px] items-center rounded-[99px] bg-primary px-[10px] text-[12px] font-bold text-white">BEST</span>
       <?php elseif (in_array((int) $p['id'], mm_repeat_ids(), true)): ?><span class="inline-flex h-[26px] items-center rounded-[99px] bg-black/75 px-[10px] text-[12px] font-bold text-white">재구매 많음</span>
       <?php elseif ($isNew): ?><span class="inline-flex h-[26px] items-center rounded-[99px] bg-[#22c55e] px-[10px] text-[12px] font-bold text-white">NEW</span><?php endif ?>
     </div>
@@ -23,17 +20,14 @@ $coming = ($p['status'] ?? '') === 'coming'; $qN = $coming ? (mm_queue_counts()[
       <p class="body2 sub-head2 ellipsis-2 mo:body3 mt-[2px]"><?= esc($p['name']) ?></p>
     </div>
     <div class="mt-1 flex w-full flex-wrap items-center gap-x-1">
-      <?php if ($coming): ?>
-        <span class="head-line1 mo:body2 font-bold text-gray3"><?= esc(mm_q('price_hidden')) ?></span>
-      <?php elseif ($approved): ?>
+      <?php if ($approved): ?>
         <span class="head-line1 mo:body2 font-bold"><?= mm_price($p['price'], false) ?><span class="text-[14px] font-medium ml-[2px]"><?= esc(mm_setting('currency_symbol', 'Ks')) ?></span></span>
         <?php if ($p['retail_price']): ?><span class="body3 text-gray5 line-through"><?= mm_price($p['retail_price'], false) ?></span><?php endif ?>
       <?php else: ?>
         <span class="head-line1 mo:body2 font-bold">회원 혜택가</span>
       <?php endif ?>
     </div>
-    <?php if ($coming): ?><p class="q-count"><?= $qN ? esc(mm_q('count', number_format($qN))) : esc(mm_q('count_zero')) ?></p>
-    <?php elseif (! $approved && $p['retail_price']): ?><p class="mt-[2px] text-[12px] text-gray5">소비자가 <?= mm_price($p['retail_price'], false) ?></p><?php endif ?>
+    <?php if (! $approved && $p['retail_price']): ?><p class="mt-[2px] text-[12px] text-gray5">소비자가 <?= mm_price($p['retail_price'], false) ?></p><?php endif ?>
   </div></div>
 </a>
 <?php $wOn = in_array((int) $p['id'], mm_wish_ids(), true); ?>

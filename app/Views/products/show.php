@@ -1,4 +1,4 @@
-<?php $coming = $p['status'] === 'coming'; $sym = mm_setting('currency_symbol', 'Ks'); usort($tiers, static fn ($a, $b) => $a['min_qty'] <=> $b['min_qty']); $imgs = $images ?: [$p['thumb']]; ?>
+<?php $sym = mm_setting('currency_symbol', 'Ks'); usort($tiers, static fn ($a, $b) => $a['min_qty'] <=> $b['min_qty']); $imgs = $images ?: [$p['thumb']]; ?>
 <nav class="breadcrumb m-auto w-large pb-[40px] pt-[24px]"><ol class="breadcrumb-list flex items-center">
   <li class="breadcrumb-item flex items-center"><a class="breadcrumb-item-link block px-[4px]" href="<?= site_url('/') ?>">홈</a><span><picture><img alt="" class="size-[12px]" src="/images/icons/common/ico_chevron_right_light_16.svg"></picture></span></li>
   <li class="breadcrumb-item flex items-center"><a class="block px-[4px]" href="<?= site_url('products') ?>">전체상품</a><span><picture><img alt="" class="size-[12px]" src="/images/icons/common/ico_chevron_right_light_16.svg"></picture></span></li>
@@ -29,9 +29,7 @@
     <?php if (in_array((int) $p['id'], mm_repeat_ids(), true)): ?><p class="pd-repeat">재구매 많음 · 여러 셀러가 다시 주문한 상품입니다</p><?php endif ?>
 
     <!-- 가격 -->
-    <?php if ($coming): ?>
-      <div class="pd-price is-lock"><span class="pd-price-l">도매가</span><b class="q-price"><?= esc(mm_q('price_hidden')) ?></b><?php if ($p['retail_price']): ?><del>소비자가 <?= mm_price($p['retail_price']) ?></del><?php endif ?></div>
-    <?php elseif ($approved): ?>
+    <?php if ($approved): ?>
       <div class="pd-price"><b><?= mm_price($p['price'], false) ?></b><span><?= esc($sym) ?></span><?php if ($p['retail_price']): ?><del>소비자가 <?= mm_price($p['retail_price']) ?></del><?php endif ?></div>
     <?php else: ?>
       <div class="pd-price is-lock"><span class="pd-price-l">도매가</span><b>🔒 인증 회원 공개</b><?php if ($p['retail_price']): ?><del>소비자가 <?= mm_price($p['retail_price']) ?></del><?php endif ?></div>
@@ -42,7 +40,7 @@
       <div><dt>최소 주문</dt><dd><b><?= number_format((int) $p['moq']) ?><?= esc($p['unit']) ?></b>부터</dd></div>
       <?php if ($p['origin']): ?><div><dt>원산지</dt><dd><?= esc($p['origin']) ?></dd></div><?php endif ?>
       <div><dt>결제</dt><dd>KBZPay 100% 선불</dd></div>
-      <?php if ($approved && ! $coming): ?><div><dt>재고</dt><dd><?= number_format((int) $p['stock']) ?><?= esc($p['unit']) ?></dd></div><?php endif ?>
+      <?php if ($approved): ?><div><dt>재고</dt><dd><?= number_format((int) $p['stock']) ?><?= esc($p['unit']) ?></dd></div><?php endif ?>
     </dl>
 
     <?php if (trim((string) ($p['sale_note'] ?? '')) !== ''): ?>
@@ -50,7 +48,7 @@
     <?php endif ?>
 
     <!-- 수량별 도매가 -->
-    <?php if ($approved && ! $coming): ?>
+    <?php if ($approved): ?>
     <div class="pd-tier">
       <p class="pd-tier-tit">수량별 도매가</p>
       <ul>
@@ -60,9 +58,7 @@
     </div>
     <?php endif ?>
 
-    <?php if ($coming): ?>
-      <?= view('products/_queue', ['p' => $p, 'approved' => $approved, 'user' => $user]) ?>
-    <?php elseif ($approved): ?>
+    <?php if ($approved): ?>
       <form method="post" action="<?= site_url('cart/add') ?>">
         <?= csrf_field() ?><input type="hidden" name="product_id" value="<?= $p['id'] ?>">
         <div class="qty" data-sym="<?= esc($sym) ?>">
@@ -121,7 +117,7 @@
       <div><dt>상품코드</dt><dd><?= esc($p['code'] ?: '-') ?></dd></div>
       <div><dt>원산지</dt><dd><?= esc($p['origin'] ?: '-') ?></dd></div>
       <div><dt>최소 주문</dt><dd><?= number_format((int) $p['moq']) ?><?= esc($p['unit']) ?>부터</dd></div>
-      <div><dt>재고</dt><dd><?= $coming ? esc(mm_q('badge')) : ($approved ? number_format((int) $p['stock']) . esc($p['unit']) : '인증 회원에게 공개') ?></dd></div>
+      <div><dt>재고</dt><dd><?= $approved ? number_format((int) $p['stock']) . esc($p['unit']) : '인증 회원에게 공개' ?></dd></div>
       <div><dt>공급사</dt><dd><?= esc($supplier['company_name'] ?? '-') ?></dd></div>
     </dl>
     <?php $blocks = mm_detail_blocks($p); $nImg = 0; ?>

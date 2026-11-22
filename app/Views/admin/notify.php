@@ -15,7 +15,7 @@
     </div>
     <div class="field"><label>제목 <i>*</i></label><input class="inp" name="title" maxlength="200" value="<?= esc(old('title')) ?>" placeholder="예: 마스크팩 10매입 재입고되었습니다" required></div>
     <div class="field"><label>내용 (선택)</label><textarea class="ta" name="body" rows="3" maxlength="500" placeholder="예: 이번 주 금요일까지 수량별 단가를 한 단계 낮췄습니다."><?= esc(old('body')) ?></textarea></div>
-    <div class="field"><label>누르면 갈 곳 (선택)</label><input class="inp" name="link" value="<?= esc(old('link', $product ? 'products/' . $product['id'] : '')) ?>" placeholder="예: products/12 · products?only=coming · notices/3"><div class="help">사이트 안 주소만. 비우면 알림만 보입니다.</div></div>
+    <div class="field"><label>누르면 갈 곳 (선택)</label><input class="inp" name="link" value="<?= esc(old('link', $product ? 'products/' . $product['id'] : '')) ?>" placeholder="예: products/12 · notices/3"><div class="help">사이트 안 주소만. 비우면 알림만 보입니다.</div></div>
     <button class="btn btn-g" type="submit" style="height:42px;padding:0 28px">알림 보내기</button>
   </form>
 </div>

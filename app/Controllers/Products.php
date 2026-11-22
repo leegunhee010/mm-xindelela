@@ -27,8 +27,8 @@ class Products extends BaseController
         $sort = (string) $this->request->getGet('sort') ?: 'new';
         $cat  = $catId ?: (int) $this->request->getGet('cat');
 
-        $only = (string) $this->request->getGet('only') === 'coming'; // 입고 예정(줄서기)만
-        $b    = $only ? $pm->where('status', 'coming') : $pm->whereIn('status', ['active', 'coming']);
+        $only = false;
+        $b    = $pm->where('status', 'active');
         if ($cat) {
             $b->where('category_id', $cat);
         }
@@ -50,7 +50,7 @@ class Products extends BaseController
 
         return $this->render('products/index', [
             'fullWidth'  => true,
-            'title'      => $only ? mm_q('badge') . ' · ' . mm_q('name') : ($catRow ? $catRow['name'] : ($q !== '' ? '"' . $q . '" 검색결과' : '전체 상품')),
+            'title'      => ($catRow ? $catRow['name'] : ($q !== '' ? '"' . $q . '" 검색결과' : '전체 상품')),
             'only'       => $only,
             'products'   => $products,
             'pager'      => $pm->pager,
@@ -70,13 +70,13 @@ class Products extends BaseController
         $p  = $pm->find($id);
         $u  = mm_user();
         $isOwner = false;
-        if (! $p || (! in_array($p['status'], ['active', 'coming'], true) && ! $isOwner && ! ($u && $u['role'] === 'admin'))) {
+        if (! $p || (! in_array($p['status'], ['active'], true) && ! $isOwner && ! ($u && $u['role'] === 'admin'))) {
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         }
         $pm->where('id', $id)->set('views', 'views + 1', false)->update();
 
         $supplier = (new SupplierModel())->find($p['supplier_id']);
-        $related  = $pm->whereIn('status', ['active', 'coming'])->where('category_id', $p['category_id'])->where('id !=', $id)->orderBy('views', 'DESC')->findAll(5);
+        $related  = $pm->whereIn('status', ['active'])->where('category_id', $p['category_id'])->where('id !=', $id)->orderBy('views', 'DESC')->findAll(5);
 
         return $this->render('products/show', [
             'fullWidth' => true,
@@ -100,7 +100,7 @@ class Products extends BaseController
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         }
         $pm       = new ProductModel();
-        $products = $pm->whereIn('status', ['active', 'coming'])->where('supplier_id', $id)->orderBy('id', 'DESC')->paginate(self::PER_PAGE, 'p');
+        $products = $pm->whereIn('status', ['active'])->where('supplier_id', $id)->orderBy('id', 'DESC')->paginate(self::PER_PAGE, 'p');
         return $this->render('products/index', [
             'fullWidth'  => true,
             'title'      => $s['company_name'],

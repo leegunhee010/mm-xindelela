@@ -43,7 +43,6 @@ if ($user && $user['role'] === 'buyer') {
 $wishCount = count(mm_wish_ids());
 $isBuyerU  = $user && $user['role'] === 'buyer';
 $unread    = mm_unread_count();
-$hasComing = mm_queue_coming_count() > 0;
 $cats = (new \App\Models\CategoryModel())->where('is_active', 1)->orderBy('sort')->findAll();
 $sf   = (string) service('request')->getGet('sf');
 $cur  = uri_string();
@@ -64,7 +63,6 @@ $cur  = uri_string();
     <a href="<?= site_url('products?sort=pop') ?>" class="<?= str_contains($cur, 'sort=pop') ? 'on' : '' ?>">베스트</a>
     <a href="<?= site_url('products?sort=new') ?>">신상품</a>
     <?php foreach ($cats as $c): ?><a href="<?= site_url('category/' . $c['id']) ?>" class="<?= $cur === 'category/' . $c['id'] ? 'on' : '' ?>"><?= esc($c['name']) ?></a><?php endforeach ?>
-    <?php if ($hasComing): ?><a href="<?= site_url('products?only=coming') ?>" class="m-cat-q"><?= esc(mm_q('badge')) ?></a><?php endif ?>
     <a href="<?= site_url('mypage/referral') ?>">친구소개</a>
   </nav>
 </div>
@@ -87,7 +85,6 @@ $cur  = uri_string();
     <ul class="m-drawer-ul">
       <?php if ($isBuyerU): ?><li><a href="<?= site_url('notifications') ?>">알림<?= $unread ? ' <b class="m-drawer-n">' . $unread . '</b>' : '' ?></a></li><?php endif ?>
       <li><a href="<?= site_url('wishlist') ?>">관심상품</a></li>
-      <li><a href="<?= site_url('mypage/queue') ?>"><?= esc(mm_q('menu')) ?></a></li>
       <li><a href="<?= site_url('mypage/orders') ?>">주문 내역</a></li>
       <li><a href="<?= site_url('mypage') ?>">마이페이지</a></li>
       <li><a href="<?= site_url('mypage/verify') ?>">비즈니스 인증</a></li>
@@ -161,7 +158,6 @@ $cur  = uri_string();
           <a class="link-item pc:inline-flex pc:items-center text-[18px] font-medium <?= str_contains($cur, 'sort=pop') ? 'text-primary' : '' ?>" href="<?= site_url('products?sort=pop') ?>"><span class="relative whitespace-nowrap">베스트</span></a>
           <a class="link-item pc:inline-flex pc:items-center text-[18px] font-medium" href="<?= site_url('products?sort=new') ?>"><span class="relative whitespace-nowrap">신상품<span class="absolute -right-[12px] -top-[6px] flex size-[14px] items-center justify-center rounded-full bg-primary text-[9px] font-bold text-white">N</span></span></a>
           <?php foreach (array_slice($cats, 0, 4) as $c): ?><a class="link-item pc:inline-flex pc:items-center text-[18px] font-medium <?= $cur === 'category/' . $c['id'] ? 'text-primary' : '' ?>" href="<?= site_url('category/' . $c['id']) ?>"><span class="relative whitespace-nowrap"><?= esc($c['name']) ?></span></a><?php endforeach ?>
-          <?php if ($hasComing): ?><a class="link-item pc:inline-flex pc:items-center text-[18px] font-medium" href="<?= site_url('products?only=coming') ?>"><span class="gnb-q"><?= esc(mm_q('badge')) ?></span></a><?php endif ?>
         </div>
         <div class="flex items-center gap-[32px]">
           <a class="link-item text-[18px] font-medium" href="<?= site_url('mypage/referral') ?>">친구소개</a>

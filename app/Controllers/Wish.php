@@ -24,7 +24,7 @@ class Wish extends BaseController
             $pm  = new ProductModel();
             $sm  = new SupplierModel();
             $map = [];
-            foreach ($pm->whereIn('id', $ids)->whereIn('status', ['active', 'coming'])->findAll() as $p) {
+            foreach ($pm->whereIn('id', $ids)->whereIn('status', ['active'])->findAll() as $p) {
                 $map[(int) $p['id']] = $p;
             }
             $sups = [];
@@ -42,7 +42,7 @@ class Wish extends BaseController
     {
         $pid = (int) $this->request->getPost('product_id');
         $p   = $pid ? (new ProductModel())->find($pid) : null;
-        if (! $p || ! in_array($p['status'], ['active', 'coming'], true)) {
+        if (! $p || ! in_array($p['status'], ['active'], true)) {
             return $this->reply(false, '판매중인 상품이 아닙니다.');
         }
         $u = mm_user();

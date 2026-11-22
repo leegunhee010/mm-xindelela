@@ -19,7 +19,6 @@
   <div class="tab type04"><div class="flex flex-wrap gap-[8px]">
     <a href="<?= site_url('products') ?>" class="body3 rounded-[21px] border border-[#d5d5d5] px-3 py-2 text-gray3" data-state="<?= ! $cat && ! $only ? 'active' : 'inactive' ?>"><span>전체</span></a>
     <?php foreach ($categories as $c): ?><a href="<?= site_url('category/' . $c['id']) ?>" class="body3 rounded-[21px] border border-[#d5d5d5] px-3 py-2 text-gray3" data-state="<?= $cat == $c['id'] ? 'active' : 'inactive' ?>"><span><?= esc($c['name']) ?></span></a><?php endforeach ?>
-    <?php if ($only || mm_queue_coming_count() > 0): ?><a href="<?= site_url('products?only=coming') ?>" class="body3 rounded-[21px] border border-[#d5d5d5] px-3 py-2 text-gray3" data-state="<?= $only ? 'active' : 'inactive' ?>"><span><?= esc(mm_q('badge')) ?> · <?= esc(mm_q('name')) ?></span></a><?php endif ?>
   </div></div>
 </section>
 <?php endif ?>

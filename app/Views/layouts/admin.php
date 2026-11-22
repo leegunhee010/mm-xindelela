@@ -18,7 +18,7 @@
   <div class="grp">운영</div>
   <?php $nav('admin', '대시보드'); $nav('admin/buyers', '회원 관리', $badges['buyers']); $nav('admin/orders', '주문·입금 관리', $badges['orders']); $nav('admin/inquiries', '문의', $badges['inquiries']); $nav('admin/notify', '알림 보내기'); ?>
   <div class="grp">상품</div>
-  <?php $nav('admin/products', '상품 관리'); $nav('admin/queues', '줄서기', mm_queue_coming_count()); $nav('admin/wishes', '관심상품 현황'); $nav('admin/suppliers', '공급사', $badges['suppliers']); $nav('admin/categories', '카테고리'); ?>
+  <?php $nav('admin/products', '상품 관리'); $nav('admin/wishes', '관심상품 현황'); $nav('admin/suppliers', '공급사', $badges['suppliers']); $nav('admin/categories', '카테고리'); ?>
   <div class="grp">포인트</div>
   <?php $nav('admin/points', '포인트 원장'); $nav('admin/referrals', '추천 현황'); ?>
   <div class="grp">콘텐츠·설정</div>

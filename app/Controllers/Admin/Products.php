@@ -2,7 +2,6 @@
 
 namespace App\Controllers\Admin;
 
-use App\Libraries\QueueService;
 use App\Libraries\Uploader;
 use App\Models\CategoryModel;
 use App\Models\ProductModel;
@@ -39,7 +38,7 @@ class Products extends Base
             return $b;
         };
         $counts = [];
-        foreach (['all', 'active', 'coming', 'hidden', 'draft'] as $k) {
+        foreach (['all', 'active', 'hidden', 'draft'] as $k) {
             $b = $apply(new ProductModel());
             if ($k !== 'all') {
                 $b->where('status', $k);
@@ -69,14 +68,8 @@ class Products extends Base
     public function status(int $id)
     {
         $st = (string) $this->request->getPost('status');
-        if (! in_array($st, ['active', 'coming', 'hidden', 'draft', 'rejected', 'pending'], true)) {
+        if (! in_array($st, ['active', 'hidden', 'draft', 'rejected', 'pending'], true)) {
             return redirect()->back();
-        }
-        $old = (new ProductModel())->find($id);
-        if ($old && $old['status'] === 'coming' && $st === 'active') {
-            // 입고 예정 → 판매중 = 입고 완료. 줄 선 회원에게 알림
-            $n = (new QueueService())->arrive($id);
-            return redirect()->back()->with('success', '판매를 시작했습니다. 줄 선 회원 ' . $n . '명에게 입고 알림을 보냈습니다.');
         }
         $data = ['status' => $st];
         if ($st === 'rejected') {
@@ -162,16 +155,12 @@ class Products extends Base
             'origin'        => trim((string) $this->request->getPost('origin')) ?: '한국',
             'brand'         => trim((string) $this->request->getPost('brand')),
             'sale_note'     => trim((string) $this->request->getPost('sale_note')) ?: null,
-            'status'        => in_array($status, ['active', 'coming', 'hidden', 'draft'], true) ? $status : 'active',
+            'status'        => in_array($status, ['active', 'hidden', 'draft'], true) ? $status : 'active',
             'reject_reason' => null,
         ];
         $msg = '저장했습니다.';
         if ($p) {
             $pm->update($id, $data);
-            if ($p['status'] === 'coming' && $data['status'] === 'active') {
-                // 입고 예정 → 판매중 = 입고 완료. 줄 선 회원에게 알림
-                $msg .= ' 줄 선 회원 ' . (new QueueService())->arrive($id) . '명에게 입고 알림을 보냈습니다.';
-            }
         } else {
             $id = $pm->insert($data);
         }

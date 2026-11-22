@@ -62,22 +62,6 @@
   </script>
 </section>
 
-<?php if ($coming): ?>
-<!-- 입고 예정 · 줄서기: 왼쪽 안내 + 오른쪽 카드(1~4개여도 비어 보이지 않게) -->
-<section class="corner-section last-of-type:mb-0 pc:mx-auto pc:w-large pc:mb-[80px]">
-  <div class="hcoming">
-    <div class="hcoming-t">
-      <span class="hcoming-tag"><?= esc(mm_q('badge')) ?></span>
-      <h2>곧 들어오는 상품</h2>
-      <p><?= esc(mm_q('name')) ?>를 해 두면 입고될 때 바로 알려 드립니다. 주문이나 결제가 아닙니다.</p>
-      <a href="<?= site_url('products?only=coming') ?>"><?= esc(mm_q('badge')) ?> 전체보기 ›</a>
-    </div>
-    <ul class="plist hcoming-list flex gap-x-[27px]">
-      <?php foreach ($coming as $p): $sup = $sups[$p['supplier_id']] ??= $sm->find($p['supplier_id']); echo view('_card', ['p' => $p, 'approved' => $approved, 'sup' => $sup, 'w' => 'w-[234px]']); endforeach ?>
-    </ul>
-  </div>
-</section>
-<?php endif ?>
 
 <!-- 이용 절차 (서비스 스트립 bg 활용) -->
 <section class="corner-section last-of-type:mb-0 pc:mx-auto pc:w-large pc:mb-[80px]">
