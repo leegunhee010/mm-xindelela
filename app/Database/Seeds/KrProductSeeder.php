@@ -53,6 +53,8 @@ class KrProductSeeder extends Seeder
                 'intro' => '발 보습 크림 고운발 제조사 (주)웰빙헬스팜.'],
             'mj' => ['company_name' => '엠제이케어', 'brand' => 'MJCARE', 'contact_name' => null, 'website' => null,
                 'intro' => '에센스 마스크팩 브랜드 엠제이케어(MJCARE). 제조 미진화장품.'],
+            'br' => ['company_name' => '뷰티레시피', 'brand' => '뷰티레시피', 'website' => 'http://www.brecipe.com',
+                'intro' => '스킨케어 브랜드 뷰티레시피(Beauty Recipe). 리틀머메이드·스노우화이트·네버우드 라인.'],
             'yo' => ['company_name' => '요뽀끼 (영풍)', 'brand' => '요뽀끼', 'website' => 'https://smartstore.naver.com/yopokki',
                 'intro' => '컵떡볶이 브랜드 요뽀끼(YOPOKKI). 전자레인지 조리 컵떡볶이.'],
         ];
@@ -88,6 +90,12 @@ class KrProductSeeder extends Seeder
             ['YO-004', $yoCost, 0, 'yo', '요뽀끼 매콤 까르보나라 컵떡볶이', 'YOPOKKI Spicy Carbonara Topokki Cup', '120g', 30, '제조일로부터 14개월', null, null, 'yo4', '1개 = 컵 1개 (떡 100g + 소스 20g)'],
             ['GW-001', $gwCost, 0, 'wh', '명품 고운발 풋크림', 'Premium Gounbal Foot Cream', '110g', null, null, null, null, 'gw1', null, ['cat' => '화장품·스킨케어']],
             ['MJ-001', $mjCost, 0, 'mj', '엠제이케어 에센스 마스크팩', 'MJCARE Essence Mask Pack', '8종', null, '제조일로부터 1년 이내 발송 / 개봉 후 12개월', null, null, 'mj1', '콜라겐·알부틴·큐텐·백색(백장미)·로얄제리·진주·알로에·석류 8종 중 선택, 1종 10매 단위', ['cat' => '화장품·스킨케어', 'unit' => '매', 'moq' => 10, 'five' => 50]],
+            // 뷰티레시피 5종: 쿠팡 판매가(1개, 2026-11-22) ÷ 2 를 사입가로
+            ['BR-001', 8900 / 2, 0, 'br', '뷰티레시피 인어공주 프로바이오틱스 여성청결제', 'Little Mermaid Probiotics Feminine Wash', '300ml', null, null, null, null, 'br1', null, ['cat' => '화장품·스킨케어']],
+            ['BR-002', 10620 / 2, 0, 'br', '뷰티레시피 스노우화이트 멜라 스탑 화이트닝 크림', 'Snow White Mela Stop Whitening Cream', '80ml', null, null, null, null, 'br2', null, ['cat' => '화장품·스킨케어']],
+            ['BR-003', 9900 / 2, 0, 'br', '뷰티레시피 리틀머메이드 디스 이즈 프린세스 클렌징워터', 'Little Mermaid This is Princess Cleansing Water', '500ml', null, null, null, '8809132285963', 'br3', null, ['cat' => '화장품·스킨케어']],
+            ['BR-004', 11900 / 2, 0, 'br', '뷰티레시피 리틀머메이드 디스 이즈 프린세스 클렌징오일', 'Little Mermaid This is Princess Cleansing Oil', '300ml', null, null, null, null, 'br4', null, ['cat' => '화장품·스킨케어']],
+            ['BR-005', 10900 / 2, 0, 'br', '뷰티레시피 네버우드 펩타이드 앤 시카 리페어 크림', 'NeverWood Peptide & Cica Repair Cream', '50ml', null, null, null, null, 'br5', null, ['cat' => '화장품·스킨케어']],
             ['CH-001', $chCost, 0, 'ch', '고려 호두아몬드율무차', 'Walnut Almond Job’s Tears Tea', '50입', null, null, null, null, 'ch1', '1개 = 50스틱 1통'],
         ];
 

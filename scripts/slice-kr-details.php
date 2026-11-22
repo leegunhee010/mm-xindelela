@@ -22,6 +22,11 @@ $map['ch1'] = ['main' => ['ch1_main1.jpg', 'ch1_main2.png'], 'det' => ['ch1_d01.
 // 웰빙헬스팜 명품 고운발 (3wbmall.com/product/-/30), 엠제이케어 에센스 마스크팩 80매 8종 (SSG 1000591271148)
 $map['gw1'] = ['main' => ['gw_main1.jpg', 'gw_main2.png'], 'det' => array_map('basename', glob($src . 'gw_d*'))];
 $map['mj1'] = ['main' => array_map(fn ($i) => "mj_main$i.jpg", range(1, 9)), 'det' => array_map('basename', glob($src . 'mj_d*'))];
+// 뷰티레시피 5종 (쿠팡 상품 페이지, 크롬으로 열어 이미지 주소 수집)
+foreach (['br1', 'br2', 'br3', 'br4', 'br5'] as $k) {
+  $map[$k] = ['main' => array_map('basename', glob($src . "{$k}_main*")), 'det' => array_map('basename', glob($src . "{$k}_d*"))];
+  natsort($map[$k]['main']); $map[$k]['main'] = array_values($map[$k]['main']);
+}
 function load($f) { $i = @imagecreatefromstring(file_get_contents($f)); if (!$i) throw new Exception("bad $f"); return $i; }
 function flat($im, $w, $h) { $o = imagecreatetruecolor($w, $h); imagefill($o, 0, 0, imagecolorallocate($o, 255, 255, 255)); return $o; }
 $out = [];
