@@ -9,10 +9,10 @@ $w = $w ?? 'w-[235px]'; $isNew = isset($p['created_at']) && strtotime($p['create
     <div class="absolute left-[12px] top-[12px] flex flex-wrap gap-[4px] pr-[20px]">
       <?php /* 배지는 하나만: BEST > 재구매 많음 > NEW */ ?>
       <?php if ($p['is_best']): ?><span class="inline-flex h-[26px] items-center rounded-[99px] bg-primary px-[10px] text-[12px] font-bold text-white">BEST</span>
-      <?php elseif (in_array((int) $p['id'], mm_repeat_ids(), true)): ?><span class="inline-flex h-[26px] items-center rounded-[99px] bg-black/75 px-[10px] text-[12px] font-bold text-white">재구매 많음</span>
+      <?php elseif (in_array((int) $p['id'], mm_repeat_ids(), true)): ?><span class="inline-flex h-[26px] items-center rounded-[99px] bg-black/75 px-[10px] text-[12px] font-bold text-white"><?= t('재구매 많음') ?></span>
       <?php elseif ($isNew): ?><span class="inline-flex h-[26px] items-center rounded-[99px] bg-[#22c55e] px-[10px] text-[12px] font-bold text-white">NEW</span><?php endif ?>
     </div>
-    <div style="z-index:2" class="absolute right-[12px] top-[12px] flex size-[48px] items-center justify-center rounded-full bg-primary/90 text-center text-[11px] font-bold leading-[1.1] text-white">최소<br><?= number_format((int) $p['moq']) ?><?= esc($p['unit']) ?></div>
+    <div style="z-index:2" class="absolute right-[12px] top-[12px] flex size-[48px] items-center justify-center rounded-full bg-primary/90 text-center text-[11px] font-bold leading-[1.1] text-white"><?= t('최소') ?><br><?= number_format((int) $p['moq']) ?><?= esc(t($p['unit'])) ?></div>
   </div>
   <div class="relative flex flex-auto flex-col items-start justify-end">
     <div class="flex w-full flex-col justify-end">
@@ -24,12 +24,12 @@ $w = $w ?? 'w-[235px]'; $isNew = isset($p['created_at']) && strtotime($p['create
         <span class="head-line1 mo:body2 font-bold"><?= mm_price($p['price'], false) ?><span class="text-[14px] font-medium ml-[2px]"><?= esc(mm_setting('currency_symbol', 'Ks')) ?></span></span>
         <?php if ($p['retail_price']): ?><span class="body3 text-gray5 line-through"><?= mm_price($p['retail_price'], false) ?></span><?php endif ?>
       <?php else: ?>
-        <span class="head-line1 mo:body2 font-bold">회원 혜택가</span>
+        <span class="head-line1 mo:body2 font-bold"><?= t('회원 혜택가') ?></span>
       <?php endif ?>
     </div>
-    <?php if (! $approved && $p['retail_price']): ?><p class="mt-[2px] text-[12px] text-gray5">소비자가 <?= mm_price($p['retail_price'], false) ?></p><?php endif ?>
+    <?php if (! $approved && $p['retail_price']): ?><p class="mt-[2px] text-[12px] text-gray5"><?= t('소비자가') ?> <?= mm_price($p['retail_price'], false) ?></p><?php endif ?>
   </div></div>
 </a>
 <?php $wOn = in_array((int) $p['id'], mm_wish_ids(), true); ?>
-<div class="wish-ov"><button type="button" class="wish-btn<?= $wOn ? ' on' : '' ?>" data-wish="<?= $p['id'] ?>" aria-label="관심상품" aria-pressed="<?= $wOn ? 'true' : 'false' ?>"></button></div>
+<div class="wish-ov"><button type="button" class="wish-btn<?= $wOn ? ' on' : '' ?>" data-wish="<?= $p['id'] ?>" aria-label="<?= t('관심상품') ?>" aria-pressed="<?= $wOn ? 'true' : 'false' ?>"></button></div>
 </li>

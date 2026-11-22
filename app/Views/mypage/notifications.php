@@ -1,9 +1,9 @@
 <div class="flex gap-[60px] items-start">
 <?= view('mypage/_side') ?>
 <div class="flex-1 min-w-0">
-  <div class="contents-title-area depth-1 title3 font-bold !pt-0 mb-[20px]"><div class="title-area !pt-0"><h3 class="title">알림</h3></div></div>
+  <div class="contents-title-area depth-1 title3 font-bold !pt-0 mb-[20px]"><div class="title-area !pt-0"><h3 class="title"><?= t('알림') ?></h3></div></div>
   <?php if (! $rows): ?>
-    <div class="empty">받은 알림이 없습니다.</div>
+    <div class="empty"><?= t('받은 알림이 없습니다.') ?></div>
   <?php else: ?>
   <ul class="nlist">
     <?php foreach ($rows as $n): ?>

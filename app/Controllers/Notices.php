@@ -10,7 +10,7 @@ class Notices extends BaseController
     {
         $nm = new NoticeModel();
         return $this->render('notices/index', [
-            'title' => '공지사항',
+            'title' => t('공지사항'),
             'rows'  => $nm->orderBy('is_pinned', 'DESC')->orderBy('id', 'DESC')->paginate(20, 'p'),
             'pager' => $nm->pager,
         ]);

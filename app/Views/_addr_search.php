@@ -7,7 +7,7 @@ window.gm_authFailure = function () {
   var inp = document.getElementById('shipAddr');
   if (inp && !document.getElementById('addrFail')) {
     var p = document.createElement('p'); p.id = 'addrFail'; p.className = 'addr-fail';
-    p.textContent = '지금은 지도 검색을 쓸 수 없습니다. 주소를 직접 입력해 주세요.';
+    p.textContent = '<?= t('지금은 지도 검색을 쓸 수 없습니다. 주소를 직접 입력해 주세요.') ?>';
     inp.closest('.addr-search').after(p);
   }
   console.error('[mm] Google Maps key rejected for ' + location.host);
@@ -71,7 +71,7 @@ window.gm_authFailure = function () {
     var res = await lib.AutocompleteSuggestion.fetchAutocompleteSuggestions({ input: q, sessionToken: token, includedRegionCodes: ['mm'], language: 'en' });
     if (inp.value.trim() !== q) return;
     items = (res.suggestions || []).map(function (s) { return s.placePrediction; }).filter(Boolean);
-    if (!items.length) { ul.innerHTML = '<li class="addr-sug-empty">미얀마 안에서 찾지 못했습니다. 영어로 입력해 보세요 (예: Pyay Rd, Junction City)</li>'; ul.hidden = false; return; }
+    if (!items.length) { ul.innerHTML = '<li class="addr-sug-empty"><?= t('미얀마 안에서 찾지 못했습니다. 영어로 입력해 보세요 (예: Pyay Rd, Junction City)') ?></li>'; ul.hidden = false; return; }
     ul.innerHTML = items.map(function (pp) {
       var main = pp.mainText ? pp.mainText.text : pp.text.text, sub = pp.secondaryText ? pp.secondaryText.text : '';
       return '<li><b></b><span></span></li>';

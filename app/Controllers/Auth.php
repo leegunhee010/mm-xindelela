@@ -12,7 +12,7 @@ class Auth extends BaseController
         if (mm_user()) {
             return redirect()->to('/');
         }
-        return $this->render('auth/login', ['title' => '로그인']);
+        return $this->render('auth/login', ['title' => t('로그인')]);
     }
 
     public function attemptLogin()
@@ -20,10 +20,10 @@ class Auth extends BaseController
         $um   = new UserModel();
         $user = $um->where('email', strtolower(trim((string) $this->request->getPost('email'))))->where('role', 'buyer')->first();
         if (! $user || ! password_verify((string) $this->request->getPost('password'), $user['password_hash'])) {
-            return redirect()->back()->withInput()->with('error', '이메일 또는 비밀번호가 올바르지 않습니다.');
+            return redirect()->back()->withInput()->with('error', t('이메일 또는 비밀번호가 올바르지 않습니다.'));
         }
         if ($user['status'] === 'suspended') {
-            return redirect()->back()->with('error', '정지된 계정입니다. 고객센터로 문의해 주세요.');
+            return redirect()->back()->with('error', t('정지된 계정입니다. 고객센터로 문의해 주세요.'));
         }
         session()->regenerate();
         session()->set('user_id', (int) $user['id']);
@@ -37,8 +37,7 @@ class Auth extends BaseController
     public function register(): string
     {
         return $this->render('auth/register', [
-            'title' => '회원가입',
-            'ref'   => (string) $this->request->getGet('ref'),
+            'title' => t('회원가입'),
         ]);
     }
 
@@ -54,20 +53,20 @@ class Auth extends BaseController
             'city'          => 'required|max_length[100]',
         ];
         if (! $this->validate($rules, [
-            'email' => ['required' => '이메일을 입력해 주세요.', 'valid_email' => '이메일 형식이 올바르지 않습니다.'],
-            'password' => ['required' => '비밀번호를 입력해 주세요.', 'min_length' => '비밀번호는 6자 이상입니다.'],
-            'password2' => ['matches' => '비밀번호 확인이 일치하지 않습니다.'],
-            'name' => ['required' => '담당자 이름을 입력해 주세요.'],
-            'phone' => ['required' => '연락처를 입력해 주세요.'],
-            'company_name' => ['required' => '상호(가게·페이지 이름)를 입력해 주세요.'],
-            'city' => ['required' => '지역(도시)을 입력해 주세요.'],
+            'email' => ['required' => t('이메일을 입력해 주세요.'), 'valid_email' => t('이메일 형식이 올바르지 않습니다.')],
+            'password' => ['required' => t('비밀번호를 입력해 주세요.'), 'min_length' => t('비밀번호는 6자 이상입니다.')],
+            'password2' => ['matches' => t('비밀번호 확인이 일치하지 않습니다.')],
+            'name' => ['required' => t('담당자 이름을 입력해 주세요.')],
+            'phone' => ['required' => t('연락처를 입력해 주세요.')],
+            'company_name' => ['required' => t('상호(가게·페이지 이름)를 입력해 주세요.')],
+            'city' => ['required' => t('지역(도시)을 입력해 주세요.')],
         ])) {
             return redirect()->back()->withInput()->with('error', implode(' ', $this->validator->getErrors()));
         }
         $um    = new UserModel();
         $email = strtolower(trim((string) $this->request->getPost('email')));
         if ($um->where('email', $email)->countAllResults()) {
-            return redirect()->back()->withInput()->with('error', '이미 가입된 이메일입니다.');
+            return redirect()->back()->withInput()->with('error', t('이미 가입된 이메일입니다.'));
         }
         $fb    = trim((string) $this->request->getPost('fb_page'));
         $files = $this->request->getFileMultiple('docs') ?: [];
@@ -78,21 +77,12 @@ class Auth extends BaseController
         }
         $vt = array_values(array_intersect(array_keys(mm_verify_types()), (array) $this->request->getPost('verify_types')));
         if (! $vt) {
-            return redirect()->back()->withInput()->with('error', '오프라인 매장 · 온라인 판매 · 판매 네트워크 중 해당하는 것을 하나 이상 골라 주세요.');
+            return redirect()->back()->withInput()->with('error', t('오프라인 매장 · 온라인 판매 · 판매 네트워크 중 해당하는 것을 하나 이상 골라 주세요.'));
         }
         if ($fb === '' && ! $docs) {
-            return redirect()->back()->withInput()->with('error', '판매 채널 링크나 사진·캡처를 하나 이상 올려 주세요.');
+            return redirect()->back()->withInput()->with('error', t('판매 채널 링크나 사진·캡처를 하나 이상 올려 주세요.'));
         }
-        // 추천 코드
-        $referredBy = null;
-        $ref        = strtoupper(trim((string) $this->request->getPost('ref')));
-        if ($ref !== '') {
-            $r = $um->where('referral_code', $ref)->where('role', 'buyer')->first();
-            if (! $r) {
-                return redirect()->back()->withInput()->with('error', '추천 코드가 올바르지 않습니다.');
-            }
-            $referredBy = (int) $r['id'];
-        }
+        $referredBy = null; // 친구소개(추천) 기능 삭제 (2026-11-22)
         do {
             $code = mm_referral_code();
         } while ($um->where('referral_code', $code)->countAllResults());
@@ -118,7 +108,7 @@ class Auth extends BaseController
         session()->regenerate();
         session()->set('user_id', (int) $id);
         mm_wish_merge_guest((int) $id);
-        return redirect()->to('/mypage/verify')->deleteCookie('mm_wish')->with('success', '가입이 완료되었습니다. 제출하신 자료를 확인한 뒤 ' . mm_setting('verify_sla_text', '영업일 기준 1일 이내') . ' 승인해 드립니다.');
+        return redirect()->to('/mypage/verify')->deleteCookie('mm_wish')->with('success', t('가입이 완료되었습니다. 제출하신 자료를 확인한 뒤 ') . mm_setting('verify_sla_text', t('영업일 기준 1일 이내')) . t(' 승인해 드립니다.'));
     }
 
     public function logout()

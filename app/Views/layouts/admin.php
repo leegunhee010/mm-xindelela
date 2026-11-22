@@ -20,7 +20,7 @@
   <div class="grp">상품</div>
   <?php $nav('admin/products', '상품 관리'); $nav('admin/wishes', '관심상품 현황'); $nav('admin/suppliers', '공급사', $badges['suppliers']); $nav('admin/categories', '카테고리'); ?>
   <div class="grp">포인트</div>
-  <?php $nav('admin/points', '포인트 원장'); $nav('admin/referrals', '추천 현황'); ?>
+  <?php $nav('admin/points', '포인트 원장'); ?>
   <div class="grp">콘텐츠·설정</div>
   <?php $nav('admin/notices', '공지사항'); $nav('admin/banners', '메인 배너'); $nav('admin/landing', '가입 랜딩'); $nav('admin/seo', 'SEO 설정'); $nav('admin/settings', '설정'); ?>
   <div class="grp">담당자</div>

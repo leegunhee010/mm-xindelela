@@ -21,10 +21,10 @@ class Checkout extends BaseController
         $u = mm_user();
         [$items, $subtotal] = Cart::items((int) $u['id']);
         if (! $items) {
-            return redirect()->to('/cart')->with('error', '장바구니가 비어 있습니다.');
+            return redirect()->to('/cart')->with('error', t('장바구니가 비어 있습니다.'));
         }
         return $this->render('checkout/index', [
-            'title'     => '주문 신청',
+            'title'     => t('주문 신청'),
             'items'     => $items,
             'subtotal'  => $subtotal,
             'maxPoints' => $this->maxPoints($u, $subtotal),
@@ -48,7 +48,7 @@ class Checkout extends BaseController
         $u = mm_user();
         [$items, $subtotal] = Cart::items((int) $u['id']);
         if (! $items) {
-            return redirect()->to('/cart')->with('error', '장바구니가 비어 있습니다.');
+            return redirect()->to('/cart')->with('error', t('장바구니가 비어 있습니다.'));
         }
         if (! $this->validate([
             'ship_name'    => 'required|max_length[100]',
@@ -56,7 +56,7 @@ class Checkout extends BaseController
             'ship_city'    => 'required|max_length[100]',
             'ship_address' => 'required|max_length[255]',
         ])) {
-            return redirect()->back()->withInput()->with('error', '배송지 정보를 모두 입력해 주세요.');
+            return redirect()->back()->withInput()->with('error', t('배송지 정보를 모두 입력해 주세요.'));
         }
         $method = $this->request->getPost('payment_method') === 'cod' && mm_setting('cod_enabled', '0') === '1' ? 'cod' : 'kbzpay';
 
@@ -100,7 +100,7 @@ class Checkout extends BaseController
             ]);
         }
         if ($points > 0) {
-            (new PointService())->add((int) $u['id'], -$points, 'order_use', 'order', (int) $orderId, '주문 사용 ' . $orderNo);
+            (new PointService())->add((int) $u['id'], -$points, 'order_use', 'order', (int) $orderId, t('주문 사용 ') . $orderNo);
         }
         (new CartModel())->where('user_id', $u['id'])->delete();
         return redirect()->to('/checkout/done/' . $orderId);
@@ -113,6 +113,6 @@ class Checkout extends BaseController
         if (! $o) {
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         }
-        return $this->render('checkout/done', ['title' => '주문 신청 완료', 'o' => $o]);
+        return $this->render('checkout/done', ['title' => t('주문 신청 완료'), 'o' => $o]);
     }
 }

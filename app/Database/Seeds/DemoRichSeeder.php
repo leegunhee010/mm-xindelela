@@ -115,7 +115,6 @@ class DemoRichSeeder extends Seeder
         $events = []; // 포인트 이벤트 [time, user, amount, type, ref_type, ref_id, memo]
         foreach ($buyers as $b) {
             if ($b['ref'] && $b['status'] === 'approved') {
-                $events[] = [$at($b['days'] - 1), $b['ref'], 5000, 'referral_signup', 'user', $b['id'], '추천 회원 승인: ' . $b['name']];
             }
         }
         $approved = array_values(array_filter($buyers, fn ($b) => $b['status'] === 'approved'));
@@ -202,7 +201,6 @@ class DemoRichSeeder extends Seeder
             $db->table('users')->where('id', $uid)->update(['first_order_at' => $when]);
             $u = array_values(array_filter($buyers, fn ($b) => $b['id'] === $uid))[0] ?? null;
             if ($u && $u['ref']) {
-                $events[] = [$when, $u['ref'], 10000, 'referral_first_order', 'user', $uid, '추천 회원 첫 주문: ' . $u['name']];
             }
         }
         // 포인트: 시간순으로 잔액 계산 (모자라면 사용분은 건너뜀)

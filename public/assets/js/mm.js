@@ -6,11 +6,11 @@
     var hw = document.querySelector('#heroSwiper .swiper-wrapper');
     var hOrig = Array.prototype.slice.call(hw.children);
     var hN = hOrig.length;
-    if (hN > 1) { while (hw.children.length < 6) hOrig.forEach(function (el) { hw.appendChild(el.cloneNode(true)); }); }
+    if (hN > 1) { while (hw.children.length < 3) hOrig.forEach(function (el) { hw.appendChild(el.cloneNode(true)); }); }
     var hPg = document.getElementById('heroPg');
     function hNum(sw) { if (hPg) hPg.innerHTML = '<span class="swiper-pagination-current">' + (sw.realIndex % hN + 1) + '</span> / <span class="swiper-pagination-total">' + hN + '</span>'; }
     var hs = new Swiper('#heroSwiper', {
-      slidesPerView: 'auto', centeredSlides: true, spaceBetween: window.innerWidth <= 1024 ? 10 : 20, loop: hN > 1,
+      slidesPerView: 1, spaceBetween: 20, loop: hN > 1,
       autoplay: { delay: 5000, disableOnInteraction: false },
       navigation: { nextEl: '#heroNext', prevEl: '#heroPrev' },
       on: { init: hNum, slideChange: hNum }

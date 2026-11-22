@@ -13,6 +13,6 @@ class Notifications extends BaseController
         $nm   = new NotificationModel();
         $rows = $nm->where('user_id', $u['id'])->orderBy('id', 'DESC')->findAll(100);
         $nm->where('user_id', $u['id'])->where('read_at', null)->set(['read_at' => date('Y-m-d H:i:s')])->update();
-        return $this->render('mypage/notifications', ['title' => '알림', 'rows' => $rows]);
+        return $this->render('mypage/notifications', ['title' => t('알림'), 'rows' => $rows]);
     }
 }

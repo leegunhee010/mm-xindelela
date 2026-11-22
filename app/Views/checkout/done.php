@@ -1,15 +1,15 @@
 <section class="corner-section pc:mx-auto pc:w-[544px] mx-auto pc:pt-[44px] text-center">
   <picture><img alt="" class="mx-auto mb-[24px] size-[100px]" src="<?= base_url('assets/img/order-done.svg') ?>"></picture>
-  <h3 class="title3 font-bold">주문 신청이 접수되었습니다</h3>
-  <p class="body3 text-gray3 mt-[8px]">주문번호 <b class="text-black sub-head1"><?= esc($o['order_no']) ?></b></p>
+  <h3 class="title3 font-bold"><?= t('주문 신청이 접수되었습니다') ?></h3>
+  <p class="body3 text-gray3 mt-[8px]"><?= t('주문번호') ?> <b class="text-black sub-head1"><?= esc($o['order_no']) ?></b></p>
   <ol class="text-left mt-[28px] rounded-[12px] bg-gray9 p-[20px] body3 leading-[2] list-decimal pl-[36px]">
-    <li>아래 <b>KBZPay</b> 계좌로 <b><?= mm_price($o['total']) ?></b> 을 송금해 주세요.</li>
-    <li>마이페이지 › 주문 상세에서 <b>송금한 사람 이름</b>을 적고 <b>입금 확인 요청</b>을 눌러 주세요.</li>
-    <li>입금이 확인되면 바로 출고하고, 배송이 시작되면 알려 드립니다.</li>
+    <li><?= t('아래') ?> <b>KBZPay</b> <?= t('계좌로') ?> <b><?= mm_price($o['total']) ?></b> <?= t('을 송금해 주세요.') ?></li>
+    <li><?= t('마이페이지 › 주문 상세에서') ?> <b><?= t('송금한 사람 이름') ?></b><?= t('을 적고') ?> <b><?= t('입금 확인 요청') ?></b><?= t('을 눌러 주세요.') ?></li>
+    <li><?= t('입금이 확인되면 바로 출고하고, 배송이 시작되면 알려 드립니다.') ?></li>
   </ol>
   <div class="mt-[16px] rounded-[8px] border border-gray6 p-[14px] sub-head2 font-bold"><?= esc(mm_setting('kbzpay_account', '')) ?></div>
   <div class="btn-area shrink-0 flex btn-grid02 sub-head2 mt-[24px] gap-[8px]">
-    <a href="<?= site_url('products') ?>" class="text-black bg-white border border-gray6 min-h-[44px] px-[16px] py-[12px] body3 !leading-none w-full rounded-full font-bold text-center">쇼핑 계속하기</a>
-    <a href="<?= site_url('mypage/orders/' . $o['id']) ?>" class="text-white bg-primary min-h-[44px] px-[16px] py-[12px] body3 !leading-none w-full rounded-full font-bold text-center">주문 상세 보기</a>
+    <a href="<?= site_url('products') ?>" class="text-black bg-white border border-gray6 min-h-[44px] px-[16px] py-[12px] body3 !leading-none w-full rounded-full font-bold text-center"><?= t('쇼핑 계속하기') ?></a>
+    <a href="<?= site_url('mypage/orders/' . $o['id']) ?>" class="text-white bg-primary min-h-[44px] px-[16px] py-[12px] body3 !leading-none w-full rounded-full font-bold text-center"><?= t('주문 상세 보기') ?></a>
   </div>
 </section>

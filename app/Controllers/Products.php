@@ -50,7 +50,7 @@ class Products extends BaseController
 
         return $this->render('products/index', [
             'fullWidth'  => true,
-            'title'      => ($catRow ? $catRow['name'] : ($q !== '' ? '"' . $q . '" 검색결과' : '전체 상품')),
+            'title'      => ($catRow ? t($catRow['name']) : ($q !== '' ? '"' . $q . t('" 검색결과') : t('전체 상품'))),
             'only'       => $only,
             'products'   => $products,
             'pager'      => $pm->pager,

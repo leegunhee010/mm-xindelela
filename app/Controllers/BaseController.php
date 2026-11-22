@@ -14,7 +14,7 @@ abstract class BaseController extends Controller
     /** @var CLIRequest|IncomingRequest */
     protected $request;
 
-    protected $helpers = ['mm', 'form', 'url'];
+    protected $helpers = ['mm', 'i18n', 'form', 'url'];
 
     public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
     {

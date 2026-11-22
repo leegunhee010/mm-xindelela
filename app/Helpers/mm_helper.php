@@ -84,10 +84,10 @@ if (! function_exists('mm_status_label')) {
     function mm_status_label(string $status): string
     {
         return [
-            'pending'   => '검수 대기',
-            'approved'  => '승인',
-            'rejected'  => '반려',
-            'suspended' => '정지',
+            'pending'   => t('검수 대기'),
+            'approved'  => t('승인'),
+            'rejected'  => t('반려'),
+            'suspended' => t('정지'),
         ][$status] ?? $status;
     }
 }
@@ -96,7 +96,7 @@ if (! function_exists('mm_verify_states')) {
     /** 구매자 비즈니스 인증 상태. 관리자·구매자 화면이 모두 이 이름을 쓴다. */
     function mm_verify_states(): array
     {
-        return ['pending' => '인증 검수 중', 'approved' => '인증 완료', 'rejected' => '보완 요청', 'suspended' => '이용 정지'];
+        return ['pending' => t('인증 검수 중'), 'approved' => t('인증 완료'), 'rejected' => t('보완 요청'), 'suspended' => t('이용 정지')];
     }
 }
 
@@ -111,12 +111,12 @@ if (! function_exists('mm_product_status_label')) {
     function mm_product_status_label(string $status): string
     {
         return [
-            'draft'    => '임시저장',
-            'pending'  => '검수 대기',
-            'active'   => '판매중',
-            'coming'   => '입고 예정',
-            'hidden'   => '숨김',
-            'rejected' => '반려',
+            'draft'    => t('임시저장'),
+            'pending'  => t('검수 대기'),
+            'active'   => t('판매중'),
+            'coming'   => t('입고 예정'),
+            'hidden'   => t('숨김'),
+            'rejected' => t('반려'),
         ][$status] ?? $status;
     }
 }
@@ -126,12 +126,12 @@ if (! function_exists('mm_order_flow')) {
     function mm_order_flow(): array
     {
         return [
-            'requested' => '입금 대기',
-            'proof'     => '입금 확인 요청',
-            'paid'      => '결제 완료',
-            'preparing' => '출고 준비',
-            'shipped'   => '배송중',
-            'delivered' => '배송 완료',
+            'requested' => t('입금 대기'),
+            'proof'     => t('입금 확인 요청'),
+            'paid'      => t('결제 완료'),
+            'preparing' => t('출고 준비'),
+            'shipped'   => t('배송중'),
+            'delivered' => t('배송 완료'),
         ];
     }
 }
@@ -139,7 +139,7 @@ if (! function_exists('mm_order_flow')) {
 if (! function_exists('mm_order_status_label')) {
     function mm_order_status_label(string $status): string
     {
-        return (mm_order_flow() + ['quoted' => '입금 대기', 'cancelled' => '취소'])[$status] ?? $status;
+        return (mm_order_flow() + ['quoted' => t('입금 대기'), 'cancelled' => t('취소')])[$status] ?? $status;
     }
 }
 
@@ -148,10 +148,10 @@ if (! function_exists('mm_order_pay_label')) {
     function mm_order_pay_label(string $status): string
     {
         return match ($status) {
-            'requested', 'quoted' => '미입금',
-            'proof'               => '확인 요청',
-            'cancelled'           => '취소',
-            default               => '결제 완료',
+            'requested', 'quoted' => t('미입금'),
+            'proof'               => t('확인 요청'),
+            'cancelled'           => t('취소'),
+            default               => t('결제 완료'),
         };
     }
 }
@@ -159,7 +159,7 @@ if (! function_exists('mm_order_pay_label')) {
 if (! function_exists('mm_payment_label')) {
     function mm_payment_label(string $m): string
     {
-        return ['kbzpay' => 'KBZPay 선불', 'cod' => '착불(COD)'][$m] ?? $m;
+        return ['kbzpay' => t('KBZPay 선불'), 'cod' => t('착불(COD)')][$m] ?? $m;
     }
 }
 
@@ -167,13 +167,13 @@ if (! function_exists('mm_point_type_label')) {
     function mm_point_type_label(string $t): string
     {
         return [
-            'signup_bonus'         => '가입 축하',
-            'referral_signup'      => '추천 회원 승인',
-            'referral_first_order' => '추천 회원 첫 주문',
-            'order_use'            => '주문 사용',
-            'order_refund'         => '주문 취소 환원',
-            'order_reward'         => '구매 적립',
-            'admin_adjust'         => '관리자 조정',
+            'signup_bonus'         => t('가입 축하'),
+            'referral_signup'      => t('추천 회원 승인'),
+            'referral_first_order' => t('추천 회원 첫 주문'),
+            'order_use'            => t('주문 사용'),
+            'order_refund'         => t('주문 취소 환원'),
+            'order_reward'         => t('구매 적립'),
+            'admin_adjust'         => t('관리자 조정'),
         ][$t] ?? $t;
     }
 }
@@ -228,16 +228,16 @@ if (! function_exists('mm_ago')) {
         }
         $s = time() - strtotime($dt);
         if ($s < 60) {
-            return '방금';
+            return t('방금');
         }
         if ($s < 3600) {
-            return intdiv($s, 60) . '분 전';
+            return intdiv($s, 60) . t('분 전');
         }
         if ($s < 86400) {
-            return intdiv($s, 3600) . '시간 전';
+            return intdiv($s, 3600) . t('시간 전');
         }
         if ($s < 86400 * 7) {
-            return intdiv($s, 86400) . '일 전';
+            return intdiv($s, 86400) . t('일 전');
         }
         return date('m.d', strtotime($dt));
     }
@@ -279,22 +279,22 @@ if (! function_exists('mm_verify_types')) {
     {
         return [
             'offline' => [
-                'label'  => '오프라인 매장',
-                'desc'   => '가게·매장을 운영하고 있어요',
-                'docs'   => ['간판이 보이는 매장 외관 사진', '진열대나 매장 안 사진', '영업허가증 (있으면)'],
-                'check'  => ['사진 속 매장이 실제로 영업 중인가', '상호(간판)가 가입 정보와 맞는가'],
+                'label'  => t('오프라인 매장'),
+                'desc'   => t('가게·매장을 운영하고 있어요'),
+                'docs'   => [t('간판이 보이는 매장 외관 사진'), t('진열대나 매장 안 사진'), t('영업허가증 (있으면)')],
+                'check'  => [t('사진 속 매장이 실제로 영업 중인가'), t('상호(간판)가 가입 정보와 맞는가')],
             ],
             'online' => [
-                'label'  => '온라인 판매',
-                'desc'   => '페이스북·틱톡·인스타 등에서 팔고 있어요',
-                'docs'   => ['판매 페이지 링크', '판매 글 캡처', '고객 주문·배송 대화 캡처'],
-                'check'  => ['판매 페이지(또는 캡처)에 최근 판매 글이 있는가', '페이지 이름이 가입 상호와 맞는가'],
+                'label'  => t('온라인 판매'),
+                'desc'   => t('페이스북·틱톡·인스타 등에서 팔고 있어요'),
+                'docs'   => [t('판매 페이지 링크'), t('판매 글 캡처'), t('고객 주문·배송 대화 캡처')],
+                'check'  => [t('판매 페이지(또는 캡처)에 최근 판매 글이 있는가'), t('페이지 이름이 가입 상호와 맞는가')],
             ],
             'network' => [
-                'label'  => '판매 네트워크',
-                'desc'   => '거래처·고객 그룹에 물건을 대고 있어요',
-                'docs'   => ['Viber·Telegram 고객/거래처 그룹 캡처', '거래처 주문·납품 대화 캡처', '거래 장부·영수증 사진'],
-                'check'  => ['여러 고객·거래처에 반복해서 판매·공급하는가', '개인 사용 목적 구매가 아닌가'],
+                'label'  => t('판매 네트워크'),
+                'desc'   => t('거래처·고객 그룹에 물건을 대고 있어요'),
+                'docs'   => [t('Viber·Telegram 고객/거래처 그룹 캡처'), t('거래처 주문·납품 대화 캡처'), t('거래 장부·영수증 사진')],
+                'check'  => [t('여러 고객·거래처에 반복해서 판매·공급하는가'), t('개인 사용 목적 구매가 아닌가')],
             ],
         ];
     }
@@ -320,10 +320,10 @@ if (! function_exists('mm_verify_reject_reasons')) {
     function mm_verify_reject_reasons(): array
     {
         return [
-            '판매 활동을 확인할 수 있는 자료가 없습니다. 매장 사진, 판매 글 캡처, 거래처 대화 캡처 중 하나를 올려 주세요.',
-            '사진·캡처가 흐려서 내용을 확인할 수 없습니다. 선명한 자료로 다시 올려 주세요.',
-            '제출하신 링크(페이지)에 들어갈 수 없거나 판매 글이 없습니다. 판매 글이 보이는 캡처를 함께 올려 주세요.',
-            '자료의 상호와 가입하신 상호가 다릅니다. 같은 가게·페이지인지 확인할 수 있는 자료를 올려 주세요.',
+            t('판매 활동을 확인할 수 있는 자료가 없습니다. 매장 사진, 판매 글 캡처, 거래처 대화 캡처 중 하나를 올려 주세요.'),
+            t('사진·캡처가 흐려서 내용을 확인할 수 없습니다. 선명한 자료로 다시 올려 주세요.'),
+            t('제출하신 링크(페이지)에 들어갈 수 없거나 판매 글이 없습니다. 판매 글이 보이는 캡처를 함께 올려 주세요.'),
+            t('자료의 상호와 가입하신 상호가 다릅니다. 같은 가게·페이지인지 확인할 수 있는 자료를 올려 주세요.'),
         ];
     }
 }
@@ -349,7 +349,7 @@ if (! function_exists('mm_mask_name')) {
 if (! function_exists('mm_ship_methods')) {
     function mm_ship_methods(): array
     {
-        return ['courier' => '택배', 'cargo' => '화물·트럭', 'direct' => '직접 배송', 'pickup' => '방문 수령', 'air' => '항공 특송'];
+        return ['courier' => t('택배'), 'cargo' => t('화물·트럭'), 'direct' => t('직접 배송'), 'pickup' => t('방문 수령'), 'air' => t('항공 특송')];
     }
 }
 
@@ -519,20 +519,20 @@ if (! function_exists('mm_welcome_defaults')) {
     function mm_welcome_defaults(): array
     {
         return [
-            'tag'    => '무료 회원가입',
-            'title1' => '한국 브랜드 도매몰에서',
-            'title2' => '지금 바로 주문해 보세요',
-            'sub'    => '미얀마 소매상과 온라인 셀러를 위한 회원제 도매몰입니다',
-            'band1'  => '한국 브랜드 상품을 미얀마에서 도매가로,',
-            'band2'  => 'XINDELELA 도매몰에서 시작하세요',
+            'tag'    => t('무료 회원가입'),
+            'title1' => t('한국 브랜드 도매몰에서'),
+            'title2' => t('지금 바로 주문해 보세요'),
+            'sub'    => t('미얀마 소매상과 온라인 셀러를 위한 회원제 도매몰입니다'),
+            'band1'  => t('한국 브랜드 상품을 미얀마에서 도매가로,'),
+            'band2'  => t('XINDELELA 도매몰에서 시작하세요'),
             'pics'   => array_map(static fn ($k) => 'assets/img/demo/' . $k . '.jpg', ['p1', 'p3', 'p5', 'p8', 'p2', 'p10', 'p6', 'p9']),
             'faq'    => [
-                ['q' => '누구나 회원이 될 수 있나요?', 'a' => '오프라인 매장, 온라인 판매, 판매 네트워크 중 하나라도 운영하고 있다면 가입할 수 있습니다. 개인 사용 목적의 구매는 승인되지 않습니다.'],
-                ['q' => '인증은 얼마나 걸리나요?', 'a' => '담당자가 제출 자료를 직접 확인하며 {인증기간}합니다. 자료가 부족하면 이유를 알려 드리고, 마이페이지에서 자료를 추가해 다시 제출할 수 있습니다.'],
-                ['q' => '가입 축하 포인트는 언제 받나요?', 'a' => '비즈니스 인증이 승인되는 순간 {가입포인트}가 적립됩니다. 1P는 1 {통화}이며, 주문할 때 상품 금액의 {사용한도}까지 쓸 수 있습니다.'],
-                ['q' => '몇 개부터 주문할 수 있나요?', 'a' => '상품마다 최소주문수량이 정해져 있고, 그 수량부터 1개씩 늘릴 수 있습니다. 수량이 많을수록 낮은 단가가 자동으로 적용됩니다.'],
-                ['q' => '결제는 어떻게 하나요?', 'a' => '주문을 신청하면 결제 금액과 KBZPay 계좌가 안내됩니다. 송금한 뒤 주문 상세에서 송금자 이름을 적고 입금 확인을 요청하면 됩니다.'],
-                ['q' => '가입비가 있나요?', 'a' => '가입과 인증은 무료입니다.'],
+                ['q' => t('누구나 회원이 될 수 있나요?'), 'a' => t('오프라인 매장, 온라인 판매, 판매 네트워크 중 하나라도 운영하고 있다면 가입할 수 있습니다. 개인 사용 목적의 구매는 승인되지 않습니다.')],
+                ['q' => t('인증은 얼마나 걸리나요?'), 'a' => t('담당자가 제출 자료를 직접 확인하며 {인증기간}합니다. 자료가 부족하면 이유를 알려 드리고, 마이페이지에서 자료를 추가해 다시 제출할 수 있습니다.')],
+                ['q' => t('가입 축하 포인트는 언제 받나요?'), 'a' => t('비즈니스 인증이 승인되는 순간 {가입포인트}가 적립됩니다. 1P는 1 {통화}이며, 주문할 때 상품 금액의 {사용한도}까지 쓸 수 있습니다.')],
+                ['q' => t('몇 개부터 주문할 수 있나요?'), 'a' => t('상품마다 최소주문수량이 정해져 있고, 그 수량부터 1개씩 늘릴 수 있습니다. 수량이 많을수록 낮은 단가가 자동으로 적용됩니다.')],
+                ['q' => t('결제는 어떻게 하나요?'), 'a' => t('주문을 신청하면 결제 금액과 KBZPay 계좌가 안내됩니다. 송금한 뒤 주문 상세에서 송금자 이름을 적고 입금 확인을 요청하면 됩니다.')],
+                ['q' => t('가입비가 있나요?'), 'a' => t('가입과 인증은 무료입니다.')],
             ],
         ];
     }
@@ -544,7 +544,7 @@ if (! function_exists('mm_tokens')) {
     {
         return strtr($s, [
             '{가입포인트}' => number_format((int) mm_setting('points_signup_bonus', 0)) . 'P',
-            '{인증기간}'   => (string) mm_setting('verify_sla_text', ''),
+            '{인증기간}'   => t((string) mm_setting('verify_sla_text', '')),
             '{사용한도}'   => (int) mm_setting('points_use_max_pct', 30) . '%',
             '{통화}'       => (string) mm_setting('currency_symbol', 'Ks'),
         ]);

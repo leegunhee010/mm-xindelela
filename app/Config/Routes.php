@@ -23,6 +23,7 @@ $routes->get('notices/(:num)', 'Notices::show/$1');
 $routes->get('guide', 'Home::guide');
 $routes->get('deploy-check', 'DeployCheck::index');
 $routes->get('welcome', 'Home::welcome'); // 광고·영업용 가입 랜딩
+$routes->get('lang/(ko|my)', 'Lang::set/$1'); // 언어 전환 (미얀마어 기본)
 $routes->get('wishlist', 'Wish::index');     // 관심상품 (비회원은 쿠키)
 $routes->post('wish/toggle', 'Wish::toggle');
 
@@ -53,7 +54,6 @@ $routes->group('', ['filter' => 'buyerauth'], static function ($routes) {
     $routes->post('wishlist/cart', 'Wish::toCart');
     $routes->post('mypage/orders/(:num)/address', 'MyPage::address/$1');
     $routes->get('mypage/points', 'MyPage::points');
-    $routes->get('mypage/referral', 'MyPage::referral');
     $routes->get('mypage/profile', 'MyPage::profile');
     $routes->post('mypage/profile', 'MyPage::updateProfile');
     $routes->post('mypage/password', 'MyPage::updatePassword');
@@ -112,7 +112,6 @@ $routes->group('admin', ['filter' => ['adminauth', 'adminlog'], 'namespace' => '
     $routes->post('orders/(:num)/memo', 'Orders::memo/$1');
     $routes->post('orders/(:num)/ship', 'Orders::ship/$1');
     $routes->get('points', 'Points::index');
-    $routes->get('referrals', 'Points::referrals');
     $routes->get('inquiries', 'Inquiries::index');
     $routes->post('inquiries/(:num)/answer', 'Inquiries::answer/$1');
     $routes->get('notices', 'Notices::index');

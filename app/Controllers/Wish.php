@@ -35,7 +35,7 @@ class Wish extends BaseController
                 }
             }
         }
-        return $this->render('wish/index', ['title' => '관심상품', 'items' => $items, 'approved' => mm_is_approved()]);
+        return $this->render('wish/index', ['title' => t('관심상품'), 'items' => $items, 'approved' => mm_is_approved()]);
     }
 
     public function toggle()
@@ -43,7 +43,7 @@ class Wish extends BaseController
         $pid = (int) $this->request->getPost('product_id');
         $p   = $pid ? (new ProductModel())->find($pid) : null;
         if (! $p || ! in_array($p['status'], ['active'], true)) {
-            return $this->reply(false, '판매중인 상품이 아닙니다.');
+            return $this->reply(false, t('판매중인 상품이 아닙니다.'));
         }
         $u = mm_user();
         if ($u && $u['role'] === 'buyer') {
@@ -68,7 +68,7 @@ class Wish extends BaseController
     public function toCart()
     {
         if (! mm_is_approved()) {
-            return redirect()->back()->with('error', '비즈니스 인증이 완료된 회원만 담을 수 있습니다.');
+            return redirect()->back()->with('error', t('비즈니스 인증이 완료된 회원만 담을 수 있습니다.'));
         }
         $u    = mm_user();
         $ids  = array_intersect(array_map('intval', (array) $this->request->getPost('ids')), mm_wish_ids());
@@ -84,9 +84,9 @@ class Wish extends BaseController
             $done++;
         }
         if (! $ids) {
-            return redirect()->back()->with('error', '담을 상품을 선택해 주세요.');
+            return redirect()->back()->with('error', t('담을 상품을 선택해 주세요.'));
         }
-        return redirect()->to('/cart')->with('success', $done ? $done . '개 상품을 최소주문수량으로 담았습니다. 수량은 여기서 바꿀 수 있습니다.' : '선택한 상품은 이미 장바구니에 있습니다.');
+        return redirect()->to('/cart')->with('success', $done ? $done . t('개 상품을 최소주문수량으로 담았습니다. 수량은 여기서 바꿀 수 있습니다.') : t('선택한 상품은 이미 장바구니에 있습니다.'));
     }
 
     private function reply(bool $on, ?string $error = null, int $count = 0)
@@ -97,6 +97,6 @@ class Wish extends BaseController
         if ($error) {
             return redirect()->back()->with('error', $error);
         }
-        return redirect()->back()->withCookies()->with('success', $on ? '관심상품에 담았습니다.' : '관심상품에서 뺐습니다.');
+        return redirect()->back()->withCookies()->with('success', $on ? t('관심상품에 담았습니다.') : t('관심상품에서 뺐습니다.'));
     }
 }

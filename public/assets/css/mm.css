@@ -643,3 +643,7 @@ main{min-height:600px;padding-bottom:80px}
 .hcoming-t p{margin-top:12px;font-size:14px;line-height:1.65;opacity:.8}
 .hcoming-t a{margin-top:auto;padding-top:20px;font-size:14px;font-weight:700;color:#ffb27a}
 .hcoming-list{flex:1;min-width:0}
+
+/* 히어로: 한 장이 가로 전체 (아이스크림몰 peek 여백 제거) */
+#heroSwiper .swiper-wrapper{padding-left:0 !important;padding-right:0 !important}
+#heroSwiper .swiper-slide>a{width:100%}

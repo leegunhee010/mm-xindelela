@@ -14,11 +14,11 @@ class Cart extends BaseController
     {
         $u = mm_user();
         if (! mm_is_approved()) {
-            return $this->render('cart/locked', ['title' => '장바구니']);
+            return $this->render('cart/locked', ['title' => t('장바구니')]);
         }
         [$items, $subtotal] = $this->items((int) $u['id']);
         return $this->render('cart/index', [
-            'title'    => '장바구니',
+            'title'    => t('장바구니'),
             'items'    => $items,
             'subtotal' => $subtotal,
         ]);
@@ -51,14 +51,14 @@ class Cart extends BaseController
     public function add()
     {
         if (! mm_is_approved()) {
-            return redirect()->back()->with('error', '비즈니스 인증이 완료된 회원만 담을 수 있습니다.');
+            return redirect()->back()->with('error', t('비즈니스 인증이 완료된 회원만 담을 수 있습니다.'));
         }
         $u   = mm_user();
         $pid = (int) $this->request->getPost('product_id');
         $qty = (int) $this->request->getPost('qty');
         $p   = (new ProductModel())->find($pid);
         if (! $p || $p['status'] !== 'active') {
-            return redirect()->back()->with('error', '판매중인 상품이 아닙니다.');
+            return redirect()->back()->with('error', t('판매중인 상품이 아닙니다.'));
         }
         $qty = max((int) $p['moq'], $qty);
         $cm  = new CartModel();
@@ -71,19 +71,19 @@ class Cart extends BaseController
         if ($this->request->getPost('go') === 'checkout') {
             return redirect()->to('/checkout');
         }
-        return redirect()->back()->with('success', '장바구니에 담았습니다.');
+        return redirect()->back()->with('success', t('장바구니에 담았습니다.'));
     }
 
     /** 지난 주문 그대로 다시 담기. 판매 중인 상품만, 지금 최소수량보다 적으면 최소수량으로. */
     public function reorder(int $orderId)
     {
         if (! mm_is_approved()) {
-            return redirect()->back()->with('error', '비즈니스 인증이 완료된 회원만 담을 수 있습니다.');
+            return redirect()->back()->with('error', t('비즈니스 인증이 완료된 회원만 담을 수 있습니다.'));
         }
         $u = mm_user();
         $o = (new OrderModel())->where('user_id', $u['id'])->find($orderId);
         if (! $o) {
-            return redirect()->back()->with('error', '주문을 찾을 수 없습니다.');
+            return redirect()->back()->with('error', t('주문을 찾을 수 없습니다.'));
         }
         $pm   = new ProductModel();
         $cm   = new CartModel();
@@ -105,11 +105,11 @@ class Cart extends BaseController
             $done++;
         }
         if (! $done) {
-            return redirect()->back()->with('error', '이 주문의 상품은 지금 판매하지 않습니다.');
+            return redirect()->back()->with('error', t('이 주문의 상품은 지금 판매하지 않습니다.'));
         }
-        $msg = '지난 주문 상품 ' . $done . '개를 같은 수량으로 담았습니다. 단가는 지금 가격으로 다시 계산됩니다.';
+        $msg = t('지난 주문 상품 ') . $done . t('개를 같은 수량으로 담았습니다. 단가는 지금 가격으로 다시 계산됩니다.');
         if ($skip) {
-            $msg .= ' 판매가 끝난 상품은 빠졌습니다: ' . implode(', ', $skip);
+            $msg .= t(' 판매가 끝난 상품은 빠졌습니다: ') . implode(', ', $skip);
         }
         return redirect()->to('/cart')->with('success', $msg);
     }
