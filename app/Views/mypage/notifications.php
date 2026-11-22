@@ -10,7 +10,7 @@
     <li class="nlist-li<?= $n['read_at'] ? '' : ' is-new' ?>">
       <a href="<?= $n['link'] ? site_url($n['link']) : '#' ?>">
         <span class="nlist-ic nlist-<?= esc($n['type']) ?>"></span>
-        <div><b><?= esc($n['title']) ?></b><?php if ($n['body']): ?><p><?= esc($n['body']) ?></p><?php endif ?><time><?= mm_dt($n['created_at']) ?></time></div>
+        <div><b><?= esc(t($n['title'])) ?></b><?php if ($n['body']): ?><p><?= esc($n['body']) ?></p><?php endif ?><time><?= mm_dt($n['created_at']) ?></time></div>
       </a>
     </li>
     <?php endforeach ?>

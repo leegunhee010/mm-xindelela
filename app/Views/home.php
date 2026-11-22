@@ -90,7 +90,7 @@
     <div class="hnotice-l w-full">
       <div class="flex items-center justify-between border-gray6 pc:border-b pc:pb-[26px]"><p class="mo:head-line1 text-title3 font-bold text-gray2 pc:leading-[1em]"><?= t('공지사항') ?></p><a href="<?= site_url('notices') ?>" class="h-auto my-auto body2 btn-arrow-right after-bg-gray5 text-gray3"><?= t('전체보기') ?></a></div>
       <ul class="flex flex-col pc:gap-4 pc:pt-[26px]">
-        <?php foreach ($notices as $nt): ?><li><a class="body2 flex justify-between border-gray6 pc:gap-[38px]" href="<?= site_url('notices/' . $nt['id']) ?>"><p class="ellipsis-1 hnotice-t w-[480px]"><?php if ($nt['is_pinned']): ?><span class="mr-[8px] rounded-[99px] bg-primary px-[8px] py-[1px] text-[11px] font-bold text-white align-[1px]"><?= t('공지') ?></span><?php endif ?><?= esc($nt['title']) ?></p><p class="text-gray3"><?= mm_dt($nt['created_at'], 'Y.m.d') ?></p></a></li><?php endforeach ?>
+        <?php foreach ($notices as $nt): ?><li><a class="body2 flex justify-between border-gray6 pc:gap-[38px]" href="<?= site_url('notices/' . $nt['id']) ?>"><p class="ellipsis-1 hnotice-t w-[480px]"><?php if ($nt['is_pinned']): ?><span class="mr-[8px] rounded-[99px] bg-primary px-[8px] py-[1px] text-[11px] font-bold text-white align-[1px]"><?= t('공지') ?></span><?php endif ?><?= esc(t($nt['title'])) ?></p><p class="text-gray3"><?= mm_dt($nt['created_at'], 'Y.m.d') ?></p></a></li><?php endforeach ?>
       </ul>
     </div>
   </div>

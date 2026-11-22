@@ -1,7 +1,7 @@
 <?php $approved = mm_is_approved(); $only = $only ?? false; $base = current_url() . '?' . http_build_query(array_filter(['q' => $q, 'sf' => service('request')->getGet('sf'), 'only' => $only ? 'coming' : null])); ?>
 <nav class="breadcrumb m-auto w-large pb-[40px] pt-[24px]"><ol class="breadcrumb-list flex items-center">
   <li class="breadcrumb-item flex items-center"><a class="breadcrumb-item-link block px-[4px]" href="<?= site_url('/') ?>"><?= t('홈') ?></a><span><picture><img alt="" class="size-[12px]" src="/images/icons/common/ico_chevron_right_light_16.svg"></picture></span></li>
-  <?php if (! empty($supplierPage)): ?><li class="breadcrumb-item flex items-center"><a class="block px-[4px]" href="<?= site_url('products') ?>"><?= t('공급사') ?></a><span><picture><img alt="" class="size-[12px]" src="/images/icons/common/ico_chevron_right_light_16.svg"></picture></span></li><li class="breadcrumb-item flex items-center"><a class="block px-[4px]"><?= esc($supplierPage['company_name']) ?></a></li>
+  <?php if (! empty($supplierPage)): ?><li class="breadcrumb-item flex items-center"><a class="block px-[4px]" href="<?= site_url('products') ?>"><?= t('공급사') ?></a><span><picture><img alt="" class="size-[12px]" src="/images/icons/common/ico_chevron_right_light_16.svg"></picture></span></li><li class="breadcrumb-item flex items-center"><a class="block px-[4px]"><?= esc(mm_sname($supplierPage)) ?></a></li>
   <?php elseif ($catRow): ?><li class="breadcrumb-item flex items-center"><a class="block px-[4px]" href="<?= site_url('products') ?>"><?= t('전체상품') ?></a><span><picture><img alt="" class="size-[12px]" src="/images/icons/common/ico_chevron_right_light_16.svg"></picture></span></li><li class="breadcrumb-item flex items-center"><a class="block px-[4px]"><?= esc(t($catRow['name'])) ?></a></li>
   <?php else: ?><li class="breadcrumb-item flex items-center"><a class="block px-[4px]"><?= t('전체상품') ?></a></li><?php endif ?>
 </ol></nav>
@@ -9,8 +9,8 @@
 <?php if (! empty($supplierPage)): ?>
 <section class="corner-section pc:mx-auto pc:w-large pc:mb-[40px]">
   <div class="flex items-center gap-[24px] rounded-[20px] bg-gray9 p-[28px]">
-    <div class="flex size-[88px] shrink-0 items-center justify-center overflow-hidden rounded-full bg-white text-[28px] font-bold text-primary"><?php if ($supplierPage['logo']): ?><img src="<?= base_url($supplierPage['logo']) ?>" alt="" class="size-full object-cover"><?php else: ?><?= esc(mb_substr($supplierPage['company_name'], 0, 1)) ?><?php endif ?></div>
-    <div><h2 class="title4 font-bold"><?= esc($supplierPage['company_name']) ?><?php if ($supplierPage['brand']): ?> <span class="ml-[6px] rounded-[99px] bg-[#fff3eb] px-[8px] py-[2px] text-[11px] font-bold text-primary align-middle"><?= esc($supplierPage['brand']) ?></span><?php endif ?></h2><p class="mt-[6px] text-body3 text-gray3"><?= esc($supplierPage['intro']) ?></p></div>
+    <div class="flex size-[88px] shrink-0 items-center justify-center overflow-hidden rounded-full bg-white text-[28px] font-bold text-primary"><?php if ($supplierPage['logo']): ?><img src="<?= base_url($supplierPage['logo']) ?>" alt="" class="size-full object-cover"><?php else: ?><?= esc(mb_substr(mm_sname($supplierPage), 0, 1)) ?><?php endif ?></div>
+    <div><h2 class="title4 font-bold"><?= esc(mm_sname($supplierPage)) ?><?php if ($supplierPage['brand']): ?> <span class="ml-[6px] rounded-[99px] bg-[#fff3eb] px-[8px] py-[2px] text-[11px] font-bold text-primary align-middle"><?= esc($supplierPage['brand']) ?></span><?php endif ?></h2><p class="mt-[6px] text-body3 text-gray3"><?= esc(t($supplierPage['intro'])) ?></p></div>
   </div>
 </section>
 <?php endif ?>
@@ -31,7 +31,7 @@
         </div></div>
       <div class="item border-b border-gray7"><h3 class="flex"><button type="button" class="accordian-trigger subtitle2 flex flex-1 items-center btn-filter-tit justify-between pl-0 pc:py-4" data-state="open"><?= t('공급사') ?></button></h3>
         <div class="p-0 pb-4 flex flex-col gap-[10px]">
-          <?php foreach (array_slice($suppliers, 0, 8) as $s): ?><a href="<?= site_url('suppliers/' . $s['id']) ?>" class="body3 text-gray3"><?= esc($s['company_name']) ?></a><?php endforeach ?>
+          <?php foreach (array_slice($suppliers, 0, 8) as $s): ?><a href="<?= site_url('suppliers/' . $s['id']) ?>" class="body3 text-gray3"><?= esc(mm_sname($s)) ?></a><?php endforeach ?>
           <?php if (! $suppliers): ?><span class="body3 text-gray5">-</span><?php endif ?>
         </div></div>
       <div class="item border-b border-gray7"><h3 class="flex"><button type="button" class="accordian-trigger subtitle2 flex flex-1 items-center btn-filter-tit justify-between pl-0 pc:py-4" data-state="open"><?= t('도매가 안내') ?></button></h3>

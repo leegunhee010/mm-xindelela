@@ -165,7 +165,7 @@ $joinCard = function (string $id) use ($approved, $isBuyer, $bonus, $cur, $regUr
     <p class="lp-tt-sub"><?= esc(implode(', ', array_map('t', array_column($categories, 'name')))) ?> <?= t('상품을 한곳에서 고릅니다') ?></p>
     <ul class="lp-tiles">
       <?php foreach ($products as $p): ?>
-      <li><a href="<?= site_url('products/' . $p['id']) ?>"><span class="lp-tile-img"><img src="<?= mm_thumb($p['thumb']) ?>" alt="" loading="lazy"></span><b><?= esc($p['name']) ?></b><small><?= $approved ? mm_price($p['price']) : t('회원 혜택가') ?></small></a></li>
+      <li><a href="<?= site_url('products/' . $p['id']) ?>"><span class="lp-tile-img"><img src="<?= mm_thumb($p['thumb']) ?>" alt="" loading="lazy"></span><b><?= esc(mm_pname($p)) ?></b><small><?= $approved ? mm_price($p['price']) : t('회원 혜택가') ?></small></a></li>
       <?php endforeach ?>
     </ul>
     <p class="lp-more"><a href="<?= site_url('products') ?>"><b><?= t('전체 상품 보기') ?></b> <?= t('카테고리:') ?> <?= esc(implode(' / ', array_column($categories, 'name'))) ?></a></p>

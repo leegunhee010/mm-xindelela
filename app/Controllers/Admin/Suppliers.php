@@ -83,6 +83,7 @@ class Suppliers extends Base
         $keep = array_values(array_filter(mm_json($s['doc_files'] ?? null), fn ($d) => in_array($d['path'], (array) $this->request->getPost('keep_docs'), true)));
         $data = [
             'company_name'    => trim((string) $this->request->getPost('company_name')),
+            'name_my'         => trim((string) $this->request->getPost('name_my')) ?: null,
             'brand'           => trim((string) $this->request->getPost('brand')),
             'intro'           => trim((string) $this->request->getPost('intro')),
             'contact_name'    => trim((string) $this->request->getPost('contact_name')),

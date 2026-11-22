@@ -26,8 +26,8 @@
       <?php if ($approved): ?><input type="checkbox" class="wish-chk" name="ids[]" value="<?= $p['id'] ?>" checked aria-label="<?= t('선택') ?>"><?php endif ?>
       <a href="<?= site_url('products/' . $p['id']) ?>" class="block size-[96px] shrink-0 overflow-hidden rounded-[12px] bg-gray9"><img src="<?= mm_thumb($p['thumb']) ?>" alt="" class="size-full object-cover"></a>
       <div class="flex-1 min-w-0">
-        <p class="label1 text-gray3"><?= esc($it['supplier']['company_name'] ?? ($p['brand'] ?? '')) ?></p>
-        <a href="<?= site_url('products/' . $p['id']) ?>" class="body2 font-medium block mt-[2px]"><?= esc($p['name']) ?></a>
+        <p class="label1 text-gray3"><?= esc(mm_sname($it['supplier'] ?? null) ?: t($p['brand'] ?? '')) ?></p>
+        <a href="<?= site_url('products/' . $p['id']) ?>" class="body2 font-medium block mt-[2px]"><?= esc(mm_pname($p)) ?></a>
         <p class="label1 text-gray4 mt-[4px]"><?= t('최소') ?> <?= number_format((int) $p['moq']) ?><?= esc(t($p['unit'])) ?><?= t('부터') ?><?= in_array((int) $p['id'], mm_repeat_ids(), true) ? t(' · <span class="text-primary font-bold">재구매 많음</span>') : '' ?></p>
       </div>
       <div class="wish-price text-right">

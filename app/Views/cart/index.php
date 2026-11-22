@@ -11,8 +11,8 @@
     <li class="cart-li flex items-center gap-[20px] border-b border-gray7 py-[24px]">
       <a href="<?= site_url('products/' . $p['id']) ?>" class="block size-[96px] shrink-0 overflow-hidden rounded-[12px] bg-gray9"><img src="<?= mm_thumb($p['thumb']) ?>" alt="" class="size-full object-cover"></a>
       <div class="flex-1 min-w-0">
-        <p class="label1 text-gray3"><?= esc($it['supplier']['company_name'] ?? '') ?></p>
-        <a href="<?= site_url('products/' . $p['id']) ?>" class="body2 font-medium block mt-[2px]"><?= esc($p['name']) ?></a>
+        <p class="label1 text-gray3"><?= esc(mm_sname($it['supplier'] ?? null)) ?></p>
+        <a href="<?= site_url('products/' . $p['id']) ?>" class="body2 font-medium block mt-[2px]"><?= esc(mm_pname($p)) ?></a>
         <p class="label1 text-gray4 mt-[4px]"><?= t('단가') ?> <?= mm_price($it['unit']) ?> <?= t('· 최소') ?> <?= number_format((int) $p['moq']) ?><?= esc(t($p['unit'])) ?><?= t('부터 · 수량별 단가 적용') ?></p>
       </div>
       <span class="stp cstp" data-moq="<?= (int) $p['moq'] ?>"><button type="button" class="minus" aria-label="<?= t('빼기') ?>">−</button><input type="text" inputmode="numeric" name="qty[<?= $it['cart']['id'] ?>]" value="<?= $it['qty'] ?>" aria-label="<?= t('수량') ?>"><button type="button" class="plus" aria-label="<?= t('더하기') ?>">+</button></span>

@@ -7,7 +7,7 @@
     <strong class="sub-head1 font-bold"><?= t('주문 상품') ?> <span class="label1 font-regular text-gray4"><?= count($items) ?><?= t('종') ?></span></strong><hr class="divider bg-black border-0 h-px my-[14px]">
     <ul>
       <?php foreach ($items as $it): ?>
-      <li class="flex items-center gap-[16px] border-b border-gray7 py-[16px]"><img src="<?= mm_thumb($it['p']['thumb']) ?>" alt="" class="size-[72px] rounded-[8px] object-cover bg-gray9"><div class="flex-1 min-w-0"><p class="body3"><?= esc($it['p']['name']) ?></p><p class="label1 text-gray4 mt-[2px]"><?= esc($it['supplier']['company_name'] ?? '') ?> <?= t('· 단가') ?> <?= mm_price($it['unit']) ?></p></div><div class="w-[90px] text-center body3"><?= number_format($it['qty']) ?><?= esc($it['p']['unit']) ?></div><div class="w-[140px] text-right sub-head1 font-bold"><?= mm_price($it['line'], false) ?> <span class="body3 font-medium"><?= esc($sym) ?></span></div></li>
+      <li class="flex items-center gap-[16px] border-b border-gray7 py-[16px]"><img src="<?= mm_thumb($it['p']['thumb']) ?>" alt="" class="size-[72px] rounded-[8px] object-cover bg-gray9"><div class="flex-1 min-w-0"><p class="body3"><?= esc(mm_pname($it['p'])) ?></p><p class="label1 text-gray4 mt-[2px]"><?= esc(mm_sname($it['supplier'] ?? null)) ?> <?= t('· 단가') ?> <?= mm_price($it['unit']) ?></p></div><div class="w-[90px] text-center body3"><?= number_format($it['qty']) ?><?= esc($it['p']['unit']) ?></div><div class="w-[140px] text-right sub-head1 font-bold"><?= mm_price($it['line'], false) ?> <span class="body3 font-medium"><?= esc($sym) ?></span></div></li>
       <?php endforeach ?>
     </ul>
   </div>

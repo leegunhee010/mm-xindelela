@@ -164,5 +164,14 @@ class KrProductSeeder extends Seeder
                 'created_at' => $now,
             ]);
         }
+
+        // 미얀마어 상품명·공급사명 (names-my.php). 데모 상품 포함, 매번 반영
+        $my = require __DIR__ . '/names-my.php';
+        foreach ($my['products'] as $code => $nm) {
+            $db->table('products')->where('code', $code)->update(['name_my' => $nm]);
+        }
+        foreach ($my['suppliers'] as $ko => $nm) {
+            $db->table('suppliers')->where('company_name', $ko)->update(['name_my' => $nm]);
+        }
     }
 }

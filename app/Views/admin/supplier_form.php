@@ -4,6 +4,7 @@
   <div class="card"><h3>회사 정보</h3>
     <div class="g2">
       <div class="field"><label>회사명 <i>*</i></label><input class="inp" name="company_name" value="<?= esc(old('company_name', $s['company_name'] ?? '')) ?>" required></div>
+      <div class="field"><label>미얀마어·영문 회사명</label><input class="inp" name="name_my" value="<?= esc(old('name_my', $s['name_my'] ?? '')) ?>" placeholder="미얀마어 화면에 보일 이름 (예: Pyeongchang Farm)"></div>
       <div class="field"><label>브랜드</label><input class="inp" name="brand" value="<?= esc(old('brand', $s['brand'] ?? '')) ?>"></div>
       <div class="field"><label>담당자</label><input class="inp" name="contact_name" value="<?= esc(old('contact_name', $s['contact_name'] ?? '')) ?>"></div>
       <div class="field"><label>연락처</label><input class="inp" name="phone" value="<?= esc(old('phone', $s['phone'] ?? '')) ?>"></div>

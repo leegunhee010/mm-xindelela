@@ -3,6 +3,7 @@
 <div>
   <div class="card"><h3>기본 정보</h3>
     <div class="field"><label>상품명 <i>*</i></label><input class="inp" name="name" value="<?= esc(old('name', $p['name'] ?? '')) ?>" required></div>
+    <div class="field"><label>미얀마어 상품명</label><input class="inp" name="name_my" lang="my" value="<?= esc(old('name_my', $p['name_my'] ?? '')) ?>" placeholder="비우면 미얀마어 화면에도 한국어 상품명이 보입니다"></div>
     <div class="g2">
       <div class="field"><label>카테고리</label><select class="sel" name="category_id"><option value="">선택</option><?php foreach ($categories as $c): ?><option value="<?= $c['id'] ?>" <?= (int) old('category_id', $p['category_id'] ?? 0) === (int) $c['id'] ? 'selected' : '' ?>><?= esc($c['name']) ?></option><?php endforeach ?></select></div>
       <div class="field"><label>공급사 <i>*</i></label><select class="sel" name="supplier_id" required><option value="">선택</option><?php foreach ($suppliers as $sp): ?><option value="<?= $sp['id'] ?>" <?= (int) old('supplier_id', $p['supplier_id'] ?? (int) service('request')->getGet('supplier')) === (int) $sp['id'] ? 'selected' : '' ?>><?= esc($sp['company_name']) ?></option><?php endforeach ?></select><div class="help"><a href="<?= site_url('admin/suppliers/new') ?>" style="text-decoration:underline">공급사 추가</a></div></div>

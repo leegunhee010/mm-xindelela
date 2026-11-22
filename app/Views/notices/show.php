@@ -1,5 +1,5 @@
 <div style="border-top:2px solid var(--ink);padding:18px 10px;border-bottom:1px solid var(--line)">
-  <h1 style="font-size:20px"><?= esc($n['title']) ?></h1>
+  <h1 style="font-size:20px"><?= esc(t($n['title'])) ?></h1>
   <div class="small muted mt8"><?= mm_dt($n['created_at']) ?> <?= t('· 조회') ?> <?= number_format((int) $n['views']) ?></div>
 </div>
 <div class="pdesc"><?= $n['body'] ?></div>

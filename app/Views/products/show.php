@@ -3,7 +3,7 @@
   <li class="breadcrumb-item flex items-center"><a class="breadcrumb-item-link block px-[4px]" href="<?= site_url('/') ?>"><?= t('홈') ?></a><span><picture><img alt="" class="size-[12px]" src="/images/icons/common/ico_chevron_right_light_16.svg"></picture></span></li>
   <li class="breadcrumb-item flex items-center"><a class="block px-[4px]" href="<?= site_url('products') ?>"><?= t('전체상품') ?></a><span><picture><img alt="" class="size-[12px]" src="/images/icons/common/ico_chevron_right_light_16.svg"></picture></span></li>
   <?php if ($category): ?><li class="breadcrumb-item flex items-center"><a class="block px-[4px]" href="<?= site_url('category/' . $category['id']) ?>"><?= esc(t($category['name'])) ?></a><span><picture><img alt="" class="size-[12px]" src="/images/icons/common/ico_chevron_right_light_16.svg"></picture></span></li><?php endif ?>
-  <li class="breadcrumb-item flex items-center"><a class="block px-[4px] font-medium text-black"><?= esc(mb_strimwidth($p['name'], 0, 40, '…')) ?></a></li>
+  <li class="breadcrumb-item flex items-center"><a class="block px-[4px] font-medium text-black"><?= esc(mb_strimwidth(mm_pname($p), 0, 40, '…')) ?></a></li>
 </ol></nav>
 
 <section class="corner-section last-of-type:mb-0 pc:mx-auto pc:w-large flex justify-between pc:mb-[40px]">
@@ -21,11 +21,11 @@
   <div class="goods-info pc:w-[480px]">
     <!-- 브랜드 · 공급사 -->
     <div class="pd-top">
-      <?php if ($p['brand']): ?><b><?= esc($p['brand']) ?></b><?php endif ?>
-      <?php if ($supplier): ?><a href="<?= site_url('suppliers/' . $supplier['id']) ?>"><?= esc($supplier['company_name']) ?> ›</a><?php endif ?>
+      <?php if ($p['brand']): ?><b><?= esc(t($p['brand'])) ?></b><?php endif ?>
+      <?php if ($supplier): ?><a href="<?= site_url('suppliers/' . $supplier['id']) ?>"><?= esc(mm_sname($supplier)) ?> ›</a><?php endif ?>
       <?php $wOn = in_array((int) $p['id'], mm_wish_ids(), true); ?><button type="button" class="wish-btn wish-pd<?= $wOn ? ' on' : '' ?>" data-wish="<?= $p['id'] ?>" aria-pressed="<?= $wOn ? 'true' : 'false' ?>"><span><?= t('관심상품') ?></span></button>
     </div>
-    <h2 class="pd-name"><?= esc($p['name']) ?></h2>
+    <h2 class="pd-name"><?= esc(mm_pname($p)) ?></h2>
     <?php if (in_array((int) $p['id'], mm_repeat_ids(), true)): ?><p class="pd-repeat"><?= t('재구매 많음 · 여러 셀러가 다시 주문한 상품입니다') ?></p><?php endif ?>
 
     <!-- 가격 -->
@@ -82,7 +82,7 @@
       $photos = array_values(array_unique(array_filter($photos)));
       ?>
       <?php if ($photos): ?>
-      <button type="button" class="pd-photos" id="pdPhotos" data-name="<?= esc(($p['code'] ?: 'product-' . $p['id']) . ' ' . $p['name']) ?>" data-urls="<?= esc(json_encode($photos, JSON_UNESCAPED_SLASHES)) ?>"><b><?= t('상품 사진 내려받기') ?></b><span><?= count($photos) ?><?= t('장 · 판매 글에 쓸 수 있습니다') ?></span></button>
+      <button type="button" class="pd-photos" id="pdPhotos" data-name="<?= esc(($p['code'] ?: 'product-' . $p['id']) . ' ' . mm_pname($p)) ?>" data-urls="<?= esc(json_encode($photos, JSON_UNESCAPED_SLASHES)) ?>"><b><?= t('상품 사진 내려받기') ?></b><span><?= count($photos) ?><?= t('장 · 판매 글에 쓸 수 있습니다') ?></span></button>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
       <?php endif ?>
     <?php elseif ($user && $user['role'] === 'buyer'): $vs = $user['status']; ?>
@@ -111,25 +111,25 @@
   <section class="pdt-sec" id="pdt-info">
     <h3 class="pdt-h"><?= t('상품 정보') ?></h3>
     <dl class="pdt-spec">
-      <div><dt><?= t('상품명') ?></dt><dd><?= esc($p['name']) ?></dd></div>
-      <div><dt><?= t('브랜드') ?></dt><dd><?= esc($p['brand'] ?: '-') ?></dd></div>
+      <div><dt><?= t('상품명') ?></dt><dd><?= esc(mm_pname($p)) ?></dd></div>
+      <div><dt><?= t('브랜드') ?></dt><dd><?= esc(t($p['brand'] ?: '-')) ?></dd></div>
       <div><dt><?= t('카테고리') ?></dt><dd><?= esc($cat ?: '-') ?></dd></div>
       <div><dt><?= t('상품코드') ?></dt><dd><?= esc($p['code'] ?: '-') ?></dd></div>
-      <div><dt><?= t('원산지') ?></dt><dd><?= esc($p['origin'] ?: '-') ?></dd></div>
+      <div><dt><?= t('원산지') ?></dt><dd><?= esc(t($p['origin'] ?: '-')) ?></dd></div>
       <div><dt><?= t('최소 주문') ?></dt><dd><?= number_format((int) $p['moq']) ?><?= esc(t($p['unit'])) ?><?= t('부터') ?></dd></div>
       <div><dt><?= t('재고') ?></dt><dd><?= $approved ? number_format((int) $p['stock']) . esc(t($p['unit'])) : t('인증 회원에게 공개') ?></dd></div>
-      <div><dt><?= t('공급사') ?></dt><dd><?= esc($supplier['company_name'] ?? '-') ?></dd></div>
+      <div><dt><?= t('공급사') ?></dt><dd><?= esc(mm_sname($supplier) ?: '-') ?></dd></div>
     </dl>
     <?php $blocks = mm_detail_blocks($p); $nImg = 0; ?>
     <?php if (! $blocks): ?><p class="pdt-empty"><?= t('상세 설명이 아직 등록되지 않았습니다.') ?></p><?php else: ?>
     <div class="pdt-body">
       <?php for ($i = 0, $n = count($blocks); $i < $n; $i++): $b = $blocks[$i]; ?>
         <?php if ($b['type'] === 'img' && ! empty($b['seq'])): ?>
-          <div class="pdt-strip"><?php while ($i < $n && $blocks[$i]['type'] === 'img' && ! empty($blocks[$i]['seq'])): $s2 = $blocks[$i]; $nImg++; ?><img src="<?= esc(str_starts_with($s2['src'], 'http') ? $s2['src'] : base_url($s2['src'])) ?>" alt="<?= esc($p['name']) ?> <?= t('상세') ?>"<?= ! empty($s2['w']) ? ' width="' . (int) $s2['w'] . '" height="' . (int) $s2['h'] . '"' : '' ?> loading="<?= $nImg <= 2 ? 'eager' : 'lazy' ?>"><?php $i++; endwhile; $i--; ?></div>
+          <div class="pdt-strip"><?php while ($i < $n && $blocks[$i]['type'] === 'img' && ! empty($blocks[$i]['seq'])): $s2 = $blocks[$i]; $nImg++; ?><img src="<?= esc(str_starts_with($s2['src'], 'http') ? $s2['src'] : base_url($s2['src'])) ?>" alt="<?= esc(mm_pname($p)) ?> <?= t('상세') ?>"<?= ! empty($s2['w']) ? ' width="' . (int) $s2['w'] . '" height="' . (int) $s2['h'] . '"' : '' ?> loading="<?= $nImg <= 2 ? 'eager' : 'lazy' ?>"><?php $i++; endwhile; $i--; ?></div>
         <?php elseif ($b['type'] === 'img'): $nImg++; ?>
-          <img class="pdt-img" src="<?= esc(str_starts_with($b['src'], 'http') ? $b['src'] : base_url($b['src'])) ?>" alt="<?= esc($p['name']) ?>" loading="<?= $nImg <= 2 ? 'eager' : 'lazy' ?>">
+          <img class="pdt-img" src="<?= esc(str_starts_with($b['src'], 'http') ? $b['src'] : base_url($b['src'])) ?>" alt="<?= esc(mm_pname($p)) ?>" loading="<?= $nImg <= 2 ? 'eager' : 'lazy' ?>">
         <?php elseif ($b['type'] === 'p'): ?>
-          <p class="pdt-p"><?= nl2br(esc($b['text'])) ?></p>
+          <p class="pdt-p"><?= nl2br(esc(mm_tr_lines($b['text']))) ?></p>
         <?php elseif ($b['type'] === 'video' && ($emb = mm_video_embed($b['src']))): ?>
           <div class="pdt-video"><iframe src="<?= esc($emb) ?>" loading="lazy" allowfullscreen title="<?= t('상품 영상') ?>"></iframe></div>
         <?php elseif ($b['type'] === 'html'): ?>
@@ -144,8 +144,8 @@
     <h3 class="pdt-h"><?= t('공급사') ?></h3>
     <?php if ($supplier): ?>
     <div class="pdt-sup">
-      <span class="pdt-sup-ic"><?= esc(mb_substr($supplier['company_name'], 0, 1)) ?></span>
-      <div class="pdt-sup-b"><b><?= esc($supplier['company_name']) ?></b><?php if ($supplier['brand']): ?><span><?= esc($supplier['brand']) ?></span><?php endif ?><?php if ($supplier['intro']): ?><p><?= esc($supplier['intro']) ?></p><?php endif ?></div>
+      <span class="pdt-sup-ic"><?= esc(mb_substr(mm_sname($supplier), 0, 1)) ?></span>
+      <div class="pdt-sup-b"><b><?= esc(mm_sname($supplier)) ?></b><?php if ($supplier['brand']): ?><span><?= esc(t($supplier['brand'])) ?></span><?php endif ?><?php if ($supplier['intro']): ?><p><?= esc(t($supplier['intro'])) ?></p><?php endif ?></div>
       <a class="pdt-btn" href="<?= site_url('suppliers/' . $supplier['id']) ?>"><?= t('이 공급사 상품 전체 ›') ?></a>
     </div>
     <?php else: ?><p class="pdt-empty"><?= t('공급사 정보가 없습니다.') ?></p><?php endif ?>
@@ -195,7 +195,7 @@
 <div class="modal" id="inqModal"><div class="in">
   <h3 class="font-bold"><?= t('상품 문의') ?></h3>
   <form method="post" action="<?= site_url('inquiry') ?>"><?= csrf_field() ?><input type="hidden" name="product_id" value="<?= $p['id'] ?>">
-    <div class="field"><label><?= t('상품') ?></label><div class="small"><?= esc($p['name']) ?></div></div>
+    <div class="field"><label><?= t('상품') ?></label><div class="small"><?= esc(mm_pname($p)) ?></div></div>
     <div class="field"><label><?= t('문의 내용') ?></label><textarea class="ta" name="body" placeholder="<?= t('수량, 납기, 샘플, 배송 등 궁금한 점을 적어 주세요.') ?>"></textarea></div>
     <div class="mmrow"><button class="btn btn-g" type="submit"><?= t('문의 보내기') ?></button><button class="btn close" type="button"><?= t('닫기') ?></button></div>
   </form>

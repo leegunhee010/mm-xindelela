@@ -80,7 +80,7 @@ class Products extends BaseController
 
         return $this->render('products/show', [
             'fullWidth' => true,
-            'title'    => $p['name'],
+            'title'    => mm_pname($p),
             'metaDesc' => trim(($p['brand'] ? $p['brand'] . ' · ' : '') . ($p['summary'] ?: $p['name'])),
             'ogImage'  => $p['thumb'] ? mm_thumb($p['thumb']) : null,
             'p'        => $p,
@@ -103,7 +103,7 @@ class Products extends BaseController
         $products = $pm->whereIn('status', ['active'])->where('supplier_id', $id)->orderBy('id', 'DESC')->paginate(self::PER_PAGE, 'p');
         return $this->render('products/index', [
             'fullWidth'  => true,
-            'title'      => $s['company_name'],
+            'title'      => mm_sname($s),
             'products'   => $products,
             'pager'      => $pm->pager,
             'categories' => (new CategoryModel())->where('is_active', 1)->orderBy('sort')->findAll(),

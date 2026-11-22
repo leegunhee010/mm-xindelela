@@ -139,6 +139,7 @@ class Products extends Base
             'category_id'   => (int) $this->request->getPost('category_id') ?: null,
             'code'          => trim((string) $this->request->getPost('code')),
             'name'          => trim((string) $this->request->getPost('name')),
+            'name_my'       => trim((string) $this->request->getPost('name_my')) ?: null,
             'summary'       => trim((string) $this->request->getPost('summary')),
             'description'   => (string) $this->request->getPost('description'),
             'thumb'         => $images[0] ?? null,

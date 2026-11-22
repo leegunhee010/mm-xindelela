@@ -4,7 +4,7 @@ $w = $w ?? 'w-[235px]'; $isNew = isset($p['created_at']) && strtotime($p['create
 <a class="block w-full cursor-pointer" href="<?= site_url('products/' . $p['id']) ?>">
   <div class="relative w-full"><div class="relative">
     <div class="relative w-full overflow-hidden aspect-square mb-[10px] flex justify-center items-center pc:rounded-[12px] bg-gray9">
-      <div class="absolute inset-0 origin-center transition-transform duration-300 scale-100 hover:scale-[1.04]"><picture><img alt="<?= esc($p['name']) ?>" class="size-full object-cover w-full" src="<?= mm_thumb($p['thumb']) ?>"></picture></div>
+      <div class="absolute inset-0 origin-center transition-transform duration-300 scale-100 hover:scale-[1.04]"><picture><img alt="<?= esc(mm_pname($p)) ?>" class="size-full object-cover w-full" src="<?= mm_thumb($p['thumb']) ?>"></picture></div>
     </div>
     <div class="absolute left-[12px] top-[12px] flex flex-wrap gap-[4px] pr-[20px]">
       <?php /* 배지는 하나만: BEST > 재구매 많음 > NEW */ ?>
@@ -16,8 +16,8 @@ $w = $w ?? 'w-[235px]'; $isNew = isset($p['created_at']) && strtotime($p['create
   </div>
   <div class="relative flex flex-auto flex-col items-start justify-end">
     <div class="flex w-full flex-col justify-end">
-      <p class="sub-head2 mo:label1 truncate text-[#777777]"><?= esc(! empty($sup) ? $sup['company_name'] : ($p['brand'] ?: '')) ?></p>
-      <p class="body2 sub-head2 ellipsis-2 mo:body3 mt-[2px]"><?= esc($p['name']) ?></p>
+      <p class="sub-head2 mo:label1 truncate text-[#777777]"><?= esc(! empty($sup) ? mm_sname($sup) : t($p['brand'] ?: '')) ?></p>
+      <p class="body2 sub-head2 ellipsis-2 mo:body3 mt-[2px]"><?= esc(mm_pname($p)) ?></p>
     </div>
     <div class="mt-1 flex w-full flex-wrap items-center gap-x-1">
       <?php if ($approved): ?>

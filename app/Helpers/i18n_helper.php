@@ -47,3 +47,45 @@ if (! function_exists('t')) {
         return $args ? vsprintf($s, $args) : $s;
     }
 }
+
+if (! function_exists('mm_pname')) {
+    /** 상품명: 미얀마어 화면이면 name_my(있을 때), 아니면 한국어 name */
+    function mm_pname(?array $p): string
+    {
+        if (! $p) {
+            return '';
+        }
+        return (mm_lang() === 'my' && ! empty($p['name_my'])) ? $p['name_my'] : (string) ($p['name'] ?? '');
+    }
+}
+
+if (! function_exists('mm_sname')) {
+    /** 공급사명: 미얀마어 화면이면 name_my(있을 때), 아니면 company_name */
+    function mm_sname(?array $s): string
+    {
+        if (! $s) {
+            return '';
+        }
+        return (mm_lang() === 'my' && ! empty($s['name_my'])) ? $s['name_my'] : (string) ($s['company_name'] ?? '');
+    }
+}
+
+if (! function_exists('mm_tr_lines')) {
+    /** 상세 맨 위 규격 글(줄마다 "라벨: 값")을 줄 단위로 번역. 사전에 없는 값(영문명·숫자 등)은 그대로 */
+    function mm_tr_lines(string $text): string
+    {
+        if (mm_lang() !== 'my') {
+            return $text;
+        }
+        $out = [];
+        foreach (preg_split('/\r?\n/', $text) as $line) {
+            if (str_contains($line, ': ')) {
+                [$k, $v] = explode(': ', $line, 2);
+                $out[]   = t($k) . ': ' . t($v);
+            } else {
+                $out[] = t($line);
+            }
+        }
+        return implode("\n", $out);
+    }
+}

@@ -7,7 +7,7 @@
   <?php if (! $rows): ?><div class="empty"><?= t('문의 내역이 없습니다.') ?></div><?php endif ?>
   <?php foreach ($rows as $r): ?>
   <div class="card" style="margin-bottom:10px">
-    <div class="small muted"><?= mm_dt($r['created_at']) ?><?php if ($r['product']): ?> · <a href="<?= site_url('products/' . $r['product']['id']) ?>" style="color:var(--navy)"><?= esc($r['product']['name']) ?></a><?php endif ?> · <?= $r['answer'] ? t('<span class="st st-approved">답변 완료</span>') : t('<span class="st st-pending">답변 대기</span>') ?></div>
+    <div class="small muted"><?= mm_dt($r['created_at']) ?><?php if ($r['product']): ?> · <a href="<?= site_url('products/' . $r['product']['id']) ?>" style="color:var(--navy)"><?= esc(mm_pname($r['product'])) ?></a><?php endif ?> · <?= $r['answer'] ? t('<span class="st st-approved">답변 완료</span>') : t('<span class="st st-pending">답변 대기</span>') ?></div>
     <p class="mt8"><?= nl2br(esc($r['body'])) ?></p>
     <?php if ($r['answer']): ?><div class="box-note mt8" style="color:var(--ink)"><b><?= t('답변') ?></b> <span class="small muted"><?= mm_dt($r['answered_at']) ?></span><br><?= nl2br(esc($r['answer'])) ?></div><?php endif ?>
   </div>
