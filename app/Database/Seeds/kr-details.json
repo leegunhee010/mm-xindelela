@@ -2187,5 +2187,292 @@
                 "h": 908
             }
         ]
+    },
+    "cu1": {
+        "images": [
+            "assets/img/products/cu1/m1.jpg",
+            "assets/img/products/cu1/m2.jpg",
+            "assets/img/products/cu1/m3.jpg",
+            "assets/img/products/cu1/m4.jpg",
+            "assets/img/products/cu1/m5.jpg",
+            "assets/img/products/cu1/m6.jpg",
+            "assets/img/products/cu1/m7.jpg"
+        ],
+        "blocks": [
+            {
+                "type": "img",
+                "src": "assets/img/products/cu1/d01.jpg",
+                "seq": true,
+                "w": 860,
+                "h": 2000
+            },
+            {
+                "type": "img",
+                "src": "assets/img/products/cu1/d02.jpg",
+                "seq": true,
+                "w": 860,
+                "h": 2000
+            },
+            {
+                "type": "img",
+                "src": "assets/img/products/cu1/d03.jpg",
+                "seq": true,
+                "w": 860,
+                "h": 2000
+            },
+            {
+                "type": "img",
+                "src": "assets/img/products/cu1/d04.jpg",
+                "seq": true,
+                "w": 860,
+                "h": 774
+            },
+            {
+                "type": "img",
+                "src": "assets/img/products/cu1/d05.jpg",
+                "seq": true,
+                "w": 860,
+                "h": 2000
+            },
+            {
+                "type": "img",
+                "src": "assets/img/products/cu1/d06.jpg",
+                "seq": true,
+                "w": 860,
+                "h": 2000
+            },
+            {
+                "type": "img",
+                "src": "assets/img/products/cu1/d07.jpg",
+                "seq": true,
+                "w": 860,
+                "h": 1654
+            },
+            {
+                "type": "img",
+                "src": "assets/img/products/cu1/d08.jpg",
+                "seq": true,
+                "w": 1000,
+                "h": 1002
+            }
+        ]
+    },
+    "cu2": {
+        "images": [
+            "assets/img/products/cu2/m1.jpg",
+            "assets/img/products/cu2/m2.jpg",
+            "assets/img/products/cu2/m3.jpg",
+            "assets/img/products/cu2/m4.jpg",
+            "assets/img/products/cu2/m5.jpg",
+            "assets/img/products/cu2/m6.jpg",
+            "assets/img/products/cu2/m7.jpg",
+            "assets/img/products/cu2/m8.jpg"
+        ],
+        "blocks": [
+            {
+                "type": "img",
+                "src": "assets/img/products/cu2/d01.jpg",
+                "seq": true,
+                "w": 800,
+                "h": 1175
+            },
+            {
+                "type": "img",
+                "src": "assets/img/products/cu2/d02.jpg",
+                "seq": true,
+                "w": 860,
+                "h": 2000
+            },
+            {
+                "type": "img",
+                "src": "assets/img/products/cu2/d03.jpg",
+                "seq": true,
+                "w": 860,
+                "h": 2000
+            },
+            {
+                "type": "img",
+                "src": "assets/img/products/cu2/d04.jpg",
+                "seq": true,
+                "w": 860,
+                "h": 2000
+            },
+            {
+                "type": "img",
+                "src": "assets/img/products/cu2/d05.jpg",
+                "seq": true,
+                "w": 860,
+                "h": 838
+            },
+            {
+                "type": "img",
+                "src": "assets/img/products/cu2/d06.jpg",
+                "seq": true,
+                "w": 860,
+                "h": 2000
+            },
+            {
+                "type": "img",
+                "src": "assets/img/products/cu2/d07.jpg",
+                "seq": true,
+                "w": 860,
+                "h": 2000
+            },
+            {
+                "type": "img",
+                "src": "assets/img/products/cu2/d08.jpg",
+                "seq": true,
+                "w": 860,
+                "h": 1486
+            },
+            {
+                "type": "img",
+                "src": "assets/img/products/cu2/d09.jpg",
+                "seq": true,
+                "w": 1000,
+                "h": 1020
+            }
+        ]
+    },
+    "jy1": {
+        "images": [
+            "assets/img/products/jy1/m1.jpg"
+        ],
+        "blocks": [
+            {
+                "type": "img",
+                "src": "assets/img/products/jy1/d01.jpg",
+                "seq": true,
+                "w": 780,
+                "h": 2000
+            },
+            {
+                "type": "img",
+                "src": "assets/img/products/jy1/d02.jpg",
+                "seq": true,
+                "w": 780,
+                "h": 108
+            }
+        ]
+    },
+    "jy2": {
+        "images": [
+            "assets/img/products/jy2/m1.jpg"
+        ],
+        "blocks": [
+            {
+                "type": "img",
+                "src": "assets/img/products/jy2/d01.jpg",
+                "seq": true,
+                "w": 780,
+                "h": 2000
+            },
+            {
+                "type": "img",
+                "src": "assets/img/products/jy2/d02.jpg",
+                "seq": true,
+                "w": 780,
+                "h": 943
+            },
+            {
+                "type": "img",
+                "src": "assets/img/products/jy2/d03.jpg",
+                "seq": true,
+                "w": 780,
+                "h": 2000
+            },
+            {
+                "type": "img",
+                "src": "assets/img/products/jy2/d04.jpg",
+                "seq": true,
+                "w": 780,
+                "h": 585
+            }
+        ]
+    },
+    "jy3": {
+        "images": [
+            "assets/img/products/jy3/m1.jpg"
+        ],
+        "blocks": [
+            {
+                "type": "img",
+                "src": "assets/img/products/jy3/d01.jpg",
+                "seq": true,
+                "w": 780,
+                "h": 362
+            },
+            {
+                "type": "img",
+                "src": "assets/img/products/jy3/d02.jpg",
+                "seq": true,
+                "w": 780,
+                "h": 585
+            }
+        ]
+    },
+    "hy1": {
+        "images": [
+            "assets/img/products/hy1/m1.jpg",
+            "assets/img/products/hy1/m2.jpg"
+        ],
+        "blocks": [
+            {
+                "type": "img",
+                "src": "assets/img/products/hy1/d01.jpg",
+                "seq": true,
+                "w": 780,
+                "h": 2000
+            },
+            {
+                "type": "img",
+                "src": "assets/img/products/hy1/d02.jpg",
+                "seq": true,
+                "w": 780,
+                "h": 2000
+            },
+            {
+                "type": "img",
+                "src": "assets/img/products/hy1/d03.jpg",
+                "seq": true,
+                "w": 780,
+                "h": 1000
+            },
+            {
+                "type": "img",
+                "src": "assets/img/products/hy1/d04.jpg",
+                "seq": true,
+                "w": 780,
+                "h": 2000
+            },
+            {
+                "type": "img",
+                "src": "assets/img/products/hy1/d05.jpg",
+                "seq": true,
+                "w": 780,
+                "h": 1500
+            }
+        ]
+    },
+    "hy2": {
+        "images": [
+            "assets/img/products/hy2/m1.jpg"
+        ],
+        "blocks": [
+            {
+                "type": "img",
+                "src": "assets/img/products/hy2/d01.jpg",
+                "seq": true,
+                "w": 780,
+                "h": 2000
+            },
+            {
+                "type": "img",
+                "src": "assets/img/products/hy2/d02.jpg",
+                "seq": true,
+                "w": 780,
+                "h": 835
+            }
+        ]
     }
 }

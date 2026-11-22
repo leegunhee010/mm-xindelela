@@ -55,6 +55,9 @@ class KrProductSeeder extends Seeder
                 'intro' => '에센스 마스크팩 브랜드 엠제이케어(MJCARE). 제조 미진화장품.'],
             'br' => ['company_name' => '뷰티레시피', 'brand' => '뷰티레시피', 'website' => 'http://www.brecipe.com',
                 'intro' => '스킨케어 브랜드 뷰티레시피(Beauty Recipe). 리틀머메이드·스노우화이트·네버우드 라인.'],
+            'sp' => ['company_name' => '사평', 'brand' => '사평', 'intro' => '즉석 카레 브랜드 사평.'],
+            'jy' => ['company_name' => '자연생각', 'brand' => '자연생각', 'intro' => '분말 전통차 브랜드 자연생각. 율무차·유자차·단호박고구마차.'],
+            'hy' => ['company_name' => '한양제과', 'brand' => '한양제과', 'intro' => '사탕·캬라멜 제조사 한양제과.'],
             'yo' => ['company_name' => '요뽀끼 (영풍)', 'brand' => '요뽀끼', 'website' => 'https://smartstore.naver.com/yopokki',
                 'intro' => '컵떡볶이 브랜드 요뽀끼(YOPOKKI). 전자레인지 조리 컵떡볶이.'],
         ];
@@ -96,6 +99,14 @@ class KrProductSeeder extends Seeder
             ['BR-003', 9900 / 2, 0, 'br', '뷰티레시피 리틀머메이드 디스 이즈 프린세스 클렌징워터', 'Little Mermaid This is Princess Cleansing Water', '500ml', null, null, null, '8809132285963', 'br3', null, ['cat' => '화장품·스킨케어']],
             ['BR-004', 11900 / 2, 0, 'br', '뷰티레시피 리틀머메이드 디스 이즈 프린세스 클렌징오일', 'Little Mermaid This is Princess Cleansing Oil', '300ml', null, null, null, null, 'br4', null, ['cat' => '화장품·스킨케어']],
             ['BR-005', 10900 / 2, 0, 'br', '뷰티레시피 네버우드 펩타이드 앤 시카 리페어 크림', 'NeverWood Peptide & Cica Repair Cream', '50ml', null, null, null, null, 'br5', null, ['cat' => '화장품·스킨케어']],
+            // 쿠팡 판매가(1개, 2026-11-22) ÷ 2 를 사입가로
+            ['SP-001', 9150 / 2, 0, 'sp', '사평 말차카레 2p', 'Sapyeong Matcha Curry 2p', '320g', null, null, null, null, 'cu1', '1개 = 160g × 2봉'],
+            ['SP-002', 14520 / 2, 0, 'sp', '사평 스트레스 킬러 마라카레 2p', 'Sapyeong Stress Killer Mala Curry 2p', '320g', null, null, null, null, 'cu2', '1개 = 160g × 2봉'],
+            ['JY-001', 8050 / 2, 0, 'jy', '자연생각 단호박고구마차', 'Sweet Pumpkin & Sweet Potato Tea 50T', '50T (18g × 50)', null, null, null, null, 'jy1', '1개 = 50스틱 1봉'],
+            ['JY-002', 4320 / 2, 0, 'jy', '자연생각 유자차', 'Citron Tea 50T', '50T (18g × 50)', null, null, null, null, 'jy2', '1개 = 50스틱 1봉'],
+            ['JY-003', 9060 / 2, 0, 'jy', '자연생각 검은콩 율무차', 'Black Bean Job’s Tears Tea 50T', '50T (18g × 50)', null, null, null, null, 'jy3', '1개 = 50스틱 1봉'],
+            ['HY-001', 10480 / 2, 0, 'hy', '한양제과 누룽지맛사탕', 'Hanyang Nurungji Candy', '1kg', null, null, null, null, 'hy1', null],
+            ['HY-002', 10500 / 2, 0, 'hy', '한양제과 땅콩캬라멜', 'Hanyang Peanut Caramel', '900g', null, null, null, null, 'hy2', null],
             ['CH-001', $chCost, 0, 'ch', '고려 호두아몬드율무차', 'Walnut Almond Job’s Tears Tea', '50입', null, null, null, null, 'ch1', '1개 = 50스틱 1통'],
         ];
 

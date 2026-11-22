@@ -23,7 +23,7 @@ $map['ch1'] = ['main' => ['ch1_main1.jpg', 'ch1_main2.png'], 'det' => ['ch1_d01.
 $map['gw1'] = ['main' => ['gw_main1.jpg', 'gw_main2.png'], 'det' => array_map('basename', glob($src . 'gw_d*'))];
 $map['mj1'] = ['main' => array_map(fn ($i) => "mj_main$i.jpg", range(1, 9)), 'det' => array_map('basename', glob($src . 'mj_d*'))];
 // 뷰티레시피 5종 (쿠팡 상품 페이지, 크롬으로 열어 이미지 주소 수집)
-foreach (['br1', 'br2', 'br3', 'br4', 'br5'] as $k) {
+foreach (['br1', 'br2', 'br3', 'br4', 'br5', 'cu1', 'cu2', 'jy1', 'jy2', 'jy3', 'hy1', 'hy2'] as $k) {
   $map[$k] = ['main' => array_map('basename', glob($src . "{$k}_main*")), 'det' => array_map('basename', glob($src . "{$k}_d*"))];
   natsort($map[$k]['main']); $map[$k]['main'] = array_values($map[$k]['main']);
 }
