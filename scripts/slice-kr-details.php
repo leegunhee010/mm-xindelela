@@ -19,6 +19,9 @@ foreach (['yo1', 'yo2', 'yo3', 'yo4'] as $k) {
 }
 // 초록원 호두아몬드율무차 50입 (cholocwon.co.kr product_no=32). 마지막 상세(고객센터·국내 배송 안내)는 뺌
 $map['ch1'] = ['main' => ['ch1_main1.jpg', 'ch1_main2.png'], 'det' => ['ch1_d01.jpg', 'ch1_d02.jpg', 'ch1_d03.jpg']];
+// 웰빙헬스팜 명품 고운발 (3wbmall.com/product/-/30), 엠제이케어 에센스 마스크팩 80매 8종 (SSG 1000591271148)
+$map['gw1'] = ['main' => ['gw_main1.jpg', 'gw_main2.png'], 'det' => array_map('basename', glob($src . 'gw_d*'))];
+$map['mj1'] = ['main' => array_map(fn ($i) => "mj_main$i.jpg", range(1, 9)), 'det' => array_map('basename', glob($src . 'mj_d*'))];
 function load($f) { $i = @imagecreatefromstring(file_get_contents($f)); if (!$i) throw new Exception("bad $f"); return $i; }
 function flat($im, $w, $h) { $o = imagecreatetruecolor($w, $h); imagefill($o, 0, 0, imagecolorallocate($o, 255, 255, 255)); return $o; }
 $out = [];

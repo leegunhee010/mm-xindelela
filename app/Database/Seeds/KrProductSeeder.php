@@ -49,6 +49,10 @@ class KrProductSeeder extends Seeder
                 'intro' => '광주의 녹차·전통차 전문 제조사. 녹차·호지차 믹스 스틱.'],
             'ch' => ['company_name' => '초록원', 'brand' => '초록원', 'phone' => '053-852-3000', 'website' => 'https://cholocwon.co.kr',
                 'intro' => '대구의 전통차·과일청 제조사. 율무차·대추차 등 분말·액상 차.'],
+            'wh' => ['company_name' => '웰빙헬스팜', 'brand' => '고운발', 'website' => 'https://3wbmall.com',
+                'intro' => '발 보습 크림 고운발 제조사 (주)웰빙헬스팜.'],
+            'mj' => ['company_name' => '엠제이케어', 'brand' => 'MJCARE', 'contact_name' => null, 'website' => null,
+                'intro' => '에센스 마스크팩 브랜드 엠제이케어(MJCARE). 제조 미진화장품.'],
             'yo' => ['company_name' => '요뽀끼 (영풍)', 'brand' => '요뽀끼', 'website' => 'https://smartstore.naver.com/yopokki',
                 'intro' => '컵떡볶이 브랜드 요뽀끼(YOPOKKI). 전자레인지 조리 컵떡볶이.'],
         ];
@@ -63,6 +67,8 @@ class KrProductSeeder extends Seeder
             $supIds[$k] = (int) $db->insertID();
         }
 
+        $gwCost = 12000 / 2;     // 웰빙헬스팜 공식몰(3wbmall.com/product/-/30) 판매가 12,000원 ÷ 2
+        $mjCost = 28950 / 80 / 2; // 엠제이케어 에센스 마스크팩 80매(8종×10매) 28,950원 → 1매 362원 ÷ 2
         $chCost = 10800 / 2;     // 초록원 공식몰 판매가 10,800원 ÷ 2
         $yoCost = 19900 / 6 / 2; // 요뽀끼 공식 스토어 6입 세트 19,900원 → 1컵 판매가 3,317원 ÷ 2
 
@@ -80,17 +86,26 @@ class KrProductSeeder extends Seeder
             ['YO-002', $yoCost, 0, 'yo', '요뽀끼 치즈 컵떡볶이', 'YOPOKKI Cheese Topokki Cup', '120g', 30, '제조일로부터 14개월', null, null, 'yo2', '1개 = 컵 1개 (떡 100g + 소스 20g)'],
             ['YO-003', $yoCost, 0, 'yo', '요뽀끼 로제 컵떡볶이', 'YOPOKKI Rose Topokki Cup', '120g', 30, '제조일로부터 14개월', null, null, 'yo3', '1개 = 컵 1개 (떡 100g + 소스 20g)'],
             ['YO-004', $yoCost, 0, 'yo', '요뽀끼 매콤 까르보나라 컵떡볶이', 'YOPOKKI Spicy Carbonara Topokki Cup', '120g', 30, '제조일로부터 14개월', null, null, 'yo4', '1개 = 컵 1개 (떡 100g + 소스 20g)'],
+            ['GW-001', $gwCost, 0, 'wh', '명품 고운발 풋크림', 'Premium Gounbal Foot Cream', '110g', null, null, null, null, 'gw1', null, ['cat' => '화장품·스킨케어']],
+            ['MJ-001', $mjCost, 0, 'mj', '엠제이케어 에센스 마스크팩', 'MJCARE Essence Mask Pack', '8종', null, '제조일로부터 1년 이내 발송 / 개봉 후 12개월', null, null, 'mj1', '콜라겐·알부틴·큐텐·백색(백장미)·로얄제리·진주·알로에·석류 8종 중 선택, 1종 10매 단위', ['cat' => '화장품·스킨케어', 'unit' => '매', 'moq' => 10, 'five' => 50]],
             ['CH-001', $chCost, 0, 'ch', '고려 호두아몬드율무차', 'Walnut Almond Job’s Tears Tea', '50입', null, null, null, null, 'ch1', '1개 = 50스틱 1통'],
         ];
 
         $det = json_decode((string) file_get_contents(__DIR__ . '/kr-details.json'), true) ?: [];
 
-        foreach ($items as [$code, $cost, $stock, $sk, $name, $en, $spec, $per, $shelf, $hs, $barcode, $img, $memo]) {
+        $catIdOf = function (string $name) use ($db, $now, $catId): int {
+            $row = $db->table('categories')->where('name', $name)->get()->getRowArray();
+            return $row ? (int) $row['id'] : $catId;
+        };
+
+        foreach ($items as $it) {
+            [$code, $cost, $stock, $sk, $name, $en, $spec, $per, $shelf, $hs, $barcode, $img, $memo] = $it;
+            $opt  = ($it[13] ?? []) + ['cat' => '식품·건강식품', 'unit' => '개', 'moq' => 1, 'five' => 5];
             $one  = self::ks($cost, self::X_ONE);
             $five = self::ks($cost, self::X_FIVE);
             $box  = self::ks($cost, self::X_BOX);
-            $tiers = [['min_qty' => 5, 'price' => $five]];
-            if ($per && $per > 5) {
+            $tiers = [['min_qty' => $opt['five'], 'price' => $five]];
+            if ($per && $per > $opt['five']) {
                 $tiers[] = ['min_qty' => $per, 'price' => $box];
             }
 
@@ -108,11 +123,12 @@ class KrProductSeeder extends Seeder
                 'detail'  => json_encode(array_merge([['type' => 'p', 'text' => implode("\n", $lines)]], $d['blocks']), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
                 'price'   => $one,
                 'tiers'   => json_encode($tiers),
-                'moq'     => 1,
-                'unit'    => '개',
+                'moq'     => $opt['moq'],
+                'unit'    => $opt['unit'],
+                'category_id' => $catIdOf($opt['cat']),
                 'stock'   => $stock,
                 'status'  => 'active',
-                'summary' => $brand . ' 정품. 1개부터 주문, 5개' . ($per ? '·1박스(' . $per . '개)' : '') . ' 이상 도매가.',
+                'summary' => $brand . ' 정품. ' . $opt['moq'] . $opt['unit'] . '부터 주문, ' . $opt['five'] . $opt['unit'] . ($per ? '·1박스(' . $per . '개)' : '') . ' 이상 도매가.',
                 'description' => '<p>' . esc(implode(' / ', $lines)) . '</p>',
                 'updated_at'  => $now,
             ];
