@@ -6,12 +6,13 @@ use CodeIgniter\Database\Seeder;
 
 /**
  * 실제 한국 사입 품목 (Documents\1106_미얀마_한국사입품목.xlsx, 2026-11-06 정리).
- * 아직 입고 전이라 status='coming'(입고 예정): 가격은 입고 후 공개, 인증 회원은 줄서기.
- * 판매 도매가는 미정이라 price=0. 입고되면 관리자에서 가격 넣고 '판매중'으로 바꾸면 줄 선 회원에게 알림이 간다.
+ * 판매중(active), 단위=박스, 가격=박스당 (사입가 × 입수 × 4 × 3.74). 재고=들여오는 박스 수.
  * 상품 코드(KR-xxx)가 이미 있으면 건너뛴다(여러 번 돌려도 안전).
  */
 class KrProductSeeder extends Seeder
 {
+    private const MARKUP     = 4;     // 사입가의 4배
+    private const KRW_TO_MMK = 3.74;  // 1원 = 3.74 Ks
     public function run()
     {
         $db  = $this->db;
@@ -44,28 +45,31 @@ class KrProductSeeder extends Seeder
             $supIds[$k] = (int) $db->insertID();
         }
 
-        // [코드, 공급사, 상품명, 영문명, 규격, 입수(박스당), 소비기한, HS코드, 바코드, 사진]
+        // [코드, 사입가(원, 개당·한국제다는 박스당), 들여오는 박스 수, 공급사, 상품명, 영문명, 규격, 입수(박스당), 소비기한, HS코드, 바코드, 사진]
         $items = [
-            ['KR-001', 'pc', '간편조리 평창시래기', 'Dried Easy Cook Pyeongchang Siraegi', '80g', 20, '24개월', '0712.90-2020', '8809634580047', 'kr1'],
-            ['KR-002', 'pc', '평창곤드레나물 (5분ok)', 'Dried 5min.ok Pyeongchang Gondeure-Namul', '80g', 20, '24개월', '0712.90-2097', '8809634580016', 'kr2'],
-            ['KR-003', 'pc', '평창취나물', 'Dried Pyeongchang Chwi-Namul', '80g', 20, '24개월', '0712.90-2096', '8809634580061', 'kr3'],
-            ['KR-004', 'pc', '들기름', 'Perilla oil', '170ml', 24, '18개월', '1515.90-1000', '8809397331634', 'kr4'],
-            ['KR-005', 'pc', '봉평메밀국수 (메밀 30%)', 'Bongpyeong Buckwheat Noodles', '700g', 20, '24개월', '1902.19-1000', '8809023820587', 'kr5'],
-            ['KR-006', 'pc', '평창곤드레국수', 'Pyeongchang Gondre Noodles', '300g', 24, '24개월', '1902.19-1000', '8809634580436', 'kr6'],
-            ['KR-007', 'ht', '그린티믹스특선14 스틱', 'Green Tea Mix Stick', '120g', null, null, null, null, 'kr7'],
-            ['KR-008', 'ht', '호지차믹스20 스틱', 'Hojicha Mix Stick', '120g', null, null, null, null, 'kr8'],
+            ['KR-001', 5800, 1, 'pc', '간편조리 평창시래기', 'Dried Easy Cook Pyeongchang Siraegi', '80g', 20, '24개월', '0712.90-2020', '8809634580047', 'kr1'],
+            ['KR-002', 7000, 1, 'pc', '평창곤드레나물 (5분ok)', 'Dried 5min.ok Pyeongchang Gondeure-Namul', '80g', 20, '24개월', '0712.90-2097', '8809634580016', 'kr2'],
+            ['KR-003', 7000, 1, 'pc', '평창취나물', 'Dried Pyeongchang Chwi-Namul', '80g', 20, '24개월', '0712.90-2096', '8809634580061', 'kr3'],
+            ['KR-004', 13500, 1, 'pc', '들기름', 'Perilla oil', '170ml', 24, '18개월', '1515.90-1000', '8809397331634', 'kr4'],
+            ['KR-005', 4200, 2, 'pc', '봉평메밀국수 (메밀 30%)', 'Bongpyeong Buckwheat Noodles', '700g', 20, '24개월', '1902.19-1000', '8809023820587', 'kr5'],
+            ['KR-006', 6600, 1, 'pc', '평창곤드레국수', 'Pyeongchang Gondre Noodles', '300g', 24, '24개월', '1902.19-1000', '8809634580436', 'kr6'],
+            ['KR-007', 4400, 2, 'ht', '그린티믹스특선14 스틱', 'Green Tea Mix Stick', '120g', null, null, null, null, 'kr7'],
+            ['KR-008', 3850, 1, 'ht', '호지차믹스20 스틱', 'Hojicha Mix Stick', '120g', null, null, null, null, 'kr8'],
         ];
 
         // 판매페이지(평창팜 pcfarm.kr, 봉평메밀팜 memil.kr, 한국제다 hktmall.co.kr)에서 받은 대표사진·상세 이미지.
         // scripts/slice-kr-details.php 가 만든 목록.
         $det = json_decode((string) file_get_contents(__DIR__ . '/kr-details.json'), true) ?: [];
 
-        foreach ($items as $i => [$code, $sk, $name, $en, $spec, $per, $shelf, $hs, $barcode, $img]) {
+        foreach ($items as $i => [$code, $cost, $boxes, $sk, $name, $en, $spec, $per, $shelf, $hs, $barcode, $img]) {
+            // 판매가(박스당) = 사입가 × 박스 입수 × 4배 × 환율 3.74 (1원 = 3.74 Ks, 2026-11 사용자 지정). 100 Ks 반올림.
+            $perBox = (int) (round($cost * ($per ?: 1) * self::MARKUP * self::KRW_TO_MMK / 100) * 100);
+            $perPc  = $per ? (int) (round($cost * self::MARKUP * self::KRW_TO_MMK / 100) * 100) : null;
             $d      = $det[$i + 1] ?? ['images' => [], 'blocks' => []];
             $images = $d['images'];
             $brand  = $sups[$sk]['brand'];
             $lines  = [];
-            foreach (['영문명' => $en, '규격' => $spec, '박스 입수' => $per ? $per . '개' : null, '소비기한' => $shelf, '원산지' => '한국', 'HS 코드' => $hs, '바코드' => $barcode, '보관' => '실온'] as $k => $v) {
+            foreach (['영문명' => $en, '규격' => $spec, '박스 입수' => $per ? $per . '개' . ($perPc ? ' (개당 약 ' . number_format($perPc) . ' Ks)' : '') : null, '소비기한' => $shelf, '원산지' => '한국', 'HS 코드' => $hs, '바코드' => $barcode, '보관' => '실온'] as $k => $v) {
                 if ($v !== null && $v !== '') {
                     $lines[] = $k . ': ' . $v;
                 }
@@ -75,12 +79,17 @@ class KrProductSeeder extends Seeder
             $media  = ['thumb' => $images[0] ?? null, 'images' => json_encode($images), 'detail' => $detail];
 
             $row = $db->table('products')->where('code', $code)->get()->getRowArray();
+            $sale = ['price' => $perBox, 'stock' => $boxes, 'status' => 'active'];
             if ($row) {
-                // 이미 있으면 사진·상세만 갱신 (가격·상태 등 관리자가 바꾼 값은 건드리지 않음)
-                $db->table('products')->where('id', $row['id'])->update($media + ['updated_at' => $now]);
+                // 이미 있으면 사진·상세 갱신. 가격은 아직 0(입고 예정)일 때만 넣는다 (관리자가 정한 가격은 유지).
+                $upd = $media + ['updated_at' => $now];
+                if ((int) $row['price'] === 0) {
+                    $upd += $sale;
+                }
+                $db->table('products')->where('id', $row['id'])->update($upd);
                 continue;
             }
-            $rows  = ['영문명' => $en, '규격' => $spec, '박스 입수' => $per ? $per . '개' : null, '소비기한' => $shelf, '원산지' => '한국', 'HS 코드' => $hs, '바코드' => $barcode, '보관' => '실온'];
+            $rows  = ['영문명' => $en, '규격' => $spec, '박스 입수' => $per ? $per . '개' . ($perPc ? ' (개당 약 ' . number_format($perPc) . ' Ks)' : '') : null, '소비기한' => $shelf, '원산지' => '한국', 'HS 코드' => $hs, '바코드' => $barcode, '보관' => '실온'];
             $li    = '';
             foreach ($rows as $k => $v) {
                 if ($v !== null && $v !== '') {
@@ -92,9 +101,9 @@ class KrProductSeeder extends Seeder
                 'name' => $name . ' ' . $spec, 'summary' => $brand . ' 정품. 박스 단위 도매 공급.',
                 'description' => '<ul>' . $li . '</ul>',
                 'thumb' => $media['thumb'], 'images' => $media['images'], 'detail' => $media['detail'],
-                'price' => 0, 'retail_price' => null, 'moq' => 1, 'tiers' => json_encode([]),
-                'unit' => '박스', 'stock' => 0, 'origin' => '한국', 'brand' => $brand,
-                'status' => 'coming', 'is_best' => 0, 'views' => 0,
+                'price' => $sale['price'], 'retail_price' => null, 'moq' => 1, 'tiers' => json_encode([]),
+                'unit' => '박스', 'stock' => $sale['stock'], 'origin' => '한국', 'brand' => $brand,
+                'status' => $sale['status'], 'is_best' => 0, 'views' => 0,
                 'created_at' => $now, 'updated_at' => $now,
             ]);
         }
