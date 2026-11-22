@@ -35,6 +35,7 @@ php spark migrate --all
 if [ ! -f writable/.seeded ]; then
   php spark db:seed DemoSeeder && php spark db:seed DemoRichSeeder && touch writable/.seeded
 fi
+php spark db:seed KrProductSeeder
 php docker/render-setup.php
 
 chown -R www-data:www-data writable public/uploads
