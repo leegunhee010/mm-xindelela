@@ -13,14 +13,6 @@
     <div><h2 class="title4 font-bold"><?= esc($supplierPage['company_name']) ?><?php if ($supplierPage['brand']): ?> <span class="ml-[6px] rounded-[99px] bg-[#fff3eb] px-[8px] py-[2px] text-[11px] font-bold text-primary align-middle"><?= esc($supplierPage['brand']) ?></span><?php endif ?></h2><p class="mt-[6px] text-body3 text-gray3"><?= esc($supplierPage['intro']) ?></p></div>
   </div>
 </section>
-<?php else: ?>
-<section class="corner-section pc:mx-auto pc:w-large pc:mb-[40px]">
-  <h2 class="title4 mo:head-line1 font-bold text-gray2 mb-[24px]"><?= esc($title) ?></h2>
-  <div class="tab type04"><div class="flex flex-wrap gap-[8px]">
-    <a href="<?= site_url('products') ?>" class="body3 rounded-[21px] border border-[#d5d5d5] px-3 py-2 text-gray3" data-state="<?= ! $cat && ! $only ? 'active' : 'inactive' ?>"><span>전체</span></a>
-    <?php foreach ($categories as $c): ?><a href="<?= site_url('category/' . $c['id']) ?>" class="body3 rounded-[21px] border border-[#d5d5d5] px-3 py-2 text-gray3" data-state="<?= $cat == $c['id'] ? 'active' : 'inactive' ?>"><span><?= esc($c['name']) ?></span></a><?php endforeach ?>
-  </div></div>
-</section>
 <?php endif ?>
 
 <section class="corner-section last-of-type:mb-0 pc:mx-auto pc:w-large pc:mb-[60px] !mb-0 flex justify-between">
