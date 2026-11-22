@@ -56,12 +56,30 @@ class KrProductSeeder extends Seeder
             ['KR-008', 'ht', '호지차믹스20 스틱', 'Hojicha Mix Stick', '120g', null, null, null, null, 'kr8'],
         ];
 
+        // 판매페이지(평창팜 pcfarm.kr, 봉평메밀팜 memil.kr, 한국제다 hktmall.co.kr)에서 받은 대표사진·상세 이미지.
+        // scripts/slice-kr-details.php 가 만든 목록.
+        $det = json_decode((string) file_get_contents(__DIR__ . '/kr-details.json'), true) ?: [];
+
         foreach ($items as $i => [$code, $sk, $name, $en, $spec, $per, $shelf, $hs, $barcode, $img]) {
-            if ($db->table('products')->where('code', $code)->countAllResults()) {
+            $d      = $det[$i + 1] ?? ['images' => [], 'blocks' => []];
+            $images = $d['images'];
+            $brand  = $sups[$sk]['brand'];
+            $lines  = [];
+            foreach (['영문명' => $en, '규격' => $spec, '박스 입수' => $per ? $per . '개' : null, '소비기한' => $shelf, '원산지' => '한국', 'HS 코드' => $hs, '바코드' => $barcode, '보관' => '실온'] as $k => $v) {
+                if ($v !== null && $v !== '') {
+                    $lines[] = $k . ': ' . $v;
+                }
+            }
+            $detail = json_encode(array_merge([['type' => 'p', 'text' => implode("
+", $lines)]], $d['blocks']), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+            $media  = ['thumb' => $images[0] ?? null, 'images' => json_encode($images), 'detail' => $detail];
+
+            $row = $db->table('products')->where('code', $code)->get()->getRowArray();
+            if ($row) {
+                // 이미 있으면 사진·상세만 갱신 (가격·상태 등 관리자가 바꾼 값은 건드리지 않음)
+                $db->table('products')->where('id', $row['id'])->update($media + ['updated_at' => $now]);
                 continue;
             }
-            $file  = 'assets/img/products/' . $img . '.jpg';
-            $brand = $sups[$sk]['brand'];
             $rows  = ['영문명' => $en, '규격' => $spec, '박스 입수' => $per ? $per . '개' : null, '소비기한' => $shelf, '원산지' => '한국', 'HS 코드' => $hs, '바코드' => $barcode, '보관' => '실온'];
             $li    = '';
             foreach ($rows as $k => $v) {
@@ -73,7 +91,7 @@ class KrProductSeeder extends Seeder
                 'supplier_id' => $supIds[$sk], 'category_id' => $catId, 'code' => $code,
                 'name' => $name . ' ' . $spec, 'summary' => $brand . ' 정품. 박스 단위 도매 공급.',
                 'description' => '<ul>' . $li . '</ul>',
-                'thumb' => $file, 'images' => json_encode([$file]),
+                'thumb' => $media['thumb'], 'images' => $media['images'], 'detail' => $media['detail'],
                 'price' => 0, 'retail_price' => null, 'moq' => 1, 'tiers' => json_encode([]),
                 'unit' => '박스', 'stock' => 0, 'origin' => '한국', 'brand' => $brand,
                 'status' => 'coming', 'is_best' => 0, 'views' => 0,

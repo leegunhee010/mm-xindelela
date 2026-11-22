@@ -7,3 +7,4 @@ public/uploads/*
 *.log
 Thumbs.db
 .DS_Store
+public/assets/img/products/detail/

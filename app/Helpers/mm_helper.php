@@ -376,7 +376,7 @@ if (! function_exists('mm_clean_blocks')) {
                 }
             } elseif ($t === 'img') {
                 $src = trim((string) ($b['src'] ?? ''));
-                if ($src !== '' && (preg_match('#^uploads/[A-Za-z0-9/_.-]+$#', $src) || preg_match('#^https?://#i', $src))) {
+                if ($src !== '' && (preg_match('#^(uploads|assets/img/products)/[A-Za-z0-9/_.-]+$#', $src) || preg_match('#^https?://#i', $src))) {
                     $blk = ['type' => 'img', 'src' => $src];
                     if (! empty($b['seq'])) {
                         $blk['seq'] = true;
