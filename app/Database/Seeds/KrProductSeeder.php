@@ -5,14 +5,28 @@ namespace App\Database\Seeds;
 use CodeIgniter\Database\Seeder;
 
 /**
- * 실제 한국 사입 품목 (Documents\1106_미얀마_한국사입품목.xlsx, 2026-11-06 정리).
- * 판매중(active), 단위=박스, 가격=박스당 (사입가 × 입수 × 4 × 3.74). 재고=들여오는 박스 수.
- * 상품 코드(KR-xxx)가 이미 있으면 건너뛴다(여러 번 돌려도 안전).
+ * 실제 판매 상품 (2026-11-22 사용자 지시).
+ *  - 한국 사입 품목 8개: Documents\1106_미얀마_한국사입품목.xlsx (평창팜 6·한국제다 2)
+ *  - 요뽀끼 컵떡볶이 4종: 요뽀끼 공식 스토어 (스마트스토어 yopokki 5811376855 와 같은 상품, SSG 공식 스토어 페이지에서 사진·상세)
+ *
+ * 단위 = 개, 최소 1개부터. 개당 가격(Ks) = 사입가(원) × 배수 × 3.74
+ *   1개~ : × 4.3  /  5개 이상 : × 4  /  1박스(입수) 이상 : × 4
+ * 요뽀끼는 사입가를 모르므로 판매가 기준 2배수 → 사입가 = 판매가 ÷ 2 로 두고 같은 표를 쓴다.
+ * 판매페이지 사진·상세는 scripts/slice-kr-details.php 가 만든 kr-details.json.
+ * 상품 코드가 이미 있으면 사진·상세·가격을 갱신한다(여러 번 돌려도 안전).
  */
 class KrProductSeeder extends Seeder
 {
-    private const MARKUP     = 4;     // 사입가의 4배
     private const KRW_TO_MMK = 3.74;  // 1원 = 3.74 Ks
+    private const X_ONE      = 4.3;   // 1개 구매
+    private const X_FIVE     = 4;     // 5개 이상
+    private const X_BOX      = 4;     // 1박스 이상
+
+    private static function ks(float $won, float $x): int
+    {
+        return (int) (round($won * $x * self::KRW_TO_MMK / 100) * 100);
+    }
+
     public function run()
     {
         $db  = $this->db;
@@ -33,6 +47,8 @@ class KrProductSeeder extends Seeder
                 'intro' => '강원도 평창의 나물·들기름·메밀국수 가공 업체. 전 품목 실온 보관 식품.'],
             'ht' => ['company_name' => '한국제다', 'brand' => '한국제다', 'contact_name' => '유웅태 차장(해외영업부)', 'phone' => '062-222-3973', 'address' => '광주광역시 동구 백서로 106-1', 'website' => 'http://www.hankooktea.co.kr',
                 'intro' => '광주의 녹차·전통차 전문 제조사. 녹차·호지차 믹스 스틱.'],
+            'yo' => ['company_name' => '요뽀끼 (영풍)', 'brand' => '요뽀끼', 'website' => 'https://smartstore.naver.com/yopokki',
+                'intro' => '컵떡볶이 브랜드 요뽀끼(YOPOKKI). 전자레인지 조리 컵떡볶이.'],
         ];
         $supIds = [];
         foreach ($sups as $k => $s) {
@@ -45,66 +61,68 @@ class KrProductSeeder extends Seeder
             $supIds[$k] = (int) $db->insertID();
         }
 
-        // [코드, 사입가(원, 개당·한국제다는 박스당), 들여오는 박스 수, 공급사, 상품명, 영문명, 규격, 입수(박스당), 소비기한, HS코드, 바코드, 사진]
+        $yoCost = 19900 / 6 / 2; // 요뽀끼 공식 스토어 6입 세트 19,900원 → 1컵 판매가 3,317원 ÷ 2
+
+        // [코드, 사입가(원, 1개당), 재고(개), 공급사, 상품명, 영문명, 규격, 박스 입수(개), 소비기한, HS코드, 바코드, 사진 키, 메모]
         $items = [
-            ['KR-001', 5800, 1, 'pc', '간편조리 평창시래기', 'Dried Easy Cook Pyeongchang Siraegi', '80g', 20, '24개월', '0712.90-2020', '8809634580047', 'kr1'],
-            ['KR-002', 7000, 1, 'pc', '평창곤드레나물 (5분ok)', 'Dried 5min.ok Pyeongchang Gondeure-Namul', '80g', 20, '24개월', '0712.90-2097', '8809634580016', 'kr2'],
-            ['KR-003', 7000, 1, 'pc', '평창취나물', 'Dried Pyeongchang Chwi-Namul', '80g', 20, '24개월', '0712.90-2096', '8809634580061', 'kr3'],
-            ['KR-004', 13500, 1, 'pc', '들기름', 'Perilla oil', '170ml', 24, '18개월', '1515.90-1000', '8809397331634', 'kr4'],
-            ['KR-005', 4200, 2, 'pc', '봉평메밀국수 (메밀 30%)', 'Bongpyeong Buckwheat Noodles', '700g', 20, '24개월', '1902.19-1000', '8809023820587', 'kr5'],
-            ['KR-006', 6600, 1, 'pc', '평창곤드레국수', 'Pyeongchang Gondre Noodles', '300g', 24, '24개월', '1902.19-1000', '8809634580436', 'kr6'],
-            ['KR-007', 4400, 2, 'ht', '그린티믹스특선14 스틱', 'Green Tea Mix Stick', '120g', null, null, null, null, 'kr7'],
-            ['KR-008', 3850, 1, 'ht', '호지차믹스20 스틱', 'Hojicha Mix Stick', '120g', null, null, null, null, 'kr8'],
+            ['KR-001', 5800, 20, 'pc', '간편조리 평창시래기', 'Dried Easy Cook Pyeongchang Siraegi', '80g', 20, '24개월', '0712.90-2020', '8809634580047', 1, null],
+            ['KR-002', 7000, 20, 'pc', '평창곤드레나물 (5분ok)', 'Dried 5min.ok Pyeongchang Gondeure-Namul', '80g', 20, '24개월', '0712.90-2097', '8809634580016', 2, null],
+            ['KR-003', 7000, 20, 'pc', '평창취나물', 'Dried Pyeongchang Chwi-Namul', '80g', 20, '24개월', '0712.90-2096', '8809634580061', 3, null],
+            ['KR-004', 13500, 24, 'pc', '들기름', 'Perilla oil', '170ml', 24, '18개월', '1515.90-1000', '8809397331634', 4, null],
+            ['KR-005', 4200, 40, 'pc', '봉평메밀국수 (메밀 30%)', 'Bongpyeong Buckwheat Noodles', '700g', 20, '24개월', '1902.19-1000', '8809023820587', 5, null],
+            ['KR-006', 6600, 24, 'pc', '평창곤드레국수', 'Pyeongchang Gondre Noodles', '300g', 24, '24개월', '1902.19-1000', '8809634580436', 6, null],
+            ['KR-007', 4400, 2, 'ht', '그린티믹스특선14 스틱', 'Green Tea Mix Stick', '120g', 20, null, null, null, 7, '1개 = 120g 스틱 1통'],
+            ['KR-008', 3850, 1, 'ht', '호지차믹스20 스틱', 'Hojicha Mix Stick', '120g', 20, null, null, null, 8, '1개 = 120g 스틱 1통'],
+            ['YO-001', $yoCost, 0, 'yo', '요뽀끼 매콤달콤 컵떡볶이', 'YOPOKKI Sweet & Spicy Topokki Cup', '120g', 30, '제조일로부터 14개월', null, null, 'yo1', '1개 = 컵 1개 (떡 100g + 소스 20g)'],
+            ['YO-002', $yoCost, 0, 'yo', '요뽀끼 치즈 컵떡볶이', 'YOPOKKI Cheese Topokki Cup', '120g', 30, '제조일로부터 14개월', null, null, 'yo2', '1개 = 컵 1개 (떡 100g + 소스 20g)'],
+            ['YO-003', $yoCost, 0, 'yo', '요뽀끼 로제 컵떡볶이', 'YOPOKKI Rose Topokki Cup', '120g', 30, '제조일로부터 14개월', null, null, 'yo3', '1개 = 컵 1개 (떡 100g + 소스 20g)'],
+            ['YO-004', $yoCost, 0, 'yo', '요뽀끼 매콤 까르보나라 컵떡볶이', 'YOPOKKI Spicy Carbonara Topokki Cup', '120g', 30, '제조일로부터 14개월', null, null, 'yo4', '1개 = 컵 1개 (떡 100g + 소스 20g)'],
         ];
 
-        // 판매페이지(평창팜 pcfarm.kr, 봉평메밀팜 memil.kr, 한국제다 hktmall.co.kr)에서 받은 대표사진·상세 이미지.
-        // scripts/slice-kr-details.php 가 만든 목록.
         $det = json_decode((string) file_get_contents(__DIR__ . '/kr-details.json'), true) ?: [];
 
-        foreach ($items as $i => [$code, $cost, $boxes, $sk, $name, $en, $spec, $per, $shelf, $hs, $barcode, $img]) {
-            // 판매가(박스당) = 사입가 × 박스 입수 × 4배 × 환율 3.74 (1원 = 3.74 Ks, 2026-11 사용자 지정). 100 Ks 반올림.
-            $perBox = (int) (round($cost * ($per ?: 1) * self::MARKUP * self::KRW_TO_MMK / 100) * 100);
-            $perPc  = $per ? (int) (round($cost * self::MARKUP * self::KRW_TO_MMK / 100) * 100) : null;
-            $d      = $det[$i + 1] ?? ['images' => [], 'blocks' => []];
-            $images = $d['images'];
+        foreach ($items as [$code, $cost, $stock, $sk, $name, $en, $spec, $per, $shelf, $hs, $barcode, $img, $memo]) {
+            $one  = self::ks($cost, self::X_ONE);
+            $five = self::ks($cost, self::X_FIVE);
+            $box  = self::ks($cost, self::X_BOX);
+            $tiers = [['min_qty' => 5, 'price' => $five]];
+            if ($per > 5) {
+                $tiers[] = ['min_qty' => $per, 'price' => $box];
+            }
+
+            $d      = $det[$img] ?? ['images' => [], 'blocks' => []];
             $brand  = $sups[$sk]['brand'];
             $lines  = [];
-            foreach (['영문명' => $en, '규격' => $spec, '박스 입수' => $per ? $per . '개' . ($perPc ? ' (개당 약 ' . number_format($perPc) . ' Ks)' : '') : null, '소비기한' => $shelf, '원산지' => '한국', 'HS 코드' => $hs, '바코드' => $barcode, '보관' => '실온'] as $k => $v) {
+            foreach (['영문명' => $en, '규격' => $spec, '구성' => $memo, '박스 입수' => $per . '개', '소비기한' => $shelf, '원산지' => '한국', 'HS 코드' => $hs, '바코드' => $barcode, '보관' => '실온'] as $k => $v) {
                 if ($v !== null && $v !== '') {
                     $lines[] = $k . ': ' . $v;
                 }
             }
-            $detail = json_encode(array_merge([['type' => 'p', 'text' => implode("
-", $lines)]], $d['blocks']), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
-            $media  = ['thumb' => $images[0] ?? null, 'images' => json_encode($images), 'detail' => $detail];
+            $data = [
+                'thumb'   => $d['images'][0] ?? null,
+                'images'  => json_encode($d['images']),
+                'detail'  => json_encode(array_merge([['type' => 'p', 'text' => implode("\n", $lines)]], $d['blocks']), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
+                'price'   => $one,
+                'tiers'   => json_encode($tiers),
+                'moq'     => 1,
+                'unit'    => '개',
+                'stock'   => $stock,
+                'status'  => 'active',
+                'summary' => $brand . ' 정품. 1개부터 주문, 5개·1박스(' . $per . '개) 이상 도매가.',
+                'description' => '<p>' . esc(implode(' / ', $lines)) . '</p>',
+                'updated_at'  => $now,
+            ];
 
             $row = $db->table('products')->where('code', $code)->get()->getRowArray();
-            $sale = ['price' => $perBox, 'stock' => $boxes, 'status' => 'active'];
             if ($row) {
-                // 이미 있으면 사진·상세 갱신. 가격은 아직 0(입고 예정)일 때만 넣는다 (관리자가 정한 가격은 유지).
-                $upd = $media + ['updated_at' => $now];
-                if ((int) $row['price'] === 0) {
-                    $upd += $sale;
-                }
-                $db->table('products')->where('id', $row['id'])->update($upd);
+                $db->table('products')->where('id', $row['id'])->update($data);
                 continue;
             }
-            $rows  = ['영문명' => $en, '규격' => $spec, '박스 입수' => $per ? $per . '개' . ($perPc ? ' (개당 약 ' . number_format($perPc) . ' Ks)' : '') : null, '소비기한' => $shelf, '원산지' => '한국', 'HS 코드' => $hs, '바코드' => $barcode, '보관' => '실온'];
-            $li    = '';
-            foreach ($rows as $k => $v) {
-                if ($v !== null && $v !== '') {
-                    $li .= '<li>' . esc($k) . ': ' . esc($v) . '</li>';
-                }
-            }
-            $db->table('products')->insert([
+            $db->table('products')->insert($data + [
                 'supplier_id' => $supIds[$sk], 'category_id' => $catId, 'code' => $code,
-                'name' => $name . ' ' . $spec, 'summary' => $brand . ' 정품. 박스 단위 도매 공급.',
-                'description' => '<ul>' . $li . '</ul>',
-                'thumb' => $media['thumb'], 'images' => $media['images'], 'detail' => $media['detail'],
-                'price' => $sale['price'], 'retail_price' => null, 'moq' => 1, 'tiers' => json_encode([]),
-                'unit' => '박스', 'stock' => $sale['stock'], 'origin' => '한국', 'brand' => $brand,
-                'status' => $sale['status'], 'is_best' => 0, 'views' => 0,
-                'created_at' => $now, 'updated_at' => $now,
+                'name' => $name . ' ' . $spec, 'retail_price' => null,
+                'origin' => '한국', 'brand' => $brand, 'is_best' => 0, 'views' => 0,
+                'created_at' => $now,
             ]);
         }
     }

@@ -13,16 +13,20 @@ $map = [
   7 => ['main' => ['kr7_main.jpg', 'kr7_main2.jpg'], 'det' => ['ht_1.jpg', 'ht_25.jpg', 'ht_3.jpg', 'ht_4.jpg']],
   8 => ['main' => ['kr8_main.jpg', 'kr7_main2.jpg'], 'det' => ['ht_1.jpg', 'ht_24.jpg', 'ht_3.jpg', 'ht_4.jpg']],
 ];
+// 요뽀끼 4종 (SSG 요뽀끼 공식 스토어 컵떡볶이 6입 세트: 대표사진 6장 + 상세 16장)
+foreach (['yo1', 'yo2', 'yo3', 'yo4'] as $k) {
+  $map[$k] = ['main' => array_map(fn ($i) => "{$k}_main$i.jpg", range(1, 6)), 'det' => array_map('basename', glob($src . "{$k}_d*"))];
+}
 function load($f) { $i = @imagecreatefromstring(file_get_contents($f)); if (!$i) throw new Exception("bad $f"); return $i; }
 function flat($im, $w, $h) { $o = imagecreatetruecolor($w, $h); imagefill($o, 0, 0, imagecolorallocate($o, 255, 255, 255)); return $o; }
 $out = [];
 foreach ($map as $n => $m) {
-  $dir = $dst . "kr$n/"; @mkdir($dir, 0775, true); array_map('unlink', glob($dir . '*.jpg'));
+  $dn = is_int($n) ? "kr$n" : $n; $dir = $dst . "$dn/"; @mkdir($dir, 0775, true); array_map('unlink', glob($dir . '*.jpg'));
   $mains = [];
   foreach ($m['main'] as $k => $f) {
     $im = load($src . $f); $w = imagesx($im); $h = imagesy($im); $nw = min($w, 1000); $nh = (int) round($h * $nw / $w);
     $o = flat($im, $nw, $nh); imagecopyresampled($o, $im, 0, 0, 0, 0, $nw, $nh, $w, $h);
-    $name = sprintf('m%d.jpg', $k + 1); imagejpeg($o, $dir . $name, 90); $mains[] = "assets/img/products/kr$n/$name";
+    $name = sprintf('m%d.jpg', $k + 1); imagejpeg($o, $dir . $name, 90); $mains[] = "assets/img/products/$dn/$name";
   }
   $blocks = []; $c = 0;
   foreach ($m['det'] as $f) {
@@ -31,10 +35,10 @@ foreach ($map as $n => $m) {
       $ch = min(2000, $th - $y); $o = flat($im, $nw, $ch);
       imagecopyresampled($o, $im, 0, 0, 0, (int) round($y / $s), $nw, $ch, $w, (int) round($ch / $s));
       $name = sprintf('d%02d.jpg', ++$c); imagejpeg($o, $dir . $name, 88);
-      $blocks[] = ['type' => 'img', 'src' => "assets/img/products/kr$n/$name", 'seq' => true, 'w' => $nw, 'h' => $ch];
+      $blocks[] = ['type' => 'img', 'src' => "assets/img/products/$dn/$name", 'seq' => true, 'w' => $nw, 'h' => $ch];
     }
   }
   $out[$n] = ['images' => $mains, 'blocks' => $blocks];
-  echo "kr$n: main " . count($mains) . ", slices $c, " . round(array_sum(array_map('filesize', glob($dir . '*.jpg'))) / 1048576, 1) . "MB\n";
+  echo "$dn: main " . count($mains) . ", slices $c, " . round(array_sum(array_map('filesize', glob($dir . '*.jpg'))) / 1048576, 1) . "MB\n";
 }
 file_put_contents(__DIR__ . '/../app/Database/Seeds/kr-details.json', json_encode($out, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
