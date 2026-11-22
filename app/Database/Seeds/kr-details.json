@@ -1255,5 +1255,76 @@
                 "h": 902
             }
         ]
+    },
+    "ch1": {
+        "images": [
+            "assets/img/products/ch1/m1.jpg",
+            "assets/img/products/ch1/m2.jpg"
+        ],
+        "blocks": [
+            {
+                "type": "img",
+                "src": "assets/img/products/ch1/d01.jpg",
+                "seq": true,
+                "w": 1000,
+                "h": 2000
+            },
+            {
+                "type": "img",
+                "src": "assets/img/products/ch1/d02.jpg",
+                "seq": true,
+                "w": 1000,
+                "h": 2000
+            },
+            {
+                "type": "img",
+                "src": "assets/img/products/ch1/d03.jpg",
+                "seq": true,
+                "w": 1000,
+                "h": 1908
+            },
+            {
+                "type": "img",
+                "src": "assets/img/products/ch1/d04.jpg",
+                "seq": true,
+                "w": 1000,
+                "h": 2000
+            },
+            {
+                "type": "img",
+                "src": "assets/img/products/ch1/d05.jpg",
+                "seq": true,
+                "w": 1000,
+                "h": 2000
+            },
+            {
+                "type": "img",
+                "src": "assets/img/products/ch1/d06.jpg",
+                "seq": true,
+                "w": 1000,
+                "h": 2000
+            },
+            {
+                "type": "img",
+                "src": "assets/img/products/ch1/d07.jpg",
+                "seq": true,
+                "w": 1000,
+                "h": 556
+            },
+            {
+                "type": "img",
+                "src": "assets/img/products/ch1/d08.jpg",
+                "seq": true,
+                "w": 1000,
+                "h": 2000
+            },
+            {
+                "type": "img",
+                "src": "assets/img/products/ch1/d09.jpg",
+                "seq": true,
+                "w": 1000,
+                "h": 894
+            }
+        ]
     }
 }

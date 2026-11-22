@@ -17,6 +17,8 @@ $map = [
 foreach (['yo1', 'yo2', 'yo3', 'yo4'] as $k) {
   $map[$k] = ['main' => array_map(fn ($i) => "{$k}_main$i.jpg", range(1, 6)), 'det' => array_map('basename', glob($src . "{$k}_d*"))];
 }
+// 초록원 호두아몬드율무차 50입 (cholocwon.co.kr product_no=32). 마지막 상세(고객센터·국내 배송 안내)는 뺌
+$map['ch1'] = ['main' => ['ch1_main1.jpg', 'ch1_main2.png'], 'det' => ['ch1_d01.jpg', 'ch1_d02.jpg', 'ch1_d03.jpg']];
 function load($f) { $i = @imagecreatefromstring(file_get_contents($f)); if (!$i) throw new Exception("bad $f"); return $i; }
 function flat($im, $w, $h) { $o = imagecreatetruecolor($w, $h); imagefill($o, 0, 0, imagecolorallocate($o, 255, 255, 255)); return $o; }
 $out = [];

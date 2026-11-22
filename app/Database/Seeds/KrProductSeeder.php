@@ -47,6 +47,8 @@ class KrProductSeeder extends Seeder
                 'intro' => '강원도 평창의 나물·들기름·메밀국수 가공 업체. 전 품목 실온 보관 식품.'],
             'ht' => ['company_name' => '한국제다', 'brand' => '한국제다', 'contact_name' => '유웅태 차장(해외영업부)', 'phone' => '062-222-3973', 'address' => '광주광역시 동구 백서로 106-1', 'website' => 'http://www.hankooktea.co.kr',
                 'intro' => '광주의 녹차·전통차 전문 제조사. 녹차·호지차 믹스 스틱.'],
+            'ch' => ['company_name' => '초록원', 'brand' => '초록원', 'phone' => '053-852-3000', 'website' => 'https://cholocwon.co.kr',
+                'intro' => '대구의 전통차·과일청 제조사. 율무차·대추차 등 분말·액상 차.'],
             'yo' => ['company_name' => '요뽀끼 (영풍)', 'brand' => '요뽀끼', 'website' => 'https://smartstore.naver.com/yopokki',
                 'intro' => '컵떡볶이 브랜드 요뽀끼(YOPOKKI). 전자레인지 조리 컵떡볶이.'],
         ];
@@ -61,6 +63,7 @@ class KrProductSeeder extends Seeder
             $supIds[$k] = (int) $db->insertID();
         }
 
+        $chCost = 10800 / 2;     // 초록원 공식몰 판매가 10,800원 ÷ 2
         $yoCost = 19900 / 6 / 2; // 요뽀끼 공식 스토어 6입 세트 19,900원 → 1컵 판매가 3,317원 ÷ 2
 
         // [코드, 사입가(원, 1개당), 재고(개), 공급사, 상품명, 영문명, 규격, 박스 입수(개), 소비기한, HS코드, 바코드, 사진 키, 메모]
@@ -77,6 +80,7 @@ class KrProductSeeder extends Seeder
             ['YO-002', $yoCost, 0, 'yo', '요뽀끼 치즈 컵떡볶이', 'YOPOKKI Cheese Topokki Cup', '120g', 30, '제조일로부터 14개월', null, null, 'yo2', '1개 = 컵 1개 (떡 100g + 소스 20g)'],
             ['YO-003', $yoCost, 0, 'yo', '요뽀끼 로제 컵떡볶이', 'YOPOKKI Rose Topokki Cup', '120g', 30, '제조일로부터 14개월', null, null, 'yo3', '1개 = 컵 1개 (떡 100g + 소스 20g)'],
             ['YO-004', $yoCost, 0, 'yo', '요뽀끼 매콤 까르보나라 컵떡볶이', 'YOPOKKI Spicy Carbonara Topokki Cup', '120g', 30, '제조일로부터 14개월', null, null, 'yo4', '1개 = 컵 1개 (떡 100g + 소스 20g)'],
+            ['CH-001', $chCost, 0, 'ch', '고려 호두아몬드율무차', 'Walnut Almond Job’s Tears Tea', '50입', null, null, null, null, 'ch1', '1개 = 50스틱 1통'],
         ];
 
         $det = json_decode((string) file_get_contents(__DIR__ . '/kr-details.json'), true) ?: [];
@@ -86,14 +90,14 @@ class KrProductSeeder extends Seeder
             $five = self::ks($cost, self::X_FIVE);
             $box  = self::ks($cost, self::X_BOX);
             $tiers = [['min_qty' => 5, 'price' => $five]];
-            if ($per > 5) {
+            if ($per && $per > 5) {
                 $tiers[] = ['min_qty' => $per, 'price' => $box];
             }
 
             $d      = $det[$img] ?? ['images' => [], 'blocks' => []];
             $brand  = $sups[$sk]['brand'];
             $lines  = [];
-            foreach (['영문명' => $en, '규격' => $spec, '구성' => $memo, '박스 입수' => $per . '개', '소비기한' => $shelf, '원산지' => '한국', 'HS 코드' => $hs, '바코드' => $barcode, '보관' => '실온'] as $k => $v) {
+            foreach (['영문명' => $en, '규격' => $spec, '구성' => $memo, '박스 입수' => $per ? $per . '개' : null, '소비기한' => $shelf, '원산지' => '한국', 'HS 코드' => $hs, '바코드' => $barcode, '보관' => '실온'] as $k => $v) {
                 if ($v !== null && $v !== '') {
                     $lines[] = $k . ': ' . $v;
                 }
@@ -108,7 +112,7 @@ class KrProductSeeder extends Seeder
                 'unit'    => '개',
                 'stock'   => $stock,
                 'status'  => 'active',
-                'summary' => $brand . ' 정품. 1개부터 주문, 5개·1박스(' . $per . '개) 이상 도매가.',
+                'summary' => $brand . ' 정품. 1개부터 주문, 5개' . ($per ? '·1박스(' . $per . '개)' : '') . ' 이상 도매가.',
                 'description' => '<p>' . esc(implode(' / ', $lines)) . '</p>',
                 'updated_at'  => $now,
             ];

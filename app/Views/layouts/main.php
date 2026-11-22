@@ -104,7 +104,6 @@ $cur  = uri_string();
       <li class="menu-item active"><a target="_self" class="menu-item-link" href="<?= site_url('/') ?>">XINDELELA 미얀마 도매몰</a></li>
       <li class="menu-item"><a class="menu-item-link" href="<?= site_url('guide') ?>">이용안내</a></li>
       <li class="menu-item"><a class="menu-item-link" href="<?= site_url('notices') ?>">공지사항</a></li>
-      <li class="menu-item"><a class="menu-item-link" target="_blank" rel="noopener" href="https://xindelela.com">XINDELELA</a></li>
     </ul>
     <ul class="account-menu flex items-center gap-[16px] text-[12px]">
       <?php if ($user && $user['role'] === 'buyer'): ?>
