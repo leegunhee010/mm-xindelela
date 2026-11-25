@@ -7,5 +7,4 @@
   <div class="field"><label>이메일</label><input class="inp" type="email" name="email" required autofocus></div>
   <div class="field"><label>비밀번호</label><input class="inp" type="password" name="password" required></div>
   <button class="btn btn-dark btn-block" type="submit">로그인</button>
-  <div class="small muted mt16 tc">초기 계정 admin@xindelela.com / admin1234 (배포 전 변경)</div>
 </form></div></body></html>
