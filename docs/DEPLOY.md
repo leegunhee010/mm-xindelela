@@ -2,26 +2,25 @@
 
 messeze.com · makenov.com 과 같은 방식입니다. main 브랜치 푸시 → GitHub Actions → SSH 로 서버 `git reset` → DB 스키마·초기 데이터 적용 → 헬스체크(실패 시 이전 커밋으로 되돌림).
 
-> 도메인: 아래 `<도메인>` 을 실제 도메인으로 바꿔 읽어 주세요. (기존 계획은 mm.xindelela.com, 변경 예정)
-> 도메인을 정하면 `.github/workflows/deploy.yml` 의 `SITE_DIR`, `SITE_URL` 두 줄도 같이 바꿔야 합니다.
+> 도메인: **mm.xindelela.com** (2026-11-25 확정). 바꾸게 되면 `.github/workflows/deploy.yml` 의 `SITE_DIR`, `SITE_URL` 과 `.env` 의 `app.baseURL` 을 같이 바꿀 것.
 
 ## 1. 서버 준비 (1회)
 
 1. 1Panel → 웹사이트 → PHP 사이트 생성
-   - 도메인 `<도메인>`, **PHP 8.2** 런타임 (확장: intl, mbstring, mysqli, gd, curl)
-   - 사이트 디렉터리 기본값 `/opt/1panel/www/sites/<도메인>/index` (다르면 deploy.yml 의 `SITE_DIR` 수정)
+   - 도메인 `mm.xindelela.com`, **PHP 8.2** 런타임 (확장: intl, mbstring, mysqli, gd, curl)
+   - 사이트 디렉터리 기본값 `/opt/1panel/www/sites/mm.xindelela.com/index` (다르면 deploy.yml 의 `SITE_DIR` 수정)
    - **웹루트는 `index/public`** (CodeIgniter 4 구조)
    - HTTPS 인증서 발급 (1Panel 의 Let's Encrypt)
 2. 사이트 디렉터리를 이 레포의 clone 으로 교체
    ```bash
-   cd /opt/1panel/www/sites/<도메인>
+   cd /opt/1panel/www/sites/mm.xindelela.com
    rm -rf index && git clone git@github.com:leegunhee010/mm-xindelela.git index
    ```
 3. MySQL 데이터베이스 생성: `mm_xindelela`, utf8mb4 / utf8mb4_unicode_ci, 전용 계정
 4. `.env` 작성 (`.env.example` 복사 후 값 채움)
    ```
    CI_ENVIRONMENT = production
-   app.baseURL = 'https://<도메인>/'
+   app.baseURL = 'https://mm.xindelela.com/'
    database.default.hostname = <1Panel MySQL 컨테이너명 또는 127.0.0.1>
    database.default.database = mm_xindelela
    database.default.username = ...
@@ -56,16 +55,16 @@ messeze.com · makenov.com 과 같은 방식입니다. main 브랜치 푸시 →
 ## 3. 배포 확인
 
 ```bash
-curl -s https://<도메인>/deploy-check
+curl -s https://mm.xindelela.com/deploy-check
 # {"ok":true,"marker":...,"env":"production",...}  ← ok 가 false 면 DB 연결 실패
 ```
 
 ## 4. 배포 직후 할 일 (순서대로)
 
-1. `https://<도메인>/admin/login` → `admin@xindelela.com` / `admin1234` 로그인
+1. `https://mm.xindelela.com/admin/login` → `admin@xindelela.com` / `admin1234` 로그인
    → **비밀번호 변경 화면으로 자동 이동**합니다. 10자 이상 새 비밀번호로 바꿔야 다른 화면을 쓸 수 있습니다.
 2. 관리자 › **설정**: KBZPay 입금 계좌, 고객센터 Viber·전화·이메일 확인
-3. 관리자 › **설정**: 구글맵 키 입력 (주문서 주소 검색용). 구글 클라우드 콘솔에서 키의 허용 웹사이트에 `https://<도메인>/*` 추가
+3. 관리자 › **설정**: 구글맵 키 입력 (주문서 주소 검색용). 구글 클라우드 콘솔에서 키의 허용 웹사이트에 `https://mm.xindelela.com/*` 추가
 4. 관리자 › **SEO 설정**: 검색 노출 여부(기본 차단), 사이트 제목·설명. 파비콘·공유 이미지는 기본값이 이미 들어 있음
 5. 상품 가격·재고 확인 (재고 0 인 상품은 인증 회원에게 '재고 0개'로 보임)
 6. 구매자 화면에서 가입 → 관리자 인증 승인 → 주문 → 입금 확인 요청 → 관리자 입금 확인까지 한 번 시험
