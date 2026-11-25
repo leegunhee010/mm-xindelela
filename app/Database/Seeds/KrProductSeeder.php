@@ -21,6 +21,8 @@ class KrProductSeeder extends Seeder
     private const X_ONE      = 4.3;   // 1개 구매
     private const X_FIVE     = 4;     // 5개 이상
     private const X_BOX      = 4;     // 1박스 이상
+    /** 홈 베스트에 올릴 상품 코드 */
+    private const BEST = ['YO-001', 'YO-002', 'YO-003', 'YO-004', 'GW-001', 'BR-003', 'MJ-001', 'SP-002', 'KR-004', 'JY-002'];
 
     private static function ks(float $won, float $x): int
     {
@@ -164,6 +166,31 @@ class KrProductSeeder extends Seeder
                 'created_at' => $now,
             ]);
         }
+
+        // 데모 상품·데모 공급사 삭제 (2026-11-25 사용자 지시 "데모 다 지워"). 데모 주문 중 데모 상품이 든 것도 같이 지움
+        $demoIds = array_map('intval', array_column($db->table('products')->select('id')->like('code', 'DEMO-', 'after')->get()->getResultArray(), 'id'));
+        if ($demoIds) {
+            foreach (['carts', 'wishes', 'inquiries', 'queues'] as $tb) {
+                if ($db->tableExists($tb)) {
+                    $db->table($tb)->whereIn('product_id', $demoIds)->delete();
+                }
+            }
+            $orderIds = array_unique(array_map('intval', array_column($db->table('order_items')->select('order_id')->whereIn('product_id', $demoIds)->get()->getResultArray(), 'order_id')));
+            if ($orderIds) {
+                $db->table('order_items')->whereIn('order_id', $orderIds)->delete();
+                $db->table('orders')->whereIn('id', $orderIds)->delete();
+            }
+            $db->table('products')->whereIn('id', $demoIds)->delete();
+        }
+        foreach ($db->table('suppliers')->like('company_name', '(데모)')->get()->getResultArray() as $ds) {
+            if (! $db->table('products')->where('supplier_id', $ds['id'])->countAllResults()) {
+                $db->table('suppliers')->where('id', $ds['id'])->delete();
+            }
+        }
+
+        // 베스트 상품 (홈 '가장 많이 주문한 베스트' 칸)
+        $db->table('products')->like('code', 'KR-', 'after')->orLike('code', 'YO-', 'after')->orLike('code', 'BR-', 'after')->orLike('code', 'SP-', 'after')->orLike('code', 'JY-', 'after')->orLike('code', 'HY-', 'after')->orLike('code', 'GW-', 'after')->orLike('code', 'MJ-', 'after')->orLike('code', 'CH-', 'after')->update(['is_best' => 0]);
+        $db->table('products')->whereIn('code', self::BEST)->update(['is_best' => 1]);
 
         // 미얀마어 상품명·공급사명 (names-my.php). 데모 상품 포함, 매번 반영
         $my = require __DIR__ . '/names-my.php';
