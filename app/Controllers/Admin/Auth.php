@@ -16,6 +16,9 @@ class Auth extends BaseController
         return view('admin/login', ['title' => '관리자 로그인']);
     }
 
+    /** 바꾸지 않은 초기 비밀번호 (로그인하면 변경 화면으로 보냄) */
+    private const WEAK = ['admin1234', 'staff1234', '1234', 'password'];
+
     public function attemptLogin()
     {
         $um   = new UserModel();
@@ -28,6 +31,7 @@ class Auth extends BaseController
         }
         session()->regenerate();
         session()->set('user_id', (int) $user['id']);
+        session()->set('admin_pw_weak', in_array((string) $this->request->getPost('password'), self::WEAK, true));
         $um->update($user['id'], ['last_login_at' => date('Y-m-d H:i:s')]);
         return redirect()->to('/admin');
     }

@@ -74,6 +74,8 @@ $routes->post('admin/login', 'Admin\Auth::attemptLogin');
 $routes->get('admin/logout', 'Admin\Auth::logout');
 $routes->group('admin', ['filter' => ['adminauth', 'adminlog'], 'namespace' => 'App\Controllers\Admin'], static function ($routes) {
     $routes->get('/', 'Dashboard::index');
+    $routes->get('password', 'Account::password');      // 내 비밀번호 변경
+    $routes->post('password', 'Account::savePassword');
     $routes->get('buyers', 'Buyers::index');
     $routes->get('buyers/(:num)', 'Buyers::show/$1');
     $routes->post('buyers/(:num)/approve', 'Buyers::approve/$1');

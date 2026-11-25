@@ -28,7 +28,7 @@
   <div class="ft"><a href="<?= site_url('/') ?>" target="_blank">사이트 보기</a><a href="<?= site_url('admin/logout') ?>">로그아웃</a></div>
 </aside>
 <div class="bodyw">
-  <div class="tb"><h1><?= esc($title) ?></h1><div class="u"><b><?= esc($user['name']) ?></b> · <?= ($user['admin_level'] ?? '') === 'owner' ? '대표 관리자' : '담당자' ?> (<?= esc($user['email']) ?>)</div></div>
+  <div class="tb"><h1><?= esc($title) ?></h1><div class="u"><b><?= esc($user['name']) ?></b> · <?= ($user['admin_level'] ?? '') === 'owner' ? '대표 관리자' : '담당자' ?> (<?= esc($user['email']) ?>) · <a href="<?= site_url('admin/password') ?>" style="text-decoration:underline">비밀번호 변경</a></div></div>
   <div class="ct">
     <?= mm_flash() ?>
     <?= $content ?>
