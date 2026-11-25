@@ -164,8 +164,13 @@ class DemoSeeder extends Seeder
         // ── 배너 ──
         if (! $db->table('banners')->countAllResults()) {
             $db->table('banners')->insertBatch([
-                ['title' => "한국 정품 K-브랜드\n박스 단위 도매가로", 'subtitle' => '미얀마 소매상·온라인 셀러 전용 폐쇄몰', 'image' => 'assets/img/demo/banner_1.jpg', 'bg' => '#E8F5D8', 'link' => '/products', 'sort' => 1, 'is_active' => 1, 'created_at' => $now, 'updated_at' => $now],
-                ['title' => "가입 후 영업일 1일\n비즈니스 인증 완료", 'subtitle' => '매장·온라인·판매망 중 하나만 증빙하면 끝', 'image' => 'assets/img/demo/banner_3.jpg', 'bg' => '#DCEBFF', 'link' => '/register', 'sort' => 3, 'is_active' => 1, 'created_at' => $now, 'updated_at' => $now],
+                // 상품 사진 배너 (scripts/make-hero-banners.py 로 상품 연출 사진을 가로로 잘라 만듦). 링크는 브랜드 검색
+                ['title' => "요뽀끼 컵떡볶이 4종
+1개부터 도매 주문", 'subtitle' => '매콤달콤 · 치즈 · 로제 · 매콤 까르보나라', 'image' => 'assets/img/banners/hero_yopokki.jpg', 'bg' => '#B2261E', 'link' => '/products?q=요뽀끼', 'sort' => 1, 'is_active' => 1, 'created_at' => $now, 'updated_at' => $now],
+                ['title' => "사평 즉석 카레 2종
+말차카레 · 마라카레", 'subtitle' => '데우기만 하면 완성되는 한 끼', 'image' => 'assets/img/banners/hero_sapyeong.jpg', 'bg' => '#6B2A12', 'link' => '/products?q=사평', 'sort' => 2, 'is_active' => 1, 'created_at' => $now, 'updated_at' => $now],
+                ['title' => "뷰티레시피 스킨케어 5종
+한국 정품 도매가", 'subtitle' => '클렌징워터 · 클렌징오일 · 크림', 'image' => 'assets/img/banners/hero_beautyrecipe.jpg', 'bg' => '#DDE3E3', 'link' => '/products?q=뷰티레시피', 'sort' => 3, 'is_active' => 1, 'created_at' => $now, 'updated_at' => $now],
             ]);
         }
     }
