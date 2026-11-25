@@ -6,12 +6,12 @@
  */
 $db = new SQLite3(__DIR__ . '/../writable/mm.db');
 
-$pw = getenv('ADMIN_PASSWORD');
-if ($pw !== false && $pw !== '') {
+$pw = trim((string) getenv('ADMIN_PASSWORD'));   // 복사할 때 딸려 온 앞뒤 공백·줄바꿈 제거
+if ($pw !== '') {
     $s = $db->prepare("UPDATE users SET password_hash = :h WHERE email = 'admin@xindelela.com'");
     $s->bindValue(':h', password_hash($pw, PASSWORD_DEFAULT));
     $s->execute();
-    echo "admin password set\n";
+    echo "admin password set (length " . strlen($pw) . ", rows " . $db->changes() . ")\n";
 }
 
 $key = getenv('GOOGLE_MAPS_KEY');
