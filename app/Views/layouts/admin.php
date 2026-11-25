@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=1200">
-<title><?= esc($title) ?> | 관리자</title>
+<title><?= esc($title) ?> | 관리자</title><?= view('_icons') ?>
 <meta name="robots" content="noindex,nofollow">
 <link rel="stylesheet" href="<?= base_url('assets/css/mm.css?v=7') ?>">
 <link rel="stylesheet" href="<?= base_url('assets/css/admin.css?v=26') ?>">
