@@ -164,7 +164,7 @@ class DemoSeeder extends Seeder
         // ── 배너 ──
         if (! $db->table('banners')->countAllResults()) {
             $db->table('banners')->insertBatch([
-                // 상품 사진 배너 (scripts/make-hero-banners.py 로 상품 연출 사진을 가로로 잘라 만듦). 링크는 브랜드 검색
+                // 상품 사진 배너 2560x832 (상품 사진 + ChatGPT 배경 확장, 2026-11-25). 링크는 브랜드 검색
                 ['title' => "요뽀끼 컵떡볶이 4종
 1개부터 도매 주문", 'subtitle' => '매콤달콤 · 치즈 · 로제 · 매콤 까르보나라', 'image' => 'assets/img/banners/hero_yopokki.jpg', 'bg' => '#B2261E', 'link' => '/products?q=요뽀끼', 'sort' => 1, 'is_active' => 1, 'created_at' => $now, 'updated_at' => $now],
                 ['title' => "사평 즉석 카레 2종
