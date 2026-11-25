@@ -3,7 +3,7 @@
 </div>
 <div class="tabs">
   <a href="<?= site_url('admin/points') ?>" class="<?= $type === '' ? 'on' : '' ?>">전체</a>
-  <?php foreach (['referral_signup', 'referral_first_order', 'signup_bonus', 'order_use', 'order_refund', 'order_reward', 'admin_adjust'] as $t): ?><a href="<?= site_url('admin/points?type=' . $t) ?>" class="<?= $type === $t ? 'on' : '' ?>"><?= mm_point_type_label($t) ?></a><?php endforeach ?>
+  <?php foreach (['signup_bonus', 'order_use', 'order_refund', 'order_reward', 'admin_adjust'] as $t): ?><a href="<?= site_url('admin/points?type=' . $t) ?>" class="<?= $type === $t ? 'on' : '' ?>"><?= mm_point_type_label($t) ?></a><?php endforeach ?>
 </div>
 <table class="tbl"><thead><tr><th>일시</th><th class="l">회원</th><th>유형</th><th class="l">메모</th><th>증감</th><th>잔액</th></tr></thead><tbody>
 <?php if (! $rows): ?><tr><td colspan="6" style="padding:40px">내역이 없습니다.</td></tr><?php endif ?>

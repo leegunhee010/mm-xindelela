@@ -24,8 +24,6 @@ class Settings extends Base
         ],
         '포인트' => [
             'points_signup_bonus'         => ['가입 승인 보너스', '승인 시 본인에게', 'number'],
-            'points_referral_signup'      => ['추천: 회원 승인 시', '추천인에게', 'number'],
-            'points_referral_first_order' => ['추천: 첫 주문 입금 시', '추천인에게', 'number'],
             'points_reward_rate'          => ['구매 적립률(%)', '입금 확인 시 상품금액 × %', 'number'],
             'points_use_max_pct'          => ['주문당 최대 사용률(%)', '상품 금액 기준', 'number'],
             'points_min_use'              => ['최소 사용 포인트', '', 'number'],

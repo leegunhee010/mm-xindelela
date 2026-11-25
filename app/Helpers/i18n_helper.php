@@ -11,6 +11,10 @@
 if (! function_exists('mm_lang')) {
     function mm_lang(): string
     {
+        // 관리자 가입 랜딩 편집처럼 잠깐 특정 언어로 계산할 때: $GLOBALS['MM_LANG_FORCE'] = 'my'
+        if (! empty($GLOBALS['MM_LANG_FORCE'])) {
+            return $GLOBALS['MM_LANG_FORCE'];
+        }
         static $lang = null;
         if ($lang !== null) {
             return $lang;
@@ -87,5 +91,21 @@ if (! function_exists('mm_tr_lines')) {
             }
         }
         return implode("\n", $out);
+    }
+}
+
+if (! function_exists('mm_loc')) {
+    /** DB 글(배너·공지·카테고리): 미얀마어 화면이면 {필드}_my(있을 때), 없으면 사전 번역 t(), 한국어 화면이면 원문 */
+    function mm_loc(?array $row, string $field): string
+    {
+        if (! $row) {
+            return '';
+        }
+        $ko = (string) ($row[$field] ?? '');
+        if (mm_lang() !== 'my') {
+            return $ko;
+        }
+        $my = trim((string) ($row[$field . '_my'] ?? ''));
+        return $my !== '' ? $my : t($ko);
     }
 }

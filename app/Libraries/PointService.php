@@ -53,35 +53,25 @@ class PointService
         return $this->logs->where(['user_id' => $userId, 'type' => $type, 'ref_type' => $refType, 'ref_id' => $refId])->countAllResults() > 0;
     }
 
-    /** 구매자 승인 시: 가입 보너스 + 추천인 포인트. */
+    /** 구매자 승인 시: 가입 보너스. (친구소개·추천 포인트는 2026-11-22 기능 삭제) */
     public function onBuyerApproved(array $buyer): void
     {
         $bonus = (int) mm_setting('points_signup_bonus', 0);
         if ($bonus > 0 && ! $this->exists((int) $buyer['id'], 'signup_bonus', 'user', (int) $buyer['id'])) {
             $this->add((int) $buyer['id'], $bonus, 'signup_bonus', 'user', (int) $buyer['id'], '가입 승인 축하 포인트');
         }
-        $ref = (int) ($buyer['referred_by'] ?? 0);
-        $amt = (int) mm_setting('points_referral_signup', 0);
-        if ($ref > 0 && $amt > 0 && ! $this->exists($ref, 'referral_signup', 'user', (int) $buyer['id'])) {
-            $this->add($ref, $amt, 'referral_signup', 'user', (int) $buyer['id'], '추천 회원 승인: ' . ($buyer['company_name'] ?: $buyer['name']));
-        }
     }
 
-    /** 주문 입금 확인(paid) 시: 추천인 첫 주문 포인트 + 구매 적립. */
+    /** 주문 입금 확인(paid) 시: 첫 주문 시각 기록 + 구매 적립. */
     public function onOrderPaid(array $order): void
     {
         $buyer = $this->users->find((int) $order['user_id']);
         if (! $buyer) {
             return;
         }
-        // 첫 주문 → 추천인
+        // 첫 주문 시각 기록
         if (empty($buyer['first_order_at'])) {
             $this->users->update((int) $buyer['id'], ['first_order_at' => date('Y-m-d H:i:s')]);
-            $ref = (int) ($buyer['referred_by'] ?? 0);
-            $amt = (int) mm_setting('points_referral_first_order', 0);
-            if ($ref > 0 && $amt > 0 && ! $this->exists($ref, 'referral_first_order', 'user', (int) $buyer['id'])) {
-                $this->add($ref, $amt, 'referral_first_order', 'user', (int) $buyer['id'], '추천 회원 첫 주문: ' . ($buyer['company_name'] ?: $buyer['name']));
-            }
         }
         // 구매 적립(%)
         $rate = (float) mm_setting('points_reward_rate', 0);

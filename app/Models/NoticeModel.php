@@ -11,5 +11,5 @@ class NoticeModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = true;
     protected $useTimestamps    = true;
-    protected $allowedFields    = ['title','body','is_pinned','views'];
+    protected $allowedFields    = ['title','title_my','body','body_my','is_pinned','views'];
 }

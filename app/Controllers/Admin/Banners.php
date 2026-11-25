@@ -18,7 +18,9 @@ class Banners extends Base
         $id   = (int) $this->request->getPost('id');
         $data = [
             'title'     => trim((string) $this->request->getPost('title')),
+            'title_my'    => trim((string) $this->request->getPost('title_my')) ?: null,
             'subtitle'  => trim((string) $this->request->getPost('subtitle')),
+            'subtitle_my' => trim((string) $this->request->getPost('subtitle_my')) ?: null,
             'link'      => trim((string) $this->request->getPost('link')),
             'bg'        => trim((string) $this->request->getPost('bg')) ?: '#eef5e3',
             'sort'      => (int) $this->request->getPost('sort'),

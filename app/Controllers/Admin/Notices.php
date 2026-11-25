@@ -22,7 +22,7 @@ class Notices extends Base
     {
         $nm   = new NoticeModel();
         $id   = (int) $this->request->getPost('id');
-        $data = ['title' => trim((string) $this->request->getPost('title')), 'body' => (string) $this->request->getPost('body'), 'is_pinned' => $this->request->getPost('is_pinned') ? 1 : 0];
+        $data = ['title' => trim((string) $this->request->getPost('title')), 'title_my' => trim((string) $this->request->getPost('title_my')) ?: null, 'body' => (string) $this->request->getPost('body'), 'body_my' => trim((string) $this->request->getPost('body_my')) ?: null, 'is_pinned' => $this->request->getPost('is_pinned') ? 1 : 0];
         if ($data['title'] === '') {
             return redirect()->back()->withInput()->with('error', '제목을 입력해 주세요.');
         }

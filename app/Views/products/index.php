@@ -2,7 +2,7 @@
 <nav class="breadcrumb m-auto w-large pb-[40px] pt-[24px]"><ol class="breadcrumb-list flex items-center">
   <li class="breadcrumb-item flex items-center"><a class="breadcrumb-item-link block px-[4px]" href="<?= site_url('/') ?>"><?= t('홈') ?></a><span><picture><img alt="" class="size-[12px]" src="/images/icons/common/ico_chevron_right_light_16.svg"></picture></span></li>
   <?php if (! empty($supplierPage)): ?><li class="breadcrumb-item flex items-center"><a class="block px-[4px]" href="<?= site_url('products') ?>"><?= t('공급사') ?></a><span><picture><img alt="" class="size-[12px]" src="/images/icons/common/ico_chevron_right_light_16.svg"></picture></span></li><li class="breadcrumb-item flex items-center"><a class="block px-[4px]"><?= esc(mm_sname($supplierPage)) ?></a></li>
-  <?php elseif ($catRow): ?><li class="breadcrumb-item flex items-center"><a class="block px-[4px]" href="<?= site_url('products') ?>"><?= t('전체상품') ?></a><span><picture><img alt="" class="size-[12px]" src="/images/icons/common/ico_chevron_right_light_16.svg"></picture></span></li><li class="breadcrumb-item flex items-center"><a class="block px-[4px]"><?= esc(t($catRow['name'])) ?></a></li>
+  <?php elseif ($catRow): ?><li class="breadcrumb-item flex items-center"><a class="block px-[4px]" href="<?= site_url('products') ?>"><?= t('전체상품') ?></a><span><picture><img alt="" class="size-[12px]" src="/images/icons/common/ico_chevron_right_light_16.svg"></picture></span></li><li class="breadcrumb-item flex items-center"><a class="block px-[4px]"><?= esc(mm_loc($catRow, 'name')) ?></a></li>
   <?php else: ?><li class="breadcrumb-item flex items-center"><a class="block px-[4px]"><?= t('전체상품') ?></a></li><?php endif ?>
 </ol></nav>
 
@@ -27,7 +27,7 @@
       <div class="item border-b border-gray7"><h3 class="flex"><button type="button" class="accordian-trigger subtitle2 flex flex-1 items-center btn-filter-tit justify-between pl-0 pc:py-4" data-state="open"><?= t('카테고리') ?></button></h3>
         <div class="p-0 pb-4 flex flex-col gap-[10px]">
           <a href="<?= site_url('products') ?>" class="body3 <?= ! $cat ? 'font-bold text-primary' : 'text-gray3' ?>"><?= t('전체') ?></a>
-          <?php foreach ($categories as $c): ?><a href="<?= site_url('category/' . $c['id']) ?>" class="body3 <?= $cat == $c['id'] ? 'font-bold text-primary' : 'text-gray3' ?>"><?= esc(t($c['name'])) ?></a><?php endforeach ?>
+          <?php foreach ($categories as $c): ?><a href="<?= site_url('category/' . $c['id']) ?>" class="body3 <?= $cat == $c['id'] ? 'font-bold text-primary' : 'text-gray3' ?>"><?= esc(mm_loc($c, 'name')) ?></a><?php endforeach ?>
         </div></div>
       <div class="item border-b border-gray7"><h3 class="flex"><button type="button" class="accordian-trigger subtitle2 flex flex-1 items-center btn-filter-tit justify-between pl-0 pc:py-4" data-state="open"><?= t('공급사') ?></button></h3>
         <div class="p-0 pb-4 flex flex-col gap-[10px]">

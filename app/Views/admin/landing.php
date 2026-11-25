@@ -1,5 +1,7 @@
 <?php $ph = static fn (string $k) => esc($d[$k]); ?>
-<form method="post" action="<?= site_url('admin/landing/save') ?>" enctype="multipart/form-data"><?= csrf_field() ?>
+<div class="lang-tabs"><a href="<?= site_url('admin/landing') ?>" class="<?= $lang === 'ko' ? 'on' : '' ?>">한국어 화면</a><a href="<?= site_url('admin/landing?lang=my') ?>" class="<?= $lang === 'my' ? 'on' : '' ?>">미얀마어 화면</a></div>
+<?php if ($lang === 'my'): ?><p class="muted small" style="margin:0 0 12px">미얀마어 화면(기본 언어)에 나오는 문구입니다. 비워 두면 기본 미얀마어 문구가 나옵니다. 사진은 한국어 화면과 같이 씁니다.</p><?php endif ?>
+<form method="post" action="<?= site_url('admin/landing/save') ?>" enctype="multipart/form-data"><?= csrf_field() ?><input type="hidden" name="lang" value="<?= esc($lang) ?>">
 <div class="two">
 <div>
   <div class="card">
@@ -13,7 +15,7 @@
     <div class="field"><label>제목 아래 한 줄</label><input class="inp" name="sub" value="<?= esc($w['sub']) ?>" placeholder="<?= $ph('sub') ?>"></div>
   </div>
 
-  <div class="card">
+  <div class="card"<?= $lang === 'my' ? ' hidden' : '' ?>>
     <h3>사진 <span class="muted small" style="font-weight:400">첫 화면·거래 흐름·맨 아래 띠에 돌아가며 씁니다 (최대 12장, 8장 이상 권장)</span></h3>
     <div class="lpics">
       <?php foreach (array_values($w['pics']) as $i => $p): ?>
@@ -53,8 +55,8 @@
     <h3>저장</h3>
     <button class="btn btn-g btn-block" type="submit" style="height:42px">저장하기</button>
     <a class="btn btn-block mt8" href="<?= site_url('welcome') ?>" target="_blank">랜딩 미리보기</a>
-    <p class="muted small mt8">가입 포인트·친구 소개 포인트·인증 기간·Viber 번호는 <a href="<?= site_url('admin/settings') ?>" style="text-decoration:underline">설정</a> 값을 그대로 씁니다.</p>
-    <p class="muted small mt8">광고·영업 링크: <b><?= esc(site_url('welcome')) ?></b><br>추천 코드를 붙이면 가입 화면까지 따라갑니다: <b>/welcome?ref=코드</b></p>
+    <p class="muted small mt8">가입 포인트·인증 기간·Viber 번호는 <a href="<?= site_url('admin/settings') ?>" style="text-decoration:underline">설정</a> 값을 그대로 씁니다.</p>
+    <p class="muted small mt8">광고·영업 링크: <b><?= esc(site_url('welcome')) ?></b></p>
   </div>
 </div>
 </div>

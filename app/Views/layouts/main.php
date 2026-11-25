@@ -65,7 +65,7 @@ $cur  = uri_string();
   <nav class="m-cats">
     <a href="<?= site_url('products?sort=pop') ?>" class="<?= str_contains($cur, 'sort=pop') ? 'on' : '' ?>"><?= t('베스트') ?></a>
     <a href="<?= site_url('products?sort=new') ?>"><?= t('신상품') ?></a>
-    <?php foreach ($cats as $c): ?><a href="<?= site_url('category/' . $c['id']) ?>" class="<?= $cur === 'category/' . $c['id'] ? 'on' : '' ?>"><?= esc(t($c['name'])) ?></a><?php endforeach ?>
+    <?php foreach ($cats as $c): ?><a href="<?= site_url('category/' . $c['id']) ?>" class="<?= $cur === 'category/' . $c['id'] ? 'on' : '' ?>"><?= esc(mm_loc($c, 'name')) ?></a><?php endforeach ?>
   </nav>
   <div class="m-lang"><?= view('_lang_toggle') ?></div>
 </div>
@@ -83,7 +83,7 @@ $cur  = uri_string();
       <?php endif ?>
     </div>
     <p class="m-drawer-t"><?= t('카테고리') ?></p>
-    <div class="m-drawer-grid"><?php foreach ($cats as $c): ?><a href="<?= site_url('category/' . $c['id']) ?>"><?= esc(t($c['name'])) ?></a><?php endforeach ?></div>
+    <div class="m-drawer-grid"><?php foreach ($cats as $c): ?><a href="<?= site_url('category/' . $c['id']) ?>"><?= esc(mm_loc($c, 'name')) ?></a><?php endforeach ?></div>
     <p class="m-drawer-t"><?= t('쇼핑') ?></p>
     <ul class="m-drawer-ul">
       <?php if ($isBuyerU): ?><li><a href="<?= site_url('notifications') ?>"><?= t('알림') ?><?= $unread ? ' <b class="m-drawer-n">' . $unread . '</b>' : '' ?></a></li><?php endif ?>
@@ -151,14 +151,14 @@ $cur  = uri_string();
       <div class="relative group/cat flex h-[55px] items-center">
         <button type="button" class="btn-category flex items-center justify-center" aria-label="<?= t('전체 카테고리') ?>"><span class="blind"><?= t('전체 카테고리') ?></span></button>
         <div class="absolute left-0 top-[52px] z-[700] hidden w-[240px] overflow-hidden rounded-[12px] border border-gray6 bg-white py-[8px] shadow-[0_8px_24px_rgba(0,0,0,.08)] group-hover/cat:block">
-          <?php foreach ($cats as $c): ?><a class="block px-[20px] py-[10px] text-[15px] font-medium hover:bg-[#fff3eb] hover:text-primary" href="<?= site_url('category/' . $c['id']) ?>"><?= esc(t($c['name'])) ?></a><?php endforeach ?>
+          <?php foreach ($cats as $c): ?><a class="block px-[20px] py-[10px] text-[15px] font-medium hover:bg-[#fff3eb] hover:text-primary" href="<?= site_url('category/' . $c['id']) ?>"><?= esc(mm_loc($c, 'name')) ?></a><?php endforeach ?>
         </div>
       </div>
       <div class="gnb flex w-full items-center justify-between">
         <div class="flex items-center gap-[32px]">
           <a class="link-item pc:inline-flex pc:items-center text-[18px] font-medium <?= str_contains($cur, 'sort=pop') ? 'text-primary' : '' ?>" href="<?= site_url('products?sort=pop') ?>"><span class="relative whitespace-nowrap"><?= t('베스트') ?></span></a>
           <a class="link-item pc:inline-flex pc:items-center text-[18px] font-medium" href="<?= site_url('products?sort=new') ?>"><span class="relative whitespace-nowrap"><?= t('신상품') ?><span class="absolute -right-[12px] -top-[6px] flex size-[14px] items-center justify-center rounded-full bg-primary text-[9px] font-bold text-white">N</span></span></a>
-          <?php foreach (array_slice($cats, 0, 4) as $c): ?><a class="link-item pc:inline-flex pc:items-center text-[18px] font-medium <?= $cur === 'category/' . $c['id'] ? 'text-primary' : '' ?>" href="<?= site_url('category/' . $c['id']) ?>"><span class="relative whitespace-nowrap"><?= esc(t($c['name'])) ?></span></a><?php endforeach ?>
+          <?php foreach (array_slice($cats, 0, 4) as $c): ?><a class="link-item pc:inline-flex pc:items-center text-[18px] font-medium <?= $cur === 'category/' . $c['id'] ? 'text-primary' : '' ?>" href="<?= site_url('category/' . $c['id']) ?>"><span class="relative whitespace-nowrap"><?= esc(mm_loc($c, 'name')) ?></span></a><?php endforeach ?>
         </div>
         <div class="flex items-center gap-[32px]">
           <?= view('_lang_toggle') ?>

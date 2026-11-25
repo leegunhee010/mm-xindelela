@@ -7,8 +7,8 @@
       <a class="relative flex pc:w-full justify-start items-end pc:items-center h-full overflow-hidden rounded-[20px] bg-gray9" href="<?= site_url($b['link'] ?: 'products') ?>" style="background:<?= esc($b['bg'] ?: '#f7f7f7') ?>">
         <?php if ($b['image']): ?><picture><img alt="" class="w-full h-full object-cover" src="<?= base_url($b['image']) ?>"></picture><div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div><?php else: ?><div class="w-full h-[416px]"></div><?php endif ?>
         <div class="absolute size-full inset-0 flex flex-col justify-end pb-[50px] pl-[50px] tracking-[-0.075em] <?= $dark ? 'text-black' : 'text-white' ?>">
-          <?php if ($b['subtitle']): ?><div class="relative inline-block w-fit max-w-full mb-1"><div class="pointer-events-none absolute inset-0 rounded-3xl bg-black/20 mix-blend-soft-light" aria-hidden="true"></div><div class="relative z-[1] px-[14px] py-[6px] pc:body2 font-bold opacity-80"><?= esc(t($b['subtitle'])) ?></div></div><?php endif ?>
-          <div class="pc:display1 mb-[6px] font-bold whitespace-pre-wrap"><?= esc(t($b['title'])) ?></div>
+          <?php if ($b['subtitle']): ?><div class="relative inline-block w-fit max-w-full mb-1"><div class="pointer-events-none absolute inset-0 rounded-3xl bg-black/20 mix-blend-soft-light" aria-hidden="true"></div><div class="relative z-[1] px-[14px] py-[6px] pc:body2 font-bold opacity-80"><?= esc(mm_loc($b, 'subtitle')) ?></div></div><?php endif ?>
+          <div class="pc:display1 mb-[6px] font-bold whitespace-pre-wrap"><?= esc(mm_loc($b, 'title')) ?></div>
           <div class="pc:sub-head3 opacity-80 font-medium whitespace-pre-wrap"><?= t('자세히 보기 →') ?></div>
         </div>
       </a>
@@ -40,7 +40,7 @@
   </div></div>
   <div class="tab type04 mb-6"><div class="flex flex-wrap gap-[8px]" id="newChips">
     <a href="<?= site_url('products?sort=new') ?>" class="body3 rounded-[21px] border border-[#d5d5d5] px-3 py-[7px] text-gray3" data-state="active" data-cat="0"><span><?= t('전체') ?></span></a>
-    <?php foreach ($categories as $c): ?><a href="<?= site_url('category/' . $c['id']) ?>" class="body3 rounded-[21px] border border-[#d5d5d5] px-3 py-[7px] text-gray3" data-state="inactive" data-cat="<?= $c['id'] ?>"><span><?= esc(t($c['name'])) ?></span></a><?php endforeach ?>
+    <?php foreach ($categories as $c): ?><a href="<?= site_url('category/' . $c['id']) ?>" class="body3 rounded-[21px] border border-[#d5d5d5] px-3 py-[7px] text-gray3" data-state="inactive" data-cat="<?= $c['id'] ?>"><span><?= esc(mm_loc($c, 'name')) ?></span></a><?php endforeach ?>
   </div></div>
   <ul class="plist flex flex-wrap gap-x-[27px] gap-y-9" id="newList">
     <?php foreach ($newest as $p): $sup = $sups[$p['supplier_id']] ??= $sm->find($p['supplier_id']); echo view('_card', ['p' => $p, 'approved' => $approved, 'sup' => $sup, 'w' => 'w-[234px]']); endforeach ?>
@@ -90,7 +90,7 @@
     <div class="hnotice-l w-full">
       <div class="flex items-center justify-between border-gray6 pc:border-b pc:pb-[26px]"><p class="mo:head-line1 text-title3 font-bold text-gray2 pc:leading-[1em]"><?= t('공지사항') ?></p><a href="<?= site_url('notices') ?>" class="h-auto my-auto body2 btn-arrow-right after-bg-gray5 text-gray3"><?= t('전체보기') ?></a></div>
       <ul class="flex flex-col pc:gap-4 pc:pt-[26px]">
-        <?php foreach ($notices as $nt): ?><li><a class="body2 flex justify-between border-gray6 pc:gap-[38px]" href="<?= site_url('notices/' . $nt['id']) ?>"><p class="ellipsis-1 hnotice-t w-[480px]"><?php if ($nt['is_pinned']): ?><span class="mr-[8px] rounded-[99px] bg-primary px-[8px] py-[1px] text-[11px] font-bold text-white align-[1px]"><?= t('공지') ?></span><?php endif ?><?= esc(t($nt['title'])) ?></p><p class="text-gray3"><?= mm_dt($nt['created_at'], 'Y.m.d') ?></p></a></li><?php endforeach ?>
+        <?php foreach ($notices as $nt): ?><li><a class="body2 flex justify-between border-gray6 pc:gap-[38px]" href="<?= site_url('notices/' . $nt['id']) ?>"><p class="ellipsis-1 hnotice-t w-[480px]"><?php if ($nt['is_pinned']): ?><span class="mr-[8px] rounded-[99px] bg-primary px-[8px] py-[1px] text-[11px] font-bold text-white align-[1px]"><?= t('공지') ?></span><?php endif ?><?= esc(mm_loc($nt, 'title')) ?></p><p class="text-gray3"><?= mm_dt($nt['created_at'], 'Y.m.d') ?></p></a></li><?php endforeach ?>
       </ul>
     </div>
   </div>

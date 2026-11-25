@@ -1,7 +1,7 @@
 <div class="card cat-add">
   <form method="post" action="<?= site_url('admin/categories/save') ?>" class="cat-row cat-row-add"><?= csrf_field() ?>
     <input class="inp" type="number" name="sort" value="<?= count($rows) + 1 ?>" title="순서">
-    <input class="inp" name="name" placeholder="새 카테고리 이름" required>
+    <div class="cat-names"><input class="inp" name="name" placeholder="새 카테고리 이름" required><input class="inp" name="name_my" lang="my" placeholder="미얀마어 이름"></div>
     <span></span>
     <label class="cat-sw"><input type="checkbox" name="is_active" value="1" checked><i></i><span>노출</span></label>
     <button class="btn btn-g cat-btn" type="submit">+ 추가</button>
@@ -10,13 +10,13 @@
 </div>
 
 <div class="card cat-list">
-  <div class="cat-row cat-head"><span>순서</span><span>카테고리 이름</span><span>상품</span><span>노출</span><span></span><span></span></div>
+  <div class="cat-row cat-head"><span>순서</span><span>카테고리 이름 / 미얀마어</span><span>상품</span><span>노출</span><span></span><span></span></div>
   <?php if (! $rows): ?><div class="muted" style="padding:30px;text-align:center">카테고리가 없습니다.</div><?php endif ?>
   <?php foreach ($rows as $c): ?>
   <div class="cat-row">
     <form id="cf<?= $c['id'] ?>" method="post" action="<?= site_url('admin/categories/save') ?>"><?= csrf_field() ?><input type="hidden" name="id" value="<?= $c['id'] ?>"></form>
     <input class="inp" form="cf<?= $c['id'] ?>" type="number" name="sort" value="<?= $c['sort'] ?>" title="순서">
-    <input class="inp" form="cf<?= $c['id'] ?>" name="name" value="<?= esc($c['name']) ?>" required>
+    <div class="cat-names"><input class="inp" form="cf<?= $c['id'] ?>" name="name" value="<?= esc($c['name']) ?>" required><input class="inp" form="cf<?= $c['id'] ?>" name="name_my" lang="my" value="<?= esc($c['name_my'] ?? '') ?>" placeholder="미얀마어 이름"></div>
     <a class="cat-cnt" href="<?= site_url('admin/products?cat=' . $c['id']) ?>"><?= number_format($c['pcnt']) ?>개</a>
     <label class="cat-sw"><input form="cf<?= $c['id'] ?>" type="checkbox" name="is_active" value="1" <?= $c['is_active'] ? 'checked' : '' ?>><i></i><span><?= $c['is_active'] ? '노출' : '숨김' ?></span></label>
     <button class="btn cat-btn" form="cf<?= $c['id'] ?>" type="submit">저장</button>

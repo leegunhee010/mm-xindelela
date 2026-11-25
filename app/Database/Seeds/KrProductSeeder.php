@@ -188,9 +188,29 @@ class KrProductSeeder extends Seeder
             }
         }
 
-        // 베스트 상품 (홈 '가장 많이 주문한 베스트' 칸)
-        $db->table('products')->like('code', 'KR-', 'after')->orLike('code', 'YO-', 'after')->orLike('code', 'BR-', 'after')->orLike('code', 'SP-', 'after')->orLike('code', 'JY-', 'after')->orLike('code', 'HY-', 'after')->orLike('code', 'GW-', 'after')->orLike('code', 'MJ-', 'after')->orLike('code', 'CH-', 'after')->update(['is_best' => 0]);
-        $db->table('products')->whereIn('code', self::BEST)->update(['is_best' => 1]);
+        // 베스트 상품 (홈 '가장 많이 주문한 베스트' 칸): 처음 한 번만 지정. 이후엔 관리자 상품 화면의 '베스트' 체크가 기준
+        if (! $db->table('products')->where('is_best', 1)->countAllResults()) {
+            $db->table('products')->whereIn('code', self::BEST)->update(['is_best' => 1]);
+        }
+
+        // 미얀마어 배너·공지·카테고리 칸이 비어 있으면 사전 번역으로 채움 (관리자에서 보이도록)
+        $dict = require APPPATH . 'Language/my/ui.php';
+        $fill = static function (string $table, array $fields) use ($db, $dict) {
+            foreach ($db->table($table)->get()->getResultArray() as $r) {
+                $upd = [];
+                foreach ($fields as $f) {
+                    if (trim((string) ($r[$f . '_my'] ?? '')) === '' && ($v = $dict[trim((string) $r[$f])] ?? '') !== '') {
+                        $upd[$f . '_my'] = $v;
+                    }
+                }
+                if ($upd) {
+                    $db->table($table)->where('id', $r['id'])->update($upd);
+                }
+            }
+        };
+        $fill('banners', ['title', 'subtitle']);
+        $fill('notices', ['title', 'body']);
+        $fill('categories', ['name']);
 
         // 미얀마어 상품명·공급사명 (names-my.php). 데모 상품 포함, 매번 반영
         $my = require __DIR__ . '/names-my.php';

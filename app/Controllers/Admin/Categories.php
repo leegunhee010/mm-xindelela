@@ -25,7 +25,7 @@ class Categories extends Base
         if ($name === '') {
             return redirect()->back()->with('error', '이름을 입력해 주세요.');
         }
-        $data = ['name' => $name, 'sort' => (int) $this->request->getPost('sort'), 'is_active' => $this->request->getPost('is_active') ? 1 : 0];
+        $data = ['name' => $name, 'name_my' => trim((string) $this->request->getPost('name_my')) ?: null, 'sort' => (int) $this->request->getPost('sort'), 'is_active' => $this->request->getPost('is_active') ? 1 : 0];
         if ($id) {
             $cm->update($id, $data);
         } else {

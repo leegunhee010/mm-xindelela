@@ -2,7 +2,7 @@
 <nav class="breadcrumb m-auto w-large pb-[40px] pt-[24px]"><ol class="breadcrumb-list flex items-center">
   <li class="breadcrumb-item flex items-center"><a class="breadcrumb-item-link block px-[4px]" href="<?= site_url('/') ?>"><?= t('홈') ?></a><span><picture><img alt="" class="size-[12px]" src="/images/icons/common/ico_chevron_right_light_16.svg"></picture></span></li>
   <li class="breadcrumb-item flex items-center"><a class="block px-[4px]" href="<?= site_url('products') ?>"><?= t('전체상품') ?></a><span><picture><img alt="" class="size-[12px]" src="/images/icons/common/ico_chevron_right_light_16.svg"></picture></span></li>
-  <?php if ($category): ?><li class="breadcrumb-item flex items-center"><a class="block px-[4px]" href="<?= site_url('category/' . $category['id']) ?>"><?= esc(t($category['name'])) ?></a><span><picture><img alt="" class="size-[12px]" src="/images/icons/common/ico_chevron_right_light_16.svg"></picture></span></li><?php endif ?>
+  <?php if ($category): ?><li class="breadcrumb-item flex items-center"><a class="block px-[4px]" href="<?= site_url('category/' . $category['id']) ?>"><?= esc(mm_loc($category, 'name')) ?></a><span><picture><img alt="" class="size-[12px]" src="/images/icons/common/ico_chevron_right_light_16.svg"></picture></span></li><?php endif ?>
   <li class="breadcrumb-item flex items-center"><a class="block px-[4px] font-medium text-black"><?= esc(mb_strimwidth(mm_pname($p), 0, 40, '…')) ?></a></li>
 </ol></nav>
 
@@ -102,7 +102,7 @@
 </section>
 
 <!-- 상세 하단: 고정 탭(균등 4칸) + 섹션 한 페이지 -->
-<?php $cat = t($category['name']) ?? ''; ?>
+<?php $cat = mm_loc($category, 'name') ?? ''; ?>
 <nav class="pdt-nav" id="pdtNav"><div class="pdt-nav-in">
   <?php foreach (['pdt-info' => t('상품 정보'), 'pdt-sup' => t('공급사'), 'pdt-guide' => t('주문·배송 안내'), 'pdt-inq' => t('문의')] as $k => $l): ?><a href="#<?= $k ?>" data-sec="<?= $k ?>"><?= $l ?></a><?php endforeach ?>
 </div></nav>
@@ -186,7 +186,7 @@
 
 <?php if ($related): ?>
 <section class="corner-section last-of-type:mb-0 pc:mx-auto pc:w-large pc:mb-[80px] pc:mt-[80px]">
-  <div class="section-title pc:heading2 mb-2.5 title1 font-bold pc:mb-[40px]"><div class="flex items-center justify-between"><h2 class="title1 mo:head-line1 font-bold"><?= t('같은 카테고리') ?> <br><?= t('다른 상품도 함께') ?></h2><?php if ($category): ?><a href="<?= site_url('category/' . $category['id']) ?>" class="h-auto my-auto body2 btn-arrow-right after-bg-gray5 text-gray3"><?= esc(t($category['name'])) ?> <?= t('더보기') ?></a><?php endif ?></div></div>
+  <div class="section-title pc:heading2 mb-2.5 title1 font-bold pc:mb-[40px]"><div class="flex items-center justify-between"><h2 class="title1 mo:head-line1 font-bold"><?= t('같은 카테고리') ?> <br><?= t('다른 상품도 함께') ?></h2><?php if ($category): ?><a href="<?= site_url('category/' . $category['id']) ?>" class="h-auto my-auto body2 btn-arrow-right after-bg-gray5 text-gray3"><?= esc(mm_loc($category, 'name')) ?> <?= t('더보기') ?></a><?php endif ?></div></div>
   <ul class="plist flex flex-wrap gap-x-[27px] gap-y-9"><?php foreach ($related as $r): echo view('_card', ['p' => $r, 'approved' => $approved, 'sup' => null, 'w' => 'w-[234px]']); endforeach ?></ul>
 </section>
 <?php endif ?>

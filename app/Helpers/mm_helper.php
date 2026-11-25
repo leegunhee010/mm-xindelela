@@ -552,11 +552,19 @@ if (! function_exists('mm_tokens')) {
 }
 
 if (! function_exists('mm_welcome')) {
-    /** 가입 랜딩 설정: 기본값 + 관리자 저장값(settings.welcome_json). $raw=true 면 자리표시를 그대로 둔다(편집 화면용). */
+    /** 가입 랜딩 설정: 기본값 + 관리자 저장값(settings.welcome_json, 미얀마어는 welcome_json_my). $raw=true 면 자리표시를 그대로 둔다(편집 화면용). */
     function mm_welcome(bool $raw = false): array
     {
         $d = mm_welcome_defaults();
         $s = json_decode((string) mm_setting('welcome_json', ''), true);
+        if (mm_lang() === 'my') {
+            // 미얀마어 화면: 미얀마어 저장값(welcome_json_my) 문구 + 사진은 한국어 저장값과 같이 씀
+            $pics = is_array($s) ? ($s['pics'] ?? []) : [];
+            $s    = json_decode((string) mm_setting('welcome_json_my', ''), true) ?: [];
+            if ($pics && empty($s['pics'])) {
+                $s['pics'] = $pics;
+            }
+        }
         if (is_array($s)) {
             foreach ($d as $k => $v) {
                 if (isset($s[$k]) && (is_array($v) ? (is_array($s[$k]) && $s[$k]) : trim((string) $s[$k]) !== '')) {

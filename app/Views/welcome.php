@@ -94,7 +94,7 @@ $joinCard = function (string $id) use ($approved, $isBuyer, $bonus, $cur, $regUr
     <ul class="lp-what">
       <?php foreach ([
           [$offHi > 0 ? t('소비자가보다<br><b>') . ($offLo === $offHi ? $offHi : $offLo . '~' . $offHi) . t('% 낮은 도매가</b>') : t('인증 회원에게만<br><b>도매가 공개</b>'), $whatIc[0]],
-          [t('<b>한국 K-브랜드</b><br>') . esc(implode(' · ', array_map(static fn ($c) => explode('·', t($c['name']))[0], $categories))), $whatIc[1]],
+          [t('<b>한국 K-브랜드</b><br>') . esc(implode(' · ', array_map(static fn ($c) => explode('·', mm_loc($c, 'name'))[0], $categories))), $whatIc[1]],
           [t('상품마다 정한 최소수량부터<br><b>1개씩 늘려 주문</b>'), $whatIc[2]],
           [t('KBZPay 선불 송금<br><b>입금 확인 후 바로 출고</b>'), $whatIc[3]],
       ] as [$t, $ic]): ?>
@@ -162,7 +162,7 @@ $joinCard = function (string $id) use ($approved, $isBuyer, $bonus, $cur, $regUr
 <section class="lp-sec lp-dots">
   <div class="lp-in">
     <h2 class="lp-tt"><span><?= t('지금 판매 중인 상품') ?></span></h2>
-    <p class="lp-tt-sub"><?= esc(implode(', ', array_map('t', array_column($categories, 'name')))) ?> <?= t('상품을 한곳에서 고릅니다') ?></p>
+    <p class="lp-tt-sub"><?= esc(implode(', ', array_map(static fn ($c) => mm_loc($c, 'name'), $categories))) ?> <?= t('상품을 한곳에서 고릅니다') ?></p>
     <ul class="lp-tiles">
       <?php foreach ($products as $p): ?>
       <li><a href="<?= site_url('products/' . $p['id']) ?>"><span class="lp-tile-img"><img src="<?= mm_thumb($p['thumb']) ?>" alt="" loading="lazy"></span><b><?= esc(mm_pname($p)) ?></b><small><?= $approved ? mm_price($p['price']) : t('회원 혜택가') ?></small></a></li>

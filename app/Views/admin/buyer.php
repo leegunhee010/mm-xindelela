@@ -1,7 +1,7 @@
 <div class="two">
 <div>
   <?php $sym = mm_setting('currency_symbol', 'Ks'); $cartSum = array_sum(array_column($cart, 'line'));
-  $tabs = ['info' => '기본 정보', 'orders' => '주문 내역 ' . count($orders), 'cart' => '장바구니 ' . count($cart), 'points' => '포인트', 'referral' => '추천 ' . count($referred)]; ?>
+  $tabs = ['info' => '기본 정보', 'orders' => '주문 내역 ' . count($orders), 'cart' => '장바구니 ' . count($cart), 'points' => '포인트']; ?>
   <div class="mhead">
     <div class="mhead-t"><h2><?= esc($b['company_name']) ?></h2><span class="st st-<?= esc($b['status']) ?>"><?= mm_verify_status_label($b['status']) ?></span><span class="mhead-id">#<?= $b['id'] ?> · <?= esc($b['email']) ?></span></div>
     <div class="mstat">
@@ -9,7 +9,6 @@
       <a href="?tab=orders"><span>입금 확인 금액</span><b><?= mm_price($stat['paid']) ?></b></a>
       <a href="?tab=cart"><span>장바구니</span><b><?= count($cart) ?>종<?php if ($cartSum): ?> <small><?= mm_price($cartSum) ?></small><?php endif ?></b></a>
       <a href="?tab=points"><span>포인트</span><b><?= number_format((int) $b['points_balance']) ?>P</b></a>
-      <a href="?tab=referral"><span>소개한 회원</span><b><?= count($referred) ?>명</b></a>
       <div><span>마지막 주문</span><b><?= $stat['last'] ? mm_dt($stat['last'], 'Y.m.d') : '-' ?></b></div>
     </div>
     <div class="mtabs"><?php foreach ($tabs as $k => $l): ?><a href="?tab=<?= $k ?>" class="<?= $tab === $k ? 'on' : '' ?>"><?= $l ?></a><?php endforeach ?></div>
@@ -23,8 +22,6 @@
       <tr><th>인증 유형</th><td><b><?= mm_verify_labels($b['verify_types']) ?></b></td></tr>
       <tr><th>지역·주소</th><td><?= esc($b['city']) ?> <?= esc($b['address']) ?></td></tr>
       <tr><th>판매 채널 링크</th><td><?php if ($b['fb_page']): ?><a href="<?= esc($b['fb_page']) ?>" target="_blank" style="color:var(--navy);text-decoration:underline"><?= esc($b['fb_page']) ?></a> <a class="btn btn-xs" href="<?= esc($b['fb_page']) ?>" target="_blank">새 창</a><?php else: ?>-<?php endif ?></td></tr>
-      <tr><th>추천인</th><td><?php if ($referrer): ?><a href="<?= site_url('admin/buyers/' . $referrer['id']) ?>"><?= esc($referrer['company_name']) ?></a> (<?= esc($referrer['referral_code']) ?>)<?php else: ?>-<?php endif ?></td></tr>
-      <tr><th>내 추천코드</th><td><?= esc($b['referral_code']) ?></td></tr>
       <tr><th>가입 / 승인</th><td><?= mm_dt($b['created_at']) ?> / <?= mm_dt($b['approved_at']) ?></td></tr>
       <tr><th>최근 로그인</th><td><?= mm_dt($b['last_login_at']) ?></td></tr>
       <?php if ($b['reject_reason']): ?><tr><th>반려 사유</th><td style="color:var(--price)"><?= nl2br(esc($b['reject_reason'])) ?></td></tr><?php endif ?>
@@ -60,18 +57,6 @@
     <table class="tbl"><thead><tr><th>일시</th><th class="l">내용</th><th>증감</th><th>잔액</th></tr></thead><tbody><?php foreach ($points as $l): ?><tr><td><?= mm_dt($l['created_at']) ?></td><td class="l"><?= mm_point_type_label($l['type']) ?> <span class="muted"><?= esc($l['memo']) ?></span></td><td class="<?= $l['amount'] >= 0 ? 'pt-plus' : 'pt-minus' ?>"><?= $l['amount'] >= 0 ? '+' : '' ?><?= number_format((int) $l['amount']) ?></td><td><?= number_format((int) $l['balance_after']) ?></td></tr><?php endforeach ?></tbody></table><?php endif ?>
   </div>
 
-  <?php else: ?>
-  <div class="card">
-    <h3>추천인</h3>
-    <?php if ($referrer): ?><p class="mref"><a href="<?= site_url('admin/buyers/' . $referrer['id']) ?>"><b><?= esc($referrer['company_name']) ?></b></a> <span class="muted"><?= esc($referrer['referral_code']) ?></span> <span class="st st-<?= esc($referrer['status']) ?>"><?= mm_verify_status_label($referrer['status']) ?></span></p><?php else: ?><div class="muted">추천인 없이 가입했습니다.</div><?php endif ?>
-  </div>
-  <div class="card">
-    <h3>이 회원이 소개한 회원 <?= count($referred) ?>명 <span class="muted" style="font-weight:400">추천코드 <?= esc($b['referral_code']) ?></span></h3>
-    <?php if (! $referred): ?><div class="muted">아직 없습니다.</div><?php else: ?>
-    <table class="tbl"><thead><tr><th class="l">회원</th><th>가입일</th><th>인증</th><th>주문</th><th>입금 확인 금액</th></tr></thead><tbody>
-    <?php foreach ($referred as $r): $rs = $refStats[$r['id']] ?? null; ?><tr><td class="l"><a href="<?= site_url('admin/buyers/' . $r['id']) ?>"><?= esc($r['company_name']) ?></a></td><td><?= mm_dt($r['created_at'], 'Y.m.d') ?></td><td><span class="st st-<?= esc($r['status']) ?>"><?= mm_verify_status_label($r['status']) ?></span></td><td><?= $rs ? $rs['n'] . '건' : '-' ?></td><td><?= $rs && $rs['paid'] ? mm_price($rs['paid']) : '-' ?></td></tr><?php endforeach ?>
-    </tbody></table><?php endif ?>
-  </div>
   <?php endif ?>
 </div>
 <div>
@@ -85,7 +70,7 @@
       <?php endforeach ?>
     </div>
     <h3 style="margin-top:14px">검수 결과</h3>
-    <form method="post" action="<?= site_url('admin/buyers/' . $b['id'] . '/approve') ?>" onsubmit="return confirm('승인할까요? 도매가와 주문 신청이 열리고, 추천인 포인트가 지급됩니다.')"><?= csrf_field() ?><button class="btn btn-g btn-block" type="submit" style="height:44px;font-size:15px">승인</button></form>
+    <form method="post" action="<?= site_url('admin/buyers/' . $b['id'] . '/approve') ?>" onsubmit="return confirm('승인할까요? 도매가와 주문 신청이 열립니다.')"><?= csrf_field() ?><button class="btn btn-g btn-block" type="submit" style="height:44px;font-size:15px">승인</button></form>
     <form method="post" action="<?= site_url('admin/buyers/' . $b['id'] . '/reject') ?>" class="mt8"><?= csrf_field() ?>
       <div class="vrej"><?php foreach (mm_verify_reject_reasons() as $r): ?><button type="button" data-r="<?= esc($r) ?>"><?= esc(mb_strimwidth($r, 0, 34, '…')) ?></button><?php endforeach ?></div>
       <textarea class="ta" id="rejReason" name="reason" style="height:70px" placeholder="반려 사유 (회원에게 그대로 표시). 위 문구를 누르면 채워집니다."><?= esc($b['reject_reason']) ?></textarea>

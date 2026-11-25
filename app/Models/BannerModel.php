@@ -11,5 +11,5 @@ class BannerModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $useTimestamps    = true;
-    protected $allowedFields    = ['title','subtitle','image','link','bg','sort','is_active'];
+    protected $allowedFields    = ['title','title_my','subtitle','subtitle_my','image','link','bg','sort','is_active'];
 }

@@ -11,5 +11,5 @@ class CategoryModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $useTimestamps    = true;
-    protected $allowedFields    = ['parent_id','name','slug','sort','is_active'];
+    protected $allowedFields    = ['parent_id','name','name_my','slug','sort','is_active'];
 }

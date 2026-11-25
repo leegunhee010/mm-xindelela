@@ -10,7 +10,7 @@
           <label><input type="radio" name="to" value="<?= $k ?>" <?= $old === $k ? 'checked' : '' ?>> <?= $l ?> <span class="muted">(<?= number_format($n) ?>명)</span></label>
         <?php endforeach ?>
         <?php if ($product): ?><label><input type="radio" name="to" value="wish" <?= $old === 'wish' ? 'checked' : '' ?>> '<?= esc($product['name']) ?>' 관심상품에 담은 회원 <span class="muted">(<?= number_format($counts['wish']) ?>명)</span></label><input type="hidden" name="product" value="<?= $product['id'] ?>"><?php endif ?>
-        <label><input type="radio" name="to" value="one" <?= $old === 'one' ? 'checked' : '' ?>> 특정 회원 한 명 <input class="inp" name="email" value="<?= esc(old('email')) ?>" placeholder="이메일 또는 추천 코드" style="width:220px;height:32px;margin-left:6px"></label>
+        <label><input type="radio" name="to" value="one" <?= $old === 'one' ? 'checked' : '' ?>> 특정 회원 한 명 <input class="inp" name="email" value="<?= esc(old('email')) ?>" placeholder="회원 이메일" style="width:220px;height:32px;margin-left:6px"></label>
       </div>
     </div>
     <div class="field"><label>제목 <i>*</i></label><input class="inp" name="title" maxlength="200" value="<?= esc(old('title')) ?>" placeholder="예: 마스크팩 10매입 재입고되었습니다" required></div>

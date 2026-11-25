@@ -65,7 +65,7 @@ class Buyers extends Base
         return $this->page('admin/buyer', [
             'title'    => '회원 상세',
             'b'        => $u,
-            'tab'      => in_array($tab, ['info', 'orders', 'cart', 'points', 'referral'], true) ? $tab : 'info',
+            'tab'      => in_array($tab, ['info', 'orders', 'cart', 'points'], true) ? $tab : 'info',
             'docs'     => mm_json($u['doc_files']),
             'referrer' => $u['referred_by'] ? $um->find($u['referred_by']) : null,
             'referred' => $referred,
